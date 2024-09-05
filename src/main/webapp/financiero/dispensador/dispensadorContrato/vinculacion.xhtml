@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="contratoDispensadorViewDlg" 
+                  widgetVar="contratoDispensadorViewDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  position="center center">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.ContratoDispensadorVinculacion}" 
+                              style="font-size: 10px;"/>
+            </f:facet>
+            <h:form id="contratoDispensadorViewForm">
+                <p:panel  id="contratoPanelView"
+                          style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;">
+                    <h:panelGrid columns="2" 
+                                 styleClass="grid"
+                                 style="font-size: 10px; margin-top: 0px;">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Monedero}"
+                                       styleClass="etiquetaRequerida"
+                                       for="monedero"/>
+                        <p:inputText id="monedero"
+                                     value="#{contratoDispensadorControlador.codigoMonedero}"
+                                     disabled="true"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Token}" 
+                                       for="token"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText value="#{contratoDispensadorControlador.token}"
+                                     id="token"
+                                     disabled="false"/>
+                    </h:panelGrid>
+                    <p:commandButton id="guardaVinculacionBot"
+                                     style="font-size: 10px; margin-top: 0px;"
+                                     actionListener="#{contratoDispensadorControlador.guardaContratoVinculacion}"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     onclick="procesandoDlg.show();"
+                                     oncomplete="procesandoDlg.hide();"
+                                     update=":contratoDispensadorListForm:datalist,:barraForm:vincularBot"/>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

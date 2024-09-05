@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaSecuenciaEditDlg" widgetVar="IfipAgenciaSecuenciaEditDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.EditIfipAgenciaSecuenciaTitle}" closeOnEscape="true">
+
+            <h:form id="IfipAgenciaSecuenciaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{ifipAgenciaSecuenciaController.selected != null}">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaSecuenciaLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{ifipAgenciaSecuenciaController.selected.valor}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaSecuenciaTitle_valor}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaSecuenciaRequiredMessage_valor}"/>
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaSecuenciaLabel_secuencia}" for="secuencia" />
+                        <h:outputText id="secuencia" value="#{ifipAgenciaSecuenciaController.selected.secuencia}" />
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaSecuenciaLabel_ifipAgencia}" for="ifipAgencia" />
+                        <h:outputText id="ifipAgencia" value="#{ifipAgenciaSecuenciaController.selected.ifipAgencia}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ifipAgenciaSecuenciaController.save}" value="#{propiedadesEtiquetaBL.Save}" update="display,:IfipAgenciaSecuenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IfipAgenciaSecuenciaEditDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancel}" onclick="IfipAgenciaSecuenciaEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AnulacionDocumentoDpfCreateDlg" 
+                  widgetVar="AnulacionDocumentoDpfCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Anular} #{propiedadesEtiquetaBL.Documento}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="AnulacionDocumentoDpfCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="3">
+                       
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="codigoMoneda"  styleClass="etiquetaRequerida"/>
+                        <h:outputText  id="codigoMoneda" value="#{talonarioDocumentoDpfController.talonarioDocumentoDpfDetSel.talonario.moneda.nombre}"/>
+                        <h:message for="codigoMoneda"  styleClass="invalido"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Computador}" 
+                                       for="computador"  styleClass="etiquetaRequerida"/>
+                        <h:outputText id="computador" 
+                                      value="#{talonarioDocumentoDpfController.talonarioDocumentoDpfDetSel.talonario.computador.nombre}"/>
+                        <h:message for="computador"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroDocumento}" 
+                                       for="numero"  styleClass="etiquetaRequerida"/>
+                        <h:outputText id="numero" 
+                                      value="#{talonarioDocumentoDpfController.talonarioDocumentoDpfDetSel.numero}"/>
+                        <h:message for="numero"  styleClass="invalido"/>
+                       
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                                       for="observaciones"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="observaciones" 
+                                     value="#{talonarioDocumentoDpfController.observaciones}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Observaciones} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="60" maxlength="90">
+                            
+                        </p:inputText>
+                        <h:message for="observaciones"  styleClass="invalido"/>
+                    </p:panelGrid>
+                    <p:commandButton id="guardarBot"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"   
+                                     onclick="procesandoDlg.show();"
+                                     action="#{talonarioDocumentoDpfController.guardaAnulacion()}"
+                                     update=":TalonarioDocumentoDpfListForm:datalist,:barraForm"
+                                     oncomplete="procesandoDlg.hide();AnulacionDocumentoDpfCreateDialog.hide();"/>        
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

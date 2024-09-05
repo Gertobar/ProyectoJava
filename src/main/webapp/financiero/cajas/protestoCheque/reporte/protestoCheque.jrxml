@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="protestoCheque" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="324"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DesgloceProtestoCheques" uuid="ee622ecb-b4f4-4460-8455-85bcfe610dd9">
+		<parameter name="codPro" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="ENTIDAD FINANCIERA" class="java.lang.String"/>
+		<field name="NUMERO CUENTA" class="java.lang.String"/>
+		<field name="NUMERO CHEQUE" class="java.lang.String"/>
+		<field name="SOCIO" class="java.lang.String"/>
+		<field name="FECHA DEPOSITO" class="java.lang.String"/>
+		<field name="FECHA EFECTIVIZACION" class="java.lang.String"/>
+		<field name="VALOR CHEQUE" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="codigoProtesto" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT  tif.nombre||' '||ifi.nombre           "IFIP",
+        ifa.nombre                            "AGENCIA",
+        tefi.siglas|| ' ' ||efi.nombre        "ENTIDAD_FINANCIERA",             
+        TO_CHAR(pc.fecha,'DD/MM/YYYY')        "FECHA PROTESTO",
+        TO_CHAR(pc.fecha_sistema,
+                   'DD/MM/YYYY HH24:MI:SS')   "FECHA SISTEMA",
+        per.nombre_completo                   "RESPONSABLE PROTESTO",
+        ifi.path_imagen                       "IMAGEN",
+        com.nombre                            "COMPUTADOR",
+        pc.codigo                             "CODIGO PROTESTO",
+        mon.nombre                            "MONEDA",
+        chd.numero_cuenta                     "NUMERO CUENTA",
+        chd.numero_cheque                     "NUMERO CHEQUE",
+        pcd.total_protesto                    "TOTAL PROTESTO",
+        pers.nombre_completo                  "SOCIO",
+        pcd.numero_cheques                    "NUMERO CHEQUES",
+        pcd.total_cheques                     "TOTAL CHEQUES"
+               
+FROM    mks_cajas.protesto_cheque                  pc,
+        mks_cajas.protesto_cheque_detalle          pcd, 
+        mks_cajas.protesto_cheque_desgloce         pcds,
+        mks_cajas.tipo_protesto_cheque             tpch,     
+        mks_cajas.cheque_depositado                chd,
+        mks_ifips.ifip_agencia                     ifa,
+        mks_ifips.ifip                             ifi,   
+        mks_ifips.tipo_ifip                        tif, 
+        mks_comunes.moneda                         mon, 
+        mks_seguridades.usuario                    usr,
+        mks_ifips.computador                       com,   
+        mks_socios.socio                           soc,
+        mks_socios.persona                         per,
+        mks_socios.persona                         pers, 
+        mks_ahorros.movimiento_cuenta              mov,
+        mks_ahorros.cuenta                         cue,                                
+        mks_comunes.entidad_financiera             efi,
+        mks_comunes.tipo_entidad_financiera        tefi                                                                                     
+WHERE   pc.codigo                              = $P{codigoProtesto}
+AND     pcd.codigo_pro_che                     = pc.codigo
+AND     pcds.codigo_cheque                     = chd.codigo
+AND     pcds.codigo_pro_che_det                = pcd.codigo_pro_che
+AND     tpch.codigo                            = pcds.codigo_tipo_pro_che   
+AND     pcds.codigo_moneda                     = mon.codigo
+AND     pcd.codigo_moneda                      = mon.codigo
+AND     pc.codigo_computador                   = com.codigo  
+AND     pc.codigo_usuario                      = usr.codigo
+AND     pc.codigo_ifip_agencia                 = ifa.codigo
+AND     chd.codigo_movimiento                  = mov.codigo 
+AND     mov.codigo_cuenta                      = cue.codigo
+AND     mov.codigo_moneda                      = mon.codigo
+AND     ifa.codigo_ifip                        = ifi.codigo                                       
+AND     ifi.codigo_tipo_ifip                   = tif.codigo
+AND     cue.codigo_socio                       = soc.codigo
+AND     cue.codigo_ifip                        = ifi.codigo
+AND     cue.codigo_moneda                      = mon.codigo
+AND     per.codigo                             = usr.codigo_persona
+AND     pers.codigo                            = soc.codigo_persona
+AND     chd.codigo_entidad_financiera          = efi.codigo
+AND     efi.codigo_tipo_entidad                = tefi.codigo]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="AGENCIA" class="java.lang.String"/>
+	<field name="ENTIDAD_FINANCIERA" class="java.lang.String"/>
+	<field name="FECHA PROTESTO" class="java.lang.String"/>
+	<field name="FECHA SISTEMA" class="java.lang.String"/>
+	<field name="RESPONSABLE PROTESTO" class="java.lang.String"/>
+	<field name="IMAGEN" class="java.lang.String"/>
+	<field name="COMPUTADOR" class="java.lang.String"/>
+	<field name="CODIGO PROTESTO" class="java.math.BigDecimal"/>
+	<field name="MONEDA" class="java.lang.String"/>
+	<field name="NUMERO CUENTA" class="java.lang.String"/>
+	<field name="NUMERO CHEQUE" class="java.lang.String"/>
+	<field name="TOTAL PROTESTO" class="java.math.BigDecimal"/>
+	<field name="SOCIO" class="java.lang.String"/>
+	<field name="NUMERO CHEQUES" class="java.math.BigDecimal"/>
+	<field name="TOTAL CHEQUES" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="1" y="25" width="554" height="30" uuid="28018225-171b-471e-a66f-838ed0428d25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="0" width="57" height="25" uuid="7f644b82-cc9c-4ce2-bf2a-f72fecf0b70b"/>
+				<imageExpression><![CDATA[$F{IMAGEN}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="326">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="07bdd9f4-ab48-4af9-90e3-8a11fadaf09b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROTESTO DE CHEQUES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="87" width="156" height="20" uuid="e7b46f72-c47b-4356-8790-b30a04802df7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPUTADOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="258" width="156" height="20" uuid="b5a726ae-104c-49a0-bd29-339d626fdcb8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA IMPRESION]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy hh:mm:ss">
+				<reportElement x="165" y="259" width="313" height="20" uuid="9b840df7-46b3-4e38-838b-95a5bee7b156"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="165" y="88" width="313" height="20" uuid="c5ffb696-4df6-49f3-bec5-1a904613b769"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COMPUTADOR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="68" width="156" height="20" uuid="214edaf5-ee52-4615-82ca-210e5d4606b7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA SISTEMA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="165" y="69" width="313" height="20" uuid="b4cb2a50-5968-4bfd-bbd9-3fa22e68f1ee"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA SISTEMA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="30" width="156" height="20" uuid="a52ad8ea-f499-4b98-9c32-0798e91562b6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO PROTESTO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="165" y="31" width="313" height="20" uuid="44a56f18-4409-4050-8a38-dd6fcd7caffd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CODIGO PROTESTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="49" width="156" height="20" uuid="9dfdb019-e26d-48cf-985c-d5dc0884c748"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA PROTESTO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="165" y="50" width="313" height="20" uuid="e9a78c2d-d97c-4601-903f-b62a5e94bd2e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA PROTESTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="125" width="156" height="20" uuid="1f9eb717-da29-43ee-b726-edd7d610a098"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AGENCIA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="166" y="126" width="312" height="20" uuid="b40486f6-7ced-405d-a467-e6bb8ce342c7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGENCIA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="144" width="156" height="20" uuid="2ee0217a-ca7b-4eb6-8e30-6cb80bdff972"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENTIDAD_FINANCIERA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="165" y="145" width="313" height="20" uuid="02403460-623b-4d25-8f2c-9058c301d71d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ENTIDAD_FINANCIERA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="163" width="156" height="20" uuid="79ff5944-431e-4a9f-946a-1a5f92a488ee"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO CUENTA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="165" y="164" width="313" height="20" uuid="5d515c88-f2fa-44c2-bac8-6c6fb3c8f219"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUMERO CUENTA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="182" width="156" height="20" uuid="509a89da-b564-4a43-a306-7be4a1a525da"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO CHEQUE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="165" y="183" width="313" height="20" uuid="9119c02e-cbaf-4a8e-9204-b328585a8512"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUMERO CHEQUE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="239" width="156" height="20" uuid="44dab154-1d33-47ed-b10f-ab053299e8c9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL PROTESTO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="165" y="240" width="313" height="20" uuid="6389e610-30bd-42e7-b993-48291d34cc60"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL PROTESTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="220" width="156" height="20" uuid="62198d1c-8418-4fe8-a98b-b7cb74f90e6a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL CHEQUES]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="165" y="221" width="313" height="20" uuid="605b94fa-f922-493f-98f6-a7cee012e8e6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL CHEQUES}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="201" width="156" height="20" uuid="9c28f53b-57e9-4c9d-b6e1-bc8a5386b0ff"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO CHEQUES]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="165" y="202" width="313" height="20" uuid="356f73fb-95e4-43f9-9d0f-d2db43d00dc8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUMERO CHEQUES}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="106" width="156" height="20" uuid="9f834062-61e2-462a-ba4c-c51450716775"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONEDA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="164" y="107" width="314" height="20" uuid="88480ebe-39db-48c8-9c6d-53e2ca902f99"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONEDA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="427" splitType="Immediate">
+			<staticText>
+				<reportElement positionType="Float" x="299" y="23" width="189" height="20" uuid="841436b5-bbcf-4e78-9562-7c6286def015"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESPONSABLE PROTESTO]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="299" y="42" width="189" height="20" uuid="0322e1bb-89ff-46e9-8b2c-17df6cffddc5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{RESPONSABLE PROTESTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="62" y="4" width="183" height="20" uuid="74ef4b62-ddb9-4d3e-8d6b-dd3633fd8844"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[............................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="62" y="23" width="183" height="20" uuid="b0639a6d-45ba-4312-8848-76b181412097"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOCIO]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="62" y="42" width="183" height="20" uuid="aedb7518-4718-415a-aa9e-523ca269154d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SOCIO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="299" y="4" width="189" height="20" uuid="40be61aa-d5dc-44b0-a4ba-cb617edcb4a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[............................................................................]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="0" width="89" height="20" uuid="f82145e8-194a-467d-95f6-0f8cd46d0df7"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

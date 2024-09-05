@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TasaInteresProCreMonIfiCreateDlg" widgetVar="TasaInteresProCreMonIfiCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateTasaInteresProCreMonIfiTitle}" closeOnEscape="true">
+
+            <h:form id="TasaInteresProCreMonIfiCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tasaInteresProCreMonIfiController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProCreMonIfiLabel_montoInicial}" for="montoInicial" />
+                        <p:inputText id="montoInicial" value="#{tasaInteresProCreMonIfiController.selected.montoInicial}" title="#{myBundle.CreateTasaInteresProCreMonIfiTitle_montoInicial}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProCreMonIfiRequiredMessage_montoInicial}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProCreMonIfiLabel_montoFinal}" for="montoFinal" />
+                        <p:inputText id="montoFinal" value="#{tasaInteresProCreMonIfiController.selected.montoFinal}" title="#{myBundle.CreateTasaInteresProCreMonIfiTitle_montoFinal}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProCreMonIfiLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{tasaInteresProCreMonIfiController.selected.registradoPor}" title="#{myBundle.CreateTasaInteresProCreMonIfiTitle_registradoPor}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProCreMonIfiRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProCreMonIfiLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{tasaInteresProCreMonIfiController.selected.fechaRegistro}" title="#{myBundle.CreateTasaInteresProCreMonIfiTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProCreMonIfiRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProCreMonIfiLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tasaInteresProCreMonIfiController.selected.eliminado}" title="#{myBundle.CreateTasaInteresProCreMonIfiTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProCreMonIfiRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProCreMonIfiLabel_codigoTasa}" for="codigoTasa" />
+                        <p:selectOneMenu id="codigoTasa" value="#{tasaInteresProCreMonIfiController.selected.codigoTasa}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProCreMonIfiRequiredMessage_codigoTasa}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tasaInteresCreditoIfipController.items}"
+                                           var="codigoTasaItem"
+                                           itemValue="#{codigoTasaItem}"
+                                           itemLabel="#{codigoTasaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{tasaInteresCreditoIfipConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProCreMonIfiLabel_productoCreditoMonedaIfip}" for="productoCreditoMonedaIfip" />
+                        <p:selectOneMenu id="productoCreditoMonedaIfip" value="#{tasaInteresProCreMonIfiController.selected.productoCreditoMonedaIfip}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProCreMonIfiRequiredMessage_productoCreditoMonedaIfip}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productoCreditoMonedaIfipController.items}"
+                                           var="productoCreditoMonedaIfipItem"
+                                           itemValue="#{productoCreditoMonedaIfipItem}"
+                                           itemLabel="#{productoCreditoMonedaIfipItem.productoCreditoMonedaIfipPK.toString()}"
+                                           />
+                            <f:converter binding="#{productoCreditoMonedaIfipConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProCreMonIfiLabel_usuarioRegistradoPor}" for="usuarioRegistradoPor" />
+                        <p:selectOneMenu id="usuarioRegistradoPor" value="#{tasaInteresProCreMonIfiController.selected.usuarioRegistradoPor}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProCreMonIfiRequiredMessage_usuarioRegistradoPor}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="usuarioRegistradoPorItem"
+                                           itemValue="#{usuarioRegistradoPorItem}"
+                                           itemLabel="#{usuarioRegistradoPorItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tasaInteresProCreMonIfiController.saveNew}" value="#{myBundle.Save}" update="display,:TasaInteresProCreMonIfiListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TasaInteresProCreMonIfiCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TasaInteresProCreMonIfiCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

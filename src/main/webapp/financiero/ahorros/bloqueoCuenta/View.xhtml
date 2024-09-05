@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BloqueoCuentaViewDlg" widgetVar="BloqueoCuentaViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewBloqueoCuentaTitle}" closeOnEscape="true">
+
+            <h:form id="BloqueoCuentaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{bloqueoCuentaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaLabel_valor}"/>
+                        <h:outputText value="#{bloqueoCuentaController.selected.valor}" title="#{myBundle.ViewBloqueoCuentaTitle_valor}"/>
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaLabel_fechaInicio}"/>
+                        <h:outputText value="#{bloqueoCuentaController.selected.fechaInicio}" title="#{myBundle.ViewBloqueoCuentaTitle_fechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaLabel_fechaFin}"/>
+                        <h:outputText value="#{bloqueoCuentaController.selected.fechaFin}" title="#{myBundle.ViewBloqueoCuentaTitle_fechaFin}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaLabel_vigente}"/>
+                        <h:outputText value="#{bloqueoCuentaController.selected.vigente}" title="#{myBundle.ViewBloqueoCuentaTitle_vigente}"/>
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaLabel_tipoBloqueoCuenta}"/>
+                        <h:outputText value="#{bloqueoCuentaController.selected.tipoBloqueoCuenta.codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaLabel_cuenta}"/>
+                        <h:outputText value="#{bloqueoCuentaController.selected.cuenta.codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="BloqueoCuentaViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="515" pageHeight="176" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="5ce2dc4a-d435-4f82-bc19-350c1d24efed">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoSocio" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[$P{codigoSocio}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select rper.nombres    "NOMB RPERS", 
+       rper.telefono   "NOMB RTEL", 
+       rper.direccion  "NOMB RDIR"
+from 
+    mks_socios.referencia_personal rper
+where rper.codigo_persona = (
+      select s.codigo_persona 
+      from mks_socios.socio s 
+      where s.codigo =  $P{codigoSocio} )]]>
+	</queryString>
+	<field name="NOMB RPERS" class="java.lang.String"/>
+	<field name="NOMB RTEL" class="java.lang.String"/>
+	<field name="NOMB RDIR" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="15">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#FFFFFF" backcolor="#3B83BD" uuid="97009361-7b13-445c-a5bc-805f5bbaf172"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ REFERENCIAS PERSONALES]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="201" height="15" uuid="edea3524-f924-4f92-9fbb-0988289a7c47"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="0" width="106" height="15" uuid="4bb1d3f5-e534-489f-a5c9-f7c8ae813bce"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELEFONO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="307" y="0" width="208" height="15" uuid="475b2c76-5e5e-412a-8848-5b06fd5618ea"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECIÓN]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="201" height="15" uuid="97531c90-9c66-4aa8-861a-72089c3b2189"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMB RPERS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="0" width="106" height="15" uuid="5bc0b3de-8910-4bfb-a4b1-b7d6b4beea02"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMB RTEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="307" y="0" width="208" height="15" uuid="673966e4-d398-4a4b-b38f-dadad3bbbdf4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMB RDIR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

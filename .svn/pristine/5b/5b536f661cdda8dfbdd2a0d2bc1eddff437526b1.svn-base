@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="ParametrosBancoCentralViewDlg" 
+                  widgetVar="ParametrosBancoCentralViewDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.ParametrosBancoCentral}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+            <h:form id="ParametrosBancoCentralViewForm">
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoIfip}"/>
+                        <h:outputText value="#{parametrosBancoCentralIfipController.ifip.nombre}" 
+                                      title="#{propiedadesTituloBL.CodigoIfip}" />
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoCategoria}"/>
+                        <h:outputText value="#{parametrosBancoCentralIfipController.selected.codigoTipoParBanCen.nombre}" 
+                                      title="#{propiedadesTituloBL.CodigoCategoria}" />
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        <h:outputText value="#{parametrosBancoCentralIfipController.selected.nombre}" 
+                                      title="#{propiedadesTituloBL.Nombre}" />
+                        <h:outputText value="#{propiedadesEtiquetaBL.Descripcion}"/>
+                        <h:outputText value="#{parametrosBancoCentralIfipController.selected.descripcion}" 
+                                      title="#{propiedadesTituloBL.Descripcion}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.ValorTexto}"/>
+                        <h:outputText value="#{parametrosBancoCentralIfipController.selected.valorTexto}" 
+                                      title="#{propiedadesTituloBL.ValorTexto}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.ValorNumerico}"/>
+                        <h:outputText value="#{parametrosBancoCentralIfipController.selected.valorNumerico}" 
+                                      title="#{propiedadesTituloBL.ValorNumerico}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.ValorFecha}"/>
+                        <h:outputText value="#{parametrosBancoCentralIfipController.selected.valorFecha}"
+                                      title="#{propiedadesTituloBL.ValorFecha}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                        <h:outputText value="#{parametrosBancoCentralIfipController.selected.eliminado}"
+                                      title="#{propiedadesEtiquetaBL.Eliminado}"/>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+
+PARA MOSTRAR TODAS LAS COMPRAS EXISTENTES
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComprasDlg"
+                  widgetVar="ComprasDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  style="height: 500px; width: 700px"
+                  closeOnEscape="true"
+                  >
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Compras}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+
+            <h:form id="ComprasForm">
+
+                <h:panelGroup id="panelTrabajo"  style="font-size: 10px; margin-top: 0px;">
+                    <h:panelGrid columns="1">       
+                        <p:panel id="panelCabecera">
+                            <h:panelGrid  columns="2" 
+                                          columnClasses="label, value" styleClass="grid" style="text-align: left">  
+                                    <h:panelGrid  columns="1" 
+                                                  columnClasses="label, value" styleClass="grid" style="text-align: left">  
+                                        <f:facet name="header">
+                                                <h:outputLabel value="#{propiedadesEtiquetaBL.FacturaTitulo}: "
+                                                           styleClass="etiqueta"/>
+
+                                                <h:panelGrid  columns="2" 
+                                                              columnClasses="label, value" styleClass="grid" style="text-align: left">  
+                                                    <f:facet name="header">
+                                                  
+                                                        <h:outputLabel value="#{propiedadesEtiquetaBL.FacturaFecha}: "
+                                                                      styleClass="etiqueta"/>
+                                                        <h:outputLabel 
+                                                                       id="facturaFecha" 
+                                                                       styleClass="etiqueta"/>
+                                                        
+                                                        <h:outputLabel value="#{propiedadesEtiquetaBL.FacturaNumero}: "
+                                                                      styleClass="etiqueta"/>
+                                                        <h:outputLabel 
+                                                                       id="facturaNumero" 
+                                                                       styleClass="etiqueta"/>
+                                                    </f:facet>
+                                                </h:panelGrid> 
+                                            
+                                        </f:facet>
+                                    </h:panelGrid> 
+                                    <h:panelGrid  columns="1" 
+                                               columnClasses="label, value" styleClass="grid" style="text-align: left">  
+                                     <f:facet name="header">
+
+                                         <h:outputLabel value="#{propiedadesEtiquetaBL.FacturaCliente}: "
+                                                        styleClass="etiqueta"/>
+                                         <p:inputText id="nombreCliente"                                                                 
+                                                    style="text-align:  right"
+                                                    onblur="value = value.toUpperCase()"
+                                                    size="10">  
+                                         </p:inputText>
+                                         <p:inputText id="cedulaCliente"                                                                 
+                                                    style="text-align:  right"
+                                                    onblur="value = value.toUpperCase()"
+                                                    size="10">  
+                                         </p:inputText>
+                                         <p:inputText id="direccionCliente"                                                                 
+                                                    style="text-align:  right"
+                                                    onblur="value = value.toUpperCase()"
+                                                    size="10">  
+                                         </p:inputText>
+                                         
+                                     </f:facet>
+                                 </h:panelGrid>
+                                
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:panelGrid>
+                        <p:separator/>
+                                         
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

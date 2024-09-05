@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Personas Naturales --> 
+    <p:panel id="datosProveedorIfip"  header="#{propiedadesEtiquetaBL.PersonaNatural}" 
+             style="height: 520px; width: 800px">
+        <p:focus context="datosProveedorIfip"/>   
+
+        <!-- PanelGrid para Personas-->         
+        <h:panelGrid id="datosProveedorIfipGri" columns="1" columnClasses="label, value, validator" styleClass="grid">
+
+ 
+            <h:panelGrid columns="2" style="border: transparent" columnClasses="label, value, validator" styleClass="grid">
+                
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}"
+                               for="fechaEmisionRegistroProveedor"/>
+                <p:calendar id="fechaEmisionRegistroProveedor" 
+                            value="#{proveedorBean.fechaRegistroProIfip}"
+                            mindate="#{proveedorBean.fechaRegistroProIfip}"
+                            maxdate="#{proveedorBean.fechaRegistroProIfip}"
+                            pattern="dd.MM.yyyy "
+                            title="#{propiedadesTituloBL.FechaRegistro}" 
+                            disabled="false" 
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro} #{propiedadesMensajesBL.CampoRequerido}"
+                            />
+                  
+                <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" 
+                               for="registradoPorProIfip"/>
+                <p:selectOneMenu id="registradoPorProIfip" 
+                                 value="#{proveedorBean.usuarioProveedorIfip}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.RegistradoPor} #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{bdhBL.SelectOneMessage}"/>
+                    <f:selectItems value="#{proveedorBean.itemsUsuarioProveedorIfip}"
+                                   var="usuariosItems"
+                                   itemValue="#{usuariosItems}"
+                                   itemLabel="#{usuariosItems.username}"
+                                   />
+                    <f:converter binding="#{usuarioConverter}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}"
+                               for="eliminadoProIfip"/>
+                <p:selectOneMenu id="eliminadoProIfip"
+                                 value="#{proveedorBean.proveedorIfip.eliminado}"
+                                 required="true" 
+                                 disabled="#{proveedorBean.estadoIngresoProIfip}"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                </p:selectOneMenu>
+ 
+            </h:panelGrid>
+ 
+
+        </h:panelGrid>
+    </p:panel>
+</ui:composition>

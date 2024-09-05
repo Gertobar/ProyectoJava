@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGroup id="displayLinea" style="font-size: 10px; margin-top: 0px;">
+        <p:panelGrid columns="2">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}"
+                           for="fechaRegistro"  styleClass="etiquetaRequerida" />
+            <p:calendar id="fechaRegistro"
+                        pattern="dd/MM/yyyy HH:mm:ss"
+                        value="#{lineaCreditoController.linea.fechaRegistro}"
+                        title="#{propiedadesTituloBL.FechaRegistro}" 
+                        required="true"
+                        requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}  -  #{propiedadesMensajesBL.CampoRequerido}" 
+                        showOn="button"
+                        disabled="true"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Usuario}" for="usuario"  
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="usuario"
+                         value="#{lineaCreditoController.usuario.username}"
+                         title="#{propiedadesTituloBL.Usuario}"
+                         required="true"
+                         requiredMessage="#{propiedadesEtiquetaBL.Usuario} - #{propiedadesMensajesBL.CampoRequerido}"
+                         size="10" 
+                         maxlength="10"
+                         disabled="true"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" for="codigoIfip"  
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="codigoIfip"
+                         value="#{lineaCreditoController.ifip.nombre}"
+                         title="#{propiedadesTituloBL.CodigoIfip}"
+                         required="true"
+                         requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"
+                         size="10" maxlength="10"
+                         disabled="true"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                           for="moneda"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="moneda" 
+                             value="#{lineaCreditoController.moneda}"
+                             requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}"
+                             required="false"
+                             disabled="#{lineaCreditoController.edicion}">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{lineaCreditoController.listaMoneda}"
+                               var="monedaItem"
+                               itemValue="#{monedaItem}"
+                               itemLabel="#{monedaItem.nombre}" />
+                <f:converter binding="#{monedaConverter}"/>
+                <p:ajax event="change" listener="#{lineaCreditoController.cambiaMoneda}"
+                        update="productoCredito, periodicidad"/>
+            </p:selectOneMenu>  
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                           for="productoCredito"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="productoCredito" 
+                             value="#{lineaCreditoController.productoCredito}"
+                             required="false" 
+                             filter="true" 
+                             filterMatchMode="startsWith"
+                             disabled="#{lineaCreditoController.edicion}">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{lineaCreditoController.listaProductoCredito}" 
+                               var="productoItem"
+                               itemValue="#{productoItem}"
+                               itemLabel="#{productoItem.nombre}"/>
+                <f:converter binding="#{productoCreditoConverter}"/>
+                <p:ajax event="change" listener="#{lineaCreditoController.cambiaProductoCredito}"
+                        update="periodicidad"/>
+            </p:selectOneMenu>  
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" 
+                           for="periodicidad"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="periodicidad" 
+                             value="#{lineaCreditoController.periodicidad}"
+                             required="false" 
+                             disabled="#{lineaCreditoController.edicion}" >
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{lineaCreditoController.listaPeriodicidad}" 
+                               var="periodicidadItem"
+                               itemValue="#{periodicidadItem}"
+                               itemLabel="#{periodicidadItem.nombre}"/>
+                <f:converter binding="#{periodicidadConverter}"/>
+            </p:selectOneMenu> 
+            <p:outputLabel value="#{propiedadesEtiquetaBL.OrigenRecursos}" 
+                           for="origenRecursos"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="origenRecursos" 
+                             value="#{lineaCreditoController.origenRecursos}"
+                             required="false" >
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{lineaCreditoController.listaOrigenRecursos}" 
+                               var="origenItem"
+                               itemValue="#{origenItem}"
+                               itemLabel="#{origenItem.nombre}"/>
+                <f:converter binding="#{origenRecursosConverter}"/>               
+            </p:selectOneMenu> 
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" for="nombre" 
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="nombre" 
+                         value="#{lineaCreditoController.linea.nombre}"
+                         title="#{propiedadesEtiquetaBL.Nombre}"
+                         required="true"
+                         requiredMessage="#{propiedadesEtiquetaBL.Nombre} - #{propiedadesMensajesBL.CampoRequerido}"
+                         size="5" 
+                         maxlength="100"
+                         style="width: 150px"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Descripcion}" for="descripcion" 
+                           styleClass="etiquetaRequerida"/>
+            <p:inputTextarea id="descripcion" 
+                             value="#{lineaCreditoController.linea.descripcion}"
+                             title="#{propiedadesEtiquetaBL.Descripcion}"
+                             required="true"
+                             requiredMessage="#{propiedadesEtiquetaBL.Descripcion} - #{propiedadesMensajesBL.CampoRequerido}"
+                             maxlength="500"
+                             style="width: 180px"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Minimo}" 
+                           for="montoMinimo" styleClass="etiquetaRequerida"/>
+            <p:inputText id="montoMinimo" 
+                         value="#{lineaCreditoController.linea.montoMinimo}"
+                         title="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Minimo}" 
+                         required="true"
+                         requiredMessage="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Minimo} - #{propiedadesMensajesBL.CampoRequerido}"
+                         style="width: 150px"
+                         maxlength="18"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Maximo}" 
+                           for="montoMaximo" styleClass="etiquetaRequerida"/>
+            <p:inputText id="montoMaximo" 
+                         value="#{lineaCreditoController.linea.montoMaximo}"
+                         title="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Maximo}" 
+                         required="true"
+                         requiredMessage="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Maximo} - #{propiedadesMensajesBL.CampoRequerido}"
+                         style="width: 150px"
+                         maxlength="18"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Generar} #{propiedadesEtiquetaBL.Credito}" 
+                           for="diaGenerarCredito" styleClass="etiquetaRequerida"/>
+            <p:inputText id="diaGenerarCredito" 
+                         value="#{lineaCreditoController.linea.diaGeneraCredito}"
+                         title="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Generar} #{propiedadesEtiquetaBL.Credito}" 
+                         required="true"
+                         requiredMessage="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Generar} #{propiedadesEtiquetaBL.Credito} - #{propiedadesMensajesBL.CampoRequerido}"
+                         style="width: 150px"
+                         maxlength="2"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Porcentaje} #{propiedadesEtiquetaBL.Pago} #{propiedadesEtiquetaBL.Minimo}"
+                           for="porcentajePagoMinimo" styleClass="etiquetaRequerida"/>
+            <p:inputText id="porcentajePagoMinimo" 
+                         value="#{lineaCreditoController.linea.porcentajePagoMinimo}"
+                         title="#{propiedadesEtiquetaBL.Porcentaje} #{propiedadesEtiquetaBL.Pago} #{propiedadesEtiquetaBL.Minimo}" 
+                         required="true"
+                         requiredMessage="#{propiedadesEtiquetaBL.Porcentaje} #{propiedadesEtiquetaBL.Pago} #{propiedadesEtiquetaBL.Minimo} - #{propiedadesMensajesBL.CampoRequerido}"
+                         style="width: 150px"
+                         maxlength="6"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Bloqueo}" 
+                           for="diaParaBloqueo" styleClass="etiquetaRequerida"/>
+            <p:inputText id="diaParaBloqueo" 
+                         value="#{lineaCreditoController.linea.diaParaBloqueo}"
+                         title="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Bloqueo}" 
+                         required="true"
+                         requiredMessage="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Bloqueo} - #{propiedadesMensajesBL.CampoRequerido}"
+                         style="width: 150px"
+                         maxlength="5"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo} #{propiedadesEtiquetaBL.Tabla}" for="tipoTabla"  
+                           styleClass="etiquetaRequerida" />
+            <p:selectOneMenu id="tipoTabla" 
+                             value="#{lineaCreditoController.linea.tipoTabla}"
+                             required="true" 
+                             disabled="false"
+                             requiredMessage="#{propiedadesEtiquetaBL.Tipo} #{propiedadesEtiquetaBL.Tabla} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.CapitalFijo}" itemValue="C"/>  
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.PagoFijo}" itemValue="P"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Plazo} #{propiedadesEtiquetaBL.Automatico}" for="plazoAutomatico"  
+                           styleClass="etiquetaRequerida" />
+            <p:selectOneMenu id="plazoAutomatico" 
+                             value="#{lineaCreditoController.linea.plazoAutomatico}"
+                             required="true" 
+                             disabled="false"
+                             requiredMessage="#{propiedadesEtiquetaBL.Plazo} #{propiedadesEtiquetaBL.Automatico} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />
+                <p:ajax event="change" listener="#{lineaCreditoController.habilitaTipoDePlazo}"
+                        update="nuevoDetalleLineaCreditoPlazoBot,detalleLineaCreditoPlazo,nuevoDetalleLineaCreditoPlazoMaximoBot,detalleLineaCreditoPlazoMaximo"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Vigente}" for="vigente"  
+                           styleClass="etiquetaRequerida" />
+            <p:selectOneMenu id="vigente" 
+                             value="#{lineaCreditoController.linea.vigente}"
+                             required="true" 
+                             disabled="false"
+                             requiredMessage="#{propiedadesEtiquetaBL.Vigente} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+            </p:selectOneMenu>
+        </p:panelGrid>
+    </h:panelGroup>
+</ui:composition>

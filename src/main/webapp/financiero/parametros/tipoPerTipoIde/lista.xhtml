@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoPerTipoIdeListForm">
+
+        <p:dataTable id="datalist" value="#{tipoPerTipoIdeController.items}" var="item"
+                     selectionMode="single" selection="#{tipoPerTipoIdeController.selected}"
+                     rowKey="#{item.tipoPerTipoIdePK}"
+                     paginator="true"
+                     rows="8"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}" >
+
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TipoPerTipoIde}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column sortBy="#{item.tipoPersona.codigo}" filterBy="#{item.tipoPersona.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.TipoPersona}"/>
+                </f:facet>
+                <h:outputText value="#{item.tipoPersona.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.tipoIdentificacion.codigo}" filterBy="#{item.tipoIdentificacion.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.TipoIdentificacion}"/>
+                </f:facet>
+                <h:outputText value="#{item.tipoIdentificacion.nombre}"/>
+            </p:column>
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />   
+
+                </p:selectOneMenu>
+            </p:column>
+
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

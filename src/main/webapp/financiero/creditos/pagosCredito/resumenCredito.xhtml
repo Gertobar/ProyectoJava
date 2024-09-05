@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ResumenCreditoDlg"
+                  widgetVar="ResumenCreditoDialog" 
+                  modal="true" 
+                  resizable="false"
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="RESUMEN CREDITO"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <p:growl id="growl2" autoUpdate="true" showSummary="false" showDetail="true" life="4000" /> 
+
+            <h:form id="ResumenCreditoForm">
+
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+                    <h:panelGrid columns="1">       
+
+                        <p:panel id="panelSocio">
+                            <h:panelGrid  columns="2" columnClasses="label, value" styleClass="grid" style="text-align: left">  
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.Socio}: "
+                                                   styleClass="etiqueta"/>
+                                    <h:outputText value="#{pagoCreditoController.solicitudSel.socio.codigoPersona.nombreCompleto}"
+                                                  style="font-weight: normal" />                                
+                                    <br/>
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}: "
+                                                   styleClass="etiqueta"/>
+                                    <h:outputText value="#{pagoCreditoController.solicitudDetalle.cuentaDebito.numero}"
+                                                  style="font-weight: normal"/>
+                                    <br/>
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.SaldoDisponible}: "
+                                                   styleClass="etiqueta"/>
+                                    <h:outputText value="#{pagoCreditoController.solicitudDetalle.cuentaDebito.saldoDisponible}"                                                   
+                                                  style="font-weight: normal">
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                    </h:outputText>
+                                    <br/>
+                                </f:facet>
+                                <f:facet name="footer">
+                                    <p:commandButton id="cuotasPendientesBot2" 
+                                                     style="font-size: 10px;"
+                                                     value="#{propiedadesEtiquetaBL.DesgloceCuotas}"
+                                                     disabled="#{pagoCreditoController.deshabilitarBotDesgloce}"
+                                                     update=":mensaje,:ListaCuotasPendientesForm"  
+                                                     onclick="procesandoDlg.show();"     
+                                                     oncomplete="CuotasPendientesDialog.show();procesandoDlg.hide();"
+                                                     action="#{pagoCreditoController.cuentasPendientesCredito()}"/> 
+                                    
+                                </f:facet>
+                            </h:panelGrid>
+                        </p:panel>
+
+
+
+
+
+
+                        <h:panelGrid columns="2">
+                            <p:tabView>
+                                <p:tab title="VALOR CUOTAS PENDIENTES" titletip="CUOTAS PENDIENTES HASTA LA FECHA">
+                                    <h:panelGrid id="DatosPagoParcialGri1" columns="5" 
+                                                 columnClasses="label, value, validator" styleClass="grid">
+        
+
+                                        <h:outputLabel for="numeroCuotas1" value="#{propiedadesEtiquetaBL.NumeroCuotas}: "         
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="numeroCuotas1" 
+                                                      value="#{pagoCreditoController.solicitudSel.numeroCuotas}"                                          
+                                                      title="#{propiedadesTituloBL.NumeroCuotas}"/>  
+                                        <p:outputLabel value=""/>
+                                        <p:outputLabel value=""/>
+                                        <p:outputLabel value=""/>
+
+                                        <h:outputLabel for="cuotaPendiente1" value="#{propiedadesEtiquetaBL.Cuotas} PENDIENTES: "         
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="cuotaPendiente1" 
+                                                      value="#{pagoCreditoController.porValorOCuota}"                                          
+                                                      title="#{propiedadesTituloBL.CuotaPendiente}"/>   
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+                                        <p:outputLabel value=""/>                                                              
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Capital}" 
+                                                       for="capital1" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="capital1" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaCapital1')}"
+                                                      title="#{propiedadesTituloBL.Capital}">                                         
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                        </h:outputText>
+                                        <h:message for="capital1" styleClass="invalido" />  
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.DiasInteres}" 
+                                                       for="diasInteres1" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="diasInteres1" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaDiasInteres1')}"
+                                                      title="#{propiedadesTituloBL.DiasInteres}">                             
+                                        </h:outputText>
+                                        <h:message for="diasInteres1" styleClass="invalido" />                                               
+                                        <p:outputLabel value=""/> 
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Interes}" 
+                                                       for="interes1" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="interes1" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaInteres1')}"
+                                                      title="#{propiedadesTituloBL.Interes}" >       
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="interes1" styleClass="invalido" />                                                
+                                        <p:outputLabel value=""/>
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.DiasMora}" 
+                                                       for="diasMora1" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="diasMora1" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaDiasMora1')}"
+                                                      title="#{propiedadesTituloBL.DiasMora}">                             
+                                        </h:outputText>
+                                        <h:message for="diasMora1" styleClass="invalido" />                    
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Mora}" 
+                                                       for="mora1" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="mora1" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaMora1')}"
+                                                      title="#{propiedadesTituloBL.Mora}">                              
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="mora1" styleClass="invalido" />                                            
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.RubroActual}" 
+                                                       for="rubroActual1" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="rubroActual1" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaRubro1')}"
+                                                      title="#{propiedadesTituloBL.RubroActual}">                              
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="rubroActual1" styleClass="invalido" />                                         
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroNotificaciones}" 
+                                                       for="numeroNotificaciones1" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="numeroNotificaciones1" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaNumNotificaciones1')}"
+                                                      title="#{propiedadesTituloBL.NumeroNotificaciones}">                                                              
+                                        </h:outputText>
+                                        <h:message for="numeroNotificaciones1" styleClass="invalido" />                                                                                                      
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Notificacion}" 
+                                                       for="notificacion1" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="notificacion1" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaNotificacion1')}"
+                                                      title="#{propiedadesTituloBL.Notificacion}">       
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="notificacion1" styleClass="invalido" />                                                 
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.CostoJudicial}" 
+                                                       for="costoJudicial1" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="costoJudicial1" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaCostoJudicial1')}"
+                                                      title="#{propiedadesTituloBL.CostoJudicial}">                              
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="costoJudicial1" styleClass="invalido" />                                                                             
+                                        <p:outputLabel value=""/> 
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Total}" 
+                                                       for="totalPago1" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="totalPago1" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaTotal1')}"
+                                                      title="#{propiedadesTituloBL.Total}">                              
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="totalPago1" styleClass="invalido" />                                                                                          
+                                        <p:outputLabel value=""/> 
+                                        <p:outputLabel value=""/>
+
+                                    </h:panelGrid>
+                                </p:tab>
+
+                                <p:tab title="VALOR TOTAL PENDIENTE" titletip="TODAS LAS CUOTAS PENDIENTES DEL CREDITO">
+                                    <h:panelGrid id="DatosPagoParcialGri2" columns="5" 
+                                                 columnClasses="label, value, validator" styleClass="grid">
+
+                                        <h:outputLabel for="numeroCuotas2" value="#{propiedadesEtiquetaBL.NumeroCuotas}: "         
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="numeroCuotas2" 
+                                                      value="#{pagoCreditoController.solicitudSel.numeroCuotas}"                                          
+                                                      title="#{propiedadesTituloBL.NumeroCuotas}"/>  
+
+                                        <p:outputLabel value=""/>
+                                        <p:outputLabel value=""/>  
+
+                                        <p:outputLabel value=""/>
+
+                                        <h:outputLabel for="cuotaPendiente2" value="CUOTAS PENDIENTES: "         
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="cuotaPendiente2" 
+                                                      value="#{((pagoCreditoController.solicitudSel.numeroCuotas - pagoCreditoController.solicitudDetalle.cuotaPendiente)+1)}"                                          
+                                                      title="#{propiedadesTituloBL.CuotaPendiente}"/>   
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+                                        <p:outputLabel value=""/>                                                              
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Capital}" 
+                                                       for="capital2" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="capital2" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaCapital2')}"
+                                                      title="#{propiedadesTituloBL.Capital}">                                         
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                        </h:outputText>
+                                        <h:message for="capital2" styleClass="invalido" />  
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.DiasInteres}" 
+                                                       for="diasInteres2" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="diasInteres2" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaDiasInteres2')}"
+                                                      title="#{propiedadesTituloBL.DiasInteres}">                             
+                                        </h:outputText>
+                                        <h:message for="diasInteres2" styleClass="invalido" />                                               
+                                        <p:outputLabel value=""/> 
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Interes}" 
+                                                       for="interes2" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="interes2" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaInteres2')}"
+                                                      title="#{propiedadesTituloBL.Interes}" >       
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="interes2" styleClass="invalido" />                                                
+                                        <p:outputLabel value=""/>
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.DiasMora}" 
+                                                       for="diasMora2" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="diasMora2" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaDiasMora2')}"
+                                                      title="#{propiedadesTituloBL.DiasMora}">                             
+                                        </h:outputText>
+                                        <h:message for="diasMora2" styleClass="invalido" />                    
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Mora}" 
+                                                       for="mora2" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="mora2" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaMora2')}"
+                                                      title="#{propiedadesTituloBL.Mora}">                              
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="mora2" styleClass="invalido" />                                            
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.RubroActual}" 
+                                                       for="rubroActual2" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="rubroActual2" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaRubro2')}"
+                                                      title="#{propiedadesTituloBL.RubroActual}">                              
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="rubroActual2" styleClass="invalido" />                                         
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroNotificaciones}" 
+                                                       for="numeroNotificaciones2" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="numeroNotificaciones2" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaNumNotificaciones2')}"
+                                                      title="#{propiedadesTituloBL.NumeroNotificaciones}">                                                              
+                                        </h:outputText>
+                                        <h:message for="numeroNotificaciones2" styleClass="invalido" />                                                                                                      
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Notificacion}" 
+                                                       for="notificacion2" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="notificacion2" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaNotificacion2')}"
+                                                      title="#{propiedadesTituloBL.Notificacion}">       
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="notificacion2" styleClass="invalido" />                                                 
+                                        <p:outputLabel value=""/>  
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.CostoJudicial}" 
+                                                       for="costoJudicial2" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="costoJudicial2" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaCostoJudicial2')}"
+                                                      title="#{propiedadesTituloBL.CostoJudicial}">                              
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="costoJudicial2" styleClass="invalido" />                                                                             
+                                        <p:outputLabel value=""/> 
+                                        <p:outputLabel value=""/>
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Total}" 
+                                                       for="totalPago2" 
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText id="totalPago2" 
+                                                      value="#{pagoCreditoController.resumenCredito.get('UbicaTotal2')}"
+                                                      title="#{propiedadesTituloBL.Total}">                              
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:message for="totalPago2" styleClass="invalido" />                                                                                          
+                                        <p:outputLabel value=""/> 
+                                        <p:outputLabel value=""/>
+
+                                    </h:panelGrid>
+                                </p:tab>
+                            </p:tabView>
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <p:separator/>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

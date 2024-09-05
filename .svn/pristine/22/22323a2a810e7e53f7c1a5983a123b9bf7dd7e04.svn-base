@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DiasEnvioNotificacionIfipListForm">
+
+        <p:panel header="#{myBundle.ListDiasEnvioNotificacionIfipTitle}">
+
+            <p:dataTable id="datalist" value="#{diasEnvioNotificacionIfipController.items}" var="item"
+                         selectionMode="single" selection="#{diasEnvioNotificacionIfipController.selected}"
+                         rowKey="#{item.diasEnvioNotificacionIfipPK}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.diasEnvioNotificacionIfipPK.codigoTipoNotificacion}" filterBy="#{item.diasEnvioNotificacionIfipPK.codigoTipoNotificacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDiasEnvioNotificacionIfipTitle_diasEnvioNotificacionIfipPK_codigoTipoNotificacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasEnvioNotificacionIfipPK.codigoTipoNotificacion}"/>
+                </p:column>
+                <p:column sortBy="#{item.diasEnvioNotificacionIfipPK.codigoIfip}" filterBy="#{item.diasEnvioNotificacionIfipPK.codigoIfip}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDiasEnvioNotificacionIfipTitle_diasEnvioNotificacionIfipPK_codigoIfip}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasEnvioNotificacionIfipPK.codigoIfip}"/>
+                </p:column>
+                <p:column sortBy="#{item.diaInicial}" filterBy="#{item.diaInicial}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDiasEnvioNotificacionIfipTitle_diaInicial}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diaInicial}"/>
+                </p:column>
+                <p:column sortBy="#{item.diaFinal}" filterBy="#{item.diaFinal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDiasEnvioNotificacionIfipTitle_diaFinal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diaFinal}"/>
+                </p:column>
+                <p:column sortBy="#{item.registradoPor}" filterBy="#{item.registradoPor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDiasEnvioNotificacionIfipTitle_registradoPor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.registradoPor}"/>
+                </p:column>
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDiasEnvioNotificacionIfipTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{diasEnvioNotificacionIfipController.prepareCreate}" update=":DiasEnvioNotificacionIfipCreateForm" oncomplete="DiasEnvioNotificacionIfipCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":DiasEnvioNotificacionIfipViewForm" oncomplete="DiasEnvioNotificacionIfipViewDialog.show()" disabled="#{empty diasEnvioNotificacionIfipController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":DiasEnvioNotificacionIfipEditForm" oncomplete="DiasEnvioNotificacionIfipEditDialog.show()" disabled="#{empty diasEnvioNotificacionIfipController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{diasEnvioNotificacionIfipController.delete}" update=":growl,datalist" disabled="#{empty diasEnvioNotificacionIfipController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

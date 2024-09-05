@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RangoDiasDpfEditDlg" widgetVar="RangoDiasDpfEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{myBundle.EditRangoDiasDpfTitle}" closeOnEscape="true">
+
+            <h:form id="RangoDiasDpfEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{rangoDiasDpfController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditRangoDiasDpfLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{rangoDiasDpfController.selected.codigo}" />
+
+                        <p:outputLabel value="#{myBundle.EditRangoDiasDpfLabel_rangoInicial}" for="rangoInicial" />
+                        <p:inputText id="rangoInicial" value="#{rangoDiasDpfController.selected.rangoInicial}" title="#{myBundle.EditRangoDiasDpfTitle_rangoInicial}" required="true" requiredMessage="#{myBundle.EditRangoDiasDpfRequiredMessage_rangoInicial}"/>
+
+                        <p:outputLabel value="#{myBundle.EditRangoDiasDpfLabel_rangoFinal}" for="rangoFinal" />
+                        <p:inputText id="rangoFinal" value="#{rangoDiasDpfController.selected.rangoFinal}" title="#{myBundle.EditRangoDiasDpfTitle_rangoFinal}" required="true" requiredMessage="#{myBundle.EditRangoDiasDpfRequiredMessage_rangoFinal}"/>
+
+                        <p:outputLabel value="#{myBundle.EditRangoDiasDpfLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{rangoDiasDpfController.selected.eliminado}" title="#{myBundle.EditRangoDiasDpfTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditRangoDiasDpfRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rangoDiasDpfController.save}" value="#{myBundle.Save}" update="display,:RangoDiasDpfListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,RangoDiasDpfEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="RangoDiasDpfEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

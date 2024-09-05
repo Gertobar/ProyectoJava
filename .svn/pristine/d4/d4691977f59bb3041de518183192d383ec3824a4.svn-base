@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PeriodoEfectivizacionChequeViewDlg" widgetVar="PeriodoEfectivizacionChequeViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewPeriodoEfectivizacionChequeTitle}" closeOnEscape="true">
+
+            <h:form id="PeriodoEfectivizacionChequeViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{periodoEfectivizacionChequeController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewPeriodoEfectivizacionChequeLabel_codigo}"/>
+                        <h:outputText value="#{periodoEfectivizacionChequeController.selected.codigo}" title="#{myBundle.ViewPeriodoEfectivizacionChequeTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeriodoEfectivizacionChequeLabel_codigoPeriodicidad}"/>
+                        <h:outputText value="#{periodoEfectivizacionChequeController.selected.codigoPeriodicidad}" title="#{myBundle.ViewPeriodoEfectivizacionChequeTitle_codigoPeriodicidad}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeriodoEfectivizacionChequeLabel_nombre}"/>
+                        <h:outputText value="#{periodoEfectivizacionChequeController.selected.nombre}" title="#{myBundle.ViewPeriodoEfectivizacionChequeTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeriodoEfectivizacionChequeLabel_valor}"/>
+                        <h:outputText value="#{periodoEfectivizacionChequeController.selected.valor}" title="#{myBundle.ViewPeriodoEfectivizacionChequeTitle_valor}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeriodoEfectivizacionChequeLabel_eliminado}"/>
+                        <h:outputText value="#{periodoEfectivizacionChequeController.selected.eliminado}" title="#{myBundle.ViewPeriodoEfectivizacionChequeTitle_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PeriodoEfectivizacionChequeViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

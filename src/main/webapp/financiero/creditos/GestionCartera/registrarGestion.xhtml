@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="RegistrarGestionDlg"                  
+              modal="true" style="height: 800px"
+              widgetVar="RegistrarGestionDialog"> 
+        <f:facet name="header">
+            <h:outputLabel  id="encabezadoListaCuentasLab"
+                            value="#{propiedadesEtiquetaBL.GestionCartera}"
+                            styleClass="encabezadosDialog"/>           
+        </f:facet>
+        <h:form id="registroGestionCarteraForm" >
+            <h:panelGrid id="gestionCarteraGrid" columns="1" columnClasses="label, value" styleClass="grid">
+                <h:outputLabel  id="socio"
+                                value="SOCI@: #{carteraGestionadaController.gestionCartera.socio}"
+                                   styleClass="encabezadosDialog"/>
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.RegistrarGestionCartera}"
+                                   styleClass="encabezadosDialog"/>
+
+                <p:inputText value="#{carteraGestionadaController.gestionRealizada}"
+                             disabled="false"
+                             id="gestionRealizada"
+                             required="true"
+                             style="width: 600px"
+                             maxlength="500"
+                             requiredMessage="#{propiedadesEtiquetaBL.GestionCartera} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                <h:message for="gestionRealizada" styleClass="invalido" />            
+                <h:panelGrid id="gestionSatisfactoriaGrid" columns="2" columnClasses="label, value" styleClass="grid">  
+                    <p:outputLabel for="gestionSatisfactoria" value="#{propiedadesEtiquetaBL.GestionSatisfactoria}" />
+                    <p:selectOneMenu id="gestionSatisfactoria" 
+                                    value="#{carteraGestionadaController.gestionSatisfactoria}">
+                       <f:selectItem itemLabel="Seleccione por favor..." itemValue="" />
+                       <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />
+                       <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />
+                   </p:selectOneMenu>
+                </h:panelGrid>
+                <p:commandButton id="registrarGestion"
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 actionListener="#{carteraGestionadaController.registrarGestion}"
+                                 onclick="procesandoDlg.show();"
+                                 update=":gestionCarteraForm:datalist, :barraForm"
+                                 oncomplete="procesandoDlg.hide();RegistrarGestionDialog.hide()">
+                </p:commandButton>
+            </h:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>

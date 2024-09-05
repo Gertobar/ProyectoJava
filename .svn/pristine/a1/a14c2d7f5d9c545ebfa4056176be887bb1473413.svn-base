@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="TransferenciaCuentasFor" >
+
+        <p:panel id="TransferenciaCuentasPan">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.TransferenciEntreCuentas}"/>
+            </f:facet>
+
+            <p:focus context="TransferenciaCuentasPan"/>   
+
+            <h:panelGrid id="TransferenciaCuentasGri" columns="3"  style="font-size: 10px;">
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Origen}" 
+                                   styleClass="encabezadosPanelGrid"/>
+                    <p:separator/>
+                </f:facet>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                               for="moneda"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="moneda" 
+                                 value="#{trasferenciaEntreCuentasBean.moneda}" 
+                                 required="true"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{trasferenciaEntreCuentasBean.itemsMoneda}"
+                                   var="codigoMonedaItem"
+                                   itemValue="#{codigoMonedaItem}"
+                                   itemLabel="#{codigoMonedaItem.nombre}"
+                                   />    
+                    <p:ajax event="change" 
+                            listener="#{trasferenciaEntreCuentasBean.cambiaMoneda()}" 
+                            update="moneda,producto,cuentaOrigen,saldoDisponible,socioOrigen,conceptoTransaccionTransf,productoDestino,cuentaDestino,cuentaDestinoBot,socioDestino,totalEfectivo,observaciones,guardarBot"/>
+                    <f:converter binding="#{monedaConverter}"/>
+                </p:selectOneMenu>                                      
+                <h:message for="moneda"  styleClass="invalido"/>
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                               for="producto"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="producto" 
+                                 value="#{trasferenciaEntreCuentasBean.productoIfip}" 
+                                 required="true"
+                                 filter="true" 
+                                 filterMatchMode="contains" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{trasferenciaEntreCuentasBean.itemsProductoIfip}"
+                                   var="codigoProductoIfipItem"
+                                   itemValue="#{codigoProductoIfipItem}"
+                                   itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.codigo} #{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                   />                    
+                    <p:ajax event="change" 
+                            listener="#{trasferenciaEntreCuentasBean.cambiaProductoIfip()}" 
+                            update="producto,cuentaOrigen,saldoDisponible,socioOrigen,conceptoTransaccionTransf,productoDestino,cuentaDestino,cuentaDestinoBot,socioDestino,totalEfectivo,observaciones,guardarBot"/>
+                    <f:converter binding="#{productoIfipConverter}"/>
+                </p:selectOneMenu>                                      
+                <h:message for="producto"  styleClass="invalido"/>                   
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaOrigen} *"
+                               styleClass="etiquetaRequerida"
+                               for="cuentaOrigen" />
+                <p:inputText id="cuentaOrigen" 
+                             value="#{trasferenciaEntreCuentasBean.numeroCuentaOrigen}"
+                             size="20"
+                             >
+                    <p:ajax event="blur" 
+                            listener="#{trasferenciaEntreCuentasBean.buscaCuentaOrigen()}" 
+                            update="saldoDisponible,socioOrigen,totalEfectivo,observaciones,guardarBot"/>
+                </p:inputText>    
+                <p:commandButton id="cuentaOrgienBot"
+                                 value="#{propiedadesEtiquetaBL.Buscar}"
+                                 update=":listaCuentaForm,:encabezadoListaCuentasLab,saldoDisponible,socioOrigen,conceptoTransaccionTransf,productoDestino,cuentaDestino,cuentaDestinoBot,socioDestino,totalEfectivo,observaciones,guardarBot"
+                                 actionListener="#{trasferenciaEntreCuentasBean.preparaBusquedaCuentasOrigen}"
+                                 onclick="procesandoDlg.show()"                                         
+                                 oncomplete="procesandoDlg.hide();"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.SaldoDisponible}"
+                               styleClass="etiqueta"
+                               for="saldoDisponible" />
+                <p:outputLabel id="saldoDisponible" 
+                               value="#{trasferenciaEntreCuentasBean.cuentaOrigen.saldoDisponible}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                            
+                </p:outputLabel>
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}"
+                               styleClass="etiquetaRequerida"
+                               for="socioOrigen" />
+                <p:inputText id="socioOrigen" 
+                             value="#{trasferenciaEntreCuentasBean.cuentaOrigen.socio.codigoPersona.nombreCompleto}"
+                             size="50"
+                             readonly="true"
+                             />                        
+                <h:message for="cuentaOrigen"  styleClass="invalido"/> 
+                
+                 <p:outputLabel value="#{propiedadesEtiquetaBL.Transferencia}" 
+                               for="conceptoTransaccionTransf"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="conceptoTransaccionTransf" 
+                                 value="#{trasferenciaEntreCuentasBean.conceptoTransaccionTransf}"                                      
+                                 filter="true" 
+                                 filterMatchMode="contains" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Transferencia} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{trasferenciaEntreCuentasBean.itemsConceptoTransaccionTransf}"
+                                   var="conceptoTransaccionTransItem"
+                                   itemValue="#{conceptoTransaccionTransItem}"
+                                   itemLabel="#{conceptoTransaccionTransItem.descripcion}"
+                                   />                    
+                    <p:ajax event="change" 
+                            listener="#{trasferenciaEntreCuentasBean.cambiaTransferencia()}"
+                            update="conceptoTransaccionTransf,productoDestino,cuentaDestino,cuentaDestinoBot,socioDestino,totalEfectivo,observaciones,guardarBot"/>
+                    <f:converter binding="#{conceptoTransaccionTransfConverter}"/>
+                </p:selectOneMenu>                                      
+                <h:message for="conceptoTransaccionTransf"  styleClass="invalido"/>
+
+
+            </h:panelGrid>
+
+            <!--DESTINO-->
+
+            <h:panelGrid style="font-size: 10px;" columns="3">
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Destino}" 
+                                   styleClass="encabezadosPanelGrid"/>
+                    <p:separator/>
+                </f:facet>
+               
+                <h:outputText value="#{propiedadesEtiquetaBL.ProductoDestino}" styleClass="etiquetaRequerida"/>
+                <h:outputText id="productoDestino" value="#{trasferenciaEntreCuentasBean.conceptoTransaccionTransf.productoIfipDestino.producto.tipoProducto.nombre}"/>
+                <h:message for="productoDestino"  styleClass="invalido"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaDestino}" 
+                               for="cuentaDestino"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="cuentaDestino" 
+                             value="#{trasferenciaEntreCuentasBean.numeroCuentaDestino}"
+                             size="20"
+                             >
+                    <p:ajax event="blur" 
+                            listener="#{trasferenciaEntreCuentasBean.buscaCuentaDestino()}" 
+                            update="cuentaDestino,cuentaDestinoBot,socioDestino,totalEfectivo,observaciones,guardarBot"/>
+                </p:inputText>    
+                <p:commandButton id="cuentaDestinoBot"
+                                 value="#{propiedadesEtiquetaBL.Buscar}"
+                                 update=":listaCuentaForm,:encabezadoListaCuentasLab,cuentaDestino,cuentaDestinoBot,socioDestino,totalEfectivo,observaciones,guardarBot"
+                                 actionListener="#{trasferenciaEntreCuentasBean.preparaBusquedaCuentasDestino}"
+                                 onclick="procesandoDlg.show()"                                         
+                                 oncomplete="procesandoDlg.hide();"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Socio} #{propiedadesEtiquetaBL.Destino}"
+                               styleClass="etiquetaRequerida"
+                               for="socioDestino" />
+                <p:inputText id="socioDestino" 
+                             value="#{trasferenciaEntreCuentasBean.cuentaDestino.socio.codigoPersona.nombreCompleto}"
+                             size="50"
+                             readonly="true"
+                             />                    
+                <h:message for="cuentaDestino"  styleClass="invalido"/> 
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TotalEfectivo} *" 
+                               for="totalEfectivo"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="totalEfectivo"
+                             widgetVar="totalEfectivoTex"                                                                          
+                             value="#{trasferenciaEntreCuentasBean.totalEfectivo}"  
+                             styleClass="campoRequeridoValor"                                     
+                             size="20">                            
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                            
+                    <p:ajax event="blur" 
+                            listener="#{trasferenciaEntreCuentasBean.validaSaldoDisponible()}" 
+                            update=":mensaje,totalEfectivo,observaciones,guardarBot"/>
+                </p:inputText>
+                <h:message for="totalEfectivo"  styleClass="invalido"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                               for="observaciones"
+                               styleClass="etiqueta"/>
+                <p:inputText id="observaciones"
+                             value="#{trasferenciaEntreCuentasBean.observaciones}"                                     
+                             size="50"
+                             maxlength="90"
+                             onblur="value = value.toUpperCase()">
+                    <p:ajax event="blur" 
+                            listener="#{trasferenciaEntreCuentasBean.compruebaObservaciones()}" 
+                            update=":mensaje,observaciones,guardarBot"/>
+                </p:inputText>
+                <h:message for="observaciones" styleClass="invalido" />
+                
+                
+                <p:commandButton id="guardarBot"         
+                                 rendered="true"
+                                 disabled="#{trasferenciaEntreCuentasBean.deshabilitaBotonGuardar}"
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}"                                  
+                                 update=":TransferenciaCuentasFor,:mensaje"
+                                 accesskey="ctrl+v"
+                                 action="#{trasferenciaEntreCuentasBean.guardaTransferencia()}"
+                                 />
+                
+                
+            </h:panelGrid>
+        </p:panel>  
+    </h:form>
+
+</ui:composition>

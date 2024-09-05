@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+
+PARA INGRESAR LAS COMPRAS  CON LOS PREVEEDORES EXISTENTES
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaDlg"
+                  widgetVar="VentaDialog" 
+                  modal="true" 
+                  resizable="false"                   
+                  closeOnEscape="false"
+                  appendTo="@(body)" 
+                  style="height: 700px; width: 700px"
+                  >
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.RegistroVenta}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="VentaForm">
+
+                <h:panelGrid columns="1" style="font-size: 10px">   
+                    <p:focus context="panelDatosCliente"/>   
+                    <h:panelGrid  columns="2" style="font-size: 10px; margin-top: 0px;" >   
+                        <h:panelGrid  id="panelDatosCliente"
+                                      columns="3" 
+                                      columnClasses="label, value" 
+                                      styleClass="grid">  
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Cliente}"/>
+                                <p:separator/>
+                            </f:facet>
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Codigo}"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:inputText id="codigoCliente"     
+                                         value="#{ventaBean.codigoClienteVenta}" 
+                                         required="true"
+                                         disabled="#{ventaBean.deshabilitaBotonCliente}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Cliente} - #{propiedadesMensajesBL.CampoRequerido}"                                        
+                                         size="15">
+                                <p:ajax event="blur" 
+                                        listener="#{ventaBean.buscaCliente()}" 
+                                        update="identificacionCliente, nombreCliente, direccionCliente, telefonoCliente"/>
+                            </p:inputText> 
+
+                            <p:commandButton id="ventaClienteBuscar" 
+                                             value="#{propiedadesEtiquetaBL.Buscar}"
+                                             icon="#{propiedadesObjetosBL.IcoVer}" 
+                                             onclick="procesandoDlg.show()"
+                                             disabled="#{ventaBean.deshabilitaBotonCliente}"
+                                             update=":ListaClientesForm,:barraForm"
+                                             actionListener="#{ventaBean.preparaListaValoresClienteVenta}"
+                                             oncomplete="procesandoDlg.hide();ListaClientesDialog.show();"
+                                             />
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                                           styleClass="etiqueta"
+                                           />
+                            <p:outputLabel  id="identificacionCliente"                                                      
+                                            value="#{ventaBean.clienteIfip.cliente.persona.identificacion}"/>
+                            <p:outputLabel value=""/> 
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                           styleClass="etiqueta"
+                                           />
+                            <p:outputLabel  id="nombreCliente"                                                      
+                                            value="#{ventaBean.clienteIfip.cliente.persona.nombreCompleto}"/>
+                            <p:outputLabel value=""/> 
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Direccion}" 
+                                           styleClass="etiqueta"
+                                           />
+                            <p:outputLabel  id="direccionCliente"                                                      
+                                            value="#{ventaBean.clienteIfip.cliente.direccion}"/>
+                            <p:outputLabel value=""/> 
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Telefono}" 
+                                           styleClass="etiqueta"
+                                           />
+                            <p:outputLabel  id="telefonoCliente"                                                      
+                                            value="#{ventaBean.clienteIfip.cliente.telefono}"/>
+                            <p:outputLabel value=""/> 
+                        </h:panelGrid>
+
+
+                        <h:panelGrid  columns="3" 
+                                      columnClasses="label, value" 
+                                      styleClass="grid">  
+
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Venta}"/>
+                                <p:separator/>
+                            </f:facet>
+
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.SustentoTributario}" 
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="sustentoTrib" 
+                                             value="#{ventaBean.venta.codigoSustento}" 
+                                             style="width: 250px;"
+                                             required="true"
+                                             filter="true" 
+                                             filterMatchMode="contains" 
+                                             requiredMessage="#{propiedadesEtiquetaBL.SustentoTributario} - #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{ventaBean.itemsSustentoTributario}"
+                                               var="itemSustentoTributario"
+                                               itemValue="#{itemSustentoTributario}"
+                                               itemLabel="#{itemSustentoTributario.nombre.toString()}"
+                                               />                   
+                                <p:ajax event="change" listener="#{ventaBean.cambiaCodigoSustento()}" update="tipocomprobante,facturaElectronica"/>
+                                <f:converter binding="#{sustentoTributarioConverter}"/>
+                            </p:selectOneMenu>                                      
+                            <h:message for="sustentoTrib"  styleClass="invalido"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.FacturaElectronica}" 
+                                           styleClass="etiquetaRequerida"
+                                           />
+
+                            <p:selectOneMenu id="facturaElectronica" 
+                                             value="#{ventaBean.venta.codigoDocumentoIfpAgencia.esFacturaElectronica}"
+                                             disabled="false" 
+                                             required="true"
+                                             style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.FacturaElectronica} : #{propiedadesMensajesBL.CampoRequerido}">    
+                                <f:selectItem  itemLabel="#{propiedadesMensajesBL.Seleccione}" />  
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                            </p:selectOneMenu>    
+                            <h:message for="facturaElectronica"  styleClass="invalido"/> 
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoComprobante}"                                                            
+                                           styleClass="etiquetaRequerida"/>
+
+                            <p:selectOneMenu id="tipocomprobante" 
+                                             value="#{ventaBean.venta.codigoDocumentoIfpAgencia.codigoTipoComprobante.codigo}" 
+                                             required="true"
+                                             filter="true" 
+                                             filterMatchMode="contains" 
+                                             requiredMessage="#{propiedadesEtiquetaBL.TipoComprobante} - #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{ventaBean.itemsTipoComprobanteCompra}"
+                                               var="itemTipoComprobante"
+                                               itemValue="#{itemTipoComprobante}"
+                                               itemLabel="#{itemTipoComprobante.nombre.toString()}"
+                                               />             
+                                <p:ajax event="change"/>
+                                <f:converter binding="#{tipoComprobanteCompraConverter}"/>
+                            </p:selectOneMenu>                                      
+                            <h:message for="tipocomprobante"  styleClass="invalido"/> 
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaNumeroFactura}"  
+                                           styleClass="etiquetaRequerida"/>
+
+                            <h:panelGrid  columns="3">  
+                                <p:inputText id="ventaNumUnoFact"
+                                             value="#{ventaBean.serieParteUno}"
+                                             required="true"
+                                             maxlength="3"
+                                             style="text-align:  right; width: 20px;">
+                                    <p:ajax event="blur" 
+                                            update="ventaNumUnoFact, tipocomprobante"
+                                            listener="#{ventaBean.validaNumeroFactura()}" />
+                                    <f:validateLength minimum="3" maximum="3"/>
+                                </p:inputText> 
+
+                                <p:inputText id="ventaNumDosFact"     
+                                             value="#{ventaBean.serieParteDos}"                                                     
+                                             required="true"
+                                             maxlength="3"
+                                             style="text-align:  right; width: 20px;">
+
+                                    <p:ajax event="blur" 
+                                            update="ventaNumDosFact"
+                                            listener="#{ventaBean.validaNumeroFactura()}" />
+                                    <f:validateLength minimum="3" maximum="3"/>
+                                </p:inputText> 
+
+
+                                <p:inputText id="ventaNumTresFact"     
+                                             value="#{ventaBean.serieParteTres}"                                                     
+                                             required="true"
+                                             maxlength="25"
+                                             style="text-align:  right">
+
+                                    <p:ajax event="blur" 
+                                            update="ventaNumTresFact"
+                                            listener="#{ventaBean.validaNumeroFactura()}" 
+                                            />
+                                    <f:validateLength minimum="1" maximum="25"/>
+
+                                </p:inputText> 
+
+                            </h:panelGrid>
+                            <h:message for="ventaNumTresFact" styleClass="invalido" />
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.AutorizacionSri}" 
+                                           styleClass="etiquetaRequerida"
+                                           for="autorizacionSri"
+                                           />
+                            <p:inputText id="autorizacionSri"
+                                         value="#{ventaBean.venta.numeroAutorizacion}"                                         
+                                         maxlength="95"
+                                         required="true"
+                                         size="40">                                  
+                                <f:validateLength minimum="5"/>
+                            </p:inputText>
+                            <h:message for="autorizacionSri" styleClass="invalido" />
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaFechaFactura}" 
+                                           styleClass="etiquetaRequerida"
+                                           />
+                            <p:calendar  value="#{ventaBean.venta.fechaEmisionComprobante}"
+                                         pattern="dd/MM/yyyy"
+                                         id="fechaIngresoFactura" 
+                                         size="13"
+                                         locale="es"
+                                         mindate="#{ventaBean.fechaMimina}"
+                                         maxdate="#{ventaBean.fechaMaxima}"
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.DatosFacturaFechaFactura} - #{propiedadesMensajesBL.CampoRequerido}">
+                            </p:calendar> 
+                            <h:message for="fechaIngresoFactura" styleClass="invalido" />
+                        </h:panelGrid>
+
+                    </h:panelGrid>  
+
+
+                    <p:separator/>
+
+                    <!--DETALLE DE LA VENTA-->
+                    <h:panelGrid columns="10" style="font-size: 10px; margin-top: 0px;">
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.DetalleVenta}"/>
+                        </f:facet>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Item}" 
+                                       for="itemVenta"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="itemVenta" 
+                                         value="#{ventaBean.itemVenta}" 
+                                         style=" width: 160px;"
+                                         filter="true" 
+                                         filterMatchMode="contains"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Item} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{ventaBean.itemsItemVenta}"
+                                           var="itemVetanItem"
+                                           itemValue="#{itemVetanItem}"
+                                           itemLabel="#{itemVetanItem.nombre.toString()}"
+                                           />                            
+                            <p:ajax event="change"
+                                    update="agregaDetalleVenta"/>
+                            <f:converter binding="#{itemVentaConverter}"/>                           
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Descripcion}" 
+                                       for="descripcionItemVenta"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="descripcionItemVenta"     
+                                     required="false"
+                                     size="60"
+                                     maxlength="80"                                     
+                                     onblur="value = value.toUpperCase()"
+                                     value="#{ventaBean.descripcionItemVenta}"
+                                     >
+                            <p:ajax event="change"                                     
+                                    update="agregaDetalleVenta"/>
+                        </p:inputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.GravaIva}" 
+                                       for="gravaIvaItemVenta"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="gravaIvaItemVenta" 
+                                         value="#{ventaBean.gravaIva}"
+                                         required="false"  
+                                         disabled="false" 
+                                         style="width: 50px"
+                                         requiredMessage="#{propiedadesEtiquetaBL.GravaIva} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                            <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                            <p:ajax event="blur"                                      
+                                    update="gravaIvaItemVenta,agregaDetalleVenta"/>
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.SubTotal}" 
+                                       for="subTotalItemVenta"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:inputText id="subTotalItemVenta"     
+                                     required="false"
+                                     value="#{ventaBean.subTotal}"
+                                     size="8"
+                                     style="text-align:  right">
+                            <p:ajax event="blur"  
+                                    update="agregaDetalleVenta, subTotalItemVenta"/>
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>
+
+
+                        <p:commandButton id="agregaDetalleVenta" 
+                                         value="#{propiedadesEtiquetaBL.Agregar}" 
+                                         update=":VentaForm"                                         
+                                         action="#{ventaBean.agregaDetalle()}"/>
+
+                    </h:panelGrid>
+
+                    <p:separator/>
+
+                    <!-- TABLA DE DETALLE DE LA VENTA-->
+                    <p:panel id="panelCabeceraDatosDetalleventa">
+
+                        <p:contextMenu for="ventaDetalleTbl">     
+                            <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                                        icon="ui-icon-trash" 
+                                        action="#{ventaBean.eliminaDetalle()}" 
+                                        update="ventaDetalleTbl, :VentaForm"/>            
+                        </p:contextMenu>  
+
+                        <p:dataTable id="ventaDetalleTbl" 
+                                     value="#{ventaBean.itemsVentaDetalle}"
+                                     var="item"                                                          
+                                     rowKey="#{item.codigo}"
+                                     paginator="true"
+                                     rows="3"
+                                     style="width:600px;"
+                                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                                     selectionMode="single"
+                                     selection="#{ventaBean.ventaDetalleSel}"                     
+                                     widgetVar="ventaDetalleTabla">
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.DetalleVenta}"/>
+                            </f:facet>
+
+                            <p:column sortBy="#{item.codigoItem.nombre}" width="70" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.ItemVenta}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.codigoItem.nombre}"/>
+                            </p:column>
+
+                            <p:column sortBy="#{item.descripcion}" style="width: 200px;">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Descripcion}" style="width: 120px;"/>
+                                </f:facet>
+                                <h:outputText id="descripcionDetalle" value="#{item.descripcion}"/>  
+                            </p:column>
+
+                            <p:column  width="30" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.GravaIva}"/>
+                                </f:facet>                                
+                                <p:selectOneMenu id="ventaGravaIvaOut" 
+                                                 value="#{item.gravaIva}"
+                                                 required="false"  disabled="true"  
+                                                 style="width: 50px"
+                                                 requiredMessage="#{propiedadesEtiquetaBL.GravaIva} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                    <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                    <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                                                    
+                                </p:selectOneMenu>
+                            </p:column>
+
+                            <p:column sortBy="#{item.iva}"  width="40" rendered="true">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Iva}"/>
+                                </f:facet>
+                                <h:outputText id="ivaDetalle" value="#{item.iva}" >  
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </h:outputText>
+                            </p:column>      
+
+                            <p:column sortBy="#{item.subtotal}"  width="40" rendered="true">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.SubTotal}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.subtotal}" id="subtotalDetOut">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column sortBy="#{item.total}" width="50" rendered="true">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.total}" id="totalDetalle">  
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:panel>
+
+                    <h:panelGrid columns="2">
+
+                        <p:panel id="panelDetalleventaObservaciones">
+                            <h:panelGrid id="detallesCompraTablaTotal" columns="1">
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}"/>
+                                <p:inputTextarea id="ventaObservaciones"     
+                                                 value="#{ventaBean.venta.observaciones}"
+                                                 onblur="value = value.toUpperCase()" 
+                                                 cols="32" rows="3"
+                                                 >
+                                    <f:validateLength maximum="100" />
+                                </p:inputTextarea>     
+
+                            </h:panelGrid>
+                        </p:panel>
+
+
+                        <p:panel id="panelCabeceraDatosDetalleCalculos">
+                            <h:panelGrid columns="8">
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.SubTotal}" 
+                                               />
+                                <p:inputText id="ventaSubtotal"     
+                                             readonly="true"
+                                             value="#{ventaBean.venta.subtotal}"
+                                             style="text-align:  right; width: 70px;">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText> 
+
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.SubTotalIvaCero}" 
+                                               />
+                                <p:inputText id="ventaSubtotalIvaCero"     
+                                             readonly="true"
+                                             value="#{ventaBean.venta.subtotalIvaCero}"
+                                             style="text-align:  right; width: 70px;">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText> 
+
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.SubTotalIva}"  
+                                               />
+                                <p:inputText id="ventaSubtotalIva"     
+                                             readonly="true"
+                                             value="#{ventaBean.venta.subtotalConIva}"
+                                             style="text-align:  right; width: 70px;">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText> 
+
+
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Iva}" 
+                                               />
+                                <p:inputText id="ventaIva"     
+                                             value="#{ventaBean.venta.iva}"
+                                             readonly="true"
+                                             style="text-align:  right; width: 70px;">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText> 
+
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Descuento}" 
+                                               />
+                                <p:inputText id="ventaDescuento"   
+                                             required="true"
+                                             value="#{ventaBean.venta.descuento}"
+                                             style="text-align:  right; width: 70px;">
+
+                                    <p:ajax event="blur" 
+                                            listener="#{ventaBean.calculaTotales()}" 
+                                            update=":VentaForm"/>
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText>   
+
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Retencion} #{propiedadesEtiquetaBL.Iva}" 
+                                               />
+                                <p:inputText id="ventaRetencionIva"   
+                                             required="true"
+                                             value="#{ventaBean.venta.retencionIva}"
+                                             style="text-align:  right; width: 70px;">
+
+                                    <p:ajax event="blur" 
+                                            listener="#{ventaBean.calculaTotales()}" 
+                                            update=":VentaForm"/>
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText> 
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Retencion} #{propiedadesEtiquetaBL.Renta}" 
+                                               />
+                                <p:inputText id="ventaRetencion"   
+                                             required="true"
+                                             value="#{ventaBean.venta.retencionRenta}"
+                                             style="text-align:  right; width: 70px;">
+
+                                    <p:ajax event="blur" 
+                                            listener="#{ventaBean.calculaTotales()}" 
+                                            update=":VentaForm"/>
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText>  
+
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Total}" 
+                                               />
+                                <p:inputText id="ventaTotal"     
+                                             readonly="true"
+                                             value="#{ventaBean.venta.total}"
+                                             style="text-align:  right; width: 70px;">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText> 
+                            </h:panelGrid>
+                        </p:panel>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+                    <p:commandButton id="guardarBot" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     action="#{ventaBean.guardar()}"
+                                     update=":VentaListForm,:VentaForm"
+                                     />
+                    
+                    <p:commandButton id="cancelarBot" 
+                                     value="#{propiedadesEtiquetaBL.Cancelar}" 
+                                     icon="#{propiedadesObjetosBL.IcoCancelar}" 
+                                     action="#{ventaBean.cancelar()}"   
+                                     oncomplete="VentaDialog.hide();"
+                                     update=":VentaListForm,:VentaForm, :barraForm"
+                                     />
+                    </h:panelGrid>
+
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

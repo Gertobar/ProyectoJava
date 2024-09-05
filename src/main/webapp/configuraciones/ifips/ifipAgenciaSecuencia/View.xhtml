@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaSecuenciaViewDlg" widgetVar="IfipAgenciaSecuenciaViewDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.ViewIfipAgenciaSecuenciaTitle}" closeOnEscape="true">
+
+            <h:form id="IfipAgenciaSecuenciaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ifipAgenciaSecuenciaController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewIfipAgenciaSecuenciaLabel_valor}"/>
+                        <h:outputText value="#{ifipAgenciaSecuenciaController.selected.valor}" title="#{propiedadesEtiquetaBL.ViewIfipAgenciaSecuenciaTitle_valor}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewIfipAgenciaSecuenciaLabel_secuencia}"/>
+                        <h:outputText value="#{ifipAgenciaSecuenciaController.selected.secuencia.codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewIfipAgenciaSecuenciaLabel_ifipAgencia}"/>
+                        <h:outputText value="#{ifipAgenciaSecuenciaController.selected.ifipAgencia.codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Close}" onclick="IfipAgenciaSecuenciaViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

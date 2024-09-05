@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TasaInteresProDpfMonViewDlg" widgetVar="TasaInteresProDpfMonViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{myBundle.ViewTasaInteresProDpfMonTitle}" closeOnEscape="true">
+
+            <h:form id="TasaInteresProDpfMonViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tasaInteresProDpfMonController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_codigo}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.codigo}" title="#{myBundle.ViewTasaInteresProDpfMonTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_codigoMoneda}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.codigoMoneda}" title="#{myBundle.ViewTasaInteresProDpfMonTitle_codigoMoneda}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_codigoIfip}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.codigoIfip}" title="#{myBundle.ViewTasaInteresProDpfMonTitle_codigoIfip}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_montoInicial}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.montoInicial}" title="#{myBundle.ViewTasaInteresProDpfMonTitle_montoInicial}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_montoFinal}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.montoFinal}" title="#{myBundle.ViewTasaInteresProDpfMonTitle_montoFinal}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_registradoPor}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.registradoPor}" title="#{myBundle.ViewTasaInteresProDpfMonTitle_registradoPor}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_fechaRegistro}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.fechaRegistro}" title="#{myBundle.ViewTasaInteresProDpfMonTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_eliminado}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.eliminado}" title="#{myBundle.ViewTasaInteresProDpfMonTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_codigoTasa}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.codigoTasa.codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_codigoRango}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.codigoRango.codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_moneda}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.moneda.codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresProDpfMonLabel_usuarioRealizadoPor}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.usuarioRealizadoPor.username}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="TasaInteresProDpfMonViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DiasEnvioNotificacionIfipEditDlg" widgetVar="DiasEnvioNotificacionIfipEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditDiasEnvioNotificacionIfipTitle}" closeOnEscape="true">
+
+            <h:form id="DiasEnvioNotificacionIfipEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{diasEnvioNotificacionIfipController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditDiasEnvioNotificacionIfipLabel_diasEnvioNotificacionIfipPK_codigoIfip}" for="diasEnvioNotificacionIfipPK_codigoIfip" />
+                        <h:outputText id="diasEnvioNotificacionIfipPK_codigoIfip" value="#{diasEnvioNotificacionIfipController.selected.diasEnvioNotificacionIfipPK.codigoIfip}" />
+
+                        <h:outputLabel value="#{myBundle.EditDiasEnvioNotificacionIfipLabel_diasEnvioNotificacionIfipPK_codigoTipoNotificacion}" for="diasEnvioNotificacionIfipPK_codigoTipoNotificacion" />
+                        <h:outputText id="diasEnvioNotificacionIfipPK_codigoTipoNotificacion" value="#{diasEnvioNotificacionIfipController.selected.diasEnvioNotificacionIfipPK.codigoTipoNotificacion}" />
+
+                        <p:outputLabel value="#{myBundle.EditDiasEnvioNotificacionIfipLabel_diaInicial}" for="diaInicial" />
+                        <p:inputText id="diaInicial" value="#{diasEnvioNotificacionIfipController.selected.diaInicial}" title="#{myBundle.EditDiasEnvioNotificacionIfipTitle_diaInicial}" required="true" requiredMessage="#{myBundle.EditDiasEnvioNotificacionIfipRequiredMessage_diaInicial}"/>
+
+                        <p:outputLabel value="#{myBundle.EditDiasEnvioNotificacionIfipLabel_diaFinal}" for="diaFinal" />
+                        <p:inputText id="diaFinal" value="#{diasEnvioNotificacionIfipController.selected.diaFinal}" title="#{myBundle.EditDiasEnvioNotificacionIfipTitle_diaFinal}" required="true" requiredMessage="#{myBundle.EditDiasEnvioNotificacionIfipRequiredMessage_diaFinal}"/>
+
+                        <p:outputLabel value="#{myBundle.EditDiasEnvioNotificacionIfipLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{diasEnvioNotificacionIfipController.selected.registradoPor}" title="#{myBundle.EditDiasEnvioNotificacionIfipTitle_registradoPor}" required="true" requiredMessage="#{myBundle.EditDiasEnvioNotificacionIfipRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.EditDiasEnvioNotificacionIfipLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{diasEnvioNotificacionIfipController.selected.fechaRegistro}" title="#{myBundle.EditDiasEnvioNotificacionIfipTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.EditDiasEnvioNotificacionIfipRequiredMessage_fechaRegistro}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{diasEnvioNotificacionIfipController.save}" value="#{myBundle.Save}" update="display,:DiasEnvioNotificacionIfipListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,DiasEnvioNotificacionIfipEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="DiasEnvioNotificacionIfipEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

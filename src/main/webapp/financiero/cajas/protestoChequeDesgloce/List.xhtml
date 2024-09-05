@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProtestoChequeDesgloceListForm">
+
+        <p:panel header="#{myBundle.ListProtestoChequeDesgloceTitle}">
+
+            <p:dataTable id="datalist" value="#{protestoChequeDesgloceController.items}" var="item"
+                         selectionMode="single" selection="#{protestoChequeDesgloceController.selected}"
+                         rowKey="#{item.codigoCheque}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.codigoCheque}" filterBy="#{item.codigoCheque}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProtestoChequeDesgloceTitle_codigoCheque}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoCheque}"/>
+                </p:column>
+                <p:column sortBy="#{item.valor}" filterBy="#{item.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProtestoChequeDesgloceTitle_valor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valor}"/>
+                </p:column>
+                <p:column sortBy="#{item.codigoTipoProChe.descripcion}" filterBy="#{item.codigoTipoProChe.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProtestoChequeDesgloceTitle_codigoTipoProChe}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoTipoProChe.descripcion}"/>
+                </p:column>
+                <p:column sortBy="#{item.protestoChequeDetalle.protestoChequeDetallePK}" filterBy="#{item.protestoChequeDetalle.protestoChequeDetallePK}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProtestoChequeDesgloceTitle_protestoChequeDetalle}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.protestoChequeDetalle.protestoChequeDetallePK}"/>
+                </p:column>
+                <p:column sortBy="#{item.guiaDepositoChequeDes.codigoCheque}" filterBy="#{item.guiaDepositoChequeDes.codigoCheque}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProtestoChequeDesgloceTitle_guiaDepositoChequeDes}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.guiaDepositoChequeDes.codigoCheque}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{protestoChequeDesgloceController.prepareCreate}" update=":ProtestoChequeDesgloceCreateForm" oncomplete="ProtestoChequeDesgloceCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":ProtestoChequeDesgloceViewForm" oncomplete="ProtestoChequeDesgloceViewDialog.show()" disabled="#{empty protestoChequeDesgloceController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ProtestoChequeDesgloceEditForm" oncomplete="ProtestoChequeDesgloceEditDialog.show()" disabled="#{empty protestoChequeDesgloceController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{protestoChequeDesgloceController.delete}" update=":growl,datalist" disabled="#{empty protestoChequeDesgloceController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

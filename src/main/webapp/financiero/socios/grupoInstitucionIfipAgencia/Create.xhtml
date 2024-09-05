@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GrupoInstitucionIfipAgenciaCreateDlg" widgetVar="GrupoInstitucionIfipAgenciaCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateGrupoInstitucionIfipAgenciaTitle}" closeOnEscape="true">
+
+            <h:form id="GrupoInstitucionIfipAgenciaCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateGrupoInstitucionIfipAgenciaLabel_grupoInstitucionIfipAgenciaPK_codigoIfipAgencia}" for="grupoInstitucionIfipAgenciaPK_codigoIfipAgencia" />
+                        <p:inputText id="grupoInstitucionIfipAgenciaPK_codigoIfipAgencia" value="#{grupoInstitucionIfipAgenciaController.selected.grupoInstitucionIfipAgenciaPK.codigoIfipAgencia}" title="#{myBundle.CreateGrupoInstitucionIfipAgenciaTitle_grupoInstitucionIfipAgenciaPK_codigoIfipAgencia}" required="true" requiredMessage="#{myBundle.CreateGrupoInstitucionIfipAgenciaRequiredMessage_grupoInstitucionIfipAgenciaPK_codigoIfipAgencia}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateGrupoInstitucionIfipAgenciaLabel_generaDescuentoRol}" for="generaDescuentoRol" />
+                        <p:inputText id="generaDescuentoRol" value="#{grupoInstitucionIfipAgenciaController.selected.generaDescuentoRol}" title="#{myBundle.CreateGrupoInstitucionIfipAgenciaTitle_generaDescuentoRol}" required="true" requiredMessage="#{myBundle.CreateGrupoInstitucionIfipAgenciaRequiredMessage_generaDescuentoRol}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateGrupoInstitucionIfipAgenciaLabel_acreditaSueldos}" for="acreditaSueldos" />
+                        <p:inputText id="acreditaSueldos" value="#{grupoInstitucionIfipAgenciaController.selected.acreditaSueldos}" title="#{myBundle.CreateGrupoInstitucionIfipAgenciaTitle_acreditaSueldos}" required="true" requiredMessage="#{myBundle.CreateGrupoInstitucionIfipAgenciaRequiredMessage_acreditaSueldos}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateGrupoInstitucionIfipAgenciaLabel_creditosGrupales}" for="creditosGrupales" />
+                        <p:inputText id="creditosGrupales" value="#{grupoInstitucionIfipAgenciaController.selected.creditosGrupales}" title="#{myBundle.CreateGrupoInstitucionIfipAgenciaTitle_creditosGrupales}" required="true" requiredMessage="#{myBundle.CreateGrupoInstitucionIfipAgenciaRequiredMessage_creditosGrupales}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateGrupoInstitucionIfipAgenciaLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{grupoInstitucionIfipAgenciaController.selected.registradoPor}" title="#{myBundle.CreateGrupoInstitucionIfipAgenciaTitle_registradoPor}" required="true" requiredMessage="#{myBundle.CreateGrupoInstitucionIfipAgenciaRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateGrupoInstitucionIfipAgenciaLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{grupoInstitucionIfipAgenciaController.selected.fechaRegistro}" title="#{myBundle.EditGrupoInstitucionIfipAgenciaTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.EditGrupoInstitucionIfipAgenciaRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateGrupoInstitucionIfipAgenciaLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{grupoInstitucionIfipAgenciaController.selected.eliminado}" title="#{myBundle.CreateGrupoInstitucionIfipAgenciaTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateGrupoInstitucionIfipAgenciaRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateGrupoInstitucionIfipAgenciaLabel_grupoInstitucion}" for="grupoInstitucion" />
+                        <p:selectOneMenu id="grupoInstitucion" value="#{grupoInstitucionIfipAgenciaController.selected.grupoInstitucion}" required="true" requiredMessage="#{myBundle.EditGrupoInstitucionIfipAgenciaRequiredMessage_grupoInstitucion}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{grupoInstitucionController.items}"
+                                           var="grupoInstitucionItem"
+                                           itemValue="#{grupoInstitucionItem}"
+                                           itemLabel="#{grupoInstitucionItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{grupoInstitucionConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{grupoInstitucionIfipAgenciaController.saveNew}" value="#{myBundle.Save}" update="display,:GrupoInstitucionIfipAgenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,GrupoInstitucionIfipAgenciaCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="GrupoInstitucionIfipAgenciaCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

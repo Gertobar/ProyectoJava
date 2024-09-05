@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OperacionEditDlg" widgetVar="OperacionEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditOperacionTitle}" closeOnEscape="true">
+
+            <h:form id="OperacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{operacionController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditOperacionLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{operacionController.selected.codigo}" />
+
+                        <p:outputLabel value="#{myBundle.EditOperacionLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{operacionController.selected.nombre}" title="#{myBundle.EditOperacionTitle_nombre}" required="true" requiredMessage="#{myBundle.EditOperacionRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditOperacionLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{operacionController.selected.eliminado}" title="#{myBundle.EditOperacionTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditOperacionRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.EditOperacionLabel_codigoTipoOperacion}" for="codigoTipoOperacion" />
+                        <p:selectOneMenu id="codigoTipoOperacion" value="#{operacionController.selected.codigoTipoOperacion}" required="true" requiredMessage="#{myBundle.EditOperacionRequiredMessage_codigoTipoOperacion}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoOperacionController.items}"
+                                           var="codigoTipoOperacionItem"
+                                           itemValue="#{codigoTipoOperacionItem}"
+                                           itemLabel="#{codigoTipoOperacionItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{tipoOperacionConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditOperacionLabel_codigoMenu}" for="codigoMenu" />
+                        <p:selectOneMenu id="codigoMenu" value="#{operacionController.selected.codigoMenu}" required="true" requiredMessage="#{myBundle.EditOperacionRequiredMessage_codigoMenu}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{menuController.items}"
+                                           var="codigoMenuItem"
+                                           itemValue="#{codigoMenuItem}"
+                                           itemLabel="#{codigoMenuItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{menuConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{operacionController.save}" value="#{myBundle.Save}" update="display,:OperacionListForm:datalist,:mensaje" oncomplete="handleSubmit(xhr,status,args,OperacionEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="OperacionEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="neogociacionPan" 
+              header="#{propiedadesEtiquetaBL.Negociacion}"
+              style="height: 500px; width: 700px">  
+        <p:focus context="neogociacionPan"/>   
+        <h:panelGrid id="productoGri" columns="2" columnClasses="label, value" style="font-size: 10px">  
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoTabla}" 
+                           for="tipoTabla"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="tipoTabla"                              
+                             value="#{concedeBean.solicitud.tipoTabla}"
+                             required="true"   style="width: 150px"
+                             requiredMessage="#{propiedadesEtiquetaBL.TipoTabla} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                <f:selectItem  itemValue="C" itemLabel="#{propiedadesEtiquetaBL.CapitalFijo}" />  
+                <f:selectItem itemValue="P" itemLabel="#{propiedadesEtiquetaBL.PagoFijo}" />  
+                 <p:ajax event="change"
+                         listener="#{concedeBean.generarTablaAmort()}"
+                        update=":ConcecionCreditoFor:tablaAmortizacionTbl,diasPago,cuotasCon"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.DiaFijo}" 
+                           for="diaFijo"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="diaFijo" 
+                             value="#{concedeBean.solicitud.diaFijo}"                             
+                             required="true"  style="width: 50px"
+                             requiredMessage="#{propiedadesEtiquetaBL.TipoTabla} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                <f:selectItem  itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                <f:selectItem itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />    
+                 <p:ajax event="change"
+                         listener="#{concedeBean.generarTablaAmort()}"
+                        update=":ConcecionCreditoFor:tablaAmortizacionTbl,diasPago,cuotasCon"/>
+            </p:selectOneMenu>            
+           
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.MontoCredito}" 
+                           for="montoCredito"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="montoCredito"
+                         value="#{concedeBean.solicitud.montoCredito}"  
+                         styleClass="campoRequeridoValor"     
+                         required="false"
+                         size="20">     
+                <p:ajax event="blur"
+                        listener="#{concedeBean.cambiaMonto()}"
+                        update=":ConcecionCreditoFor:tablaAmortizacionTbl,diasPago"/>
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />  
+            </p:inputText>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Cuotas}" 
+                           for="cuotasCon"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="cuotasCon"
+                         value="#{concedeBean.solicitud.numeroCuotas}"  
+                         styleClass="campoRequeridoValor"     
+                         required="true"
+                         size="17">     
+                <p:ajax event="blur"
+                        listener="#{concedeBean.validaNumeroCuotas()}"
+                        update=":ConcecionCreditoFor:tablaAmortizacionTbl,diasPago,cuotasCon"/>
+                <f:validateLongRange minimum="1"/>
+                <f:convertNumber type="number" groupingUsed="true"  locale="en" />  
+            </p:inputText>
+             
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" 
+                           for="tasaCreditoCon"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="tasaCreditoCon"
+                         value="#{concedeBean.solicitud.tasa}"  
+                         styleClass="campoRequeridoValor"     
+                         required="false"
+                         readonly="true"
+                         size="17">     
+
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />  
+            </p:inputText>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.DiasPago}" 
+                           for="diasPago"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="diasPago"
+                         value="#{concedeBean.diasPago}"
+                         required="true"  
+                         size="5"
+                         requiredMessage="#{propiedadesEtiquetaBL.TipoTabla} : #{propiedadesMensajesBL.CampoRequerido}">
+                <p:ajax event="blur" 
+                        listener="#{concedeBean.generarTablaAmort()}" 
+                        update=":ConcecionCreditoFor:tablaAmortizacionTbl,diasPago"/>
+            </p:inputText>
+
+
+
+        </h:panelGrid>
+
+
+        <p:dataTable id="tablaAmortizacionTbl" 
+                     value="#{concedeBean.itemsTablaAmortizacion}"
+                     var="itemTablaAmortizacion"   
+                     paginator="true"
+                     rows="14"
+                     rowKey="#{itemTablaAmortizacion.tablaAmortizacionPK}"
+                     >
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TablaAmortizacion}"/>
+            </f:facet>
+
+            <p:columnGroup type="header">
+
+                <p:row>
+                    <p:column headerText="#{propiedadesEtiquetaBL.Cuota}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.FechaInicio}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.FechaPago}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.SaldoCapital}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.Capital}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.Interes}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.Rubros}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.Total}" />
+
+                </p:row>
+            </p:columnGroup>
+            <p:column style="text-align:  center"> 
+                <h:outputLabel value="#{itemTablaAmortizacion.tablaAmortizacionPK.cuota}"/>
+            </p:column>
+
+            <p:column style="text-align:  center">   
+                <h:outputText  value="#{itemTablaAmortizacion.fechaInicio}">
+                    <f:convertDateTime  pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.fechaPago}">
+                    <f:convertDateTime  pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.saldoCapital}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.capital}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.interes}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.rubros}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.total}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:columnGroup type="footer">
+                <p:row>
+
+                    <p:column colspan="4" style="text-align:right" footerText="#{propiedadesEtiquetaBL.Totales}" />                    
+                    <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{concedeBean.totalCapitalCadena}" />
+                    <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{concedeBean.totalInteresCadena}" />
+                    <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{concedeBean.totalRubrosCadena}" />
+                    <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{concedeBean.totalCreditoCadena}" /> 
+
+                </p:row>
+            </p:columnGroup>
+        </p:dataTable>
+
+    </p:panel>
+
+</ui:composition>

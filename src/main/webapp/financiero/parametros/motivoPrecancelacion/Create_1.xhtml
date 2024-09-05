@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MotivoPrecancelacionCreateDlg" widgetVar="MotivoPrecancelacionCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateMotivoPrecancelacionTitle}" closeOnEscape="true">
+
+            <h:form id="MotivoPrecancelacionCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateMotivoPrecancelacionLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{motivoPrecancelacionController.selected.nombre}" title="#{myBundle.CreateMotivoPrecancelacionTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateMotivoPrecancelacionRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateMotivoPrecancelacionLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{motivoPrecancelacionController.selected.descripcion}" title="#{myBundle.CreateMotivoPrecancelacionTitle_descripcion}" required="true" requiredMessage="#{myBundle.CreateMotivoPrecancelacionRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateMotivoPrecancelacionLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{motivoPrecancelacionController.selected.eliminado}" title="#{myBundle.CreateMotivoPrecancelacionTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateMotivoPrecancelacionRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{motivoPrecancelacionController.saveNew}" value="#{myBundle.Save}" update="display,:MotivoPrecancelacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,MotivoPrecancelacionCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="MotivoPrecancelacionCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

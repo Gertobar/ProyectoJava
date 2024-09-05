@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RolIngresoEgresoIfipEditDlg" widgetVar="RolIngresoEgresoIfipEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{myBundle.EditRolIngresoEgresoIfipTitle}" closeOnEscape="true">
+
+            <h:form id="RolIngresoEgresoIfipEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{rolIngresoEgresoIfipController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditRolIngresoEgresoIfipLabel_rolIngresoEgresoIfipPK_codigoIngresoEgreso}" for="rolIngresoEgresoIfipPK_codigoIngresoEgreso" />
+                        <h:outputText id="rolIngresoEgresoIfipPK_codigoIngresoEgreso" value="#{rolIngresoEgresoIfipController.selected.rolIngresoEgresoIfipPK.codigoIngresoEgreso}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditRolIngresoEgresoIfipLabel_rolIngresoEgresoIfipPK_codigoMoneda}" for="rolIngresoEgresoIfipPK_codigoMoneda" />
+                        <h:outputText id="rolIngresoEgresoIfipPK_codigoMoneda" value="#{rolIngresoEgresoIfipController.selected.rolIngresoEgresoIfipPK.codigoMoneda}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditRolIngresoEgresoIfipLabel_rolIngresoEgresoIfipPK_codigoIfip}" for="rolIngresoEgresoIfipPK_codigoIfip" />
+                        <h:outputText id="rolIngresoEgresoIfipPK_codigoIfip" value="#{rolIngresoEgresoIfipController.selected.rolIngresoEgresoIfipPK.codigoIfip}" />
+
+                        <p:outputLabel value="#{myBundle.EditRolIngresoEgresoIfipLabel_ingresadoPor}" for="ingresadoPor" />
+                        <p:inputText id="ingresadoPor" value="#{rolIngresoEgresoIfipController.selected.ingresadoPor}" title="#{myBundle.EditRolIngresoEgresoIfipTitle_ingresadoPor}" required="true" requiredMessage="#{myBundle.EditRolIngresoEgresoIfipRequiredMessage_ingresadoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.EditRolIngresoEgresoIfipLabel_fechaIngreso}" for="fechaIngreso" />
+                        <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{rolIngresoEgresoIfipController.selected.fechaIngreso}" title="#{myBundle.EditRolIngresoEgresoIfipTitle_fechaIngreso}" required="true" requiredMessage="#{myBundle.EditRolIngresoEgresoIfipRequiredMessage_fechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditRolIngresoEgresoIfipLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{rolIngresoEgresoIfipController.selected.eliminado}" title="#{myBundle.EditRolIngresoEgresoIfipTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditRolIngresoEgresoIfipRequiredMessage_eliminado}"/>
+
+
+                        <h:outputLabel value="#{myBundle.EditRolIngresoEgresoIfipLabel_rol}" for="rol" />
+                        <h:outputText id="rol" value="#{rolIngresoEgresoIfipController.selected.rol}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rolIngresoEgresoIfipController.save}" value="#{myBundle.Save}" update="display,:RolIngresoEgresoIfipListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,RolIngresoEgresoIfipEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="RolIngresoEgresoIfipEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,45 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package ec.renafipse.mks.negocio.contables;
+
+import ec.renafipse.mks.modelo.contables.PeriodoContable;
+import ec.renafipse.mks.negocio.AbstractFacade;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author vastudillo
+ */
+@Stateless
+public class PeriodoContableFacade extends AbstractFacade<PeriodoContable> {
+    @PersistenceContext(unitName = "ec.renafipse.mksPU")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    public PeriodoContableFacade() {
+        super(PeriodoContable.class);
+    }
+    
+    public List<PeriodoContable> getItemPeriodoContable(char actual) {
+        Query query = this.em.createNamedQuery(PeriodoContable.findByActual);
+        query.setParameter("actual", actual);
+        return query.getResultList();
+    }
+    
+      public List<PeriodoContable> getItemPeriodosContables() {
+        return this.em.createNamedQuery(PeriodoContable.findByPeriodosContables).getResultList();
+    }
+    
+}

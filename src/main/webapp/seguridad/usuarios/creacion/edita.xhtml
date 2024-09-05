@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{usuarioController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditUsuarioLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{usuarioController.selected.codigo}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_codigoIfip}" for="codigoIfip" />
+                        <p:inputText id="codigoIfip" value="#{usuarioController.selected.codigoIfip}" title="#{myBundle.EditUsuarioTitle_codigoIfip}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_codigoIfip}"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_codigoPersona}" for="codigoPersona" />
+                        <p:inputText id="codigoPersona" value="#{usuarioController.selected.codigoPersona}" title="#{myBundle.EditUsuarioTitle_codigoPersona}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_codigoPersona}"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_username}" for="username" />
+                        <p:inputText id="username" value="#{usuarioController.selected.username}" title="#{myBundle.EditUsuarioTitle_username}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_username}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_fechaCreacion}" for="fechaCreacion" />
+                        <p:calendar id="fechaCreacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioController.selected.fechaCreacion}" title="#{myBundle.EditUsuarioTitle_fechaCreacion}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_fechaCreacion}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_correoElectronico}" for="correoElectronico" />
+                        <p:inputText id="correoElectronico" value="#{usuarioController.selected.correoElectronico}" title="#{myBundle.EditUsuarioTitle_correoElectronico}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_correoElectronico}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{usuarioController.selected.eliminado}" title="#{myBundle.EditUsuarioTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_usuarioPuntoIfipCobroPago}" for="usuarioPuntoIfipCobroPago" />
+                        <p:selectOneMenu id="usuarioPuntoIfipCobroPago" value="#{usuarioController.selected.usuarioPuntoIfipCobroPago}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioPuntoIfipCobroPagoController.items}"
+                                           var="usuarioPuntoIfipCobroPagoItem"
+                                           itemValue="#{usuarioPuntoIfipCobroPagoItem}"
+                                           itemLabel="#{usuarioPuntoIfipCobroPagoItem.codigoUsuario.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioPuntoIfipCobroPagoConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_usuarioGuiaDeposito}" for="usuarioGuiaDeposito" />
+                        <p:selectOneMenu id="usuarioGuiaDeposito" value="#{usuarioController.selected.usuarioGuiaDeposito}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioGuiaDepositoController.items}"
+                                           var="usuarioGuiaDepositoItem"
+                                           itemValue="#{usuarioGuiaDepositoItem}"
+                                           itemLabel="#{usuarioGuiaDepositoItem.codigoUsuario.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioGuiaDepositoConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_codigoUsuarioCreacion}" for="codigoUsuarioCreacion" />
+                        <p:selectOneMenu id="codigoUsuarioCreacion" value="#{usuarioController.selected.codigoUsuarioCreacion}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_codigoUsuarioCreacion}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="codigoUsuarioCreacionItem"
+                                           itemValue="#{codigoUsuarioCreacionItem}"
+                                           itemLabel="#{codigoUsuarioCreacionItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_codigoTipoUsuario}" for="codigoTipoUsuario" />
+                        <p:selectOneMenu id="codigoTipoUsuario" value="#{usuarioController.selected.codigoTipoUsuario}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_codigoTipoUsuario}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoUsuarioController.items}"
+                                           var="codigoTipoUsuarioItem"
+                                           itemValue="#{codigoTipoUsuarioItem}"
+                                           itemLabel="#{codigoTipoUsuarioItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{tipoUsuarioConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_usuarioEfeProChe}" for="usuarioEfeProChe" />
+                        <p:selectOneMenu id="usuarioEfeProChe" value="#{usuarioController.selected.usuarioEfeProChe}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioEfeProCheController.items}"
+                                           var="usuarioEfeProCheItem"
+                                           itemValue="#{usuarioEfeProCheItem}"
+                                           itemLabel="#{usuarioEfeProCheItem.codigoUsuario.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioEfeProCheConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.save}" value="#{myBundle.Save}" update="display,:UsuarioListForm:datalist,:mensaje" oncomplete="handleSubmit(xhr,status,args,UsuarioEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="UsuarioEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

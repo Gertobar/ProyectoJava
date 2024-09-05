@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="135" pageHeight="104" columnWidth="135" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="118faf43-eabc-489c-9ca0-23cde799806b">
+	<property name="ireport.zoom" value="4.177248169415657"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoSocio" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+    CASE WHEN ifc.codigo = 8--'OTROS INGRESOS' 
+    THEN 
+    (cing.total_socio + CASE WHEN NVL((
+     SELECT 
+     cing1.total_socio
+     FROM
+       mks_socios.socio_flujo_caja_ingreso cing1,
+       mks_socios.item_flujo_caja ifc1
+     WHERE cing1.codigo_socio = (SELECT perc.codigo FROM MKS_SOCIOS.socio perc WHERE perc.codigo_persona=(SELECT pec.codigo_persona_conyuge FROM MKS_SOCIOS.persona_conyuge pec WHERE pec.codigo_persona=soc.codigo_persona AND pec.eliminado ='N'))
+     AND cing1.codigo_item_flu_caj = ifc1.codigo
+     AND ifc1.codigo=1
+    ),0)=0 THEN
+    (NVL((SELECT pni.INGRESOS FROM MKS_SOCIOS.PERSONA_NATURAL pni WHERE pni.codigo_persona =(SELECT pec.codigo_persona_conyuge FROM MKS_SOCIOS.persona_conyuge pec WHERE pec.codigo_persona=soc.codigo_persona AND pec.eliminado ='N')),0))
+    ELSE 
+    NVL((    
+     SELECT 
+     cing1.total_socio
+     FROM
+       mks_socios.socio_flujo_caja_ingreso cing1,
+       mks_socios.item_flujo_caja ifc1
+     WHERE cing1.codigo_socio = (SELECT perc.codigo 
+                                 FROM MKS_SOCIOS.socio perc WHERE perc.codigo_persona=(SELECT pec.codigo_persona_conyuge FROM MKS_SOCIOS.persona_conyuge pec WHERE pec.codigo_persona=soc.codigo_persona AND pec.eliminado ='N'))
+     AND cing1.codigo_item_flu_caj = ifc1.codigo
+     AND ifc1.codigo=1
+    ),0) 
+    END
+    )
+    ELSE cing.total_socio END "TOT INGEROS",     
+    ifc.nombre "NOMBRE ING"    
+FROM
+    mks_socios.socio_flujo_caja_ingreso cing 
+    INNER JOIN mks_socios.item_flujo_caja ifc
+    ON cing.codigo_item_flu_caj = ifc.codigo
+    INNER JOIN MKS_SOCIOS.SOCIO soc
+    ON soc.codigo=cing.codigo_socio        
+WHERE 
+cing.codigo_socio = $P{codigoSocio}]]>
+	</queryString>
+	<field name="TOT INGEROS" class="java.math.BigDecimal"/>
+	<field name="NOMBRE ING" class="java.lang.String"/>
+	<variable name="TOT INGEROS_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOT INGEROS}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="135" height="15" backcolor="#3B83BD" uuid="2671f30b-eb8d-42f0-9619-ac864a8aa039"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INGRESOS]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="80" height="15" uuid="73ce27e4-e290-4f92-961b-31978952161c"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["  "+$F{NOMBRE ING}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="55" height="15" uuid="1fedb93f-fdc3-44c4-b300-90f9d62cfa22"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOT INGEROS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="15" uuid="40e5bf88-f6af-43cf-a7ab-8b513d9fa76b"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL INGRESOS]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="80" y="0" width="55" height="15" backcolor="#0099CC" uuid="735ff2b0-5680-401d-8d51-7acac789cda1"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOT INGEROS_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+    <p:panel  id="criterioConsulta" styleClass="encabezadosDialog">         
+        <p:focus context="criterioConsulta"/> 
+
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Generar} #{propiedadesEtiquetaBL.BalanceGeneral}  "
+                           styleClass="encabezadosDialog"/>
+        </f:facet>            
+        <h:panelGroup>
+            <h:panelGrid id="procesoContableConTraGri" columns="4" style="width: 500px;"
+                         columnClasses="label, value, validator" styleClass="grid">  
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Periodo}"
+                               for="idPeriodo"
+                               styleClass="etiquetaRequerida"/>
+
+                <h:outputLabel value="#{balanceGeneralBean.periodoActual}"
+                               id="idPeriodo"
+                               styleClass="etiqueta"/>
+
+                <h:message for="idPeriodo" styleClass="invalido" />
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaCorte}" 
+                               for="fechaCorte"  styleClass="etiquetaRequerida" />
+                 <p:calendar id="fechaCorte"
+                            pattern="dd/MM/yyyy"
+                            value="#{balanceGeneralBean.fechaCorte}"
+                            title="#{propiedadesEtiquetaBL.FechaCorte}"
+                            showOn="button"
+                            required="true" 
+                            mindate="#{balanceGeneralBean.fechaMinima}"
+                            maxdate="#{balanceGeneralBean.fechaMaxima}"
+                            locale="es" 
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaCorte}  #{propiedadesMensajesBL.CampoRequerido}">                    
+                </p:calendar>
+                <h:message for="fechaCorte" styleClass="invalido" />
+
+            </h:panelGrid>      
+        </h:panelGroup>
+    </p:panel>
+
+</ui:composition>

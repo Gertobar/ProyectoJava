@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="MayorGeneralListForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{mayorGeneralBean.mayorGeneral}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{mayorGeneralBean.seleccion}"
+                     rowKey="#{item[0]}"
+                     paginator="true"
+                     rows="7"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.MayorGeneral}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:imprimirBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:imprimirBot"/>
+
+            <p:column filterBy="#{item[0]}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.NumeroComprobante}"/>
+                </f:facet>
+                <h:outputText value="#{item[0]}"/>
+            </p:column>
+
+            <p:column filterBy="#{item[1]}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item[1]}"/>
+            </p:column>
+
+             <p:column filterBy="#{item[2]}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.EstadoComprobante}"/>
+                </f:facet>
+                <h:outputText value="#{item[2]}"/>
+            </p:column>
+            
+            <p:column filterBy="#{item[3]}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Glosa}"/>
+                </f:facet>
+                <h:outputText value="#{item[3]}"/>
+            </p:column>
+
+            <p:column filterBy="#{item[4]}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Fecha}"/>
+                </f:facet>
+                <h:outputText value="#{item[4]}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Debito}"/>
+                </f:facet>
+                <h:outputText value="#{item[6]}" style="float:right" converter="javax.faces.Double">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Credito}"/>
+                </f:facet>
+                <h:outputText value="#{item[5]}" style="float:right" converter="javax.faces.Double">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Saldo}"/>
+                </f:facet>
+                <h:outputText value="#{item[7]}" style="float:right" converter="javax.faces.Double">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>

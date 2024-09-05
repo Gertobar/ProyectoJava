@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<f:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:cc="http://java.sun.com/jsf/composite"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <html>
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="IE=9" /> 
+                <meta http-equiv="Cache-Control" content="no-cache" />
+                <meta http-equiv="Pragma" content="no-cache" />
+            </f:facet>
+            <title>MASCOOP - MinkaSoftware - Modulos</title>      
+            <h:outputStylesheet library="css" name="estilo.css"/>
+            <h:outputStylesheet library="css" name="icono.css"/>            
+            <h:outputScript library="scripts" name="pfcrud.js"/>
+            <h:outputScript library="scripts" name="primefaces.js"/>
+        </h:head>
+        <h:body>
+            <ui:include src="banerPlantilla.xhtml" />  
+            <h:form>
+                <p:toolbar>                  
+                    <p:toolbarGroup align="left">  
+
+                       <h:outputLink value="#{propiedadesObjetosBL.UrlAgenciaMKS}" 
+                                            title="#{propiedadesTituloBL.IrAgencias}">
+                                <p:graphicImage  style="border: transparent" value="#{propiedadesObjetosBL.ImgInicio}" />  
+                            </h:outputLink>
+                        <p:separator/>
+                        <h:outputLabel value="#{propiedadesTituloBL.ModulosAsignadasIfip}"/> 
+                    </p:toolbarGroup>  -
+                    <p:toolbarGroup align="right">                          
+                        <p:separator/>
+                        <p:clock pattern="dd-MM-yyyy HH:mm:ss" mode="server" /> 
+                        <p:separator />  
+                    </p:toolbarGroup>
+                </p:toolbar>                 
+            </h:form>
+            <ui:insert name="modulo">
+            </ui:insert>
+            <ui:include src="creditoPlantilla.xhtml" />
+
+        </h:body>
+    </html>
+</f:view>
+

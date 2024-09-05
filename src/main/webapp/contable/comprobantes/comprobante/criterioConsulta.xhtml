@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="2" >
+             <p:outputLabel value="#{propiedadesEtiquetaBL.Periodo}" 
+                               for="periodo"
+                               styleClass="etiquetaRequerida" />
+                <p:outputLabel id="periodo"
+                               value="#{comprobanteController.peridoCotable}" 
+                               styleClass="etiqueta" />
+                
+            <h:outputLabel value="#{propiedadesEtiquetaBL.BuscarPor}"/>
+            <p:selectOneMenu id="buscarPor"                                  
+                             value="#{comprobanteController.tipoFiltro}">                          
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.NumeroComprobante}" itemValue="N" />  
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Fecha}" itemValue="F" />
+                <p:ajax event="change" 
+                        listener="#{comprobanteController.criterioDeBusqueda()}" 
+                        update="numeroComprobante,FechaComprobante"/>
+            </p:selectOneMenu> 
+        </h:panelGrid>  
+        <p:panel id="numeroComprobante" 
+                 visible="#{comprobanteController.mostrarFiltroNumComprobante}" 
+                 style="width: 300px;">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroComprobante} " 
+                           for="crieterioTex"
+                           styleClass="etiqueta" />
+            <p:inputText id="crieterioTex" 
+                         value="#{comprobanteController.numeroComprobanteCriterio}"  
+                         onkeyup="value = value.toUpperCase()" 
+                         size="20"/>
+        </p:panel>
+        <p:panel id="FechaComprobante" 
+                 visible="#{comprobanteController.mostrarFitrloFehca}"
+                 style="width: 300px;">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Fecha} " 
+                           for="fechaRegistro"
+                           styleClass="etiqueta" />
+            <p:calendar id="fechaRegistro"
+                        pattern="dd/MM/yyyy"
+                        value="#{comprobanteController.fechaCriterio}"
+                        title="#{propiedadesTituloBL.Fecha}"
+                        maxdate="#{comprobanteController.fechaActual}"
+                        showOn="button"/>
+        </p:panel>
+
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RolConceptoTransaccionIfipEditDlg" widgetVar="RolConceptoTransaccionIfipEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditRolConceptoTransaccionIfipTitle}" closeOnEscape="true">
+
+            <h:form id="RolConceptoTransaccionIfipEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{rolConceptoTransaccionIfipController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditRolConceptoTransaccionIfipLabel_rolConceptoTransaccionIfipPK_codigoIfip}" for="rolConceptoTransaccionIfipPK_codigoIfip" />
+                        <h:outputText id="rolConceptoTransaccionIfipPK_codigoIfip" value="#{rolConceptoTransaccionIfipController.selected.rolConceptoTransaccionIfipPK.codigoIfip}" />
+
+                        <h:outputLabel value="#{myBundle.EditRolConceptoTransaccionIfipLabel_rolConceptoTransaccionIfipPK_codigoTipoProducto}" for="rolConceptoTransaccionIfipPK_codigoTipoProducto" />
+                        <h:outputText id="rolConceptoTransaccionIfipPK_codigoTipoProducto" value="#{rolConceptoTransaccionIfipController.selected.rolConceptoTransaccionIfipPK.codigoTipoProducto}" />
+
+                        <h:outputLabel value="#{myBundle.EditRolConceptoTransaccionIfipLabel_rolConceptoTransaccionIfipPK_codigoConcepto}" for="rolConceptoTransaccionIfipPK_codigoConcepto" />
+                        <h:outputText id="rolConceptoTransaccionIfipPK_codigoConcepto" value="#{rolConceptoTransaccionIfipController.selected.rolConceptoTransaccionIfipPK.codigoConcepto}" />
+
+                        <h:outputLabel value="#{myBundle.EditRolConceptoTransaccionIfipLabel_rolConceptoTransaccionIfipPK_codigoMoneda}" for="rolConceptoTransaccionIfipPK_codigoMoneda" />
+                        <h:outputText id="rolConceptoTransaccionIfipPK_codigoMoneda" value="#{rolConceptoTransaccionIfipController.selected.rolConceptoTransaccionIfipPK.codigoMoneda}" />
+
+                        <p:outputLabel value="#{myBundle.EditRolConceptoTransaccionIfipLabel_fechaIngreso}" for="fechaIngreso" />
+                        <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{rolConceptoTransaccionIfipController.selected.fechaIngreso}" title="#{myBundle.EditRolConceptoTransaccionIfipTitle_fechaIngreso}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditRolConceptoTransaccionIfipLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{rolConceptoTransaccionIfipController.selected.eliminado}" title="#{myBundle.EditRolConceptoTransaccionIfipTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditRolConceptoTransaccionIfipRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.EditRolConceptoTransaccionIfipLabel_ingresadoPor}" for="ingresadoPor" />
+                        <p:selectOneMenu id="ingresadoPor" value="#{rolConceptoTransaccionIfipController.selected.ingresadoPor}" required="true" requiredMessage="#{myBundle.EditRolConceptoTransaccionIfipRequiredMessage_ingresadoPor}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="ingresadoPorItem"
+                                           itemValue="#{ingresadoPorItem}"
+                                           itemLabel="#{ingresadoPorItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="#{myBundle.EditRolConceptoTransaccionIfipLabel_rol}" for="rol" />
+                        <h:outputText id="rol" value="#{rolConceptoTransaccionIfipController.selected.rol}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rolConceptoTransaccionIfipController.save}" value="#{myBundle.Save}" update="display,:RolConceptoTransaccionIfipListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,RolConceptoTransaccionIfipEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="RolConceptoTransaccionIfipEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

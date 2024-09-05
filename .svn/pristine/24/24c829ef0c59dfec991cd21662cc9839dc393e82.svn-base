@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BovedaViewDlg" 
+                  widgetVar="BovedaViewDialog" 
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true"
+                  >
+                  <f:facet name="header">
+                      <h:outputLabel value="#{propiedadesEtiquetaBL.Mostrar} #{propiedadesEtiquetaBL.Boveda}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+
+            <h:form id="BovedaViewForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" rendered="#{bovedaController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                        <h:outputText value="#{bovedaController.selected.codigo}" 
+                                      title="#{propiedadesEtiquetaBL.Codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        <h:outputText value="#{bovedaController.selected.nombre}"
+                                      title="#{propiedadesEtiquetaBL.Nombre}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Descripcion}"/>
+                        <h:outputText value="#{bovedaController.selected.descripcion}"
+                                      title="#{propiedadesEtiquetaBL.Descripcion}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Ancho}"/>
+                        <h:outputText value="#{bovedaController.selected.ancho}"
+                                      title="#{propiedadesEtiquetaBL.Ancho}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Largo}"/>
+                        <h:outputText value="#{bovedaController.selected.largo}" 
+                                      title="#{propiedadesEtiquetaBL.Largo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Altura}"/>
+                        <h:outputText value="#{bovedaController.selected.altura}" 
+                                      title="#{propiedadesEtiquetaBL.Altura}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.TieneCamaras}"/>
+                         <h:selectOneMenu id="tieneCamaras" value="#{bovedaController.selected.tieneCamaras}" 
+                                          disabled="true">
+                             <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S"/>
+                             <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N"/>
+                        </h:selectOneMenu> 
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Responsable}"/>
+                        <h:outputText value="#{bovedaController.selected.responsableBoveda.username.toString()}" 
+                                      title="#{propiedadesEtiquetaBL.Responsable}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.IfipAgencia}"/>
+                        <h:outputText value="#{bovedaController.selected.codigoIfipAgencia.nombre.toString()}"
+                                      title="#{propiedadesEtiquetaBL.IfipAgencia}"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado"/>
+                             
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{bovedaController.selected.eliminado}" 
+                                         disabled="true"> 
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                          
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                   
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

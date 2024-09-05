@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="transaccionLoteFor" prependId="true" enctype="multipart/form-data">
+        <p:panel id="transaccionLotePan">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.TransaccionLote}"/>
+            </f:facet>
+
+            <p:focus context="transaccionLotePan"/>   
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+                <h:panelGrid columns="2">
+                    <h:panelGrid id="MovimientoCuentaGri"  style="font-size: 10px;" columns="3">
+
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Transaccion}"/>
+                        </f:facet>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="moneda" 
+                                         value="#{transaccionLoteBean.moneda}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{transaccionLoteBean.itemsMoneda}"
+                                           var="codigoMonedaItem"
+                                           itemValue="#{codigoMonedaItem}"
+                                           itemLabel="#{codigoMonedaItem.nombre}"
+                                           />    
+                            <p:ajax event="change" listener="#{transaccionLoteBean.cambiaMoneda()}" update="producto,transaccion,concepto,guardarBot"/>
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="moneda"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                       for="producto"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="producto" 
+                                         value="#{transaccionLoteBean.productoIfip}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="contains" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{transaccionLoteBean.itemsProductoIfip}"
+                                           var="codigoProductoIfipItem"
+                                           itemValue="#{codigoProductoIfipItem}"
+                                           itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.codigo} : #{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                           />                    
+                            <p:ajax event="change" listener="#{transaccionLoteBean.cambiaProductoIfip()}" update="transaccion,concepto,guardarBot,transaccionesTbl"/>
+                            <f:converter binding="#{productoIfipConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="producto"  styleClass="invalido"/> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Transaccion}" 
+                                       for="transaccion"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="transaccion" 
+                                         value="#{transaccionLoteBean.transaccion}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="contains" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Transaccion} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{transaccionLoteBean.itemsTransaccion}"
+                                           var="codigoTranaccionItem"
+                                           itemValue="#{codigoTranaccionItem}"
+                                           itemLabel="#{codigoTranaccionItem.codigo} : #{codigoTranaccionItem.nombre}"
+                                           />                    
+                            <p:ajax event="change" listener="#{transaccionLoteBean.cambiaTransaccion()}" update="concepto,guardarBot"/>
+                            <f:converter binding="#{transaccionConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="transaccion"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Concepto}" 
+                                       for="concepto"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="concepto" 
+                                         value="#{transaccionLoteBean.conceptoTransaccion}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="contains" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Concepto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{transaccionLoteBean.itemsConceptoTransaccion}"
+                                           var="codigoConceptoTranaccionItem"
+                                           itemValue="#{codigoConceptoTranaccionItem}"
+                                           itemLabel="#{codigoConceptoTranaccionItem.codigo} : #{codigoConceptoTranaccionItem.nombre}"
+                                           />    
+                            <p:ajax event="change" update="concepto"/>
+                            <f:converter binding="#{conceptoTransaccionConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="concepto"  styleClass="invalido"/>
+
+
+                    </h:panelGrid>
+                    <h:panelGrid columns="3">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.CargaArchivo}"/>
+                        </f:facet>
+                         <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                                       for="observaciones"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="observaciones" 
+                                     value="#{transaccionLoteBean.observaciones}"
+                                     size="80"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Observaciones} - #{propiedadesMensajesBL.CampoRequerido}">
+                                     <p:ajax event="change"
+                                             update="@this"/>
+                        </p:inputText>
+                        <h:message for="observaciones"  styleClass="invalido"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Archivo}" 
+                                       for="archivo"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:fileUpload id="archivo" fileUploadListener="#{transaccionLoteBean.cargaArchivo}" mode="advanced" dragDropSupport="true"
+                                      cancelLabel="#{propiedadesEtiquetaBL.Cancelar}" uploadLabel="#{propiedadesEtiquetaBL.Cargar}"                                      
+                                      invalidFileMessage="#{propiedadesMensajesBL.TipoArchvivoInvalido}"
+                                      invalidSizeMessage="#{propiedadesMensajesBL.TamañoArchivoInvalido}"
+                                      multiple="false" update=":mensaje,transaccionesTbl,verTransaccionesError,guardarBot" 
+                                      sizeLimit="100000" allowTypes="/(\.|\/)(xls|xlsx|odt)$/" 
+                                      onstart="procesandoDlg.show()"
+                                      onerror="procesandoDlg.hide()"
+                                      oncomplete="procesandoDlg.hide()"/>
+
+                        <h:message for="archivo"  styleClass="invalido"/> 
+                        
+                    </h:panelGrid>
+                </h:panelGrid>
+                <p:dataTable  id="transaccionesTbl"
+                            widgetVar="transaccionesTabla"
+                            value="#{transaccionLoteBean.itemsTransaccionLotDet}"
+                            paginator="true"
+                            var="item"                            
+                            rows="5"
+                            emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}"
+                            >
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Transacciones}"/>
+                    </f:facet>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column headerText="#{propiedadesEtiquetaBL.NumeroCuenta}" 
+                                      sortBy="#{item.codigoCuenta.numero}" 
+                                      filterBy="#{item.codigoCuenta.numero}" />
+                            <p:column headerText="#{propiedadesEtiquetaBL.Socio}" 
+                                      sortBy="#{item.codigoCuenta.socio.codigoPersona.nombreCompleto}" 
+                                      filterBy="#{item.codigoCuenta.socio.codigoPersona.nombreCompleto}"  />
+                            <p:column headerText="#{propiedadesEtiquetaBL.Agencia} #{propiedadesEtiquetaBL.Socio}" />
+                            <p:column headerText="#{propiedadesEtiquetaBL.ValorTransaccion}" />
+                        </p:row>
+                    </p:columnGroup>
+
+                    <p:column  style="text-align: center">                        
+                        <h:outputText value="#{item.codigoCuenta.numero}"/>
+                    </p:column>
+
+                    <p:column >
+                        <h:outputText value="#{item.codigoCuenta.socio.codigoPersona.nombreCompleto}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{item.codigoCuenta.socio.codigoIfipAgencia.nombre}"/>
+                    </p:column>
+
+                    <p:column style="text-align: right">                        
+                        <h:outputText value="#{item.valorTransaccion}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:columnGroup type="footer">
+                        <p:row>
+                            <p:column colspan="3" style="text-align:right" footerText="#{propiedadesEtiquetaBL.Totales}" />
+                            <p:column footerText="#{transaccionLoteBean.productoIfip.producto.moneda.simbolo}#{transaccionLoteBean.totalTransaccionDetalleCadena}"
+                                      style="text-align:right; font-size: 12px; font-weight: bolder"> 
+                            </p:column>
+
+                        </p:row>
+                    </p:columnGroup>
+                </p:dataTable>
+                <p:separator/>
+                <p:commandButton id="guardarBot"    
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 disabled="#{transaccionLoteBean.deshabilitaBotonGuardar}"
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                 onclick="procesandoDlg.show();"
+                                 update="guardarBot"
+                                 actionListener="#{transaccionLoteBean.guardaEjecucion}"
+                                 oncomplete="procesandoDlg.hide();"
+                                 process="@this">
+                    <p:confirm message="#{propiedadesMensajesBL.SeguroEjecutarTransaccionLote}" 
+                               icon="ui-icon-info"
+                               header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                </p:commandButton>
+                    
+                <p:commandButton id="nuevoBot"    
+                                 value="#{propiedadesEtiquetaBL.Nuevo}"
+                                 icon="#{propiedadesObjetosBL.IcoNuevo}"
+                                 update=":transaccionLoteFor"
+                                 action="#{transaccionLoteBean.init()}"
+                                 process="@this"/>
+                <p:commandButton id="verTransaccionesError"    
+                                 value="#{propiedadesEtiquetaBL.VerTransaccionesError}"
+                                 icon="#{propiedadesObjetosBL.IcoVer}"
+                                 disabled="#{transaccionLoteBean.deshabilitaVerTransaccionesError}"
+                                 onclick="procesandoDlg.show()"
+                                 update=":transaccionesErrorFor"
+                                 oncomplete="procesandoDlg.hide();;TransaccionesErrorDialog.show();"
+                                 process="@this"/>
+            </h:panelGroup>
+
+        </p:panel> 
+        
+          <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+              <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" accesskey="S" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+              <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" accesskey="N" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+            </p:confirmDialog>
+    </h:form>
+
+</ui:composition>

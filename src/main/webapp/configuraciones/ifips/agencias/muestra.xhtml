@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaViewDlg" 
+                  widgetVar="IfipAgenciaViewDialog" 
+                  modal="true" resizable="false" 
+                  appendToBody="true"
+                  closeOnEscape="true">
+               <f:facet name="header">
+                   <h:outputLabel value="#{propiedadesEtiquetaBL.Mostrar} #{propiedadesEtiquetaBL.IfipAgencia}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>   
+
+            <h:form id="IfipAgenciaViewForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" rendered="#{ifipAgenciaController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.codigo}"
+                                      title="#{propiedadesEtiquetaBL.Codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoUbiGeoPais}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.codigoUbiGeoPais.nombre.toString()}"
+                                      title="#{propiedadesEtiquetaBL.CodigoUbiGeoPais}"
+                                       />
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoUbiGeoProvincia}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.codigoUbiGeoProvincia.nombre.toString()}" 
+                                      title="#{propiedadesEtiquetaBL.CodigoUbiGeoProvincia}"
+                                      />
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoUbiGeoCiudad}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.codigoUbiGeoCiudad.nombre.toString()}" 
+                                      title="#{propiedadesEtiquetaBL.CodigoUbiGeoCiudad}"
+                                       />
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoUbiGeoParroquia}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.codigoUbiGeoParroquia.nombre.toString()}" 
+                                      title="#{propiedadesEtiquetaBL.CodigoUbiGeoParroquia}"
+                                       />
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.nombre}" 
+                                      title="#{propiedadesEtiquetaBL.Nombre}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.AutorizacionSri}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.autorizacionSri}" 
+                                      title="#{propiedadesEtiquetaBL.AutorizacionSri}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Direccion}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.direccion}"
+                                      title="#{propiedadesEtiquetaBL.Direccion}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Email}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.email}"
+                                      title="#{propiedadesEtiquetaBL.Email}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.EsVentanilla}"/>
+                         <p:selectOneMenu id="esVentanilla" 
+                                          value="#{ifipAgenciaController.selected.esVentanilla}"
+                                         required="true" 
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Ventanillas}: #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Matriz}"/>
+                        <p:selectOneMenu id="matriz" 
+                                         value="#{ifipAgenciaController.selected.matriz}"
+                                         required="true" 
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Matriz}: #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                      
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoIfipAgenciaPadre}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.codigoIfipAgenciaPadre.nombre.toString()}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoIfip}"/>
+                        <h:outputText value="#{ifipAgenciaController.selected.codigoIfip.nombre.toString()}"/>
+                        
+                             <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{ifipAgenciaController.selected.eliminado}"
+                                         required="true" 
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado}: #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                   
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

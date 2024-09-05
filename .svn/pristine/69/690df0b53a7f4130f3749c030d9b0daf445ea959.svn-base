@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5a6f3d62-82c2-44fc-80ea-ce8696a9180c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="contenido1" uuid="bf888202-534d-45ae-b5cb-48ab5f5f1b5e">
+		<queryString>
+			<![CDATA[WITH conyuge AS ( SELECT lcs.codigo,
+                         p2.nombre_completo conyuge
+                  FROM   mks_creditos.linea_credito_solicitud lcs,
+                         mks_socios.socio s,
+                         mks_socios.persona p,
+                         mks_socios.persona_conyuge pc,
+                         mks_socios.persona p2
+                  WHERE  lcs.codigo_socio = s.codigo
+                  AND    s.codigo_persona = p.codigo
+                  AND    p.codigo = pc.codigo_persona
+                  AND    pc.codigo_persona_conyuge = p2.codigo
+                  AND    lcs.codigo = 21 )
+SELECT 'Comparecen a la suscripción del presente contrato por una parte '||UPPER( i.razon_social )||', debidamente representada por quien suscribe al pie del presente documento en su calidad de Gerente General, a quien en adelante y para fines de este contrato se denominará simplemente "LA COOPERATIVA o '||i.nombre||'"; y por otra el(a) señor(a): '||UPPER( p.nombre_completo )||', mismo (a) que es socio de la '||UPPER( i.razon_social )||' Nº '||s.codigo||', cuya cuenta pertenece a la oficina '||UPPER( a.nombre )||', por sus propios y personales derechos, en calidad de DEUDOR (es), a quien(es) en el futuro se denominará como EL SOCIO o EL DEUDOR y; como deudor(es) solidario(s):'||NVL( c.conyuge,'..............' )||'. Por sus propios y personales derechos, quien(es) comparece(n) en calidad de garante(s) de las obligaciones que el deudor adquiere mediante este instrumento para con la '||UPPER( i.razon_social )||'. Los comparecientes son mayores de edad y capaces ante la ley para obligarse y realizar este tipo de actos, en forma libre y voluntariamente convienen en celebrar el presente contrato de préstamo o mutuo al tenor de las siguientes cláusulas:
+
+PRIMERA. – ANTECEDENTES:
+'||UPPER( i.nombre )||' es una institución legalmente constituida, mediante memorando N.-SEPS-ISA-DNRR-2015-001, del 30 de septiembre de 2015, a través del cual la Intendencia General de Procesos Jurídicos emite informe jurídico favorable para la creación de la '||UPPER( i.razon_social )||', la misma que nace de la fusión por creación de ocho (8) Cooperativas de Ahorro y Crédito y una Caja, entre ellas: COAC INTEGRAL, COAC HUINARA, COAC GUACHAPALA, COAC SOLIDARIA-GUALAQUIZA, COAC FAMILIA AUSTRAL, COAC GUEL, COAC LA FLORIDA, COAC SOL DE LOS ANDES Y CAJA ZHONDELEG, fusión que fue aprobada por la Superintendencia de Economía Popular y Solidaria el 13 de octubre del 2015 mediante resolución No. SEPS-IGPJISA-2015-04.
+
+SEGUNDA. –OBJETO DEL CONTRATO:
+El SOCIO ha solicitado LA COOPERATIVA la línea de crédito denominada '||UPPER( lc.nombre )||' ('||UPPER( tc.nombre )||') por el valor de $'||TRIM( TO_CHAR(lcs.monto_linea_credito,'FM9999999990.00') )||' Dólares americanos con '||( lcs.monto_linea_credito-TRUNC( lcs.monto_linea_credito ) )||'/100 centavos de dólar; esta línea de crédito es personal e intransferible, el cual permite al SOCIO obtener avances de efectivo a través de su Libreta de Ahorros.
+
+Esta línea de crédito es Preaprobada y El SOCIO podrá hacer uso de esta línea de crédito ya sea a través de un solo retiro o varios retiros o avances, y los valores serán acreditados directamente en su cuenta y se reflejará en su Libreta de Ahorros.
+
+TERCERA. - ACEPTACIÓN:
+La COOPERATIVA por su parte únicamente en el caso de aprobar la solicitud del SOCIO otorgará la línea de crédito '||UPPER( lc.nombre )||', por el tiempo establecido en este contrato y en el pagaré a la orden, cuyo uso se somete a las cláusulas y condiciones contenidas en este instrumento que el SOCIO acepta incondicionalmente.
+
+El SOCIO acepta y reconoce mediante este documento y sin reserva alguna el retiro de dinero y demás transacciones autorizadas por la COOPERATIVA. 
+
+El SOCIO es responsable ante la COOPERATIVA del uso indebido de la línea de crédito '||UPPER( lc.nombre )||'.
+
+CUARTA. – PLAZOS Y MONTOS:
+El plazo de tiempo establecido para la generación de las cuotas a pagar dependerá del monto utilizado de la línea '||UPPER( lc.nombre )||', el cual se detalla:' contenido1
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_creditos.producto_credito pc,
+       mks_creditos.tipo_cartera tc,
+       mks_ifips.ifip i,
+       mks_socios.socio s,
+       mks_socios.persona p,
+       mks_ifips.ifip_agencia a,
+       conyuge c
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo_producto = pc.codigo
+AND    pc.codigo_tipo_cartera = tc.codigo
+AND    lc.codigo_ifip = i.codigo
+AND    lcs.codigo_socio = s.codigo
+AND    s.codigo_persona = p.codigo
+AND    lcs.codigo_ifip_agencia = a.codigo
+AND    lcs.codigo = c.codigo( + )
+AND    lcs.codigo = 21]]>
+		</queryString>
+		<field name="CONTENIDO1" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="plazos" uuid="7eeb9c91-c015-4e20-ab37-5db4aae5a757">
+		<queryString>
+			<![CDATA[SELECT '$'||TRIM( TO_CHAR(lcp.monto_inicio_plazo,'FM9999999990.00') ) desde,
+       '$'||TRIM( TO_CHAR(lcp.monto_fin_plazo,'FM9999999990.00') ) hasta,
+       lcp.numero_cuotas||CASE WHEN lcp.numero_cuotas  = 1 THEN ' CUOTA'
+                               ELSE ' CUOTAS' END cuotas
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_creditos.linea_credito_plazo lcp
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo = lcp.codigo_linea_credito
+AND    lcs.codigo = 21
+AND    lcp.eliminado = 'N'
+ORDER BY lcp.monto_inicio_plazo]]>
+		</queryString>
+		<field name="DESDE" class="java.lang.String"/>
+		<field name="HASTA" class="java.lang.String"/>
+		<field name="CUOTAS" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="contenido2" uuid="1fc9fdbe-aeb0-494c-83bc-5a40bc8a207f">
+		<queryString language="SQL">
+			<![CDATA[SELECT 'QUINTA. – FECHAS DE PAGOS, TASA DE INTERÉS Y FORMA DE PAGO:
+El SOCIO pagará a la Cooperativa hasta el día '||lcs.dia_pago||' de cada mes, los valores por el uso de la línea de crédito y los intereses correspondientes detallados en el pagare a la orden, calculados al '||ti.valor||'% anual, reajuste sobre el capital y saldos de la misma, la COOPERATIVA sin embargo de acuerdo a las políticas y condiciones de esta línea de crédito '||UPPER( lc.nombre )||' y  el  presente contrato, aceptará que el socio pueda cancelar dichos valores más los intereses correspondientes calculados a la tasa antes indicada en amortizaciones  mensuales,  ya sea el valor total del dividendo o los valores mínimos de pago para el tiempo establecido en este contrato, la tabla de amortización, en el respectivo pagaré a la orden  y la tasa vigente.
+
+En caso de realizar un ajuste a la tasa de interés, este se aplicará únicamente a los nuevos créditos o créditos renovados por la utilización de dicho crédito; la aceptación del reajuste de la tasa de interés se entenderá aceptada por el socio, por el uso de la línea de crédito '||UPPER( lc.nombre )||'.
+
+SEXTA. – SANCIONES POR MORA Y OBLIGACIONES:
+Si el SOCIO incurre en mora por falta de pago de un dividendo automáticamente queda bloqueada la línea de crédito. Si el socio incurre en mora por falta de pago en más de dos dividendos, la COOPERATIVA por su sola voluntad dará por cancelada la línea de crédito '||UPPER( lc.nombre )||' y podrá exigir el pago total de todo lo adeudado, es decir, capital más interés pactados y de mora; de igual manera el SOCIO se obliga a cubrir todos los gastos extrajudiciales, judiciales, costas procesales y honorarios profesionales que se originen por el cobro del crédito impago, bastando para su determinación la mera aseveración de la COOPERATIVA.
+
+Las obligaciones que asume EL SOCIO en este contrato son indivisibles y el incumplimiento de cualquiera de ellas permitirá a LA COOPERATIVA suspender definitivamente la línea de crédito '||UPPER( lc.nombre )||' sin mediar ningún trámite o diligencia 
+
+El SOCIO se obliga con todos los bienes presentes y futuros además autoriza a la COOPERATIVA para que en caso de mora disponga de cualquier valor o valores que existan a su favor en la COOPERATIVA, e imputen los mismos al pago total o parcial contenida en este convenio, de sus intereses o gastos ocasionados por la mora o cualquier otro gasto, sin que para este efecto la COOPERATIVA dará aviso alguno ni recibir nueva autorización.
+
+SÉPTIMA. –GARANTIA: 
+Para afianzar, garantizar y caucionar todas las obligaciones que tienen contraídas o que contrajeren por esta línea de crédito '||UPPER( lc.nombre )||' que se otorga, EL DEUDOR constituye a favor de '||UPPER( i.nombre )||' una garantía sobre firmas con los garantes arriba descritos.
+
+OCTAVA. – RENOVACIÓN Y DECLARACION:
+En caso de renovación de esta línea de crédito las partes continúan sometidas a las condiciones referidas en este contrato, así como las modificaciones futuras que la COOPERATIVA haga conocer de cualquier forma al SOCIO, cuya aceptación se entenderá aceptada por el uso de la línea de crédito '||UPPER( lc.nombre )||'. 
+
+' contenido2
+FROM  mks_creditos.linea_credito_solicitud lcs,
+      mks_creditos.linea_credito lc,
+      mks_creditos.producto_credito_moneda_ifip pc,
+      mks_creditos.tasa_interes_pro_cre_mon_ifi tipc,
+      mks_creditos.tasa_interes_credito_ifip ti,
+      mks_ifips.ifip i
+WHERE lcs.codigo_linea_credito = lc.codigo
+AND   lc.codigo_producto = pc.codigo_producto
+AND   lc.codigo_moneda = pc.codigo_moneda
+AND   lc.codigo_ifip = pc.codigo_ifip
+AND   pc.codigo_producto = tipc.codigo_producto
+AND   pc.codigo_moneda = tipc.codigo_moneda
+AND   pc.codigo_ifip = tipc.codigo_ifip
+AND   tipc.codigo_tasa = ti.codigo
+AND   lcs.codigo_ifip = i.codigo
+AND   lcs.codigo = 21]]>
+		</queryString>
+		<field name="CONTENIDO2" class="java.lang.String"/>
+	</subDataset>
+	<queryString>
+		<![CDATA[SELECT UPPER( i.razon_social ) titulo1,
+       'CONTRATO DE LINEA DE CREDITO '||UPPER( lc.nombre ) titulo2
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_ifips.ifip i
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo_ifip = i.codigo
+AND    lcs.codigo = 21]]>
+	</queryString>
+	<field name="TITULO1" class="java.lang.String"/>
+	<field name="TITULO2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="47" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="20" uuid="0efa73a9-170d-4ef3-9f13-5dbda3d20847"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TITULO1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="555" height="20" uuid="fad0a4fd-3624-40b3-ae74-dc777710649b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TITULO2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" x="0" y="0" width="555" height="20" uuid="7e5e3823-ef46-4ff5-9382-ceef15bcaf98"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="contenido1" uuid="5e6791fa-85f1-413a-926d-a24518c1ea48">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="564" uuid="e7dd68c9-b55d-4270-9327-6812982fa1e7">
+						<jr:detailCell height="530" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="558" height="525" uuid="a5e4af43-4a08-495c-a2ec-30f230a93730"/>
+								<textElement textAlignment="Justified" markup="styled"/>
+								<textFieldExpression><![CDATA[$F{CONTENIDO1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="57" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" x="142" y="37" width="392" height="20" uuid="01768d6c-66d1-41b9-9285-ea4711690f2b"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="plazos" uuid="e9672426-b5ee-42d6-aab4-a0f575fb78a6">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="92" uuid="0ef5adf6-f656-4da2-975a-17af445abdc6">
+						<jr:detailCell height="22" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="92" height="22" uuid="f749dd93-ecd5-439c-8a3e-32fd61061ebd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{DESDE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="92" uuid="132d617e-8836-42fe-a14c-c9166b0a457c">
+						<jr:detailCell height="22" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="92" height="22" uuid="5caccfbd-a202-4271-852a-457d8d6ddb90"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{HASTA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="94" uuid="6800fb8c-34f9-488e-9c5d-ff2c41ae04fc">
+						<jr:detailCell height="22" rowSpan="1">
+							<textField>
+								<reportElement x="1" y="0" width="92" height="22" uuid="413bd029-3d26-4c0d-ab67-4e74d8e5b545"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{CUOTAS}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="143" y="18" width="90" height="19" uuid="f73a1e9f-cc5a-4541-84d2-20c49c45d6a2"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desde]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="237" y="18" width="83" height="19" uuid="15eb061f-1901-4770-aa0c-283eafaf453c"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hasta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="323" y="18" width="100" height="20" uuid="5c5bb748-71da-498c-9116-175f81910890"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="184" y="0" width="100" height="20" uuid="8e3eae7c-616c-426e-8bc8-e12cf1735c6f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="0" width="100" height="20" uuid="6b018a6e-3048-47c8-89bf-6bf2f9b14871"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLAZO]]></text>
+			</staticText>
+		</band>
+		<band height="20" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" stretchType="RelativeToBandHeight" x="0" y="0" width="555" height="20" uuid="71281a41-1160-42ef-a136-ce0a13858573"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="contenido2" uuid="5123ba85-d67f-4750-833f-8492d8c7fa85">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="566" uuid="6957ca2c-889a-4771-bcd7-eaf41dc28e7c">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="566" height="20" uuid="941bdc52-bb73-449e-aa40-78f9bd1c9c92"/>
+								<textElement textAlignment="Justified"/>
+								<textFieldExpression><![CDATA[$F{CONTENIDO2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

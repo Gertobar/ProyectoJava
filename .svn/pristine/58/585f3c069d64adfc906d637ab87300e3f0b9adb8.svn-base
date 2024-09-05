@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Personas Naturales --> 
+    <p:panel id="datosProveedor"  header="#{propiedadesEtiquetaBL.Proveedor}" 
+             style="height: 520px; width: 800px">
+        <p:focus context="datosProveedor"/>   
+        <!-- PanelGrid para Proveedores --> 
+        <h:panelGrid id="datosProveedorGrid" columns="1" columnClasses="label, value, validator" styleClass="grid">
+            <h:panelGrid columns="4" style="border: transparent" columnClasses="label, value, validator" styleClass="grid">
+
+                 
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoContribuyente}" 
+                               for="codigoTipoContribuyente"  styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="codigoTipoContribuyente" 
+                                 value="#{proveedorBean.tipoContribuyente}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.TipoContribuyente} #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{bdhBL.SelectOneMessage}"/>
+                    <f:selectItems value="#{proveedorBean.itemsTipoContribuyente}"
+                                   var="tipoContribuyenteItems"
+                                   itemValue="#{tipoContribuyenteItems}"
+                                   itemLabel="#{tipoContribuyenteItems.nombre}"
+                                   />
+                    <f:converter binding="#{tipoContribuyenteConverter}"/>
+                </p:selectOneMenu> 
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.RetieneIVA}" 
+                               for="retieneIVA"   styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="retieneIVA"
+                                 value="#{proveedorBean.proveedor.retieneIva}"
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.RetieneIVA} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />   
+                    <p:ajax event="change" listener="#{proveedorBean.cambioRespuestaRise()}" update="tieneRISE"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TieneRise}"
+                               for="tieneRISE"  styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="tieneRISE"
+                                 value="#{proveedorBean.proveedor.tieneRise}"
+                                 required="true" 
+                                 disabled="#{proveedorBean.desHabilitaRise}"
+                                 requiredMessage="#{propiedadesEtiquetaBL.TieneRise} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                </p:selectOneMenu>
+
+                
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.LlevaContabilidad}"
+                               for="llevaContabilidad"  styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="llevaContabilidad"
+                                 value="#{proveedorBean.proveedor.llevaContabilidad}"
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.LlevaContabilidad} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                </p:selectOneMenu>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.AgenteRetencion}"
+                               for="agenteRetencion"  styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="agenteRetencion"
+                                 value="#{proveedorBean.proveedor.agenteRetencion}"                                 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.AgenteRetencion} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                </p:selectOneMenu>
+ 
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}"
+                               for="eliminadoIfip"  styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="eliminadoIfip"
+                                 value="#{proveedorBean.proveedor.eliminado}"
+                                 required="true" 
+                                 disabled="#{proveedorBean.estadoIngresoPro}"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                </p:selectOneMenu> 
+
+            </h:panelGrid>
+        </h:panelGrid>
+    </p:panel>
+</ui:composition>

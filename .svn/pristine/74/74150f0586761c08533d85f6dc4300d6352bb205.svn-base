@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SituacionEconomicaDlg" 
+                  widgetVar="SituacionEconomicaDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  closeOnEscape="true" 
+                  onShow="situacionDialogWizer.loadStep(situacionDialogWizer.cfg.steps[0], true)">
+       <p:ajax event="close" listener="#{socioBean.oncloseDiag()}" />
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.SituacionEconomica} #{propiedadesEtiquetaBL.Y} #{propiedadesEtiquetaBL.Trabajos}"
+                               styleClass="encabezadosDialog"/>
+                <h:panelGrid id="cabeceraGridDos"  style="font-size: 10px;" columns="2">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Socio}:" styleClass="etiqueta"/>
+                    <h:outputLabel value="#{situacionEconomicaBean.socioSel.codigoPersona.nombreCompleto}"/>
+                </h:panelGrid>
+            </f:facet>
+
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+
+            <h:form id="SituacionEconomicaFor">
+
+                <p:wizard id="situacionDialogWzr"  
+                          widgetVar="situacionDialogWizer" 
+                          flowListener="#{situacionEconomicaBean.sigueProceso}"
+                          style="font-size: 10px; margin-top: 0px;" 
+                          showStepStatus="true"   
+                          showNavBar="true"
+                          backLabel="#{propiedadesEtiquetaBL.Atras}"
+                          nextLabel="#{propiedadesEtiquetaBL.Siguinte}"
+                          >
+                    <p:tab id="trabajoActividadEconomicaTab" 
+                           title="#{propiedadesEtiquetaBL.Trabajos}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="personaTraActEco.xhtml"/>
+                    </p:tab>
+
+                    <p:tab  id="flujoCajaTab" 
+                            title="#{propiedadesEtiquetaBL.FlujoDeCaja}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="flujoCaja.xhtml"/> 
+                    </p:tab>  
+
+                    <p:tab id="situacionPatrimonialTab" 
+                           title="#{propiedadesEtiquetaBL.SituacionPatrimonial}" 
+                           titleStyle="font-size: 10px">                         
+                        <ui:include src="situacionPatrimonial.xhtml"/> 
+                    </p:tab> 
+
+
+                    <p:tab id="confirmacionTab" 
+                           title="#{propiedadesEtiquetaBL.Confirmacion}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="confirmacion.xhtml"/> 
+                    </p:tab> 
+
+                </p:wizard>  
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

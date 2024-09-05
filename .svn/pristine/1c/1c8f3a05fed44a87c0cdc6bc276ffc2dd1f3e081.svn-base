@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- LOS COMENTARIOS QUE TIENEN EN SU PARTE SUPERIOR LAS LINEAS ************ Y SEGUIDO
+     SU DESCRIPCION NO DEBEN SER BORRADAS, LOS QUE SE DEBEN ELIMINAR SON LAS EXPLICACIONES
+     DE CADA CONTENIDO -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="barraForm">
+        <ui:include src="criterioConsulta.xhtml"/>  
+
+        <!-- ̣̣̣̣**************************************************************************
+          BARRA DE HERRAMIENTAS                                                     -->
+        <!-- EXPLICACION: AQUI SE COLOCAN LOS BOTONES ESTANDAR PARA EL MANEJO DE LA APLICACION,
+             ESTA INCLUYEN LOS BOTONES NECESARIOS PARA LOS MANTENIMIENTOS, ES DECIR QUE
+             EN LAS VENTANAS DE MANTENIMIENTOS NO SE COLOCARAN MAS BOTONES EN LA BARRA,
+             NI EN LAS VENTANAS DE CREACION Y EDICION DE LOS QUE ESTAN YA DEFINIDAS.
+             UNICAMENTE EN LAS VENTANAS DE TRANSACCIONALIDAD (DEPOSITOS, SOLICITUDES, ETC)
+             SE PODRAN COLOCAR BOTONES ADICIONALES Y CON NOMBRE PARA LA COMPRENSION DE LOS
+             USUARIOS, ASI MISMO ESTOS BOTONES SERAN DEFINIDOS POR EL LIDER DEL PROYECTO-->
+        <p:toolbar>              
+
+            <p:toolbarGroup align="left">  
+                <p:commandButton title="#{propiedadesTituloBL.EjecutarConsulta}"
+                                 icon="#{propiedadesObjetosBL.IcoEjecutarConsulta}"                                         
+                                 disabled="#{menuController.permisoOperacion.consultar}"
+                                 update=":MenuListForm:datalist,sistemaCriterio,criterioGri"
+                                 onclick="procesandoDlg.show();"
+                                 oncomplete="procesandoDlg.hide();"
+                                 action="#{menuController.obtieneMenuPorSistema()}"
+                                 /> 
+                <p:separator/>
+                <p:commandButton id="createButton"
+                                 title="#{propiedadesTituloBL.Nuevo}" 
+                                 icon="#{propiedadesObjetosBL.IcoNuevo}" 
+                                 disabled="#{menuController.permisoOperacion.nuevo}"                                         
+                                 actionListener="#{menuController.prepareCreate}" 
+                                 update=":MenuCreateForm" 
+                                 oncomplete="MenuCreateDialog.show()"/>   
+
+                <p:commandButton id="viewButton"   
+                                 icon="#{propiedadesObjetosBL.IcoEjecutarConsulta}"                                    
+                                 update=":MenuViewForm" 
+                                 oncomplete="MenuViewDialog.show()" 
+                                 disabled="#{empty menuController.selected}"/>
+
+                <p:commandButton id="editButton"
+                                 title="#{propiedadesTituloBL.Editar}" 
+                                 icon="#{propiedadesObjetosBL.IcoEditar}"  
+                                 disabled="#{empty menuController.selected and menuController.permisoOperacion.editar}"
+                                 update=":MenuEditForm" 
+                                 oncomplete="MenuEditDialog.show()" 
+                                 />  
+
+                <p:commandButton id="deleteButton"
+                                 title="#{propiedadesTituloBL.Eliminar}" 
+                                 icon="#{propiedadesObjetosBL.IcoEliminar}" 
+                                 disabled="#{menuController.permisoOperacion.eliminar}"
+                                 actionListener="#{menuController.delete}" 
+                                 update=":mensaje,:MenuListForm:datalist" 
+                                 /> 
+                <p:separator/>
+                <p:commandButton title="#{propiedadesTituloBL.Imprimir}" 
+                                 icon="#{propiedadesObjetosBL.IcoImprimir}"  
+                                 disabled="#{menuController.permisoOperacion.imprimir}">  
+                    <p:printer target=":MenuListForm:datalist" />  
+                </p:commandButton>
+                <p:separator/>
+
+                <h:commandLink title="#{propiedadesTituloBL.ExportarExcel}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="#{propiedadesObjetosBL.ImgExportarExcel}"
+                                    />  
+                    <p:dataExporter type="xls" 
+                                    target=":MenuListForm:datalist"                                           
+                                    fileName="Colocar aqui el nombre" />  
+                </h:commandLink>  
+                <p:spacer width="3px"/>
+                <h:commandLink title="#{propiedadesTituloBL.ExportarPDF}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="/#{propiedadesObjetosBL.ImgExportarPdf}" />  
+                    <p:dataExporter type="pdf" 
+                                    target=":MenuListForm:datalist" 
+                                    fileName="Colocar aqui el nombre" />  
+                </h:commandLink>  
+                <p:spacer width="3px"/>
+                <h:commandLink title="#{propiedadesTituloBL.ExportarXML}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="#{propiedadesObjetosBL.ImgExportarXml}" />  
+                    <p:dataExporter type="xml" 
+                                    target=":MenuListForm:datalist" 
+                                    fileName="Colocar aqui el nombre" />  
+                </h:commandLink>  
+                <p:separator/>
+                <h:outputLink title="#{tituloControl.ayuda}" value="#{menuController.urlAyuda}" > 
+                    <p:graphicImage value="#{propiedadesObjetosBL.ImgAyuda}" />                            
+                </h:outputLink>
+                <p:separator/>
+
+            </p:toolbarGroup>  
+        </p:toolbar>
+        <p:separator/>
+        <!-- FIN DE BARRA DE HERRAMIENTAS
+         ̣̣̣̣************************************************************************** -->                
+    </h:form>       
+</ui:composition>
+

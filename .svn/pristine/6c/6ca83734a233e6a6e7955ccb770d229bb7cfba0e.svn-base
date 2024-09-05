@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ItemVentaEditDlg" 
+                  widgetVar="ItemVentaEditDialog" 
+                  modal="true" 
+                  resizable="false"  
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Editar} #{propiedadesEtiquetaBL.ItemVenta}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="ItemVentaEditForm">
+
+                <h:panelGroup id="display" style="font-size:10px">
+                    <p:panelGrid  columns="2" 
+                                  columnClasses="column" 
+                                  rendered="#{itemVentaController.selected != null}" 
+                                  style="font-size:10px">
+
+
+                        <h:outputLabel styleClass="etiquetaRequerida" 
+                                       value="#{propiedadesEtiquetaBL.Codigo}" 
+                                       for="codigo" />
+                        <h:outputText id="codigo" value="#{itemVentaController.selected.codigo}" />
+
+                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                       value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre" />
+                        <p:inputText id="nombre" 
+                                     value="#{itemVentaController.selected.nombre}" 
+                                     title="#{propiedadesTituloBL.Nombre}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} : #{propiedadesMensajesBL.CampoRequerido}" 
+                                     size="50" 
+                                     maxlength="50"/>
+
+                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                       value="#{propiedadesEtiquetaBL.Descripcion}" 
+                                       for="descripcion" />
+                        <p:inputText id="descripcion" 
+                                     value="#{itemVentaController.selected.descripcion}" 
+                                     title="#{propiedadesTituloBL.Descripcion}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Descripcion} : #{propiedadesMensajesBL.CampoRequerido}" 
+                                     size="100" 
+                                     maxlength="100"/>
+
+                       <p:outputLabel styleClass="etiquetaRequerida" 
+                                       value="#{propiedadesEtiquetaBL.Tipo}" 
+                                       for="tipo" />
+                        <p:selectOneMenu id="tipo"                                          
+                                         value="#{itemVentaController.selected.tipo}">    
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}" /> 
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Producto}" itemValue="P" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Servicio}" itemValue="S" />  
+                        </p:selectOneMenu>
+
+                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                       value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado" />
+                        <p:selectOneMenu id="eliminado"
+                                         value="#{itemVentaController.selected.eliminado}">    
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}" /> 
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{itemVentaController.editar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     update="display,:ItemVentaListForm:datalist,:growl" 
+                                     oncomplete="handleSubmit(xhr,status,args,ItemVentaEditDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancelar}" 
+                                     icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                     onclick="ItemVentaEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

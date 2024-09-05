@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IngresoEgresoMonedaViewDlg" widgetVar="IngresoEgresoMonedaViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewIngresoEgresoMonedaTitle}" closeOnEscape="true">
+
+            <h:form id="IngresoEgresoMonedaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ingresoEgresoMonedaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoMonedaLabel_ingresoEgresoMonedaPK_codigoMoneda}"/>
+                        <h:outputText value="#{ingresoEgresoMonedaController.selected.ingresoEgresoMonedaPK.codigoMoneda}" title="#{myBundle.ViewIngresoEgresoMonedaTitle_ingresoEgresoMonedaPK_codigoMoneda}"/>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoMonedaLabel_mostrar}"/>
+                        <h:outputText value="#{ingresoEgresoMonedaController.selected.mostrar}" title="#{myBundle.ViewIngresoEgresoMonedaTitle_mostrar}"/>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoMonedaLabel_registradoPor}"/>
+                        <h:outputText value="#{ingresoEgresoMonedaController.selected.registradoPor}" title="#{myBundle.ViewIngresoEgresoMonedaTitle_registradoPor}"/>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoMonedaLabel_fechaRegistro}"/>
+                        <h:outputText value="#{ingresoEgresoMonedaController.selected.fechaRegistro}" title="#{myBundle.ViewIngresoEgresoMonedaTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoMonedaLabel_eliminado}"/>
+                        <h:outputText value="#{ingresoEgresoMonedaController.selected.eliminado}" title="#{myBundle.ViewIngresoEgresoMonedaTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoMonedaLabel_ingresoEgreso}"/>
+                        <h:outputText value="#{ingresoEgresoMonedaController.selected.ingresoEgreso.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="IngresoEgresoMonedaViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Documentos de Proveedores--> 
+    <p:panel id="datosProveedorDocumentos"  header="#{propiedadesEtiquetaBL.PersonaNatural}" 
+             style="height: 520px; width: 800px">
+        <p:focus context="datosProveedorDocumentos"/>   
+        <!-- PanelGrid para Documentos de Proveedores-->         
+        <h:panelGrid id="proveedorDocumentosGri" columns="1" columnClasses="label, value, validator" styleClass="grid">
+            <!--DATOS DE PROVEEDOR DOCUMENTOS-->         
+            <h:panelGrid columns="4" style="border: transparent" columnClasses="label, value, validator" styleClass="grid"> 
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaEmision}"
+                               for="fechaEmision"  styleClass="etiquetaRequerida"/>
+                <p:calendar id="fechaEmision" 
+                            value="#{proveedorBean.fechaEmisionDocumento}"                            
+                            pattern="dd/MM/yyyy "
+                            locale="es"
+                            title="#{propiedadesTituloBL.FechaEmision}" 
+                            required="false"
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaEmision} #{propiedadesMensajesBL.CampoRequerido}"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaCaduca}"
+                               for="fechaCaduca"  styleClass="etiquetaRequerida"/>
+                <p:calendar id="fechaCaduca"
+                            value="#{proveedorBean.fechaCaducaDocumento}"                            
+                            pattern="dd/MM/yyyy"
+                            locale="es"
+                            title="#{propiedadesTituloBL.FechaCaduca}" 
+                            required="false" 
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaCaduca} #{propiedadesMensajesBL.CampoRequerido}"/> 
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoComprobante}" 
+                               for="tipoComprobante"  styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="tipoComprobante" 
+                                 value="#{proveedorBean.tipoComprobanteCompra}" 
+                                 required="false" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.TipoComprobante} #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{bdhBL.SelectOneMessage}"/>
+                    <f:selectItems value="#{proveedorBean.itemsTipoComprobanteCompra}"
+                                   var="tipoComprobanteItems"
+                                   itemValue="#{tipoComprobanteItems}"
+                                   itemLabel="#{tipoComprobanteItems.nombre}"
+                                   />
+                    <f:converter binding="#{tipoComprobanteCompraConverter}"/>
+                </p:selectOneMenu> 
+
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroAutorizacion}"
+                               for="numeroAutorizacion"  styleClass="etiquetaRequerida"/>
+                <p:inputText id="numeroAutorizacion"
+                             value="#{proveedorBean.numeroAutorizacionDocumento}"
+                             title="#{propiedadesTituloBL.NumeroAutorizacion}" 
+                             required="false"
+                             requiredMessage="#{propiedadesEtiquetaBL.NumeroAutorizacion} #{propiedadesMensajesBL.CampoRequerido}"/>
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.DigitosComprobante}"
+                               for="digitosComprobantePro"  styleClass="etiquetaRequerida"/>
+                <p:inputText id="digitosComprobantePro"
+                             value="#{proveedorBean.digitosComproProv}"
+                             title="#{propiedadesTituloBL.DigitosComprobante}" 
+                             required="false"
+                             requiredMessage="#{propiedadesEtiquetaBL.DigitosComprobante} #{propiedadesMensajesBL.CampoRequerido}"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Serie}"
+                               for="SeriePro"  styleClass="etiquetaRequerida"/>
+                <p:inputText id="SeriePro"
+                             value="#{proveedorBean.serieDocumentosProv}"
+                             title="#{propiedadesTituloBL.Serie}" 
+                             required="false"
+                             requiredMessage="#{propiedadesEtiquetaBL.Serie} #{propiedadesMensajesBL.CampoRequerido}">
+
+                    <p:ajax event="blur"
+                            listener="#{proveedorBean.validaNumeroSerieAuto()}"
+                            > 
+                    </p:ajax>
+                </p:inputText>   
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.InicioSerie}"
+                               for="inicioSeriePro"  styleClass="etiquetaRequerida"/>
+                <p:inputText id="inicioSeriePro"
+                             value="#{proveedorBean.iniSerieDocumentosProv}"
+                             title="#{propiedadesTituloBL.InicioSerie}" 
+                             required="false"
+                             requiredMessage="#{propiedadesEtiquetaBL.InicioSerie} #{propiedadesMensajesBL.CampoRequerido}"/>
+
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FinSerie}"
+                               for="finSeriePro"  styleClass="etiquetaRequerida"/>
+                <p:inputText id="finSeriePro"
+                             value="#{proveedorBean.finSerieDocumentosProv}"
+                             title="#{propiedadesTituloBL.FinSerie}" 
+                             required="false"
+                             requiredMessage="#{propiedadesEtiquetaBL.FinSerie} #{propiedadesMensajesBL.CampoRequerido}"/>
+
+
+            </h:panelGrid>
+            <p:commandButton id="agregaDocumentoBot" 
+                             value="#{propiedadesEtiquetaBL.Agregar}"
+                             disabled="false"
+                             update="agregaDocumentoBot,documentosProveedorTbl, 
+                             fechaEmision, fechaCaduca, numeroAutorizacion, 
+                             digitosComprobantePro,
+                             inicioSeriePro, finSeriePro, SeriePro"
+                             action="#{proveedorBean.agregaDocumento()}"
+                             />
+        </h:panelGrid>
+
+        <h:panelGrid columns="1">
+            <h:panelGrid id="detallesProveedorTabla" columns="1">
+
+                <p:panel id="panelCabeceraDatosProveedor">
+
+                    <p:contextMenu for="documentosProveedorTbl">     
+                        <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                                    icon="ui-icon-trash" 
+                                    action="#{proveedorBean.eliminaDetalleDocsProveedor()}" 
+                                    update="documentosProveedorTbl"/>            
+                    </p:contextMenu>  
+
+
+                    <h:panelGrid columns="1" style="font-size: 10px;">    
+
+                        <p:dataTable id="documentosProveedorTbl"
+                                     value="#{proveedorBean.itemsDocumentosProveedor}"
+                                     var="itemDocumentoProveedorI"
+                                     rowKey="#{itemDocumentoProveedorI.documentosProveedorPK}"
+                                     paginator="true"
+                                     rows="5"
+                                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                                     editable="true"
+                                     editMode="cell"
+                                     selectionMode="single" 
+                                     scrollable="true"
+                                     liveScroll="true"
+                                     scrollHeight="80"
+                                     selection="#{proveedorBean.documentosProveedorSel}"                     
+                                     widgetVar="documentosProveedorTabla">
+
+                            <p:column sortBy="#{itemDocumentoProveedorI.tipoComprobanteCompra.nombre}" width="40" rendered="true">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.TipoComprobante}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDocumentoProveedorI.tipoComprobanteCompra.nombre}"/>
+                            </p:column>
+
+                            <p:column sortBy="#{itemDocumentoProveedorI.fechaIngreso}" width="20" rendered="true">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.FechaIngreso}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDocumentoProveedorI.fechaIngreso}">
+
+                                    <f:convertDateTime type="date" pattern="dd/MM/yy"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column sortBy="#{itemDocumentoProveedorI.fechaCaduca}" width="20" rendered="true">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.FechaCaduca}"/>
+                                </f:facet>
+
+                                <h:outputText value="#{itemDocumentoProveedorI.fechaCaduca}">
+
+                                    <f:convertDateTime type="date" pattern="dd/MM/yy"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column sortBy="#{itemDocumentoProveedorI.registradoPor}" width="30" rendered="true">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDocumentoProveedorI.registradoPor}"/>
+                            </p:column>
+
+                            <p:column sortBy="#{itemDocumentoProveedorI.inicioSerie}" width="20" rendered="true">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.InicioSerie}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDocumentoProveedorI.inicioSerie}"/>
+                            </p:column>
+
+
+
+                            <p:column sortBy="#{itemDocumentoProveedorI.finSerie}" width="20" rendered="true">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.FinSerie}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDocumentoProveedorI.finSerie}"/>
+                            </p:column>
+
+
+
+                            <p:column sortBy="#{itemDocumentoProveedorI.documentosProveedorPK.serieDocumentos}" width="20" rendered="true">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Serie}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDocumentoProveedorI.documentosProveedorPK.serieDocumentos}"/>
+                            </p:column>
+
+
+                        </p:dataTable>
+
+                    </h:panelGrid>
+                </p:panel>
+            </h:panelGrid>
+
+        </h:panelGrid>
+    </p:panel>
+</ui:composition>

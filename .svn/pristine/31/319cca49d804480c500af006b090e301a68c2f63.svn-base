@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioEfeProCheCreateDlg" 
+                  widgetVar="UsuarioEfeProCheCreateDialog" 
+                  modal="true" resizable="false" 
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.UsuarioEfeProChe}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="UsuarioEfeProCheCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Usuario}" 
+                                       for="usuario" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="usuario" 
+                                         value="#{usuarioEfeProCheController.selected.usuario}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Usuario} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{usuarioEfeProCheController.itemsUsuario}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"
+                                           itemLabel="#{usuarioItem.username.toString()} - #{usuarioItem.codigoPersona.nombreCompleto.toString()}"
+                                           />                                  
+                            <f:converter binding="#{usuarioConverter}"/>                             
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Agencia}" 
+                                       for="codigoIfipAgencia" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoIfipAgencia" 
+                                         value="#{usuarioEfeProCheController.selected.ifipAgencia}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Agencia} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{usuarioEfeProCheController.itemsIfipAgencia}"
+                                           var="agenciaItem"
+                                           itemValue="#{agenciaItem}"
+                                           itemLabel="#{agenciaItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{ifipAgenciaConverter}"/>
+                        </p:selectOneMenu>                                     
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.HabilitadoPor}" 
+                                       for="asignadoPor"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="asignadoPor" 
+                                         value="#{usuarioEfeProCheController.selected.habilitadoPor}"                                  
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.HabilitadoPor} - #{propiedadesMensajesBL.CampoRequerido}">                                                    
+                            <f:selectItem  itemValue="#{usuarioController.usuario}"
+                                           itemLabel="#{usuarioController.usuario.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>                    
+                        </p:selectOneMenu>     
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaHabilitacion}" 
+                                       for="fechaHabilitacion" styleClass="etiquetaRequerida"/>
+                        <p:calendar id="fechaHabilitacion" 
+                                    pattern="MM/dd/yyyy HH:mm:ss"
+                                    locale="es"
+                                    value="#{usuarioEfeProCheController.selected.fechaHabilitacion}"
+                                    title="#{propiedadesTituloBL.FechaHabilitacion}" 
+                                    required="true" 
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaHabilitacion} - #{propiedadesMensajesBL.CampoRequerido}" 
+                                    showOn="button">                   
+                        </p:calendar>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{usuarioEfeProCheController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="NO" itemValue="N" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />                                  
+                        </p:selectOneMenu>       
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{usuarioEfeProCheController.creaUsuarioEfeProChe}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}" 
+                                             update="display,:UsuarioEfeProCheListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,UsuarioEfeProCheCreateDialog);"/>
+                        </f:facet>
+
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

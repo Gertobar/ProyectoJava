@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estadoResultadoslExcel" pageWidth="1000" pageHeight="842" columnWidth="1000" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.1289478601075555"/>
+	<property name="ireport.x" value="523"/>
+	<property name="ireport.y" value="0"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 8">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 8_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 8_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 9">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 9_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 9_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 10">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 11_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 11_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 11_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<subDataset name="balanceGeneral" uuid="7dbcb560-d1d5-4f04-b3d4-457627d02204">
+		<parameter name="codigoIfipD" class="java.lang.Long"/>
+		<parameter name="periodoFiscalD" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="mesInicioD" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="mesFinalD" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="codigoEstadoD" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="mostrarEnBalanceD" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[WITH 
+  bal AS (SELECT cuenta_contable, codigo_tipo_plan, 
+                 CASE WHEN SUBSTR(cuenta_contable,1,1) IN ( '2','3','5') THEN total*-1
+                 ELSE total END total
+          FROM   (
+          SELECT    cod.cuenta_contable, 
+                    cod.codigo_tipo_plan,
+                    /*NVL(SUM(DECODE(cod.tipo,'D',cod.valor,0)),0)
+                       - NVL(SUM(DECODE(cod.tipo,'C',cod.valor,0)),0)*/
+                    NVL(SUM(case when cod.tipo = 'D' THEN cod.valor ELSE cod.valor*-1 END),0)  total
+          FROM      mks_contables.comprobante              com,
+                    mks_contables.comprobante_detalle      cod,
+                    mks_contables.plan_de_cuenta_ifip      pci
+          WHERE     TRUNC(com.fecha)                       >= $P{mesInicioD}
+          AND       TRUNC(com.fecha)                       <= $P{mesFinalD}
+          AND       com.codigo_periodo                     = $P{periodoFiscalD}
+          AND       com.codigo_estado                      = $P{codigoEstadoD}
+          AND       cod.codigo_ifip                        = $P{codigoIfipD}
+          AND       com.codigo                             = cod.codigo_comprobante
+          AND       pci.cuenta_contable                    = cod.cuenta_contable
+          AND       pci.codigo_tipo_plan                   = cod.codigo_tipo_plan
+          AND       pci.codigo_ifip                        = cod.codigo_ifip
+          GROUP BY  cod.cuenta_contable, 
+                    cod.codigo_tipo_plan)
+                    )
+/*SELECT cuenta, nombre,  
+       CASE WHEN SUBSTR(cuenta,1,1) IN ( '2','3','5') THEN s5*-1
+         ELSE s5 END s5,
+       CASE WHEN SUBSTR(cuenta,1,1) IN ( '2','3','5') THEN s4*-1
+         ELSE s4 END s4,
+       CASE WHEN SUBSTR(cuenta,1,1) IN ( '2','3','5') THEN s3*-1
+         ELSE s3 END s3,
+       CASE WHEN SUBSTR(cuenta,1,1) IN ( '2','3','5') THEN s2*-1
+         ELSE s2 END s2,
+       CASE WHEN SUBSTR(cuenta,1,1) IN ( '2','3','5') THEN total*-1
+         ELSE total END total
+FROM (*/SELECT * FROM (       
+        SELECT pdc.cuenta_contable cuenta, INITCAP(pdc.nombre) nombre ,pdc.nivel,
+            (SELECT SUM(NVL((SELECT total 
+                                       FROM   bal
+                                       WHERE  bal.cuenta_contable    = pdp.cuenta_contable
+                                       AND    bal.codigo_tipo_plan   = pdp.codigo_tipo_plan),0))   
+                      FROM   mks_contables.plan_de_cuenta              pdp                                         
+            
+            START WITH pdp.cuenta_contable LIKE pdc.cuenta_contable||'%'
+                                   AND   pdp.codigo_tipo_plan = pdc.codigo_tipo_plan
+                             CONNECT BY PRIOR pdp.cuenta_contable = pdc.cuenta_padre
+                                   AND PRIOR   pdp.codigo_tipo_plan = pdc.codigo_tipo_plan 
+                                   ) TOTAL
+
+        FROM    mks_contables.plan_de_cuenta                    pdc,
+                mks_contables.plan_de_cuenta_ifip               pci,
+                mks_contables.grupo_cuenta_contable             gcc
+        WHERE   gcc.mostrar_en_bg                               = $P{mostrarEnBalanceD}
+        AND     pci.cuenta_contable                             = pdc.cuenta_contable
+        AND     pci.codigo_tipo_plan                            = pdc.codigo_tipo_plan
+        AND     pci.codigo_ifip                                 = $P{codigoIfipD}
+        AND     gcc.codigo                                      = pdc.codigo_grupo
+        START WITH pdc.cuenta_padre IS NULL
+        CONNECT BY PRIOR pdc.cuenta_contable=pdc.cuenta_padre)
+        PIVOT (SUM(total) for nivel IN (5 as s5, 4 as s4, 3 as s3, 2 as s2, 1 as total))
+        ORDER BY cuenta
+--)]]>
+		</queryString>
+		<field name="CUENTA" class="java.lang.String"/>
+		<field name="NOMBRE" class="java.lang.String"/>
+		<field name="S5" class="java.math.BigDecimal"/>
+		<field name="S4" class="java.math.BigDecimal"/>
+		<field name="S3" class="java.math.BigDecimal"/>
+		<field name="S2" class="java.math.BigDecimal"/>
+		<field name="TOTAL" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="totales" uuid="a69660bd-7d38-404c-ac1e-d4c90b6868f0">
+		<parameter name="codigoIfipD" class="java.lang.Long"/>
+		<parameter name="periodoFiscalD" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="mesInicioD" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="mesFinalD" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="codigoEstadoD" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="mostrarEnBalanceD" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="codigoTipoPlanD" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[SELECT codigo_ifip,
+               NVL(activos,0) activos,
+               NVL(pasivos,0) pasivos,
+               NVL(patrimonio,0) patrimonio,
+               NVL(ingresos,0) ingresos,
+               NVL(gastos,0) gastos,
+               NVL(contingente,0) contingente,
+               NVL(cuentas_orden,0) cuentas_orden,
+                NVL(ingresos,0) -
+               NVL(gastos,0) resultado_operativo,
+               NVL(pasivos,0) +
+               NVL(patrimonio,0) + ( NVL(ingresos,0) -
+               NVL(gastos,0)) total
+         FROM  (SELECT codigo_grupo,
+                       codigo_ifip,
+                                 CASE WHEN codigo_grupo IN ( 2,3,5) THEN total*-1 ELSE total END total
+                FROM   (
+                SELECT    pla.codigo_grupo,
+                          pci.codigo_ifip,
+                          NVL(SUM(case when cod.tipo = 'D' THEN cod.valor ELSE cod.valor*-1 END),0)  total
+                FROM      mks_contables.comprobante              com,
+                          mks_contables.comprobante_detalle      cod,
+                          mks_contables.plan_de_cuenta_ifip      pci,
+                          mks_contables.plan_de_cuenta           pla
+                WHERE     TRUNC(com.fecha)                       >= TRUNC($P{mesInicioD})
+                AND       TRUNC(com.fecha)                       <= TRUNC($P{mesFinalD})
+                AND       com.codigo_periodo                     = $P{periodoFiscalD}
+                AND       com.codigo_estado                      = $P{codigoEstadoD}
+                AND       cod.codigo_ifip                        = $P{codigoIfipD}
+                AND       pci.eliminado                          = 'N'
+                AND       com.codigo                             = cod.codigo_comprobante
+                AND       pci.cuenta_contable                    = cod.cuenta_contable
+                AND       pci.codigo_tipo_plan                   = cod.codigo_tipo_plan
+                AND       pci.codigo_ifip                        = cod.codigo_ifip
+                AND       pla.cuenta_contable                    = pci.cuenta_contable
+                AND       pla.codigo_tipo_plan                   = pci.codigo_tipo_plan
+                GROUP BY  pla.codigo_grupo, pci.codigo_ifip)
+                )
+        PIVOT (SUM(total) for codigo_grupo IN (1 as activos, 2 as pasivos, 3 as patrimonio, 5 as ingresos, 4 as gastos, 6 as contingente, 7 as cuentas_orden))]]>
+		</queryString>
+		<field name="CODIGO_IFIP" class="java.math.BigDecimal"/>
+		<field name="ACTIVOS" class="java.math.BigDecimal"/>
+		<field name="PASIVOS" class="java.math.BigDecimal"/>
+		<field name="PATRIMONIO" class="java.math.BigDecimal"/>
+		<field name="INGRESOS" class="java.math.BigDecimal"/>
+		<field name="GASTOS" class="java.math.BigDecimal"/>
+		<field name="CONTINGENTE" class="java.math.BigDecimal"/>
+		<field name="CUENTAS_ORDEN" class="java.math.BigDecimal"/>
+		<field name="RESULTADO_OPERATIVO" class="java.math.BigDecimal"/>
+		<field name="TOTAL" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoIfip" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mesFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  tti.nombre||' '||ifi.nombre           "IFIP",
+        ifi.path_imagen                       "IMAGEN"
+
+FROM    mks_ifips.ifip                         ifi,
+        mks_ifips.tipo_ifip                    tti        
+WHERE   ifi.codigo                             = $P{codigoIfip}
+AND     tti.codigo                             = ifi.codigo_tipo_ifip]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="IMAGEN" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="96">
+			<image>
+				<reportElement x="1" y="2" width="57" height="25" uuid="c8439c25-2ded-48d5-9ae5-be9008fb0aac"/>
+				<imageExpression><![CDATA[$F{IMAGEN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="542" y="55" width="209" height="20" uuid="ec556acd-bb2d-474b-968e-9b9ba541272c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO DE RESULTADOS AL: ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement x="752" y="75" width="208" height="20" uuid="925ac9af-c9c4-4e5c-862c-1fb369ff26a7"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="752" y="55" width="208" height="20" uuid="1bc7e1f5-d22a-4db5-8361-82f1e14f5abe"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{mesFin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="542" y="75" width="210" height="20" uuid="ae124f88-7ef4-4381-b44d-4e6bb3d97a32"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA IMPRESION: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="27" width="960" height="28" uuid="3c9f9942-e8b2-4036-8308-a841d3f9e52e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>

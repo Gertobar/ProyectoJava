@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="BovedaDineroListForm">
+
+        <p:panel header="#{myBundle.ListBovedaDineroTitle}">
+
+            <p:dataTable id="datalist" value="#{bovedaDineroController.items}" var="item"
+                         selectionMode="single" selection="#{bovedaDineroController.selected}"
+                         rowKey="#{item.bovedaDineroPK}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.bovedaDineroPK.codigoMoneda}" filterBy="#{item.bovedaDineroPK.codigoMoneda}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBovedaDineroTitle_bovedaDineroPK_codigoMoneda}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.bovedaDineroPK.codigoMoneda}"/>
+                </p:column>
+                <p:column sortBy="#{item.valorEfectivo}" filterBy="#{item.valorEfectivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBovedaDineroTitle_valorEfectivo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorEfectivo}"/>
+                </p:column>
+                <p:column sortBy="#{item.totalDinero}" filterBy="#{item.totalDinero}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBovedaDineroTitle_totalDinero}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.totalDinero}"/>
+                </p:column>
+                <p:column sortBy="#{item.boveda.descripcion}" filterBy="#{item.boveda.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBovedaDineroTitle_boveda}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.boveda.descripcion}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{bovedaDineroController.prepareCreate}" update=":BovedaDineroCreateForm" oncomplete="BovedaDineroCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":BovedaDineroViewForm" oncomplete="BovedaDineroViewDialog.show()" disabled="#{empty bovedaDineroController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":BovedaDineroEditForm" oncomplete="BovedaDineroEditDialog.show()" disabled="#{empty bovedaDineroController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{bovedaDineroController.delete}" update=":growl,datalist" disabled="#{empty bovedaDineroController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CuentaCreateDlg" 
+                  widgetVar="CuentaCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true"
+                  style="font-size: 10px; height: 500px; width: 700px">
+            <f:facet name="header">
+                <h:outputLabel id="tituloPanLab"
+                               value="#{cuentaController.tituloPanel}"
+                               styleClass="encabezadosDialog"/>
+
+            </f:facet>
+            <h:form id="CuentaCreateForm">
+                <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+                <h:panelGroup style="font-size: 10px; height: 500px; width: 700px">
+                    <h:panelGrid id="cabeceraPanCreLab" columns="2" style="font-size: 10px">
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Socio}"
+                                           styleClass="encabezadosDialog"/>
+                        </f:facet>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"
+                                      styleClass="etiqueta"/>
+                        <h:outputText value="#{cuentaController.socioSel.codigoPersona.identificacion}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"
+                                      styleClass="etiqueta"/>
+                        <h:outputText value="#{cuentaController.socioSel.codigoPersona.nombreCompleto}"/>
+
+                    </h:panelGrid>
+                    <p:separator/>      
+                    <h:panelGrid columns="1">
+                        <p:outputLabel styleClass="etiqueta" value="#{propiedadesMensajesBL.DigiteUltimosNumerosLibreta}"/>
+                    </h:panelGrid>
+                    <p:panelGrid id="edicionCuentaGri"
+                                 columns="3" 
+                                 columnClasses="label, value, validator" 
+                                 styleClass="grid" 
+                                 style="font-size: 10px;">  
+                        <p:focus context="edicionCuentaGri"/>                          
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="moneda" 
+                                         value="#{cuentaController.moneda}" 
+                                         required="true"
+                                         disabled="#{cuentaController.deshabilidaMoneda}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{cuentaController.itemsMoneda}"
+                                           var="codigoMonedaItem"
+                                           itemValue="#{codigoMonedaItem}"
+                                           itemLabel="#{codigoMonedaItem.nombre}"
+                                           />
+                            <p:ajax update="producto"  
+                                    listener="#{cuentaController.cambiaMoneda()}" /> 
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>                      
+                        <h:message for="moneda" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                       for="producto"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="producto" 
+                                         value="#{cuentaController.productoIfip}" 
+                                         required="true" 
+                                         disabled="#{cuentaController.deshabilidaProducto}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{cuentaController.itemsProductoIfip}"
+                                           var="codigoProductoIfipItem"
+                                           itemValue="#{codigoProductoIfipItem}"
+                                           itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                           />
+                            <p:ajax update="guardarBot,etiNumeroLibreta,etiNumeroLibretaDos"  
+                                    listener="#{cuentaController.cambiaProducto()}" /> 
+                            <f:converter binding="#{productoIfipConverter}"/>
+                        </p:selectOneMenu>  
+                        <h:message for="producto" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoFirma}" 
+                                       for="firma"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="firma" 
+                                         value="#{cuentaController.selected.codigoTipoFirma}" 
+                                         required="true" 
+                                         disabled="#{cuentaController.deshabilidaTipoFirmante}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.TipoFirma} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{cuentaController.itemsTipoFirma}"
+                                           var="codigoTipoFirmaItem"
+                                           itemValue="#{codigoTipoFirmaItem}"
+                                           itemLabel="#{codigoTipoFirmaItem.nombre}"
+                                           />
+                            <p:ajax update="guardarBot,firmantePan"  
+                                    listener="#{cuentaController.cambiaTipoFirmante()}" /> 
+
+                            <f:converter binding="#{tipoFirmaConverter}"/>
+                        </p:selectOneMenu>  
+                        <h:message for="firma" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroCuenta}" 
+                                       for="numeroCuenta"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:outputLabel id="numeroCuenta"
+                                     value="#{cuentaController.selected.numero}"
+                                    />
+                        <h:message for="numeroCuenta" styleClass="invalido" />
+
+                         <p:outputLabel id="etiNumeroLibretaDos"
+                                        value="#{propiedadesEtiquetaBL.NumeroLibreta} #{propiedadesEtiquetaBL.Actual} #{cuentaController.productoIfip.siglasLibreta}" 
+                                       for="libretaActual"
+                                       styleClass="etiqueta"/>
+                         <p:outputLabel id="libretaActual"
+                                        value="#{cuentaController.selected.numeroLibreta}"/>
+                        <h:message for="libretaActual" styleClass="invalido" />
+                        
+                        <p:outputLabel id="etiNumeroLibreta"
+                                       value="#{propiedadesEtiquetaBL.NumeroLibreta} #{cuentaController.productoIfip.siglasLibreta}" 
+                                       for="numeroLibreta"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="numeroLibreta"
+                                     value="#{cuentaController.nuevoNumeroLibreta}"
+                                     size="30"
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.NumeroLibreta} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <p:ajax event="blur" 
+                                    update="guardarBot,:mensaje,numeroLibreta" 
+                                    listener="#{cuentaController.buscaNumeroLibreta()}" /> 
+                        </p:inputText>
+                        <h:message for="numeroLibreta" styleClass="invalido" />
+                    </p:panelGrid>
+
+
+                    <p:panel id="firmantePan" visible="#{cuentaController.verPanelFirmantes}">                    
+                        <h:panelGrid columns="1" style="font-size: 10px;">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Firmante}"/>
+                            </f:facet>
+                            <h:panelGrid columns="4">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}"/>                
+                                <p:inputText id="identificacionFirmante" 
+                                             value="#{cuentaController.identificacionFirmante}">                
+                                    <p:ajax event="blur" 
+                                            update="nombreFirmante,registraFirmanteBot,agregarFirmanteBot" 
+                                            listener="#{cuentaController.buscaFirmante()}" /> 
+                                </p:inputText>                
+
+                                <p:inputText id="nombreFirmante" 
+                                             readonly="#{cuentaController.deshabilidaNombreFirmante}" 
+                                             size="40" 
+                                             onblur="value = value.toUpperCase()"
+                                             value="#{cuentaController.nombreFirmante}"/> 
+
+                                <p:commandButton id="registraFirmanteBot"
+                                                 value="#{propiedadesEtiquetaBL.Registrar}"
+                                                 disabled="#{cuentaController.deshabilitaRegistrarFirmante}"
+                                                 update="nombreFirmante,identificacionFirmante,agregarFirmanteBot,registraFirmanteBot"
+                                                 action="#{cuentaController.registraFirmante()}"/>        
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="4">
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoRelacion}" 
+                                               for="tipoRelacion"
+                                               styleClass="etiquetaRequerida"/>
+                                <p:selectOneMenu id="tipoRelacion" 
+                                                 value="#{cuentaController.tipoRelacion}" 
+                                                 disabled="false"
+                                                 required="false">                        
+                                    <f:selectItems value="#{tipoRelacionController.items}"
+                                                   var="tipoRelacionItem"
+                                                   itemValue="#{tipoRelacionItem}"
+                                                   itemLabel="#{tipoRelacionItem.nombre}"
+                                                   />
+                                    <f:converter binding="#{tipoRelacionConverter}"/>
+                                </p:selectOneMenu>
+                                <h:message for="tipoRelacion" styleClass="invalido" />                              
+
+                                <p:commandButton id="agregarFirmanteBot" 
+                                                 value="#{propiedadesEtiquetaBL.Agregar}"   
+                                                 disabled="#{cuentaController.deshabilitaBotonAgregarFirmante}"
+                                                 update="firmantesTbl,identificacionFirmante,nombreFirmante,agregarFirmanteBot,tipoRelacion,guardarBot"
+                                                 action="#{cuentaController.agregaFirmante}"/>
+                            </h:panelGrid>
+
+                            <p:contextMenu for="firmantesTbl" widgetVar="cFirmantesTbl">     
+                                <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}"  
+                                            icon="ui-icon-trash" 
+                                            action="#{cuentaController.quitaFirmante()}" 
+                                            update="firmantesTbl"/>
+                            </p:contextMenu>   
+
+                            <p:dataTable id="firmantesTbl" 
+                                         value="#{cuentaController.itemsFirmanteCuenta}"
+                                         var="itemFirmante"                                                          
+                                         rowKey="#{itemFirmante.firmanteCuentaPK}"
+                                         paginator="true"
+                                         rows="3"
+                                         emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                                         editable="true"
+                                         editMode="cell"
+                                         selectionMode="single"
+                                         selection="#{cuentaController.firmanteCuentaSel}"                                     
+                                         widgetVar="firmantesTabla">
+
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.Firmantes}"/>
+                                </f:facet>
+
+                                <p:ajax event="cellEdit" 
+                                        listener="#{cuentaController.edicionCeldasFirmantes}" 
+                                        update=":CuentaCreateForm:guardarBot" />
+
+                                <p:column sortBy="#{itemFirmante.persona.identificacion}" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemFirmante.persona.identificacion}"/>
+                                </p:column>
+
+                                <p:column sortBy="#{itemFirmante.persona.nombreCompleto}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemFirmante.persona.nombreCompleto}"/>
+                                </p:column>
+
+                                <p:column style="width: 200px"> 
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.TipoRelacion}"/>
+                                    </f:facet>
+                                    <p:cellEditor>  
+                                        <f:facet name="output">#{itemFirmante.tipoRelacion.nombre} </f:facet>
+                                        <f:facet name="input" >
+                                            <p:selectOneMenu id="tipoRelacionInp" 
+                                                             value="#{itemFirmante.tipoRelacion}"
+                                                             required="true" 
+                                                             filter="true" 
+                                                             filterMatchMode="startsWith"
+                                                             requiredMessage="#{propiedadesEtiquetaBL.TipoRelacion} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                                <f:selectItems value="#{tipoRelacionController.items}"
+                                                               var="tipoRelacionInpItem"
+                                                               itemValue="#{tipoRelacionInpItem}"
+                                                               itemLabel="#{tipoRelacionInpItem.nombre}"
+                                                               />
+                                                <f:converter binding="#{tipoRelacionConverter}"/>                                 
+                                            </p:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column style="width: 50px"> 
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                                    </f:facet>
+                                    <p:cellEditor>  
+                                        <f:facet name="output"> 
+                                            <p:selectOneMenu id="eliminadoFirmanteOut" 
+                                                             value="#{itemFirmante.eliminado}"
+                                                             required="true"  
+                                                             disabled="true"  
+                                                             style="width: 50px"
+                                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                                                     
+                                            </p:selectOneMenu>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:selectOneMenu id="eliminadoFirmanteInp" 
+                                                             value="#{itemFirmante.eliminado}"
+                                                             required="true"  
+                                                             disabled="false" 
+                                                             style="width: 50px"
+                                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                                                        
+                                            </p:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                            </p:dataTable>                    
+                        </h:panelGrid>    
+                    </p:panel>
+
+                    <p:separator/>
+
+                    <h:panelGrid columns="1" style="font-size: 10px;">
+                        <p:commandButton id="guardarBot"                                    
+                                         icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                         value="#{propiedadesEtiquetaBL.Guardar}"
+                                         disabled="#{cuentaController.deshabilitaBotonGuardar}"
+                                         onclick="procesandoDlg.show();"
+                                         update=":mensaje,:barraForm" 
+                                         oncomplete="procesandoDlg.hide();"
+                                         action="#{cuentaController.guardaCuenta()}"/>
+
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

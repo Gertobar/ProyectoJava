@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition>
+        <p:dialog id="contratoDispensadorChangeDlg" 
+                  widgetVar="contratoDispensadorChangeDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  position="center center">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.CambiaEstadoContratoDispensador}" style="font-size: 10px;"/>
+            </f:facet>
+            <h:form id="contratoDispensadorChangeForm">
+                <p:panel  id="contratoPanel"
+                          style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;">                    
+                    <p:focus id="focus" 
+                             for="#{contratoDispensadorControlador.foco}" 
+                             context="contratoDispensadorChangeDlg" />
+                    <h:panelGrid columns="2" 
+                                 styleClass="grid"
+                                 style="font-size: 10px; margin-top: 0px;">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}"
+                                       styleClass="etiquetaRequerida"
+                                       for="cuentaDebito"/>
+                        <p:selectOneMenu id="cuentaDebito"
+                                         value="#{contratoDispensadorControlador.codigoCuenta}"
+                                         required="true"
+                                         disabled="true">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{contratoDispensadorControlador.listaCuentaVista}"
+                                           var="cuentaItem"
+                                           itemValue="#{cuentaItem.codigo}"
+                                           itemLabel="#{cuentaItem.numero}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Celular}"
+                                       styleClass="etiquetaRequerida"
+                                       for="celular"/>
+                        <p:inputText id="celular"
+                                     value="#{contratoDispensadorControlador.contratoDispensador.celular}"
+                                     validator="validadorSoloNumero"
+                                     disabled="true"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CorreoElectronico}" 
+                                       for="correoElectronico"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="correoElectronico"
+                                     value="#{contratoDispensadorControlador.contratoDispensador.correoElectronico}"
+                                     required="false"
+                                     validator="correoElectronicoValidador"
+                                     size="40"
+                                     onblur="value = value.toLowerCase()"
+                                     disabled="true"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.MontoMaximo}"
+                                       for="montoMaximo"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="montoMaximo"
+                                     value="#{contratoDispensadorControlador.montoMaximoDispensar}"
+                                     styleClass="campoRequeridoValor"
+                                     size="20"
+                                     disabled="true">
+                            <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                            <f:validateDoubleRange minimum="1" />
+                        </p:inputText>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.MontoMaximoMensual}"
+                                       for="montoMaximoMensual"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="montoMaximoMensual"
+                                     value="#{contratoDispensadorControlador.montoMaximoDispensarMen}"
+                                     styleClass="campoRequeridoValor"
+                                     size="20"
+                                     disabled="true">
+                            <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                            <f:validateDoubleRange minimum="1" />
+                        </p:inputText>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Estado}"
+                                       for="estadoContrato"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="estadoContrato" 
+                                         value="#{contratoDispensadorControlador.estadoSeleccionada}"
+                                         required="true">
+                            <f:selectItems value="#{contratoDispensadorControlador.estadosContrato}" 
+                                           var="item" 
+                                           itemLabel="#{item.description}" 
+                                           itemValue="#{item.value}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Motivo}"
+                                       styleClass="etiquetaRequerida"
+                                       for="motivo"/>
+                        <p:inputText id="motivo"
+                                     value="#{contratoDispensadorControlador.motivoCambioEstado}"
+                                     disabled="false"
+                                     maxlength="200"
+                                     size="60"
+                                     required="true"/>
+                    </h:panelGrid>
+                    <p:commandButton id="guardaCambiaEstadoBot"
+                                     style="font-size: 10px; margin-top: 0px;"
+                                     disabled="false"
+                                     actionListener="#{contratoDispensadorControlador.guardaCambiaEstadoContrato}"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     onclick="procesandoDlg.show();"
+                                     oncomplete="procesandoDlg.hide();"
+                                     update=":barraForm:editarBot :barraForm:vincularBot :barraForm:cambiaEstadoBot :contratoDispensadorListForm:datalist"/>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

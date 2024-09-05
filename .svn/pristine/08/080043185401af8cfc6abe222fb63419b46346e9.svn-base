@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipSistemaEditDlg" 
+                  widgetVar="IfipSistemaEditDialog" 
+                  modal="true" 
+                  resizable="false"
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.IfipSistema}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>    
+
+
+            <h:form id="IfipSistemaEditForm">
+
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{ifipSistemaController.selected != null}">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Ifip}" 
+                                       for="ifip" styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="ifip" 
+                                         value="#{ifipSistemaController.selected.ifip}" 
+                                         required="true" 
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Ifip} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{ifipController.items}"
+                                           var="ifipItem"
+                                           itemValue="#{ifipItem}"
+                                           itemLabel="#{ifipItem.nombre.toString()}"/>
+                            <f:converter binding="#{ifipConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Sistema}" 
+                                       for="sistema" styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="sistema" 
+                                         value="#{ifipSistemaController.selected.sistema}" 
+                                         required="true" 
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Sistema} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{sistemaController.items}"
+                                           var="sistemaItem"
+                                           itemValue="#{sistemaItem}"
+                                           itemLabel="#{sistemaItem.nombre.toString()}"/>
+                            <f:converter binding="#{sistemaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" 
+                                       for="asignadoPor"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="asignadoPor" 
+                                         value="#{ifipSistemaController.selected.registradoPor}"                                  
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.RegistradaPor} - #{propiedadesMensajesBL.CampoRequerido}">                                                    
+                            <f:selectItem  itemValue="#{usuarioController.usuario}"
+                                           itemLabel="#{usuarioController.usuario.username}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>                    
+                        </p:selectOneMenu>                
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}" 
+                                       for="fechaRegistro" styleClass="etiquetaRequerida"/>
+                        <p:calendar id="fechaRegistro" 
+                                    pattern="MM/dd/yyyy HH:mm:ss" 
+                                    value="#{ifipSistemaController.selected.fechaRegistro}" 
+                                    title="#{propiedadesEtiquetaBL.FechaRegistro}" 
+                                    required="true" 
+                                    disabled="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro} - #{propiedadesMensajesBL.CampoRequerido}"
+                                    showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}"
+                                       for="eliminado" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{ifipSistemaController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="NO" itemValue="N" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />  
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{ifipSistemaController.editaIfipSistema}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:IfipSistemaListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,IfipSistemaEditDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

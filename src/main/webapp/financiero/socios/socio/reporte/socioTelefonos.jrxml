@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="464" pageHeight="43" columnWidth="464" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2cf59275-9689-40ae-9c0a-4e974341a876">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoSocio" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[$P{codigoSocio}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoIfip" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[$P{codigoIfip}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  tip.nombre                            "TIPO TELEFONO",
+        opt.siglas                            "OPERADORA",
+        pet.numero                            "NUMERO"
+FROM	  mks_comunes.tipo_telefono 	     tip,
+        mks_comunes.operadora_telefono   	     opt,
+        mks_socios.socio	               soc,
+        mks_socios.persona_telefono           pet
+WHERE   soc.codigo                       = $P{codigoSocio}
+AND     soc.codigo_ifip                  = $P{codigoIfip}
+AND     pet.eliminado                    = 'N'
+AND     pet.codigo_persona               = soc.codigo_persona
+AND     tip.codigo                       = pet.codigo_tipo_telefono
+AND     opt.codigo                       = pet.codigo_operadora_telefono
+AND     rownum			<= 2
+ORDER BY tip.nombre, pet.numero]]>
+	</queryString>
+	<field name="TIPO TELEFONO" class="java.lang.String"/>
+	<field name="OPERADORA" class="java.lang.String"/>
+	<field name="NUMERO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="134" height="15" uuid="2b63fbca-5db2-42f9-9f48-4e64f5959d88"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO TELÉFONO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="0" width="329" height="15" uuid="faf125d2-8c9a-4ef6-8fd0-b799ff36f900"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TIPO TELEFONO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="14" width="134" height="15" uuid="eb7aac9d-5780-43a3-a388-352aca42002c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OPERADORA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="14" width="329" height="15" uuid="0412d96b-c024-411b-995d-20fbf965aa3b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OPERADORA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="28" width="134" height="15" uuid="b88b5ff9-a71a-4de5-8123-6d9f32925596"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="28" width="329" height="15" uuid="dea233c9-57be-4c5c-b0f1-d24b756dcf38"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUMERO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoCarteraEditDlg" widgetVar="TipoCarteraEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{myBundle.EditTipoCarteraTitle}" closeOnEscape="true">
+
+            <h:form id="TipoCarteraEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoCarteraController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditTipoCarteraLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{tipoCarteraController.selected.codigo}" />
+
+                        <p:outputLabel value="#{myBundle.EditTipoCarteraLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoCarteraController.selected.nombre}" title="#{myBundle.EditTipoCarteraTitle_nombre}" required="true" requiredMessage="#{myBundle.EditTipoCarteraRequiredMessage_nombre}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditTipoCarteraLabel_siglas}" for="siglas" />
+                        <p:inputText id="siglas" value="#{tipoCarteraController.selected.siglas}" title="#{myBundle.EditTipoCarteraTitle_siglas}" size="2" maxlength="2"/>
+
+                        <p:outputLabel value="#{myBundle.EditTipoCarteraLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{tipoCarteraController.selected.descripcion}" title="#{myBundle.EditTipoCarteraTitle_descripcion}" required="true" requiredMessage="#{myBundle.EditTipoCarteraRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditTipoCarteraLabel_diasVence}" for="diasVence" />
+                        <p:inputText id="diasVence" value="#{tipoCarteraController.selected.diasVence}" title="#{myBundle.EditTipoCarteraTitle_diasVence}" required="true" requiredMessage="#{myBundle.EditTipoCarteraRequiredMessage_diasVence}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTipoCarteraLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tipoCarteraController.selected.eliminado}" title="#{myBundle.EditTipoCarteraTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditTipoCarteraRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoCarteraController.save}" value="#{myBundle.Save}" update="display,:TipoCarteraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TipoCarteraEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TipoCarteraEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CuentaListForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{liquidacionCuentaBean.itemsCuentas}" 
+                     var="item"
+                     selection="#{liquidacionCuentaBean.itemsCuentasSeleccionado}"
+                     rowKey="#{item.codigo}"
+                     scrollHeight="160"
+                     rows="6"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                     >
+            <f:facet  name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Cuentas} #{propiedadesEtiquetaBL.Del} #{propiedadesEtiquetaBL.Socio} #{cuentaController.socioSel.codigoPersona.nombreCompleto}"
+                              styleClass="encabezadosPanelGrid"/>               
+
+            </f:facet>
+
+            <p:ajax event="toggleSelect" listener="#{liquidacionCuentaBean.calculaTotalSeleccionTodas}" update=":CuentaListForm:totalLiquidacion,:barraForm:liquidarBot,:CuentaListForm:TotalesGri,:CuentaListForm:TotalesGri" />
+            <p:ajax event="rowSelectCheckbox" listener="#{liquidacionCuentaBean.calculaTotal}" update=":CuentaListForm:totalLiquidacion,:barraForm:liquidarBot,:CuentaListForm:datalist,datalist,:CuentaListForm:TotalesGri" />
+            <p:ajax event="rowUnselectCheckbox" listener="#{liquidacionCuentaBean.calculaTotal}" update=":CuentaListForm:totalLiquidacion,:barraForm:liquidarBot,:CuentaListForm:datalist,datalist,:CuentaListForm:TotalesGri"/>
+
+            <p:column selectionMode="multiple"  style="text-align:center"  >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Liquidar}"
+                                  />    
+                </f:facet>             
+
+            </p:column>
+
+            <p:column sortBy="#{item.productoIfip.producto.moneda.nombre}" 
+                      filterBy="#{item.productoIfip.producto.moneda.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                </f:facet>
+                <h:outputText value="#{item.productoIfip.producto.moneda.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.productoIfip.producto.tipoProducto.nombre}" 
+                      filterBy="#{item.productoIfip.producto.tipoProducto.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                </f:facet>
+                <h:outputText value="#{item.productoIfip.producto.tipoProducto.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.numero}" filterBy="#{item.numero}" style="text-align: center">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.NumeroCuenta}"/>
+                </f:facet>
+                <h:outputText value="#{item.numero}"/>
+            </p:column>
+
+            <p:column style="text-align: right">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.SaldoDisponible}"/>
+                </f:facet>
+                <h:outputText value="#{item.saldoDisponible}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align: right">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.SaldoBloqueado}"/>
+                </f:facet>
+                <h:outputText value="#{item.saldoBloqueado}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align: right">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.SaldoTotal}"/>
+                </f:facet>
+                <h:outputText value="#{item.saldoTotal}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column style="text-align: right">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Interes}"/>
+                </f:facet>
+                <h:outputText value="#{item.provisionAcumulada}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoEstado.nombre}"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:separator/>
+        
+        <h:panelGrid columns="2" id="TotalesGri">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.TotalSaldoLiquidado}"
+                           styleClass="encabezadosPanelGrid"/>                                              
+            <h:outputText id="totalSaldoLiquidado" 
+                          value="#{liquidacionCuentaBean.totalSaldo}"                           
+                          styleClass="encabezadosPanelGrid">
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                       
+            </h:outputText>
+            
+            <h:outputLabel value="#{propiedadesEtiquetaBL.TotalInteresLiquidado}"
+                           styleClass="encabezadosPanelGrid"/>                                              
+            <h:outputText id="totalIntereses" 
+                          value="#{liquidacionCuentaBean.totalIntereses}"                           
+                          styleClass="encabezadosPanelGrid">
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                       
+            </h:outputText>
+            
+            <h:outputLabel value="#{propiedadesEtiquetaBL.TotalLiquidacion}"
+                           styleClass="encabezadosPanelGrid"/>                                              
+            <h:outputText id="totalLiquidacion" 
+                          value="#{liquidacionCuentaBean.totalLiquidacion}"                           
+                          styleClass="encabezadosPanelGrid">
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                       
+            </h:outputText>
+            
+            <h:outputLabel value="#{propiedadesEtiquetaBL.TotalCertificadosLiquidado}"
+                           styleClass="encabezadosPanelGrid"/>                                              
+            <h:outputText id="totalCertificados" 
+                          value="#{liquidacionCuentaBean.totalCertificados}"                           
+                          styleClass="encabezadosPanelGrid">
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                       
+            </h:outputText>
+        </h:panelGrid>
+
+    </h:form>
+
+</ui:composition>

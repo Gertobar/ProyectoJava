@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="MotivoPrecancelacionListForm">
+
+        <p:panel header="#{myBundle.ListMotivoPrecancelacionTitle}">
+
+            <p:dataTable id="datalist" value="#{motivoPrecancelacionController.items}" var="item"
+                         selectionMode="single" selection="#{motivoPrecancelacionController.selected}"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListMotivoPrecancelacionTitle_codigo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListMotivoPrecancelacionTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListMotivoPrecancelacionTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListMotivoPrecancelacionTitle_eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{motivoPrecancelacionController.prepareCreate}" update=":MotivoPrecancelacionCreateForm" oncomplete="MotivoPrecancelacionCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":MotivoPrecancelacionViewForm" oncomplete="MotivoPrecancelacionViewDialog.show()" disabled="#{empty motivoPrecancelacionController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":MotivoPrecancelacionEditForm" oncomplete="MotivoPrecancelacionEditDialog.show()" disabled="#{empty motivoPrecancelacionController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{motivoPrecancelacionController.delete}" update=":growl,datalist" disabled="#{empty motivoPrecancelacionController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

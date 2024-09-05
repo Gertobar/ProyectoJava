@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioViewDlg" widgetVar="UsuarioViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_codigo}"/>
+                        <h:outputText value="#{usuarioController.selected.codigo}" title="#{myBundle.ViewUsuarioTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_codigoIfip}"/>
+                        <h:outputText value="#{usuarioController.selected.codigoIfip}" title="#{myBundle.ViewUsuarioTitle_codigoIfip}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_codigoPersona}"/>
+                        <h:outputText value="#{usuarioController.selected.codigoPersona}" title="#{myBundle.ViewUsuarioTitle_codigoPersona}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_username}"/>
+                        <h:outputText value="#{usuarioController.selected.username}" title="#{myBundle.ViewUsuarioTitle_username}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_fechaCreacion}"/>
+                        <h:outputText value="#{usuarioController.selected.fechaCreacion}" title="#{myBundle.ViewUsuarioTitle_fechaCreacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_correoElectronico}"/>
+                        <h:outputText value="#{usuarioController.selected.correoElectronico}" title="#{myBundle.ViewUsuarioTitle_correoElectronico}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_eliminado}"/>
+                        <h:outputText value="#{usuarioController.selected.eliminado}" title="#{myBundle.ViewUsuarioTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_usuarioPuntoIfipCobroPago}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioPuntoIfipCobroPago.codigoUsuario}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_usuarioGuiaDeposito}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioGuiaDeposito.codigoUsuario}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_codigoUsuarioCreacion}"/>
+                        <h:outputText value="#{usuarioController.selected.codigoUsuarioCreacion.username}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_codigoTipoUsuario}"/>
+                        <h:outputText value="#{usuarioController.selected.codigoTipoUsuario.codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_usuarioEfeProChe}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioEfeProChe.codigoUsuario}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="UsuarioViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

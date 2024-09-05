@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <h:form id="ActivaLineaForm">
+        <p:dataTable id="datalist" 
+                     style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;" 
+                     value="#{lineaCreditoController.lineaCreditoSolicitudParaActivarLista}" 
+                     var="item"       
+                     selectionMode="single"
+                     selection="#{lineaCreditoController.lineaCreditoSolicitudParaActivarSeleccion}"
+                     rowKey="#{item.codigo}"
+                     scrollable="true"
+                     scrollHeight="160"
+                     liveScroll="true"
+                     paginator="true"
+                     rows="10"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.ActivacionLineaCredito}" />
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm"/>
+            <p:ajax event="rowUnselect" update=":barraForm"/>
+
+            <p:column sortBy="#{item.codigo}" 
+                      style="width:  45px" 
+                      filterBy="#{item.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.agencia}" 
+                      filterBy="#{item.agencia}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Agencia}"/>
+                </f:facet>
+                <h:outputText value="#{item.agencia}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.nombreSocio}" 
+                      filterMatchMode="contains"
+                      filterBy="#{item.nombreSocio}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                </f:facet>
+                <h:outputText value="#{item.nombreSocio}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.montoLineaCredito}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Monto}"/>
+                </f:facet>
+                <h:outputText value="#{item.montoLineaCredito}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.fechaSolicitud}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaSolicitud}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaSolicitud}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+         
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>

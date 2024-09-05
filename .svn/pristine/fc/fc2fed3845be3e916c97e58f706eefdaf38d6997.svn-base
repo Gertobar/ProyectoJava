@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+
+PARA las formas de pago sea pra pagar en su totalidad o para pagar en cuotas
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="formaPagosDlg"
+                  widgetVar="formaPagosDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  style="height: 570px; width: 800px"
+                  closeOnEscape="true"
+                  >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.PagoProveedoresCompras}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <p:panel style="height: 520px; width: 800px; border-style: none" >
+
+
+                <p:growl id="growR" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+
+
+                <h:form id="formaPagosForm">
+                    <h:panelGroup id="panelTrabajoformaPagosRet"  style="font-size: 10px; margin-top: 0px;">
+                        <h:panelGrid id="cabeceraDatosProveedorRet" columns="2">                                         
+                            <h:panelGrid  columns="2" 
+                                          columnClasses="label, value" 
+                                          styleClass="grid" 
+                                          style="font-size:  10px">  
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.DocumentosProveedor}"/>
+                                    <p:separator/>
+                                </f:facet>
+
+                                <p:outputLabel styleClass="etiqueta"
+                                               value="#{propiedadesEtiquetaBL.Nombre}" 
+                                               />
+                                <h:inputText id="formaPagosProveedorRepresentante"     
+                                             readonly="true"
+                                             size="50"
+                                             value="#{pagoCompraBean.nombreProevedorCompleto}"/>
+
+                                <p:outputLabel styleClass="etiqueta"
+                                               value="#{propiedadesEtiquetaBL.DatosFacturaProveedorCIRUC}" 
+                                               />
+                                <h:inputText id="formaPagosProveedorCiRuc" 
+                                             styleClass="etiqueta"
+                                             readonly="true"
+                                             value="#{pagoCompraBean.ciRucProveedor}"
+                                             style="text-align:  right">
+                                </h:inputText> 
+
+
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorTieneRise}" styleClass="etiqueta" />
+
+                                <p:selectOneMenu id="formaPagosComprasProveedorRise"                                                      
+                                                 value="#{pagoCompraBean.estadoRiseProveedor}"
+                                                 disabled="true"
+                                                 requiredMessage="#{propiedadesEtiquetaBL.DatosFacturaProveedorTieneRise} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                    <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                    <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                                </p:selectOneMenu> 
+
+
+
+                            </h:panelGrid>
+
+                            <h:panelGrid  columns="2" 
+                                          columnClasses="label, value" 
+                                          styleClass="grid" 
+                                          style="font-size:  10px">  
+
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.DatosFactura}"/>
+                                    <p:separator/>
+                                </f:facet>                                                                   
+
+                                <p:outputLabel  styleClass="etiqueta"
+                                                value="#{propiedadesEtiquetaBL.NumeroComprobante}" 
+                                                />
+
+                                <h:inputText id="fPNumeroComprobanteUno"     
+                                             readonly="true"
+                                             size="20"
+                                             value="#{pagoCompraBean.serieParteUno}-#{pagoCompraBean.serieParteDos}-#{pagoCompraBean.serieParteTres}"
+                                             />
+
+                                <p:outputLabel styleClass="etiqueta"
+                                               value="#{propiedadesEtiquetaBL.TipoComprobante}" 
+                                               />
+                                <h:inputText id="fPTipoComprobante"     
+                                             readonly="true"
+                                             value="#{pagoCompraBean.ubicaTipoComprobanteCompra.nombre}"
+                                             size="35"/>
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaPago}" 
+                                               styleClass="etiquetaRequerida"
+                                               />
+                                <p:calendar  value="#{pagoCompraBean.fechaPagoProveedores}"
+                                             pattern="dd/MM/yyyy"
+                                             id="fechaPagoProveedor" 
+                                             readonly="#{!pagoCompraBean.contabilizaFechaPagoFactura}"
+                                             size="13"
+                                             locale="es">                                                                                               
+                                    <p:ajax event="dateSelect" 
+                                            update="@this"
+                                            process="@this"
+                                            listener="#{pagoCompraBean.cambiaFecha}"/>
+                                    <p:ajax event="change"
+                                            update="@this"
+                                            process="@this"
+                                            listener="#{pagoCompraBean.cambiaFecha}"/>
+                                </p:calendar>                                                                         
+
+                            </h:panelGrid>
+
+                        </h:panelGrid>  
+
+                        <p:separator/>
+                        
+                        <h:panelGrid id="formaPagoDatosAgregar" columns="1">            
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.DatosGeneralesFormaPago}"/>
+                            </f:facet>
+
+                            <h:panelGrid columns="1">
+
+                                <p:panel id="panelPregunta" 
+                                         style="border: transparent; border-style:  none">
+
+                                    <h:panelGrid columns="2">
+
+                                        <p:outputLabel styleClass="etiquetaRequerida"
+                                                       value="#{propiedadesEtiquetaBL.FormaPago}"/>
+                                        <p:selectOneMenu id="formaPagoDetalle" 
+                                                         value="#{pagoCompraBean.formaPagoSel}" 
+                                                         style=" width: 160px;"
+                                                         required="false"
+                                                         filter="true" 
+                                                         filterMatchMode="contains"
+                                                         requiredMessage="#{propiedadesEtiquetaBL.FormaPago} - #{propiedadesMensajesBL.CampoRequerido}">
+                                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                            <f:selectItems value="#{pagoCompraBean.itemsFormaPagos}"
+                                                           var="itemFormaPago"
+                                                           itemValue="#{itemFormaPago}"
+                                                           itemLabel="#{itemFormaPago.nombre}"
+                                                           />
+                                            <f:converter binding="#{formaPagoConverter}"/>
+                                            <p:ajax event="change"
+                                                    listener="#{pagoCompraBean.cambioCriterioBusqFormPago()}"
+                                                    update="panelEstadoCheque, panelEfectivo,panelEstadoCredito, panelEstadoTranferencia "/>
+
+                                        </p:selectOneMenu>
+
+                                    </h:panelGrid>
+                                </p:panel> 
+
+                                <p:panel id="panelEstadoCheque" visible="#{pagoCompraBean.banderaEstadoCheque}"
+                                         style="border: transparent; border-style:  none">
+
+                                    <h:panelGrid columns="4">
+
+                                        <p:outputLabel styleClass="etiquetaRequerida"
+                                                       value="#{propiedadesEtiquetaBL.EntidadFinanciera}">
+                                        </p:outputLabel>
+
+                                        <p:selectOneMenu id="formaPagoEntidad" 
+                                                         value="#{pagoCompraBean.entidadFinacieraSel}"
+                                                         style=" width: 160px;"
+                                                         required="false"
+                                                         filter="true" 
+                                                         filterMatchMode="contains"
+                                                         requiredMessage="#{propiedadesEtiquetaBL.EntidadFinanciera} - #{propiedadesMensajesBL.CampoRequerido}">
+                                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                            <f:selectItems value="#{pagoCompraBean.itemsEntidadFinanciera}"
+                                                           var="itemsEntidadFinanciera"
+                                                           itemValue="#{itemsEntidadFinanciera}"
+                                                           itemLabel="#{itemsEntidadFinanciera.codigoTipoEntidad.siglas} #{itemsEntidadFinanciera.nombre}"
+                                                           />
+                                            <f:converter binding="#{entidadFinancieraConverter}"/>
+                                            <p:ajax event="change"
+                                                    listener="#{pagoCompraBean.cargoCuentasExitentes()}"
+                                                    update="formaPagoNumCuenta"/>
+
+                                        </p:selectOneMenu>
+
+
+
+                                        <p:outputLabel styleClass="etiquetaRequerida"
+                                                       value="#{propiedadesEtiquetaBL.NumeroCuentaEntFin}">
+                                        </p:outputLabel>
+
+
+                                        <p:selectOneMenu id="formaPagoNumCuenta" 
+                                                         value="#{pagoCompraBean.numeroCuenta}"
+                                                         style=" width: 160px;"
+                                                         required="false"
+                                                         filter="true" 
+                                                         filterMatchMode="contains"
+                                                         requiredMessage="#{propiedadesEtiquetaBL.NumeroCuentaEntFin}">
+                                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                            <f:selectItems value="#{pagoCompraBean.itemsCuentasEntidadFinanciera}"
+                                                           var="itemsNumerosCuentas"
+                                                           itemValue="#{itemsNumerosCuentas}"
+                                                           itemLabel="#{itemsNumerosCuentas.numeroCuenta}"
+                                                           />
+                                            <f:converter binding="#{ifipCuentaEntidadFinancieraConverter}"/>
+                                        </p:selectOneMenu>
+
+                                        <p:outputLabel styleClass="etiquetaRequerida"
+                                                       value="#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Cheque}">
+
+                                        </p:outputLabel>
+
+
+                                        <p:inputText id="formaPagoNumCheque" 
+                                                     required="false"  
+                                                     value="#{pagoCompraBean.numeroCheque}" 
+                                                     onblur="value = value.toUpperCase()" >
+
+                                            <p:ajax event="blur" 
+                                                    listener="#{pagoCompraBean.validaNumeroCheque()}" 
+                                                    update="formaPagoNumCheque"/>
+
+                                        </p:inputText>
+
+                                        <p:outputLabel styleClass="etiquetaRequerida"
+                                                       value="#{propiedadesEtiquetaBL.Nombre} #{propiedadesEtiquetaBL.Proveedor}">
+                                        </p:outputLabel>
+
+                                        <p:inputText id="formaPagoBeneficiario" 
+                                                     readonly="true"  
+                                                     size="65"
+                                                     value="#{pagoCompraBean.nombreBeneficiario}" 
+                                                     onblur="value = value.toUpperCase()">
+                                        </p:inputText>
+
+                                        <p:outputLabel styleClass="etiquetaRequerida"
+                                                       value="#{propiedadesEtiquetaBL.Valor}">
+                                        </p:outputLabel>
+
+
+                                        <p:inputText id="formaPagoValorPorCheque" 
+                                                     required="false"  
+                                                     value="#{pagoCompraBean.valorAbonoDetalleChe}" 
+                                                     onblur="value = value.toUpperCase()"  > 
+                                        </p:inputText>
+
+                                    </h:panelGrid>
+                                </p:panel>  
+
+
+                                <p:panel id="panelEstadoTranferencia" visible="#{pagoCompraBean.banderaEstadoTransfer}"
+                                         style="border: transparent; border-style:  none">
+
+                                    <h:panelGrid columns="4">
+
+                                        <p:outputLabel styleClass="etiquetaRequerida"
+                                                       value="#{propiedadesEtiquetaBL.EntidadFinancieraOrigen}">
+                                        </p:outputLabel>
+
+                                        <p:selectOneMenu id="pagoEntidadTrans" 
+                                                         value="#{pagoCompraBean.entidadFinacieraSelTraOrigen}"
+                                                         style=" width: 160px;"
+                                                         required="false"
+                                                         filterMatchMode="contains"
+                                                         filter="true" 
+                                                         requiredMessage="#{propiedadesEtiquetaBL.EntidadFinancieraOrigen} - #{propiedadesMensajesBL.CampoRequerido}">
+                                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                            <f:selectItems value="#{pagoCompraBean.itemsEntidadFinancieraTraOri}"
+                                                           var="itemsEntidadFinancieraTraOrigen"
+                                                           itemValue="#{itemsEntidadFinancieraTraOrigen}"
+                                                           itemLabel="#{itemsEntidadFinancieraTraOrigen.codigoTipoEntidad.siglas} #{itemsEntidadFinancieraTraOrigen.nombre}"
+                                                           />
+                                            <f:converter binding="#{entidadFinancieraConverter}"/>
+                                            <p:ajax event="change"
+                                                    listener="#{pagoCompraBean.cargoCuentasExitentesTrOrigen()}"
+                                                    update="formaPagoNumCuentaOrigenTra"/>
+
+                                        </p:selectOneMenu>
+
+
+                                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                                       value="#{propiedadesEtiquetaBL.datosProveedorCuentaEntFinCoop}">
+                                        </p:outputLabel>
+
+
+                                        <p:selectOneMenu id="formaPagoNumCuentaOrigenTra" 
+                                                         value="#{pagoCompraBean.numeroCuentaOriTra}"
+                                                         style=" width: 160px;"
+                                                         filterMatchMode="contains"
+                                                         required="false"
+                                                         filter="true" 
+                                                         requiredMessage="#{propiedadesEtiquetaBL.datosProveedorCuentaEntFinCoop} - #{propiedadesMensajesBL.CampoRequerido}">
+                                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                            <f:selectItems value="#{pagoCompraBean.itemsCuentasEntidadFinancieraTraOrigen}"
+                                                           var="itemsNumerosCuentasOriTr"
+                                                           itemValue="#{itemsNumerosCuentasOriTr}"
+                                                           itemLabel="#{itemsNumerosCuentasOriTr.numeroCuenta}"
+                                                           />
+                                            <f:converter binding="#{ifipCuentaEntidadFinancieraConverter}"/>
+                                        </p:selectOneMenu>
+
+                                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                                       value="#{propiedadesEtiquetaBL.EntidadFinancieraDestino}">
+                                        </p:outputLabel>
+                                        <p:selectOneMenu id="formaPagoEntidadTransDes" 
+                                                         value="#{pagoCompraBean.entidadFinacieraSelTraDestino}"
+                                                         style=" width: 160px;"
+                                                         required="false"
+                                                         filter="true" 
+                                                         filterMatchMode="contains"
+                                                         requiredMessage="#{propiedadesEtiquetaBL.EntidadFinancieraDestino} - #{propiedadesMensajesBL.CampoRequerido}">
+                                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                            <f:selectItems value="#{pagoCompraBean.itemsEntidadFinancieraTraDes}"
+                                                           var="itemsEntidadFinancieraDes"
+                                                           itemValue="#{itemsEntidadFinancieraDes}"
+                                                           itemLabel="#{itemsEntidadFinancieraDes.codigoTipoEntidad.siglas} #{itemsEntidadFinancieraDes.nombre}"
+                                                           />
+                                            <f:converter binding="#{entidadFinancieraConverter}"/>
+                                            <p:ajax event="change"
+                                                    listener="#{pagoCompraBean.cargoCuentasExitentesTrDestino()}"
+                                                    update="formaPagoNumCuentaDestinoTra"/>
+
+                                        </p:selectOneMenu>
+
+
+
+                                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                                       value="#{propiedadesEtiquetaBL.NumeroCuenta}">
+                                        </p:outputLabel>
+
+
+                                        <p:selectOneMenu id="formaPagoNumCuentaDestinoTra" 
+                                                         value="#{pagoCompraBean.numeroCuentaDesTra}"
+                                                         style=" width: 160px;"
+                                                         required="false"
+                                                         filter="true" 
+                                                         filterMatchMode="contains"
+                                                         requiredMessage="#{propiedadesEtiquetaBL.NumeroCuenta} - #{propiedadesMensajesBL.CampoRequerido}">
+                                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                            <f:selectItems value="#{pagoCompraBean.itemsCuentasEntidadFinancieraTraDestino}"
+                                                           var="itemsNumerosCuentasDestino"
+                                                           itemValue="#{itemsNumerosCuentasDestino}"
+                                                           itemLabel="#{itemsNumerosCuentasDestino}"
+                                                           />
+
+                                        </p:selectOneMenu>
+
+
+
+
+                                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                                       value="#{propiedadesEtiquetaBL.Valor}">
+                                        </p:outputLabel>
+
+
+                                        <p:inputText id="formaPagoValorPorTrans" 
+                                                     required="false"  
+                                                     value="#{pagoCompraBean.valorAbonoDetalleTrans}" 
+                                                     onblur="value = value.toUpperCase()"  > 
+                                        </p:inputText>
+
+
+                                    </h:panelGrid>
+                                </p:panel>  
+
+
+
+
+                                <p:panel id="panelEstadoCredito" visible="#{pagoCompraBean.banderaEstadoCredito}"
+                                         style="border: transparent">
+
+                                    <h:panelGrid columns="2">
+
+
+
+                                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                                       value="#{propiedadesEtiquetaBL.CuentaAcreditar}">
+                                        </p:outputLabel>
+
+                                        <p:inputText id="cuentaContable" 
+                                                     required="false"  
+                                                     value="#{pagoCompraBean.numeroCuentaCre}" 
+
+                                                     >
+                                            <p:ajax event="blur" 
+                                                    listener="#{pagoCompraBean.busquedaObtengoDatosSocio()}" 
+                                                    update="cuentaContable,formaPagoNombreSocio,CreditoAbonoDetalle"/>
+                                        </p:inputText>
+
+                                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                                       value="#{propiedadesEtiquetaBL.Nombre} #{propiedadesEtiquetaBL.Socio}">
+                                        </p:outputLabel>
+
+                                        <p:inputText id="formaPagoNombreSocio" 
+                                                     readonly="true"  
+                                                     value="#{pagoCompraBean.nombreSocio}" 
+                                                     onblur="value = value.toUpperCase()" 
+                                                     >
+                                        </p:inputText>
+
+                                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                                       value="#{propiedadesEtiquetaBL.Valor}">
+                                        </p:outputLabel>
+
+                                        <p:inputText id="CreditoAbonoDetalle" 
+                                                     required="false"  
+                                                     value="#{pagoCompraBean.valorAbonoDetalleCredito}" 
+                                                     onblur="value = value.toUpperCase()" >
+                                        </p:inputText>
+
+                                    </h:panelGrid>
+                                </p:panel> 
+
+
+                                <p:panel id="panelEfectivo" visible="#{pagoCompraBean.banderaEstadoEfectivo}"
+                                         style="border: transparent">
+
+                                    <h:panelGrid columns="2">
+
+                                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                                       value="#{propiedadesEtiquetaBL.Valor}">
+                                        </p:outputLabel>
+
+                                        <p:inputText id="EfectivoAbonoDetalle" 
+                                                     required="false"  
+                                                     value="#{pagoCompraBean.valorAbonoDetalleEfectivo}" 
+                                                     onblur="value = value.toUpperCase()"> 
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                </p:panel> 
+
+                                <p:commandButton id="agregaDetalleFormaPago" 
+                                                 value="#{propiedadesEtiquetaBL.Agregar}"
+                                                 disabled="false"
+                                                 update="formaPagoDetalleTbl, totalCompra, totalSaldo,totalAbono"
+                                                 action="#{pagoCompraBean.agregoDetalleFormaPago()}"/>
+
+                            </h:panelGrid>
+
+
+                        </h:panelGrid>
+
+
+
+                        <p:contextMenu for="formaPagoDetalleTbl">     
+                            <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                                        icon="ui-icon-trash" 
+                                        action="#{pagoCompraBean.eliminaDetalleFormaPago()}" 
+                                        update="totalCompra,totalAbono, totalSaldo, formaPagoDetalleTbl"/>            
+                        </p:contextMenu>  
+
+                        <h:panelGrid columns="1" style="font-size: 10px;">    
+
+                            <p:dataTable id="formaPagoDetalleTbl" 
+                                         value="#{pagoCompraBean.itemsPagoCompraDetalles}"
+                                         var="itemPagoCompraDetalle"                                                          
+                                         rowKey="#{itemPagoCompraDetalle.codigo}"   
+                                         style="width:500px;"
+                                         emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                                         editable="true"                                                     
+                                         editMode="cell"
+                                         selectionMode="single"
+                                         scrollable="true"
+                                         paginator="true"
+                                         rows="2"                                                         
+                                         selection="#{pagoCompraBean.pagoCompraDetalleSel}"
+                                         widgetVar="formaPagoDetalleTabla">
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.Detalle} #{propiedadesEtiquetaBL.Pago}"/>
+                                </f:facet>
+
+
+                                <p:columnGroup type="header">
+                                    <p:row>
+                                        <p:column headerText="#{propiedadesEtiquetaBL.FormaPago}" />
+                                        <p:column headerText="#{propiedadesEtiquetaBL.Valor}" />
+                                    </p:row>
+                                </p:columnGroup>
+
+                                <p:column>
+                                    <h:outputText value="#{itemPagoCompraDetalle.formaPago.nombre}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <h:outputText value="#{itemPagoCompraDetalle.valor}" id="totalDetalle">  
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:columnGroup type="footer">
+                                    <p:row>
+                                        <p:column colspan="1" style="text-align:right" footerText="#{propiedadesEtiquetaBL.Total}" />                    
+                                        <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{pagoCompraBean.totalPagoFacturaCadena}" /> 
+                                    </p:row>
+                                </p:columnGroup>
+                            </p:dataTable>
+
+                            <p:separator/>
+
+                            <h:panelGrid  columns="7">
+
+                                <p:outputLabel styleClass="etiqueta"
+                                               value="#{propiedadesEtiquetaBL.Total} #{propiedadesEtiquetaBL.Factura}" />
+
+                                <p:inputText id="totalCompra"     
+                                             readonly="true"
+                                             value="#{pagoCompraBean.totalCompra}"
+                                             size="8"
+                                             style="text-align:  right">
+
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText>
+
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Total} #{propiedadesEtiquetaBL.Abono}" 
+                                               />
+
+                                <p:inputText id="totalAbono"   
+                                             styleClass="etiqueta"
+                                             readonly="true"
+                                             value="#{pagoCompraBean.totalAbono}"
+                                             size="8"
+                                             style="text-align:  right">
+
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText>
+
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Total} #{propiedadesEtiquetaBL.Saldo}" />
+
+                                <p:inputText id="totalSaldo"                                              
+                                             styleClass="etiqueta"
+                                             readonly="true"
+                                             value="#{pagoCompraBean.totalSaldo}"
+                                             size="8"
+                                             style="text-align:  right">
+
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </p:inputText>
+
+                                <p:commandButton id="generoRetencionFactura" 
+                                                 value="#{propiedadesEtiquetaBL.Guardar}" 
+                                                 onclick="procesandoDlg.show()"
+                                                 icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                                 actionListener="#{pagoCompraBean.guardoFormaPago}"
+                                                 disabled="#{!pagoCompraBean.banderaFctCancelada}"
+                                                 oncomplete="formaPagosDialog.hide();ComprobanteDialogo.show();"
+                                                 update=":pagoProveedoresListForm,:barraForm"
+                                                 >
+                                    <f:ajax render="formaPagosForm" resetValues="true"/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </h:panelGrid>
+
+                    </h:panelGroup>
+                </h:form>
+            </p:panel>
+        </p:dialog>
+    </ui:composition>
+</html>
+

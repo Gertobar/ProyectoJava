@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    
+        <!-- ̣̣̣̣**************************************************************************
+          CRITERIO DE CONSULTA   
+        -->
+        <p:panel id="criterioPan">
+        <p:focus context="criterioPan"/>  
+        <h:panelGrid columns="1" >
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+                <p:separator/>
+            </f:facet>
+            <h:panelGrid columns="3">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.BuscarPor}"/>
+                 <p:selectOneMenu id="buscarPor"                                  
+                                 value="#{certifiacdoCuentasSocioBean.buscarPor}"
+                                 required="true"                                  
+                                 requiredMessage="#{certifiacdoCuentasSocioBean.buscarPor} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                     <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Nombres} #{propiedadesEtiquetaBL.Socio}" itemValue="N" />  
+                     <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Identificacion} #{propiedadesEtiquetaBL.Socio} " itemValue="I" />
+                </p:selectOneMenu>                
+                <p:inputText id="crieterioTex" value="#{certifiacdoCuentasSocioBean.criterio}"  onblur="value=value.toUpperCase()" size="50"/>
+            </h:panelGrid>
+        </h:panelGrid>
+        </p:panel>
+        <!-- FIN DE CRITERIO DE CONSULTA 
+         ̣̣̣̣************************************************************************** -->
+    
+
+</ui:composition>

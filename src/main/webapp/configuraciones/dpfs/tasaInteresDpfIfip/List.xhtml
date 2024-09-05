@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TasaInteresDpfIfipListForm">
+
+        <p:panel header="#{myBundle.ListTasaInteresDpfIfipTitle}">
+            <p:contextMenu id="TasaInteresDpfIfipDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('TasaInteresDpfIfipListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('TasaInteresDpfIfipListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('TasaInteresDpfIfipListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('TasaInteresDpfIfipListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.TasaInteresDpfIfipMenuItem_tasaInteresProDpfMonCollection}" icon="ui-icon-search"  action="#{tasaInteresDpfIfipController.navigateTasaInteresProDpfMonCollection}" disabled="#{empty tasaInteresDpfIfipController.selected.tasaInteresProDpfMonCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tasaInteresDpfIfipController.items}"
+                         var="item"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{tasaInteresDpfIfipController.selected}">
+
+                <p:ajax event="rowSelect"   update=":TasaInteresDpfIfipListForm:createButton :TasaInteresDpfIfipListForm:viewButton :TasaInteresDpfIfipListForm:editButton :TasaInteresDpfIfipListForm:deleteButton :TasaInteresDpfIfipListForm:TasaInteresDpfIfipDataTableContextMenu" listener="#{tasaInteresDpfIfipController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":TasaInteresDpfIfipListForm:createButton :TasaInteresDpfIfipListForm:viewButton :TasaInteresDpfIfipListForm:editButton :TasaInteresDpfIfipListForm:deleteButton :TasaInteresDpfIfipListForm:TasaInteresDpfIfipDataTableContextMenu" listener="#{tasaInteresDpfIfipController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TasaInteresDpfIfipListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresDpfIfipTitle_codigo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.codigoIfip}" filterBy="#{item.codigoIfip}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresDpfIfipTitle_codigoIfip}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoIfip}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valor}" filterBy="#{item.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresDpfIfipTitle_valor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.registradoPor}" filterBy="#{item.registradoPor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresDpfIfipTitle_registradoPor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.registradoPor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresDpfIfipTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresDpfIfipTitle_eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{tasaInteresDpfIfipController.prepareCreate}" update=":TasaInteresDpfIfipCreateForm" oncomplete="TasaInteresDpfIfipCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":TasaInteresDpfIfipViewForm" oncomplete="TasaInteresDpfIfipViewDialog.show()" disabled="#{empty tasaInteresDpfIfipController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":TasaInteresDpfIfipEditForm" oncomplete="TasaInteresDpfIfipEditDialog.show()" disabled="#{empty tasaInteresDpfIfipController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{tasaInteresDpfIfipController.delete}" update=":growl,datalist" disabled="#{empty tasaInteresDpfIfipController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

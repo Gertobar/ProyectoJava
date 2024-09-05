@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoFraccionMonedaEditDlg" widgetVar="TipoFraccionMonedaEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditTipoFraccionMonedaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoFraccionMonedaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{tipoFraccionMonedaController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditTipoFraccionMonedaLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{tipoFraccionMonedaController.selected.codigo}" />
+
+                        <p:outputLabel value="#{myBundle.EditTipoFraccionMonedaLabel_denominacion}" for="denominacion" />
+                        <p:inputText id="denominacion" value="#{tipoFraccionMonedaController.selected.denominacion}" title="#{myBundle.EditTipoFraccionMonedaTitle_denominacion}" required="true" requiredMessage="#{myBundle.EditTipoFraccionMonedaRequiredMessage_denominacion}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTipoFraccionMonedaLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoFraccionMonedaController.selected.nombre}" title="#{myBundle.EditTipoFraccionMonedaTitle_nombre}" required="true" requiredMessage="#{myBundle.EditTipoFraccionMonedaRequiredMessage_nombre}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditTipoFraccionMonedaLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{tipoFraccionMonedaController.selected.valor}" title="#{myBundle.EditTipoFraccionMonedaTitle_valor}" required="true" requiredMessage="#{myBundle.EditTipoFraccionMonedaRequiredMessage_valor}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTipoFraccionMonedaLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tipoFraccionMonedaController.selected.eliminado}" title="#{myBundle.EditTipoFraccionMonedaTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditTipoFraccionMonedaRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoFraccionMonedaController.save}" value="#{myBundle.Save}" update="display,:TipoFraccionMonedaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TipoFraccionMonedaEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TipoFraccionMonedaEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog appendTo="@(body)"
+                  maximizable="false" 
+                  resizable="false"                
+                  id="FormularioLicitudFondosDlg"                  
+                  modal="true"
+                  closable="true"
+                  closeOnEscape="true"
+                  widgetVar="FormularioLicitudFondosDialogo">     
+
+            <f:facet name="header">
+                <h:outputLabel  value="#{propiedadesEtiquetaBL.FormularioLicitudFondos}"
+                                styleClass="encabezadosDialog"/>
+            </f:facet>
+            
+
+            <h:form id="FormularioLicitudFondosForm">
+                <h:panelGroup style="font-size: 10px;">
+                    <h:panelGrid columns="1" style="font-size: 10px;">
+
+                        <h:panelGrid id="FormularioLicitudFondosGri" columns="3" columnClasses="label, value, validator"  style="font-size: 10px">
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Origen}" 
+                                           for="origen"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="origen" 
+                                             value="#{licitudFondosBean.licitudFondosOrigen}" 
+                                             disabled="#{licitudFondosBean.deshabilitaComboOrigen}"
+                                             filter="true" 
+                                             filterMatchMode="contains"
+                                             required="#{!licitudFondosBean.deshabilitaComboOrigen}"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Origen} - #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{licitudFondosBean.itemsLicitudFondosOrigen}"
+                                               var="tipoMotivoItem"
+                                               itemValue="#{tipoMotivoItem}"
+                                               itemLabel="#{tipoMotivoItem.nombre}"
+                                               />                                            
+                                <f:converter binding="#{licitudFonOrgDestConverter}"/>
+                            </p:selectOneMenu>
+                            <h:message for="origen"  styleClass="invalido"/>
+                            
+                             <p:outputLabel value="#{propiedadesEtiquetaBL.Destino}" 
+                                           for="destino"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="destino" 
+                                             value="#{licitudFondosBean.licitudFondosDestino}" 
+                                             disabled="#{licitudFondosBean.deshabilitaComboDestino}"
+                                             filter="true" 
+                                             filterMatchMode="contains"
+                                             required="#{!licitudFondosBean.deshabilitaComboDestino}"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Destino} - #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{licitudFondosBean.itemsLicitudFondosDestino}"
+                                               var="tipoMotivoItem"
+                                               itemValue="#{tipoMotivoItem}"
+                                               itemLabel="#{tipoMotivoItem.nombre}"
+                                               />                                            
+                                <f:converter binding="#{licitudFonOrgDestConverter}"/>
+                            </p:selectOneMenu>
+                            <h:message for="destino"  styleClass="invalido"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}" 
+                                           for="entidadFinanciera"
+                                           styleClass="etiqueta"/>
+                            <p:outputLabel  id="entidadFinanciera"
+                                            value="#{licitudFondosBean.cuenta.socio.codigoPersona.nombreCompleto}"/>
+                            <h:message for="entidadFinanciera" styleClass="invalido" />
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Monto}" 
+                                           for="monto"
+                                           styleClass="etiqueta"/>
+                            <p:outputLabel  id="monto"
+                                            value="#{licitudFondosBean.licitudFondosFormulario.monto}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                            
+                            </p:outputLabel>
+                            <h:message for="monto" styleClass="invalido" />
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}" 
+                                           for="cuenta"
+                                           styleClass="etiqueta"/>
+                            <p:outputLabel  id="cuenta"
+                                            value="#{licitudFondosBean.cuenta.numero}"/>                          
+                            <h:message for="cuenta" styleClass="invalido" />
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Individual}" 
+                                           for="individual"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="individual" 
+                                             value="#{licitudFondosBean.licitudFondosFormulario.esIndividual}"
+                                             required="true"  
+                                             disabled="true"
+                                             requiredMessage="#{propiedadesEtiquetaBL.EsPrincipal} : #{propiedadesMensajesBL.CampoRequerido}">      
+                                <f:selectItem  itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                                <f:selectItem itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />                                   
+                            </p:selectOneMenu>
+                            <h:message for="individual" styleClass="invalido" />
+
+
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroFormulario}" 
+                                           for="numeroFormulario" 
+                                           styleClass="etiquetaRequerida"/>
+                            <p:inputText id="numeroFormulario"                                                                         
+                                         value="#{licitudFondosBean.licitudFondosFormularioAdi.numeroFormulario}"                                       
+                                         requiredMessage="#{propiedadesEtiquetaBL.NumeroFormulario} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         required="false"
+                                         disabled="true"
+                                         onblur="value = value.toUpperCase()"
+                                         size="30">                               
+                            </p:inputText>
+                            <h:message for="numeroFormulario"  styleClass="invalido"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.RealizaPersona}" 
+                                           for="realizaPersona"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="realizaPersona" 
+                                             value="#{licitudFondosBean.licitudFondosFormularioAdi.realizaPersona}"
+                                             required="true"  
+                                             disabled="false"
+                                             requiredMessage="#{propiedadesEtiquetaBL.RealizaPersona} : #{propiedadesMensajesBL.CampoRequerido}">      
+                                <f:selectItem  itemLabel="#{propiedadesMensajesBL.Seleccione}"  />  
+                                <f:selectItem  itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                                <f:selectItem itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />                                   
+                                <p:ajax event="change" listener="#{licitudFondosBean.cambiaRealizaPersona()}" update=":mensaje,:FormularioLicitudFondosForm:identificacionPersonaFirma,:FormularioLicitudFondosForm:nombrePersonaFirma,:FormularioLicitudFondosForm:tipoRelacion"/>
+                            </p:selectOneMenu>
+                            <h:message for="realizaPersona" styleClass="invalido" />
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoRelacion}" 
+                                           for="tipoRelacion"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="tipoRelacion" 
+                                             value="#{licitudFondosBean.tipoRelacion}" 
+                                             disabled="#{licitudFondosBean.deshabilitaIdentificacionPersonaFirma}"
+                                             filter="true" 
+                                             filterMatchMode="contains"
+                                             required="true"
+                                             requiredMessage="#{propiedadesEtiquetaBL.TipoRelacion} - #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{licitudFondosBean.itemsTipoRelacion}"
+                                               var="tipoRelacionItem"
+                                               itemValue="#{tipoRelacionItem}"
+                                               itemLabel="#{tipoRelacionItem.nombre}"
+                                               />                                            
+                                <f:converter binding="#{tipoRelacionConverter}"/>
+                            </p:selectOneMenu>
+                            <h:message for="tipoRelacion"  styleClass="invalido"/>
+
+                        </h:panelGrid>
+                        <!--PERSONA FIRMA LICITUD-->
+                        <h:panelGrid columns="5">
+                            <f:facet name="header">
+                                <h:outputLabel  value="#{propiedadesEtiquetaBL.PersonaFirmaLicitud}"
+                                                styleClass="encabezadosDialog"/>
+                            </f:facet>
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                                           for="identificacionPersonaFirma" 
+                                           styleClass="etiquetaRequerida"/>
+                            <p:inputText id="identificacionPersonaFirma"                                                                         
+                                         value="#{licitudFondosBean.personaFirmaLicitud.identificacion}"                                       
+                                         requiredMessage="#{propiedadesEtiquetaBL.Identificacion} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         readonly="#{licitudFondosBean.deshabilitaIdentificacionPersonaFirma}"
+                                         required="true"                                         
+                                         size="10">    
+                                <p:ajax event="blur" 
+                                        listener="#{licitudFondosBean.buscaPersonaFirmante()}"
+                                        update=":mensaje,nombrePersonaFirma"/>
+                            </p:inputText>
+                            <p:inputText id="nombrePersonaFirma"                                                                         
+                                         value="#{licitudFondosBean.personaFirmaLicitud.nombreCompleto}" 
+                                         readonly="#{licitudFondosBean.deshabilitaNombrePersonaFirma}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Nombre} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         required="true"                                         
+                                         size="60">                               
+                            </p:inputText>
+                            <h:message for="identificacionPersonaFirma"  styleClass="invalido"/>
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="guardarLicitudBot" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             disabled="#{licitudFondosBean.deshabilitaBotonGuardarLicitud}"
+                                             actionListener="#{licitudFondosBean.guardaLicitud}"
+                                             update="guardarLicitudBot,imprimirLicitudBot,cerrarLicitudFor"
+
+                                             >                              
+
+                            </p:commandButton>
+                            <p:commandButton id="imprimirLicitudBot" 
+                                             value="#{propiedadesEtiquetaBL.Imprimir}" 
+                                             icon="#{propiedadesObjetosBL.IcoImprimir}"
+                                             disabled="#{licitudFondosBean.deshabilitaBotonImprimirLicitud}"
+                                             ajax="false"
+                                             actionListener="#{licitudFondosBean.imprimirLicitud}"
+                                              update="guardarLicitudBot,imprimirLicitudBot,cerrarLicitudFor"
+                                             >                              
+
+                            </p:commandButton>
+                            <p:commandButton id="cerrarLicitudFor" 
+                                             value="#{propiedadesEtiquetaBL.Cerrar}"
+                                             icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                             disabled="#{licitudFondosBean.deshabilitaBotonCerrarLicitud}"
+                                             action="#{licitudFondosBean.cerrar()}"
+                                             update=":FormularioLicitudFondosForm"
+                                             oncomplete="FormularioLicitudFondosDialogo.hide()"
+                                             >                              
+
+                            </p:commandButton>
+                        </f:facet>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+
+        </p:dialog> 
+    </ui:composition>
+</html>

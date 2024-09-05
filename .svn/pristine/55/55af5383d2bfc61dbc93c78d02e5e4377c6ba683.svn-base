@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="CierreCajaFor" >
+        <p:panel id="CierreCajaPan">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.CierreCaja}"/>
+            </f:facet>
+
+            <p:focus context="CierreCajaPan"/>   
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+                <h:panelGrid id="CierreCajaGri" columns="2">
+                    <f:facet name="header">
+                        <h:outputLabel  id="mensajeCabecera"
+                                        value="#{cierreController.mensajeCabecera}"
+                                        styleClass="encabezadosDialogAdvertencias"/>
+                        <p:separator/>
+                    </f:facet>
+                    <p:panel id="DatosAperturaPan"  style="font-size: 10px;">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Apertura}"/>                            
+                        </f:facet>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" 
+                                           styleClass="etiqueta"/>
+                            <p:inputText value="#{cierreController.apertura.codigo}"
+                                         readonly="true"
+                                         size="10"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.IfipAgencia}" 
+                                           styleClass="etiqueta"/>
+                            <p:inputText value="#{cierreController.apertura.ifipAgencia.nombre}"
+                                         readonly="true"
+                                         size="40"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Usuario}" 
+                                           styleClass="etiqueta"/>
+                            <p:inputText value="#{cierreController.apertura.usuario.codigoPersona.nombreCompleto}"
+                                         readonly="true"
+                                         size="40"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Computador}" 
+                                           styleClass="etiqueta"/>
+                            <p:inputText value="#{cierreController.apertura.computador.nombre}" 
+                                         readonly="true"
+                                         size="20"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaApertura}" 
+                                           styleClass="etiqueta"/>
+                            <p:calendar value="#{cierreController.apertura.fechaApertura}"                                    
+                                        readonly="true"
+                                        disabled="true"
+                                        size="35"
+                                        pattern="dd/MM/yyyy"
+                                        locale="es" 
+                                        required="true" />
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaSistema}" 
+                                           styleClass="etiqueta"/>
+                            <p:calendar value="#{cierreController.apertura.fechaSistema}"                                     
+                                        readonly="true"
+                                        disabled="true"
+                                        size="35"
+                                        pattern="dd/MM/yyyy hh:mm:ss a"                                      
+                                        locale="es" 
+                                        required="true" />
+                        </h:panelGrid>
+
+                        <p:dataTable id="desgloseDetalleTbl"  
+                                     value="#{cierreController.itemsAperturaDetalle}"
+                                     widgetVar="desgloseDetalleTabla"
+                                     var="itemDetalle"
+                                     rowKey="#{itemDetalle.aperturaDetallePK}"    
+                                     scrollable="true"  
+                                     scrollHeight="60" 
+                                     editable="true" 
+                                     editMode="cell" 
+                                     >
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.AperturaDetalle}"/>                
+                            </f:facet>                  
+
+                            <p:column style="width: 100px">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDetalle.moneda.nombre}"/>
+                            </p:column>
+
+                            <p:column  style="width: 100px; text-align: right">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.ValorEfectivo}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDetalle.valorEfectivo}"> 
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column  style="width: 100px; text-align: right">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.TotalApertura}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDetalle.totalApertura}"> 
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                        
+                        <h:panelGrid columns="2">
+                             <p:outputLabel value="#{propiedadesEtiquetaBL.Descripcion}" 
+                                           styleClass="etiqueta"/>
+                             <p:inputTextarea value="#{cierreController.descripcion}"
+                                         rows="2" cols="200" style="width: 500px; text-align: left"
+                                         />
+                        </h:panelGrid>
+                        
+                    </p:panel>
+
+                    <p:panel id="CierreDesgloceEfectivoPan" 
+                             widgetVar="CierreDesgloceEfectivoPanel"
+                             style="font-size: 10px;"
+                             >
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.DesgloceEfectivo}"/>
+                        </f:facet>
+
+                        <h:panelGrid  id="desgloceEfectivoGri"  columns="1" style="font-size: 10px;">
+                            <p:dataTable id="desgloseEfectivoTbl"  
+                                         value="#{cierreController.itemsCierreDesgloceEfectivo}"
+                                         widgetVar="desgloseEfectivoTabla"
+                                         var="itemDesgloce"
+                                         rowKey="#{itemDesgloce.cierreDesgloceEfectivoPK}"    
+                                         scrollable="true" 
+                                         scrollHeight="150" 
+                                         editable="#{!cierreController.tieneSaldosChequeCaja}" 
+                                         editMode="cell" 
+                                         >
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.DesgloceEfectivo}"/>                
+                                </f:facet>                     
+
+
+                                <p:column style="width: 100px">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Denominacion}"/>
+                                    </f:facet>
+                                    <p:selectOneMenu id="denominacion" 
+                                                     value="#{itemDesgloce.fraccionMoneda.tipoFraccionMoneda.denominacion}"                                              
+                                                     disabled="true">
+                                        <f:selectItem itemValue="B" itemLabel="#{propiedadesEtiquetaBL.Billete}"/>
+                                        <f:selectItem itemValue="M" itemLabel="#{propiedadesEtiquetaBL.Moneda}"/>
+                                    </p:selectOneMenu> 
+                                </p:column>
+
+                                <p:column  style="width: 50px; text-align: right">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemDesgloce.fraccionMoneda.tipoFraccionMoneda.valor}"> 
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column id="cantidadCol" style="width: 50px; text-align: center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Cantidad}"/>
+                                    </f:facet>
+                                    <p:cellEditor>  
+                                        <f:facet name="output">
+                                            <h:outputText value="#{itemDesgloce.cantidad}" />
+                                        </f:facet>
+                                        <f:facet name="input" >
+                                            <p:inputText   id="cantidadInp"                                        
+                                                           value="#{itemDesgloce.cantidad}"
+                                                           style="text-align: center">
+                                                <p:ajax event="keyup"
+                                                        listener="#{cierreController.cantidadModificada()}"
+                                                        update="totalOut,:CierreCajaFor:totalEfectivo,:CierreCajaFor:guardarBot,:CierreCajaFor:mensajeCabecera"
+                                                        />
+                                                <f:validateLongRange minimum="0"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column id="totalCol" 
+                                          style="width: 100px; text-align: center"  
+                                          rendered="true"                                       
+                                          >
+                                    <f:facet name="header"> 
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                                    </f:facet>
+                                    <h:outputText id="totalOut" value="#{itemDesgloce.total}">
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2">
+                            <h:panelGrid columns="1" width="430px" style="text-align:  right">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Total}" styleClass="encabezadosPanelGrid"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" width="150px" style="text-align: center">
+                                <h:outputText id="totalEfectivo" 
+                                              value="#{cierreController.cierreDetalle.valorEfectivo}" 
+                                              styleClass="encabezadosPanelGrid">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </h:outputText>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:panelGrid>
+            </h:panelGroup>
+
+            <p:commandButton id="guardarBot"                                      
+                             disabled="#{cierreController.deshabilitaBotonGuardar}"
+                             value="#{propiedadesEtiquetaBL.Guardar} - #{propiedadesEtiquetaBL.CierreCaja}" 
+                             icon="#{propiedadesObjetosBL.IcoGuardar}"  
+                             onclick="ConfirmacionDialogo.show();"
+                             update="display,:ConfirmacionFor,:mensaje,guardarBot"> 
+
+            </p:commandButton>
+
+        </p:panel>
+
+
+    </h:form>
+
+
+
+
+
+</ui:composition>

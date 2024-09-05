@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tablaAmortizacion" pageWidth="595" pageHeight="300" columnWidth="561" leftMargin="14" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a363c4bb-6d70-4021-a83e-0834fee9e169">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="numeroCredito" class="java.lang.Long"/>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT    REPLACE (texto,' $VALOR_RUBRO', valor_letras) texto, nombre_completo socio, identificacion
+FROM     (SELECT   REPLACE ((SELECT   texto
+                    FROM     mks_ifips.reporte_fragmento_ifip
+                    WHERE    codigo_reporte = 11
+		AND	codigo_ifip = sol.codigo_ifip),
+                  '$SOCIO',per.nombre_completo) texto, 
+                   mks_creditos.pkm_numero_a_letras.DinTex(tic.total_rubro_grabado) valor_letras,
+                   per.nombre_completo,
+	         per.identificacion
+          FROM     mks_creditos.tipo_rubro_credito tic,
+                   mks_creditos.solicitud          sol,
+                   mks_socios.socio                soc,   
+                   mks_socios.persona              per
+          WHERE    tic.codigo_tipo_rubro           =  2
+          AND      sol.numero                      = $P{numeroCredito}
+          AND      sol.codigo_ifip                 = $P{codigoIfip}
+          AND      tic.numero_credito              = sol.numero
+          AND      sol.codigo_socio                = soc.codigo
+          AND      soc.codigo_persona              = per.codigo)]]>
+	</queryString>
+	<field name="TEXTO" class="java.lang.String"/>
+	<field name="SOCIO" class="java.lang.String"/>
+	<field name="IDENTIFICACION" class="java.lang.String"/>
+	<detail>
+		<band height="255" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="0" y="3" width="533" height="252" uuid="beb1da7f-9548-4b80-b006-bea03bb56ea9"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TEXTO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

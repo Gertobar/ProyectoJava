@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProtestoChequeDetalleViewDlg" widgetVar="ProtestoChequeDetalleViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewProtestoChequeDetalleTitle}" closeOnEscape="true">
+
+            <h:form id="ProtestoChequeDetalleViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{protestoChequeDetalleController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewProtestoChequeDetalleLabel_protestoChequeDetallePK_codigoMoneda}"/>
+                        <h:outputText value="#{protestoChequeDetalleController.selected.protestoChequeDetallePK.codigoMoneda}" title="#{myBundle.ViewProtestoChequeDetalleTitle_protestoChequeDetallePK_codigoMoneda}"/>
+
+                        <h:outputText value="#{myBundle.ViewProtestoChequeDetalleLabel_numeroCheques}"/>
+                        <h:outputText value="#{protestoChequeDetalleController.selected.numeroCheques}" title="#{myBundle.ViewProtestoChequeDetalleTitle_numeroCheques}"/>
+
+                        <h:outputText value="#{myBundle.ViewProtestoChequeDetalleLabel_totalCheques}"/>
+                        <h:outputText value="#{protestoChequeDetalleController.selected.totalCheques}" title="#{myBundle.ViewProtestoChequeDetalleTitle_totalCheques}"/>
+
+                        <h:outputText value="#{myBundle.ViewProtestoChequeDetalleLabel_totalProtesto}"/>
+                        <h:outputText value="#{protestoChequeDetalleController.selected.totalProtesto}" title="#{myBundle.ViewProtestoChequeDetalleTitle_totalProtesto}"/>
+
+                        <h:outputText value="#{myBundle.ViewProtestoChequeDetalleLabel_protestoCheque}"/>
+                        <h:outputText value="#{protestoChequeDetalleController.selected.protestoCheque.codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="ProtestoChequeDetalleViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

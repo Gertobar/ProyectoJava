@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:componentes ="http://java.sun.com/jsf/composite/ezcomp"
+                >
+    <h:form id="mostrarDialogoForm">
+        <componentes:componenteBuscarSocio
+            id="componenteBusca"
+            widgetVar="listaSociosDialog"
+            onHide="seleccionaDatosSocio()"
+            soloSociosAgencia="false">
+        </componentes:componenteBuscarSocio>   
+        <p:remoteCommand name="seleccionaDatosSocio"
+                         action="#{tasaIntenresProductoDPFMontoDetalleController.seleccionaPersona()}"
+                         update=":AprobacionDPFCreateForm:nombresSocio" 
+                         />
+    </h:form>
+
+    <p:dialog id="AprobacionDPFCreateDlg" 
+              widgetVar="AprobacionDPFCreateDialog"
+              modal="false"
+              resizable="false"
+              style="height: 500px; width: 700px"
+              closeOnEscape="true"
+              >
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.ModificacionTasaDPFTituloAprobacion}"
+                           styleClass="encabezadosDialog"/>
+        </f:facet>
+        <h:form id="AprobacionDPFCreateForm">         
+            <p:remoteCommand name="cerrar" actionListener="#{tasaIntenresProductoDPFMontoDetalleController.validarAlCerrar()}"/>
+            <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                <h:panelGrid columns="2">
+
+                    <p:outputLabel for="nombresSocio" value="#{propiedadesEtiquetaBL.ModificacionTasaDPFSocio}" styleClass="etiquetaRequerida" />
+                    <h:panelGrid columns="2">
+
+                        <p:inputText id="nombresSocio" 
+                                     value="#{tasaIntenresProductoDPFMontoDetalleController.tasaIntenresProductoDPFMontoDetalle.persona.nombreCompleto}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="50" maxlength="50"
+                                     disabled="true"/>   
+                        <p:commandButton id="listaSocios"
+                                         value="#{propiedadesEtiquetaBL.Buscar} #{propiedadesEtiquetaBL.Socio}"
+                                         icon="#{propiedadesObjetosBL.IcoVer}"                                 
+                                         onclick="PF('listaSociosDialog').show();"
+                                         update="nombresSocio" 
+                                         type="button"/>
+                    </h:panelGrid>
+
+                    <p:outputLabel for="montoCapital" value="#{propiedadesEtiquetaBL.ModificacionTasaDPFMontoCapital}" styleClass="etiquetaRequerida" />
+                    <p:inputText id="montoCapital" 
+                                 value="#{tasaIntenresProductoDPFMontoDetalleController.tasaIntenresProductoDPFMontoDetalle.montoCapital}" 
+                                 title="#{propiedadesTituloBL.CodigoIfip}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesMensajesBL.CampoRequerido}"  
+                                 size="20" maxlength="20"
+                                 disabled="false"
+                                 style="float: left;text-align: right"    
+                                 >      
+                        <p:ajax event="blur" listener="#{tasaIntenresProductoDPFMontoDetalleController.buscarDatosPorCapitalPlazo}" 
+                                process="@this"
+                                update="tasaNormal"
+                                />
+
+                    </p:inputText>
+
+
+                    <p:outputLabel for="plazoDias" value="#{propiedadesEtiquetaBL.ModificacionTasaDPFPlazoDias}" styleClass="etiquetaRequerida" />
+                    <p:inputText id="plazoDias" 
+                                 value="#{tasaIntenresProductoDPFMontoDetalleController.tasaIntenresProductoDPFMontoDetalle.plasoDias}"
+                                 title="#{propiedadesTituloBL.CodigoIfip}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesMensajesBL.CampoRequerido}"  
+                                 size="20" maxlength="20"
+                                 disabled="false"
+                                 style="float: left;text-align: right"    
+                                 >
+                        <p:ajax event="blur" listener="#{tasaIntenresProductoDPFMontoDetalleController.buscarDatosPorCapitalPlazo}" 
+                                process="@this"
+                                update="tasaNormal,guardarBot"
+                                />
+                    </p:inputText>
+
+
+                    <p:outputLabel for="tasaNormal" value="#{propiedadesEtiquetaBL.ModificacionTasaDPFTasaNormal}" styleClass="etiquetaRequerida" />  
+                    <p:inputText id="tasaNormal" 
+                                 value="#{tasaIntenresProductoDPFMontoDetalleController.tasaIntenresProductoDPFMontoDetalle.tasaNormal}"
+                                 title="#{propiedadesTituloBL.CodigoIfip}"
+                                 required="true"
+                                 requiredMessage="#{propiedadesMensajesBL.CampoRequerido}"
+                                 size="20" maxlength="20"
+                                 disabled="true"           
+                                 style="float: left;text-align: right"    
+                                 />
+
+                    <p:outputLabel for="valorMaximoAcumulacion" value="#{propiedadesEtiquetaBL.ModificacionTasaDPFValorAcumuladaMaximo}" styleClass="etiquetaRequerida" />
+                    <p:inputText id="valorMaximoAcumulacion" 
+                                 value="#{tasaIntenresProductoDPFMontoDetalleController.tasaIntenresProductoDPFMontoDetalle.porcentajeAcumulacionMaximo}"
+                                 title="#{propiedadesTituloBL.CodigoIfip}"
+                                 required="true"
+                                 requiredMessage="#{propiedadesMensajesBL.CampoRequerido}"
+                                 size="20" maxlength="20"
+                                 disabled="true"
+                                 style="float: left;text-align: right"
+                                 />
+
+                    <p:outputLabel for="tasaAcumulada" value="#{propiedadesEtiquetaBL.ModificacionTasaDPFTasaAcumulada}" styleClass="etiquetaRequerida"/>
+                    <p:inputText id="tasaAcumulada"
+                                 value="#{tasaIntenresProductoDPFMontoDetalleController.tasaIntenresProductoDPFMontoDetalle.tasaAcumulada}"
+                                 title="#{propiedadesTituloBL.CodigoIfip}"
+                                 required="true"
+                                 requiredMessage="#{propiedadesMensajesBL.CampoRequerido}"
+                                 size="20" maxlength="20"
+                                 disabled="false"
+                                 style="float: left;text-align: right"    
+                                 >
+                        <p:ajax event="keyup" listener="#{tasaIntenresProductoDPFMontoDetalleController.validarTasaAcumulada}" 
+                                process="@this"
+                                update="tasaNormal,guardarBot"
+                                />
+                    </p:inputText>                    
+                    <h:outputText value="#{propiedadesEtiquetaBL.ModificacionTasaDPFAprobado}"/>
+                    <p:selectOneMenu id="eliminado" 
+                                     disabled="false"
+                                     value="#{tasaIntenresProductoDPFMontoDetalleController.tasaIntenresProductoDPFMontoDetalle.esAprobado}">    
+                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                         
+                    </p:selectOneMenu>
+                    <p:outputLabel for="descripcion" value="#{propiedadesEtiquetaBL.ModificacionTasaDPFDescripcion}" styleClass="etiquetaRequerida"/>
+                    <p:inputTextarea id="descripcion"
+                                     onblur="value = value.toUpperCase()"
+                                     value="#{tasaIntenresProductoDPFMontoDetalleController.tasaIntenresProductoDPFMontoDetalle.descripcion}"
+                                     title="#{propiedadesTituloBL.CodigoIfip}"
+                                     required="true"
+                                     requiredMessage="#{propiedadesMensajesBL.CampoRequerido}"
+                                     cols="70"
+                                     rows="5"
+                                     disabled="false"/>
+
+                    <p:commandButton id="guardarBot"
+                                     actionListener="#{tasaIntenresProductoDPFMontoDetalleController.guardar}"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     onclick="procesandoDlg.show()"
+                                     update="nombresSocio,:AprobacionDPFListForm:datalist"
+                                     oncomplete="procesandoDlg.hide();handleSubmit(xhr,status,args,AprobacionDPFCreateDialog);"
+                                     disabled="#{!tasaIntenresProductoDPFMontoDetalleController.configuracionCorrecta}"
+                                     />
+                </h:panelGrid>
+
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</ui:composition>

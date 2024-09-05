@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog appendTo="@(body)"
+                  maximizable="false"                   
+                  resizable="false"                     
+                  id="Dlg"                  
+                  modal="true"
+                  closable="true"
+                  closeOnEscape="true"
+                  widgetVar="LicitudFondosAnularExcDialogo">     
+
+            <f:facet name="header">
+                <h:outputLabel  value="#{propiedadesEtiquetaBL.Anular} #{propiedadesEtiquetaBL.Excepcion}"
+                                styleClass="encabezadosDialog"/>
+            </f:facet>
+
+
+            <h:form id="LicitudFondosAnularExcForm">
+                <h:panelGroup style="font-size: 10px;">
+                    <h:panelGrid id="LicitudFondosAnularExcGri" columns="3" columnClasses="label, value, validator"  style="font-size: 10px">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                                       for="identificacion"
+                                       styleClass="etiquetaRequerida"/>
+                        <h:outputLabel id="identificacion" value="#{licitudFondosPerExcForBean.licitudFondosPerExcFor.codigoFormulario.persona.identificacion}"/>
+                        <h:message for="identificacion"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre"
+                                       styleClass="etiquetaRequerida"/>
+                        <h:outputLabel  id="nombre" value="#{licitudFondosPerExcForBean.licitudFondosPerExcFor.codigoFormulario.persona.nombreCompleto}"/>
+                        <h:message for="nombre"  styleClass="invalido"/>
+
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                                       for="observaciones"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="observaciones" 
+                                     value="#{licitudFondosPerExcForBean.observacionesEstado}"
+                                     required="true"                                         
+                                     requiredMessage="#{propiedadesMensajesBL.CampoRequerido}: #{propiedadesEtiquetaBL.Observaciones}"
+                                     size="50"
+                                     maxlength="90"
+                                     />
+                        <h:message for="observaciones"  styleClass="invalido"/>
+
+
+
+                        <f:facet name="footer">
+                            <p:commandButton id="aprobarExcepcionBot" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             actionListener="#{licitudFondosPerExcForBean.anular()}"                                                 
+                                             update=":LicitudFondosPerExcForListForm,:barraForm"
+                                             oncomplete="LicitudFondosAnularExcDialogo.hide()"
+                                             >                              
+
+                            </p:commandButton>
+
+                            <p:commandButton id="cerrarAprobarExcepcionBot" 
+                                             value="#{propiedadesEtiquetaBL.Cerrar}"
+                                             icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                             update=":LicitudFondosPerExcForListForm,:barraForm"
+                                             onclick="LicitudFondosAnularExcDialogo.hide()"
+                                             >                              
+
+                            </p:commandButton>
+                        </f:facet>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog> 
+    </ui:composition>
+</html>

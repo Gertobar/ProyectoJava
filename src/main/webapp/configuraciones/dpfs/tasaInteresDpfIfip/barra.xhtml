@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- LOS COMENTARIOS QUE TIENEN EN SU PARTE SUPERIOR LAS LINEAS ************ Y SEGUIDO
+     SU DESCRIPCION NO DEBEN SER BORRADAS, LOS QUE SE DEBEN ELIMINAR SON LAS EXPLICACIONES
+     DE CADA CONTENIDO -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="barraForm">
+        
+        
+   
+        <p:toolbar>                  
+            <p:toolbarGroup align="left">  
+                <p:commandButton id="executarConsultaBot"
+                                 title="#{propiedadesTituloBL.eje}"
+                                 icon="#{propiedadesObjetosBL.IcoEjecutarConsulta}"                                         
+                                 disabled="#{menuController.permisoOperacion.consultar}"
+                                 /> 
+                <p:separator/>
+               
+                <p:commandButton id="nuevoBot"
+                                 title="#{propiedadesTituloBL.Nuevo}" 
+                                 icon="#{propiedadesObjetosBL.IcoNuevo}" 
+                                 disabled="#{menuController.permisoOperacion.nuevo}"                                
+                                 actionListener="#{tasaInteresDpfIfipController.prepareCreate}" 
+                                 update=":TasaInteresDpfIfipCreateForm"
+                                 oncomplete="TasaInteresDpfIfipCreateDialog.show();procesandoDlg.hide();"/>    
+               
+                <p:commandButton id="editarBot"
+                                 title="#{propiedadesTituloBL.Editar}" 
+                                 icon="#{propiedadesObjetosBL.IcoEditar}"  
+                                 disabled="#{menuController.permisoOperacion.editar}"
+                                 update=":TasaInteresDpfIfipEditForm" 
+                                 oncomplete="TasaInteresDpfIfipEditDialog.show()"/> 
+                
+                <p:commandButton id="eliminarBot"
+                                 title="#{propiedadesTituloBL.Eliminar}" 
+                                 icon="#{propiedadesObjetosBL.IcoEliminar}" 
+                                 disabled="#{(!menuController.permisoOperacion.eliminar and !empty tasaInteresDpfIfipController.selected) ? false : true}"
+                                 actionListener="#{tasaInteresDpfIfipController.delete}" 
+                           
+                                 update=":mensaje,:TasaInteresDpfIfipListForm:datalist"
+                                 oncomplete="procesandoDlg.hide();"
+                                 /> 
+                 <!--update=":ProductoIfitViewForm" -->          
+                 <p:commandButton id="verBot"   
+                                 icon="#{propiedadesObjetosBL.IcoVer}"
+                                 disabled="#{(!menuController.permisoOperacion.editar and !empty tasaInteresDpfIfipController.selected) ? false : true}"
+                                 onclick="procesandoDlg.show();"
+                                 update=":TasaInteresDpfIfipViewForm"
+                                 oncomplete="TasaInteresDpfIfipViewDialog.show();procesandoDlg.hide();"/>
+                <p:separator/>
+                <p:commandButton id="imprimirBot"
+                                 title="#{propiedadesTituloBL.Imprimir}" 
+                                 icon="#{propiedadesObjetosBL.IcoImprimir}"  
+                                 disabled="#{menuController.permisoOperacion.imprimir}"/>  
+                <p:separator/>
+
+                <h:commandLink  id="exportaExcelLin"
+                                title="#{propiedadesTituloBL.ExportarExcel}" > 
+                    <p:graphicImage  style="border: transparent" 
+                                     value="#{propiedadesObjetosBL.ImgExportarExcel}"
+                                    />  
+                    <p:dataExporter type="xls" 
+                                    target=":TasaInteresDpfIfipListForm:datalist"                                           
+                                    fileName="Colocar aqui el nombre" />  
+                </h:commandLink>  
+                <p:spacer width="3px"/>
+                <h:commandLink  id="exportaPdfLin"
+                                title="#{propiedadesTituloBL.ExportarPDF}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="/#{propiedadesObjetosBL.ImgExportarPdf}" />  
+                    <p:dataExporter type="pdf" 
+                                    target=":TasaInteresDpfIfipListForm:datalist" 
+                                    fileName="Colocar aqui el nombre" />  
+                </h:commandLink>  
+                <p:spacer width="3px"/>
+                <h:commandLink  id="exportaXmlLin"
+                                title="#{propiedadesTituloBL.ExportarXML}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="#{propiedadesObjetosBL.ImgExportarXml}" />  
+                    <p:dataExporter type="xml" 
+                                    target=":TasaInteresDpfIfipListForm:datalist" 
+                                    fileName="Colocar aqui el nombre" />  
+                </h:commandLink>  
+                <p:separator/>
+                <h:outputLink id="ayudaLin" 
+                              title="#{propiedadesTituloBL.Ayuda}" 
+                              value="#{menuController.urlAyuda}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="#{propiedadesObjetosBL.ImgAyuda}" />                            
+                </h:outputLink>
+                <p:separator/>
+
+            </p:toolbarGroup>  
+        </p:toolbar>
+        <p:separator/>
+        <!-- FIN DE BARRA DE HERRAMIENTAS
+         ̣̣̣̣************************************************************************** -->
+
+    </h:form>       
+</ui:composition>

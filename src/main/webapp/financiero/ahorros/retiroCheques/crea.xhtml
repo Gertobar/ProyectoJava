@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="RetiroChequeFor" >
+        <p:panel id="RetiroChequePan">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.RetiroEnCheque}"/>
+            </f:facet>
+
+            <p:focus context="RetiroChequePan"/>   
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+                <h:panelGrid columns="2">
+                    <h:panelGrid id="RetiroChequeGri"  style="font-size: 10px;" columns="3">
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="moneda" 
+                                         value="#{retiroChequeController.moneda}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{retiroChequeController.itemsMoneda}"
+                                           var="codigoMonedaItem"
+                                           itemValue="#{codigoMonedaItem}"
+                                           itemLabel="#{codigoMonedaItem.nombre}"
+                                           />    
+                            <p:ajax event="change" listener="#{retiroChequeController.cambiaMoneda()}" update="producto,cuenta,socio,guardarBot"/>
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="moneda"  styleClass="invalido"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.EntidadFinanciera} " 
+                                       for="codigoCuentaEntFin" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoCuentaEntFin" 
+                                         value="#{retiroChequeController.ifipCuentaEntidadFinanciera}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.EntidadFinanciera} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         filter="true">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{retiroChequeController.itemsIfipCuentaEntidadFinancieras}"
+                                           var="cuentEntidadFinancieraItem"
+                                           itemValue="#{cuentEntidadFinancieraItem}"
+                                           itemLabel="#{cuentEntidadFinancieraItem.tipoCuentaEntidadFinanciera.nombre} - #{cuentEntidadFinancieraItem.entidadFinanciera.nombre} - #{cuentEntidadFinancieraItem.numeroCuenta}"
+                                           />     
+                            <p:ajax event="change" listener="#{retiroChequeController.cambiaCuentaEntidadFinanciera()}" update="codigoCuentaEntFin, guardarBot"/>
+                            <f:converter binding="#{ifipCuentaEntidadFinancieraConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoCuentaEntFin" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroCheque}" 
+                                       for="numeroCheque" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="numeroCheque"                                                                         
+                                     value="#{retiroChequeController.numeroCheque}"                                       
+                                     requiredMessage="#{propiedadesEtiquetaBL.NumeroCheque} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     styleClass="campoRequeridoValor"     
+                                     required="true"
+                                     size="20">        
+                            <p:ajax event="blur" listener="#{retiroChequeController.compruebaCheque()}" update="guardarBot,:mensaje"/>
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en" />      
+                        </p:inputText>
+                        <h:message for="numeroCheque"  styleClass="invalido"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                       for="producto"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="producto" 
+                                         value="#{retiroChequeController.productoIfip}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="contains" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{retiroChequeController.itemsProductoIfip}"
+                                           var="codigoProductoIfipItem"
+                                           itemValue="#{codigoProductoIfipItem}"
+                                           itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.codigo} #{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                           />                    
+                            <p:ajax event="change" listener="#{retiroChequeController.cambiaProductoIfip()}" update="cuenta,socio,valor,guardarBot,:mensaje"/>
+                            <f:converter binding="#{productoIfipConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="producto"  styleClass="invalido"/>                        
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta} *"
+                                       styleClass="etiquetaRequerida"
+                                       for="cuenta" />
+                        <p:inputText id="cuenta" 
+                                     value="#{retiroChequeController.numeroCuenta}"
+                                     size="20"
+                                     >
+                            <p:ajax event="blur" listener="#{retiroChequeController.buscaCuenta()}" update="socio,guardarBot,:mensaje,beneficiario"/>
+                        </p:inputText>
+                        <p:commandButton id="cuentaBot"
+                                         value="#{propiedadesEtiquetaBL.Buscar}"
+                                         update=":listaCuentaForm,:encabezadoListaCuentasLab"
+                                         actionListener="#{retiroChequeController.preparaBusquedaCuentas}"
+                                         onclick="procesandoDlg.show()"                                         
+                                         oncomplete="procesandoDlg.hide();cuentaDialog.show();"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}"
+                                       styleClass="etiqueta"
+                                       for="socio" />
+                        <p:inputText id="socio" 
+                                     value="#{retiroChequeController.cuenta.socio.codigoPersona.nombreCompleto}"
+                                     size="50"
+                                     readonly="true"
+                                     />                        
+                        <h:message for="cuenta"  styleClass="invalido"/>                       
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Valor} *" 
+                                       for="valor"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="valor"
+                                     widgetVar="valorTex"                                                                          
+                                     value="#{retiroChequeController.valor}"  
+                                     styleClass="campoRequeridoValor"                                     
+                                     size="20">                            
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                            
+                            <p:ajax event="blur" listener="#{retiroChequeController.compruebaSaldo()}" update="valor,guardarBot,:mensaje" />
+                        </p:inputText>
+                        <h:message for="valor"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.SocioBeneficiario} *" 
+                                       for="socioBeneficiario"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="socioBeneficiario" 
+                                         value="#{retiroChequeController.socioBeneficiario}">                               
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}" />
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <p:ajax event="change" listener="#{retiroChequeController.cambiaSocioBeneficiario()}" update="beneficiario,guardarBot"/>
+                        </p:selectOneMenu>
+                        <h:message for="socioBeneficiario"  styleClass="invalido"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Beneficiario}" 
+                                       for="beneficiario"
+                                       styleClass="etiqueta"/>
+                        <p:inputText id="beneficiario"
+                                     value="#{retiroChequeController.nombreBeneficiario}"                                     
+                                     size="80"
+                                     maxlength="120"
+                                     readonly="#{retiroChequeController.deshabilitaNombreBeneficiario}"
+                                     onblur="value = value.toUpperCase()">
+                            <p:ajax event="blur" listener="#{retiroChequeController.compruebaBeneficiario()}" update=":mensaje,guardarBot,beneficiario"/>
+                        </p:inputText>
+                        <h:message for="observaciones" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                                       for="observaciones"
+                                       styleClass="etiqueta"/>
+                        <p:inputText id="observaciones"
+                                     value="#{retiroChequeController.observaciones}"                                     
+                                     size="50"
+                                     maxlength="90"
+                                     onblur="value = value.toUpperCase()">
+                            <p:ajax event="blur" listener="#{retiroChequeController.compruebaObservaciones()}" update=":mensaje,guardarBot"/>
+                        </p:inputText>
+                        <h:message for="observaciones" styleClass="invalido" />
+
+                    </h:panelGrid>
+
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                <p:commandButton id="guardarBot"                                      
+                                 disabled="#{retiroChequeController.deshabilitaBotonGuardar}"
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                 actionListener="#{retiroChequeController.guardaRetiro}"
+                                 update="display,:RetiroChequeFor,:mensaje" />
+                <p:commandButton id="nuevoBot"                                                                     
+                                 value="#{propiedadesEtiquetaBL.Nuevo}"
+                                 icon="#{propiedadesObjetosBL.IcoNuevo}" 
+                                 actionListener="#{retiroChequeController.init()}"
+                                 update="display,:RetiroChequeFor,:mensaje" />
+                </h:panelGrid>
+            </h:panelGroup>
+
+        </p:panel>  
+    </h:form>
+
+</ui:composition>

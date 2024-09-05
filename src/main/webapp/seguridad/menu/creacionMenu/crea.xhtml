@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MenuCreateDlg" widgetVar="MenuCreateDialog" modal="true" resizable="false" 
+                  appendTo="@(body)" closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Menu}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            
+            <h:form id="MenuCreateForm">
+                <h:panelGroup id="display" style="font-size: 10px">
+                    <p:panelGrid  columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" 
+                                       for="codigo"
+                                       styleClass="etiquetaRequerida"/>
+                        <h:outputText id="codigo" value="#{menuController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" value="#{menuController.selected.nombre}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} - #{propiedadesMensajesBL.CampoRequerido} "
+                                     size="20" 
+                                     maxlength="20"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Aplicacion}"
+                                       for="aplicacion"
+                                       styleClass="etiqueta"/>
+                        <p:inputText id="aplicacion"                                      
+                                     value="#{menuController.selected.aplicacion}"                                      
+                                     size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Icono}" 
+                                       for="icono"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="icono" 
+                                     value="#{menuController.selected.icono}"                                      
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Icono} - #{propiedadesMensajesBL.CampoRequerido} "
+                                     size="100" 
+                                     maxlength="100"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Titulo}" 
+                                       styleClass="etiqueta"
+                                       for="titulo" />
+                        <p:inputText id="titulo" 
+                                     value="#{menuController.selected.titulo}" 
+                                     size="50" 
+                                     maxlength="50"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Orden}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="orden" />
+                        <p:inputText id="orden"
+                                     value="#{menuController.selected.orden}"                                                                           
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Orden} - #{propiedadesMensajesBL.CampoRequerido}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="tipo" />
+                        <p:selectOneMenu id="tipo" 
+                                         value="#{menuController.selected.tipo}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Tipo} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}" itemValue="" />  
+                            <f:selectItem itemLabel="MENU" itemValue="M" />  
+                            <f:selectItem itemLabel="OPCION" itemValue="O" />  
+                            <f:selectItem itemLabel="MODULO" itemValue="D" />  
+                            <p:ajax update="codigoMenuPadre"  listener="#{menuController.cambiaMenuPadre()}" />  
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EsDeRenafipse}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="esDeRenafipse" />
+                        <p:selectOneMenu id="esDeRenafipse" 
+                                         value="#{menuController.selected.esDeRenafipse}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.EsDeRenafipse} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}" itemValue="" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />  
+                            <f:selectItem itemLabel="NO" itemValue="N" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.DaPermisoRenafipse}" 
+                                       for="daPermisoRenafipse"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="daPermisoRenafipse" 
+                                         value="#{menuController.selected.daPermisoRenafipse}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.DaPermisoRenafipse} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}" itemValue="" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />  
+                            <f:selectItem itemLabel="NO" itemValue="N" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Sistema}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="codigoSistema" />
+                        <p:selectOneMenu id="codigoSistema" 
+                                         value="#{menuController.selected.codigoSistema}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Sistema} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{sistemaController.items}"
+                                           var="codigoSistemaItem"
+                                           itemValue="#{codigoSistemaItem}"
+                                           itemLabel="#{codigoSistemaItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{sistemaConverter}"/>
+                        </p:selectOneMenu>      
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoMenuPadre}" 
+                                       styleClass="etiqueta"
+                                       for="codigoMenuPadre" />
+                        <p:selectOneMenu id="codigoMenuPadre" 
+                                         value="#{menuController.selected.codigoMenuPadre}"
+                                         filter="true" 
+                                         filterMatchMode="startsWith"
+                                         effect="fade" >
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}" />
+                            <f:selectItems value="#{menuController.menuPadre}"
+                                           var="codigoMenuPadreItem"
+                                           itemValue="#{codigoMenuPadreItem}"                                           
+                                           itemLabel="#{codigoMenuPadreItem.codigoMenuPadre.nombre}  #{codigoMenuPadreItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{menuConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="eliminado" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{menuController.selected.eliminado}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         >
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}" itemValue="" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />  
+                            <f:selectItem itemLabel="NO" itemValue="N" />
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+
+
+                    <p:separator/>
+
+                    <p:commandButton actionListener="#{menuController.saveNew}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}" 
+                                     update="display,:MenuListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,MenuCreateDialog);"/>
+
+<!--<p:commandButton value="#{propiedadesEtiquetaBL.Cancelar}"
+                 icon="#{propiedadesObjetosBL.IcoCancelar}"
+                 onclick="MenuCreateDialog.hide()"/>-->
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

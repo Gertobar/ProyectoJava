@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog appendTo="@(body)"
+                  maximizable="false" 
+                  resizable="false"                     
+                  id="LicitudFondosAprobarExcDlg"                  
+                  modal="true"
+                  closable="true"
+                  closeOnEscape="true"
+                  widgetVar="LicitudFondosAprobarExcDialogo">     
+
+            <f:facet name="header">
+                <h:outputLabel  value="#{propiedadesEtiquetaBL.Aprobar} #{propiedadesEtiquetaBL.Excepcion}"
+                                styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="LicitudFondosAprobarExcForm">
+                <h:panelGroup style="font-size: 10px;">
+                    <h:panelGrid id="LicitudFondosAprobarExcGri" columns="3" columnClasses="label, value, validator"  style="font-size: 10px">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                                       for="identificacion"
+                                       styleClass="etiquetaRequerida"/>
+                        <h:outputLabel id="identificacion" value="#{licitudFondosPerExcForBean.licitudFondosPerExcFor.codigoFormulario.persona.identificacion}"/>
+                        <h:message for="identificacion"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre"
+                                       styleClass="etiquetaRequerida"/>
+                        <h:outputLabel  id="nombre" value="#{licitudFondosPerExcForBean.licitudFondosPerExcFor.codigoFormulario.persona.nombreCompleto}"/>
+                        <h:message for="nombre"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Motivo}" 
+                                       for="motivo"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="motivo" 
+                                         value="#{licitudFondosPerExcForBean.licitudFondosAprobarExc.tipoMotivo}"                                             
+                                         filter="true" 
+                                         disabled="#{licitudFondosPerExcForBean.deshabilitaBotonAprobar}"
+                                         filterMatchMode="contains"
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Motivo} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{licitudFondosPerExcForBean.itemsLicitudFondosTipoMotivoExc}"
+                                           var="tipoMotivoItem"
+                                           itemValue="#{tipoMotivoItem}"
+                                           itemLabel="#{tipoMotivoItem.descripcion}"
+                                           />                                            
+                            <f:converter binding="#{licitudFondosTipoMotivoExcConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="motivo"  styleClass="invalido"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaInicialVigencia} " 
+                                       for="fechaInicialVigencia"
+                                       styleClass="etiquetaRequerida" />
+                        <p:calendar id="fechaInicialVigencia"
+                                    pattern="dd/MM/yyyy"
+                                    value="#{licitudFondosPerExcForBean.licitudFondosAprobarExc.fechaInicioExcp}"
+                                    mindate="#{licitudFondosPerExcForBean.fechaActual}"
+                                    showOn="button"
+                                    readonlyInput="#{licitudFondosPerExcForBean.deshabilitaBotonAprobar}"
+                                    locale="es" 
+                                    required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaInicialVigencia} : #{propiedadesMensajesBL.CampoRequerido}">                    
+                        </p:calendar>                                    
+                        <h:message for="fechaInicialVigencia"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaFinalVigencia} " 
+                                       for="fechaFinalVigencia"
+                                       styleClass="etiquetaRequerida" />
+                        <p:calendar id="fechaFinalVigencia"
+                                    pattern="dd/MM/yyyy"
+                                    value="#{licitudFondosPerExcForBean.licitudFondosAprobarExc.fechaFinExcp}"
+                                    mindate="#{licitudFondosPerExcForBean.fechaActual}"
+                                    showOn="button"
+                                    locale="es" 
+                                    readonlyInput="#{licitudFondosPerExcForBean.deshabilitaBotonAprobar}"
+                                    required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaFinalVigencia} : #{propiedadesMensajesBL.CampoRequerido}">                    
+                        </p:calendar>                                    
+                        <h:message for="fechaFinalVigencia"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                                       for="observaciones"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="observaciones" 
+                                     value="#{licitudFondosPerExcForBean.licitudFondosAprobarExc.observaciones}"
+                                     required="true"
+                                     readonly="#{licitudFondosPerExcForBean.deshabilitaBotonAprobar}"
+                                     requiredMessage="#{propiedadesMensajesBL.CampoRequerido}: #{propiedadesEtiquetaBL.Observaciones}"
+                                     size="50"
+                                     maxlength="120"
+                                     />
+                        <h:message for="observaciones"  styleClass="invalido"/>
+
+
+
+                        <f:facet name="footer">
+                            <p:commandButton id="aprobarExcepcionBot" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             actionListener="#{licitudFondosPerExcForBean.aprobar()}"
+                                             disabled="#{licitudFondosPerExcForBean.deshabilitaBotonAprobar}"
+                                             update=":LicitudFondosPerExcForListForm,:barraForm"
+                                             oncomplete="LicitudFondosAprobarExcDialogo.hide()"
+                                             >                              
+
+                            </p:commandButton>
+
+                            <p:commandButton id="cerrarAprobarExcepcionBot" 
+                                             value="#{propiedadesEtiquetaBL.Cerrar}"
+                                             icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                             update=":LicitudFondosPerExcForListForm,:barraForm"
+                                             onclick="LicitudFondosAprobarExcDialogo.hide()"
+                                             >                              
+
+                            </p:commandButton>
+                        </f:facet>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+
+        </p:dialog> 
+    </ui:composition>
+</html>

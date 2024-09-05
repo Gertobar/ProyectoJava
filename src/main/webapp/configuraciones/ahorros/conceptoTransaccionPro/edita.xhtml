@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConceptoTransaccionEditDlg" 
+                  widgetVar="ConceptoTransaccionEditDialog" 
+                  modal="true"
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.Transacciones}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>    
+
+
+            <h:form id="ConceptoTransaccionEditForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{conceptoTransaccionProController.selected != null}">
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Transaccion}" 
+                                       for="codigoTransaccion"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoTransaccion" 
+                                         value="#{conceptoTransaccionProController.tipoProducto}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Transaccion} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         disabled="true">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{conceptoTransaccionProController.listaTipoProducto}"
+                                           var="conceptoTransaccionProControllerListaTipoProducto"
+                                           itemValue="#{conceptoTransaccionProControllerListaTipoProducto}"
+                                           itemLabel="#{conceptoTransaccionProControllerListaTipoProducto.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{tipoProductoConverter}"/>
+                            <p:ajax event="change"                    
+                                    listener="#{conceptoTransaccionProController.cargarMonedas()}"
+                                    update="codigoMoneda">
+                            </p:ajax> 
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoMoneda}" 
+                                       for="codigoMoneda"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoMoneda" 
+                                         value="#{conceptoTransaccionProController.moneda}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.CodigoMoneda} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         disabled="true">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{conceptoTransaccionProController.listaMoneda}"
+                                           var="conceptoTransaccionProControllerListaMoneda"
+                                           itemValue="#{conceptoTransaccionProControllerListaMoneda}"
+                                           itemLabel="#{conceptoTransaccionProControllerListaMoneda.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ConceptoTransaccionPro}" 
+                                       for="codigoConceptoTransaccion"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoConceptoTransaccion" 
+                                         value="#{conceptoTransaccionProController.selected.conceptoTransaccion}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.ConceptoTransaccionPro} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         disabled="true">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{conceptoTransaccionController.items}"
+                                           var="conceptoTransaccionControllerItems"
+                                           itemValue="#{conceptoTransaccionControllerItems}"
+                                           itemLabel="#{conceptoTransaccionControllerItems.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{conceptoTransaccionConverter}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Mostrar}" 
+                                       for="mostrar"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="mostrar" 
+                                         value="#{conceptoTransaccionProController.selected.mostrar}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Mostrar} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" 
+                                       for="asignadoPor"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="asignadoPor" 
+                                         value="#{conceptoTransaccionProController.selected.registradoPorUsuario}"                                  
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.RegistradaPor} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         disabled="true">                                                    
+                            <f:selectItem  itemValue="#{usuarioController.usuario}"
+                                           itemLabel="#{usuarioController.usuario.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>                    
+                        </p:selectOneMenu>  
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}"
+                                       for="fechaRegistro"  styleClass="etiquetaRequerida" />
+                        <p:calendar id="fechaRegistro"
+                                    pattern="dd/MM/yyyy HH:mm:ss"
+                                    value="#{conceptoTransaccionProController.selected.fechaRegistro}"
+                                    title="#{propiedadesTituloBL.FechaRegistro}" 
+                                    required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}  -  #{propiedadesMensajesBL.CampoRequerido}" 
+                                    showOn="button"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{conceptoTransaccionProController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{conceptoTransaccionProController.save}"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:ConceptoTransaccionListForm:datalist,:mensaje"
+                                     oncomplete="handleSubmit(xhr,status,args,ConceptoTransaccionEditDialog);"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

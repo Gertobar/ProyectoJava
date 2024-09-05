@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BloqueoCuentaUsuarioCreateDlg" widgetVar="BloqueoCuentaUsuarioCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateBloqueoCuentaUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="BloqueoCuentaUsuarioCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaUsuarioLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{bloqueoCuentaUsuarioController.selected.codigo}" title="#{myBundle.CreateBloqueoCuentaUsuarioTitle_codigo}" required="true" requiredMessage="#{myBundle.CreateBloqueoCuentaUsuarioRequiredMessage_codigo}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaUsuarioLabel_fechaBloqueo}" for="fechaBloqueo" />
+                        <p:calendar id="fechaBloqueo" pattern="MM/dd/yyyy HH:mm:ss" value="#{bloqueoCuentaUsuarioController.selected.fechaBloqueo}" title="#{myBundle.EditBloqueoCuentaUsuarioTitle_fechaBloqueo}" required="true" requiredMessage="#{myBundle.EditBloqueoCuentaUsuarioRequiredMessage_fechaBloqueo}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaUsuarioLabel_vigente}" for="vigente" />
+                        <p:inputText id="vigente" value="#{bloqueoCuentaUsuarioController.selected.vigente}" title="#{myBundle.CreateBloqueoCuentaUsuarioTitle_vigente}" required="true" requiredMessage="#{myBundle.CreateBloqueoCuentaUsuarioRequiredMessage_vigente}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaUsuarioLabel_usuarioSistema}" for="usuarioSistema" />
+                        <p:selectOneMenu id="usuarioSistema" value="#{bloqueoCuentaUsuarioController.selected.usuarioSistema}" required="true" requiredMessage="#{myBundle.EditBloqueoCuentaUsuarioRequiredMessage_usuarioSistema}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioSistemaController.items}"
+                                           var="usuarioSistemaItem"
+                                           itemValue="#{usuarioSistemaItem}"
+                                           itemLabel="#{usuarioSistemaItem.usuarioSistemaPK.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioSistemaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaUsuarioLabel_bloqueadoPor}" for="bloqueadoPor" />
+                        <p:selectOneMenu id="bloqueadoPor" value="#{bloqueoCuentaUsuarioController.selected.bloqueadoPor}" required="true" requiredMessage="#{myBundle.EditBloqueoCuentaUsuarioRequiredMessage_bloqueadoPor}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="bloqueadoPorItem"
+                                           itemValue="#{bloqueadoPorItem}"
+                                           itemLabel="#{bloqueadoPorItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaUsuarioLabel_codigoMotivoBloqueo}" for="codigoMotivoBloqueo" />
+                        <p:selectOneMenu id="codigoMotivoBloqueo" value="#{bloqueoCuentaUsuarioController.selected.codigoMotivoBloqueo}" required="true" requiredMessage="#{myBundle.EditBloqueoCuentaUsuarioRequiredMessage_codigoMotivoBloqueo}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{motivoBloqueoCuentaController.items}"
+                                           var="codigoMotivoBloqueoItem"
+                                           itemValue="#{codigoMotivoBloqueoItem}"
+                                           itemLabel="#{codigoMotivoBloqueoItem.descripcion.toString()}"
+                                           />
+                            <f:converter binding="#{motivoBloqueoCuentaConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bloqueoCuentaUsuarioController.saveNew}" value="#{myBundle.Save}" update="display,:BloqueoCuentaUsuarioListForm:datalist,:mensaje" oncomplete="handleSubmit(xhr,status,args,BloqueoCuentaUsuarioCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="BloqueoCuentaUsuarioCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TasaInteresProDpfMonListForm">
+
+
+        <p:dataTable id="datalist"
+                     value="#{tasaInteresProDpfMonController.items}"
+                     var="item"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="10"
+                     rowsPerPageTemplate="10,20,30,40,50"
+                     selectionMode="single"
+                     selection="#{tasaInteresProDpfMonController.selected}">
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+
+
+            <p:column sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.codigoMoneda}" filterBy="#{item.codigoMoneda}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CodigoMoneda}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoMoneda}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.codigoIfip}" filterBy="#{item.codigoIfip}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Ifip}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoIfip}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.montoInicial}" filterBy="#{item.montoInicial}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.MontoInicial}"/>
+                </f:facet>
+                <h:outputText value="#{item.montoInicial}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.montoFinal}" filterBy="#{item.montoFinal}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.MontoFinal}"/>
+                </f:facet>
+                <h:outputText value="#{item.montoFinal}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.registradoPor}" filterBy="#{item.registradoPor}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                </f:facet>
+                <h:outputText value="#{item.registradoPor}"/>
+            </p:column>
+
+            <!--
+                                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.fechaRegistro}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+            -->
+            <!--
+                                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.eliminado}"/>
+                                </p:column>
+            -->
+            <!--
+                                <p:column sortBy="#{item.codigoTasa.codigo}" filterBy="#{item.codigoTasa.codigo}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Tasa}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.codigoTasa.codigo}"/>
+                                </p:column>
+            -->
+            <!--
+                                <p:column sortBy="#{item.codigoRango.codigo}" filterBy="#{item.codigoRango.codigo}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Rango}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.codigoRango.codigo}"/>
+                                </p:column>
+            -->
+            <!--
+                                <p:column sortBy="#{item.moneda.codigo}" filterBy="#{item.moneda.codigo}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.moneda.codigo}"/>
+                                </p:column>
+            -->
+            <!--
+                                <p:column sortBy="#{item.usuarioRealizadoPor.username}" filterBy="#{item.usuarioRealizadoPor.username}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.RealizadoPor}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.usuarioRealizadoPor.username}"/>
+                                </p:column>
+            -->
+
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

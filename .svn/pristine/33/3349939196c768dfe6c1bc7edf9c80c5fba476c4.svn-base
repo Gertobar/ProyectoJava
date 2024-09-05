@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:panel id="confirmacionPan"  
+             header="#{propiedadesEtiquetaBL.Confirmacion}" 
+             style="border: 0; height: 500px; width: 700px">
+        <p:focus context="confirmacionTab"/>   
+        <p:separator/>
+        <h:panelGrid columns="1" >
+            <f:facet name="header" >
+                <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.ConfirmacionGuardaSocio}" style="text-align:  center" />
+            </f:facet>
+            <p:separator/>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TipoPersona}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{socioBean.persona.codigoTipoPersona.nombre}"/>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{socioBean.persona.codigoTipoIdentificacion.nombre}"/>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TipoPersona}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{socioBean.persona.identificacion}"/>
+
+
+
+                <c:if test="#{!socioBean.esParaInstitucion}">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Nombres}" styleClass="etiqueta"/>
+                    <h:outputLabel value="#{socioBean.personaNatural.primerApellido} #{socioBean.personaNatural.segundoApellido} #{socioBean.personaNatural.nombres}"/>
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Profesion}" styleClass="etiqueta"/>
+                    <h:outputLabel value="#{socioBean.personaNatural.codigoProfesion.nombre}"/>
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Instruccion}" styleClass="etiqueta"/>
+                    <h:outputLabel value="#{socioBean.personaNatural.codigoInstruccion.nombre}"/>
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.EstadoCivil}" styleClass="etiqueta"/>
+                    <h:outputLabel value="#{socioBean.personaNatural.codigoEstadoCivil.nombre}"/>
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Sexo}" styleClass="etiqueta"/>
+                    <p:selectOneMenu id="sexoConfirmacion" 
+                                     value="#{socioBean.personaNatural.sexo}" 
+                                     disabled="true">
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItem itemLabel="MASCULINO" itemValue="M"/>
+                        <f:selectItem itemLabel="FEMENINO" itemValue="F"/>
+                    </p:selectOneMenu>
+                </c:if>
+
+                <c:if test="#{socioBean.esParaInstitucion}">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.RazonSocial}" styleClass="etiqueta"/>
+                    <h:outputLabel value="#{socioBean.personaInstitucion.razonSocial}"/>
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.NombreComercial}" styleClass="etiqueta"/>
+                    <h:outputLabel value="#{socioBean.personaInstitucion.nombreComercial}"/>
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.ObjetoSocial}" styleClass="etiqueta"/>
+                    <h:outputLabel value="#{socioBean.personaInstitucion.objetoSocial}"/>
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.FechaConstitucion}" styleClass="etiqueta"/>
+                    <h:outputLabel value="#{socioBean.personaInstitucion.fechaConstitucion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputLabel>
+                </c:if>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{socioBean.socio.observaciones}"/>
+            </h:panelGrid>
+
+            <h:panelGrid columns="2">
+                <f:facet name="header" >
+                    <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.FlujoDeCaja}" style="text-align:  center" />
+                </f:facet>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Ingresos} #{propiedadesEtiquetaBL.Socio}" styleClass="etiqueta"/>
+                <h:outputText value="#{situacionEconomicaBean.socioFlujoCaja.totalIngresosSocio}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Ingresos} #{propiedadesEtiquetaBL.Conyuge}" styleClass="etiqueta"/>
+                <h:outputText value="#{situacionEconomicaBean.socioFlujoCaja.totalIngresosConyuge}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Egresos}" styleClass="etiqueta"/>
+                <h:outputText value="#{situacionEconomicaBean.socioFlujoCaja.totalGastosSocio}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Saldo}" styleClass="etiqueta"/>
+                <h:outputText value="#{situacionEconomicaBean.socioFlujoCaja.saldo}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Cobertura}" styleClass="etiqueta"/>
+                <h:outputText value="#{situacionEconomicaBean.socioFlujoCaja.cobertura}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+            </h:panelGrid>
+
+            <h:panelGrid columns="2">
+                <f:facet name="header" >
+                    <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.SituacionPatrimonial}" style="text-align:  center" />
+                </f:facet>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Activos}" styleClass="etiqueta"/>
+                <h:outputText value="#{situacionEconomicaBean.socioSituacionPatrimonial.totalActivos}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Pasivos}" styleClass="etiqueta"/>
+                <h:outputText value="#{situacionEconomicaBean.socioSituacionPatrimonial.totalPasivos}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Patrimonio}" styleClass="etiqueta"/>
+                <h:outputText value="#{situacionEconomicaBean.socioSituacionPatrimonial.totalPatrimonio}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" >
+                <p:panel widgetVar="panelRelacion" rendered="#{socioBean.clasePersona!=null}">
+                    <f:facet name="header" >
+                        <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.RelacionPersona}" style="text-align:  center" />
+                    </f:facet>
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.ClasePersona}: " styleClass="etiqueta"/>                    
+                    <h:outputText value="#{socioBean.clasePersona.nombre}"/>                
+                    <p:separator/>
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Nombres}: " styleClass="etiqueta"/>
+                    <h:outputText value="#{socioBean.nombreCompletoPersona}"/>
+                </p:panel>
+            </h:panelGrid>
+
+            <p:separator/>
+
+            <f:facet name="footer">
+                <p:commandButton id="guardaSocioBot" 
+                                 value="#{propiedadesEtiquetaBL.Guardar}" 
+                                 update=":SocioListForm:datalist,:mensaje"
+                                 onclick="procesandoDlg.show();"
+                                 oncomplete="SocioNuevoDialog.hide();procesandoDlg.hide();imprimeSolicitudDialog.show();"
+                                 actionListener="#{socioBean.guardaSocio}">
+                    <p:confirm message="#{propiedadesMensajesBL.SeguroGuardarSocio}" 
+                               icon="ui-icon-info"
+                               header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                </p:commandButton>
+            </f:facet>
+        </h:panelGrid>
+
+        <p:separator/>
+
+    </p:panel>
+    <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+        <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+        <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+    </p:confirmDialog>
+
+    <p:dialog closable="true"
+              appendToBody="true"
+              maximizable="false" 
+              resizable="false"                
+              id="imprimeSolicitudDlg"
+              modal="true"
+              widgetVar="imprimeSolicitudDialog">
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Impresion}"
+                           styleClass="encabezadosDialog"/>
+        </f:facet>
+        <h:commandLink id="imprimeSolicitudBot" 
+                       value="#{propiedadesMensajesBL.ImprimirSolicitudSocio}" 
+                       actionListener="#{socioBean.imprime}" 
+                       onclick="imprimeSolicitudDialog.hide();"/>
+    </p:dialog> 
+</ui:composition>  

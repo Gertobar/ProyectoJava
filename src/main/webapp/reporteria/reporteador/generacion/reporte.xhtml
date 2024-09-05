@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- LOS COMENTARIOS QUE TIENEN EN SU PARTE SUPERIOR LAS LINEAS ************ Y SEGUIDO
+     SU DESCRIPCION NO DEBEN SER BORRADAS, LOS QUE SE DEBEN ELIMINAR SON LAS EXPLICACIONES
+     DE CADA CONTENIDO -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="reporteForm">      
+        <p:panel id="reportePan" style="width:  350px; height:450px">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Reporte}"/>
+            </f:facet>
+
+            <p:dataTable id="datalistGrupo" 
+                         value="#{reporteadorBean.itemsReporteGrupo}" 
+                         var="item"
+                         selectionMode="single" 
+                         selection="#{reporteadorBean.reporteGrupoSel}"
+                         rowKey="#{item.codigo}"                         
+                         scrollable="true" 
+                         scrollHeight="100">
+                <p:ajax event="rowSelect"  listener="#{reporteadorBean.obtieneReportesDetalle()}"  update=":reporteForm:datalistGrupoDetalle"/>   
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Grupo}"/>
+                </f:facet>
+                <p:column headerText="#{propiedadesEtiquetaBL.Codigo}" filterBy="#{item.codigo}"  style="width: 40%">
+                    <h:outputText value="#{item.codigo}" />
+                </p:column>
+                <p:column headerText="#{propiedadesEtiquetaBL.Nombre}" filterBy="#{item.nombre}" style="width: 60%">
+                    <h:outputText value="#{item.nombre}" />
+                </p:column>
+            </p:dataTable>
+            <p:separator/>
+            <p:dataTable id="datalistGrupoDetalle" 
+                         value="#{reporteadorBean.itemsReporteDetalle}" 
+                         var="itemD"
+                         selectionMode="single" 
+                         selection="#{reporteadorBean.reporteDetalleSel}"
+                         rowKey="#{itemD.codigo}"                         
+                         scrollable="true" 
+                         scrollHeight="190">
+                <p:ajax event="rowSelect"  listener="#{reporteadorBean.refrescaHabilitaListaCampos()}"  update=":ejecucionForm"/>   
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Reporte}S"/>
+                </f:facet>
+                <p:column headerText="#{propiedadesEtiquetaBL.Codigo}" filterBy="#{itemD.codigo}" style="width: 30%">
+                    <h:outputText value="#{itemD.codigo}" />
+                </p:column>
+                <p:column headerText="#{propiedadesEtiquetaBL.Nombre}" filterBy="#{itemD.nombre}" style="width: 60%">
+                    <h:outputText value="#{itemD.nombre}" />
+                </p:column>
+            </p:dataTable>
+
+        </p:panel>
+    </h:form>       
+</ui:composition>

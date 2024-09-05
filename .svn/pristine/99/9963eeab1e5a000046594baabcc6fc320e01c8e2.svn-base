@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaJornadaLaboralCreateDlg" widgetVar="IfipAgenciaJornadaLaboralCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateIfipAgenciaJornadaLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="IfipAgenciaJornadaLaboralCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateIfipAgenciaJornadaLaboralLabel_ifipAgenciaJornadaLaboralPK_dia}" for="ifipAgenciaJornadaLaboralPK_dia" />
+                        <p:inputText id="ifipAgenciaJornadaLaboralPK_dia" value="#{ifipAgenciaJornadaLaboralController.selected.ifipAgenciaJornadaLaboralPK.dia}" title="#{myBundle.CreateIfipAgenciaJornadaLaboralTitle_ifipAgenciaJornadaLaboralPK_dia}" required="true" requiredMessage="#{myBundle.CreateIfipAgenciaJornadaLaboralRequiredMessage_ifipAgenciaJornadaLaboralPK_dia}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipAgenciaJornadaLaboralLabel_ifipAgenciaJornadaLaboralPK_meridiano}" for="ifipAgenciaJornadaLaboralPK_meridiano" />
+                        <p:inputText id="ifipAgenciaJornadaLaboralPK_meridiano" value="#{ifipAgenciaJornadaLaboralController.selected.ifipAgenciaJornadaLaboralPK.meridiano}" title="#{myBundle.CreateIfipAgenciaJornadaLaboralTitle_ifipAgenciaJornadaLaboralPK_meridiano}" required="true" requiredMessage="#{myBundle.CreateIfipAgenciaJornadaLaboralRequiredMessage_ifipAgenciaJornadaLaboralPK_meridiano}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipAgenciaJornadaLaboralLabel_horaInicial}" for="horaInicial" />
+                        <p:inputText id="horaInicial" value="#{ifipAgenciaJornadaLaboralController.selected.horaInicial}" title="#{myBundle.CreateIfipAgenciaJornadaLaboralTitle_horaInicial}" required="true" requiredMessage="#{myBundle.CreateIfipAgenciaJornadaLaboralRequiredMessage_horaInicial}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipAgenciaJornadaLaboralLabel_horaFinal}" for="horaFinal" />
+                        <p:inputText id="horaFinal" value="#{ifipAgenciaJornadaLaboralController.selected.horaFinal}" title="#{myBundle.CreateIfipAgenciaJornadaLaboralTitle_horaFinal}" required="true" requiredMessage="#{myBundle.CreateIfipAgenciaJornadaLaboralRequiredMessage_horaFinal}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipAgenciaJornadaLaboralLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{ifipAgenciaJornadaLaboralController.selected.eliminado}" title="#{myBundle.CreateIfipAgenciaJornadaLaboralTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateIfipAgenciaJornadaLaboralRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipAgenciaJornadaLaboralLabel_ifipAgencia}" for="ifipAgencia" />
+                        <p:selectOneMenu id="ifipAgencia" value="#{ifipAgenciaJornadaLaboralController.selected.ifipAgencia}" required="true" requiredMessage="#{myBundle.EditIfipAgenciaJornadaLaboralRequiredMessage_ifipAgencia}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ifipAgenciaController.items}"
+                                           var="ifipAgenciaItem"
+                                           itemValue="#{ifipAgenciaItem}"
+                                           itemLabel="#{ifipAgenciaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{ifipAgenciaConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ifipAgenciaJornadaLaboralController.saveNew}" value="#{myBundle.Save}" update="display,:IfipAgenciaJornadaLaboralListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IfipAgenciaJornadaLaboralCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="IfipAgenciaJornadaLaboralCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

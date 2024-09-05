@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- LOS COMENTARIOS QUE TIENEN EN SU PARTE SUPERIOR LAS LINEAS ************ Y SEGUIDO
+     SU DESCRIPCION NO DEBEN SER BORRADAS, LOS QUE SE DEBEN ELIMINAR SON LAS EXPLICACIONES
+     DE CADA CONTENIDO -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProcesoContableListForm">
+        <!-- ̣̣̣̣**************************************************************************
+         DESCRIBIR LO QUE CONTIENE EL SIGUIENTE CONTENIDO                           -->
+
+        <!-- EXPLICACION: COLOCAR AQUI LO CONCERNIENTE AL RESULTADO DE LA BUSQUEDA (TABLA) /
+             LOS COMPONENTES DE LA VENTANA DE TRANSACCION 
+             EL SIGUIENTE CONTENIDO ES UN EJEMPLO EL CUAL DEBE SER BORRADO-->
+        <p:dataTable id="datalist"                             
+                     value="#{procesoContableController.itemsProcesoContable}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{procesoContableController.procesoContableSel}"
+                     rowKey="#{item.codigo}"                         
+                     paginator="true"
+                     rows="8"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.ProcesoContable}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+
+            <p:column sortBy="#{item.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}" styleClass="campoResultadoValor"/>
+            </p:column>
+
+            <p:column  filterBy="#{item.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                </f:facet>
+                <h:outputText value="#{item.nombre}" styleClass="campoResultadoValor"/>
+            </p:column>
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Descripcion}"/>
+                </f:facet>
+                <h:outputText value="#{item.descripcion}"/>
+            </p:column> 
+
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+
+                </p:selectOneMenu>
+            </p:column>
+
+        </p:dataTable>     
+        <!-- FIN DE TABLA DE COBROS/PAGOS REALIZADOS                                          
+         ̣̣̣̣************************************************************************** -->
+    </h:form>
+</ui:composition>

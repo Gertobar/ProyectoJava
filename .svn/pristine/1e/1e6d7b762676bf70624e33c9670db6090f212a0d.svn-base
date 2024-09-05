@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GrupoInstitucionAgeDetEditDlg" widgetVar="GrupoInstitucionAgeDetEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditGrupoInstitucionAgeDetTitle}" closeOnEscape="true">
+
+            <h:form id="GrupoInstitucionAgeDetEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{grupoInstitucionAgeDetController.selected != null}">
+
+                        <p:outputLabel value="#{myBundle.EditGrupoInstitucionAgeDetLabel_valorAporte}" for="valorAporte" />
+                        <p:inputText id="valorAporte" value="#{grupoInstitucionAgeDetController.selected.valorAporte}" title="#{myBundle.EditGrupoInstitucionAgeDetTitle_valorAporte}" required="true" requiredMessage="#{myBundle.EditGrupoInstitucionAgeDetRequiredMessage_valorAporte}"/>
+
+                        <p:outputLabel value="#{myBundle.EditGrupoInstitucionAgeDetLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{grupoInstitucionAgeDetController.selected.registradoPor}" title="#{myBundle.EditGrupoInstitucionAgeDetTitle_registradoPor}" required="true" requiredMessage="#{myBundle.EditGrupoInstitucionAgeDetRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.EditGrupoInstitucionAgeDetLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{grupoInstitucionAgeDetController.selected.fechaRegistro}" title="#{myBundle.EditGrupoInstitucionAgeDetTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.EditGrupoInstitucionAgeDetRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditGrupoInstitucionAgeDetLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{grupoInstitucionAgeDetController.selected.eliminado}" title="#{myBundle.EditGrupoInstitucionAgeDetTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditGrupoInstitucionAgeDetRequiredMessage_eliminado}"/>
+
+                        <h:outputLabel value="#{myBundle.EditGrupoInstitucionAgeDetLabel_socio}" for="socio" />
+                        <h:outputText id="socio" value="#{grupoInstitucionAgeDetController.selected.socio}" />
+
+                        <p:outputLabel value="#{myBundle.EditGrupoInstitucionAgeDetLabel_grupoInstitucionIfipAgencia}" for="grupoInstitucionIfipAgencia" />
+                        <p:selectOneMenu id="grupoInstitucionIfipAgencia" value="#{grupoInstitucionAgeDetController.selected.grupoInstitucionIfipAgencia}" required="true" requiredMessage="#{myBundle.EditGrupoInstitucionAgeDetRequiredMessage_grupoInstitucionIfipAgencia}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{grupoInstitucionIfipAgenciaController.items}"
+                                           var="grupoInstitucionIfipAgenciaItem"
+                                           itemValue="#{grupoInstitucionIfipAgenciaItem}"
+                                           itemLabel="#{grupoInstitucionIfipAgenciaItem.grupoInstitucionIfipAgenciaPK.toString()}"
+                                           />
+                            <f:converter binding="#{grupoInstitucionIfipAgenciaConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{grupoInstitucionAgeDetController.save}" value="#{myBundle.Save}" update="display,:GrupoInstitucionAgeDetListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,GrupoInstitucionAgeDetEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="GrupoInstitucionAgeDetEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

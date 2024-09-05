@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProfesionViewDlg"
+                  widgetVar="ProfesionViewDialog" 
+                  modal="true"
+                  resizable="false" 
+                  appendTo="@(body)"                    
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Mostrar} #{propiedadesEtiquetaBL.Profesion}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="ProfesionViewForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" rendered="#{profesionController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                        <h:outputText value="#{profesionController.selected.codigo}" 
+                                      title="#{propiedadesTituloBL.Codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoOc}"/>
+                        <h:outputText value="#{profesionController.selected.codigoOc}"
+                                      title="#{propiedadesTituloBL.CodigoOc}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        <h:outputText value="#{profesionController.selected.nombre}" 
+                                      title="#{propiedadesTituloBL.Nombre}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado"/>
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{profesionController.selected.eliminado}" 
+                                         disabled="true"  >   
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                 
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>            
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

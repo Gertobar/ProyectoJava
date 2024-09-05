@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Personas Naturales --> 
+    <p:panel id="personaActEcoTraPan" 
+             header="#{propiedadesEtiquetaBL.Trabajos}" 
+             style="border: 0; height: 500px; width: 700px">
+        <p:focus context="personaActEcoTraPan"/>   
+        <!-- PanelGrid para Trabajos de la Acrividad Economica --> 
+        <h:panelGrid id="personaActEcoTraGri" 
+                     columns="3" 
+                     columnClasses="label, value, validator" 
+                     styleClass="grid">
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ActividadEconomica}" 
+                           for="actividadEconomicaTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="actividadEconomicaTra" 
+                             value="#{socioBean.personaActividadEconomicaSelTra}" 
+                             disabled="false"
+                             filter="true" 
+                             filterMatchMode="contains"
+                             required="false">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsPersonaActEco}"
+                               var="actividadEconomicaItem"
+                               itemValue="#{actividadEconomicaItem}"
+                               itemLabel="#{actividadEconomicaItem.actividadEconomica.nombre}"
+                               />
+                <f:converter binding="#{personaActividadEconomicaConverter}"/>
+            </p:selectOneMenu>            
+            <h:message for="actividadEconomicaTra"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Empresa}" 
+                           for="empresaTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="empresaTra" 
+                             value="#{socioBean.empresaTrabajo}" 
+                             required="false" 
+                             filter="true" 
+                             filterMatchMode="contains"
+                             requiredMessage="#{propiedadesEtiquetaBL.Empresa} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsEmpresa}"
+                               var="itemEmpresa"
+                               itemValue="#{itemEmpresa}"
+                               itemLabel="#{itemEmpresa.nombre}"
+                               />
+                <f:converter binding="#{empresaConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="empresaTra"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Cargo}" 
+                           for="cargoTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="cargoTra" 
+                             value="#{socioBean.cargoTrabajo}"
+                             required="false" 
+                             filter="true" 
+                             filterMatchMode="contains"
+                             requiredMessage="#{propiedadesEtiquetaBL.Cargo} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsCargo}"
+                               var="cargoItem"
+                               itemValue="#{cargoItem}"
+                               itemLabel="#{cargoItem.nombre}"
+                               />
+                <f:converter binding="#{cargoConverter}"/>                                 
+            </p:selectOneMenu>
+            <h:message for="cargoTra"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoRelacion}" 
+                           for="tipoRelacionTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="tipoRelacionTra" 
+                             value="#{socioBean.tipoRelacionTrabajo}"
+                             required="false" 
+                             filter="true" 
+                             filterMatchMode="contains"
+                             requiredMessage="#{propiedadesEtiquetaBL.TipoRelacion} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsTipoRelacion}"
+                               var="itemTipoRelacion"
+                               itemValue="#{itemTipoRelacion}"
+                               itemLabel="#{itemTipoRelacion.nombre}"
+                               />
+                <f:converter binding="#{tipoRelacionConverter}"/>                                 
+            </p:selectOneMenu>
+            <h:message for="tipoRelacionTra"  styleClass="invalido"/>
+        </h:panelGrid>
+
+        <h:panelGrid columns="6">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" 
+                           for="periodicidadTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="periodicidadTra" 
+                             value="#{socioBean.periodicidadTrabajo}" 
+                             required="false" 
+                             filter="true" 
+                             filterMatchMode="contains"
+                             requiredMessage="#{propiedadesEtiquetaBL.Periodicidad} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsPeriodicidad}"
+                               var="PeriodicidadItem"
+                               itemValue="#{PeriodicidadItem}"
+                               itemLabel="#{PeriodicidadItem.nombre}"
+                               />
+                <f:converter binding="#{periodicidadConverter}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Tiempo}" 
+                           for="tiempoTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.tiempoTrabajo}"
+                         id="tiempoTra"
+                         size="4"
+                         required="false"                         
+                         requiredMessage="#{propiedadesEtiquetaBL.Tiempo} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:convertNumber integerOnly="true"/>
+                <f:validateLongRange minimum="0"/>
+            </p:inputText>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaIngreso}" 
+                           for="fechaIngresoTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:calendar  value="#{socioBean.fechaIngresoTrabajo}"
+                         pattern="dd/MM/yyyy"
+                         id="fechaIngresoTra" 
+                         locale="es"                         
+                         required="false" 
+                         size="12"
+                         requiredMessage="#{propiedadesEtiquetaBL.FechaNacimiento} - #{propiedadesMensajesBL.CampoRequerido}"                                                  
+                         maxdate="#{socioBean.fechaActual}"
+                         />
+        </h:panelGrid>
+        
+        <!--TELEFONO-->
+        <h:panelGrid columns="4">            
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoTelefono}" 
+                           for="tipoTelefonoTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="tipoTelefonoTra" 
+                             value="#{socioBean.tipoTelefonoTrabajo}" 
+                             disabled="false"
+                             required="false">   
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsTipoTelefono}"
+                               var="tipoTelefonoTraItem"
+                               itemValue="#{tipoTelefonoTraItem}"
+                               itemLabel="#{tipoTelefonoTraItem.nombre}"
+                               />
+                <f:converter binding="#{tipoTelefonoConverter}"/>
+            </p:selectOneMenu> 
+
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Numero}" styleClass="etiquetaRequerida"/>                
+            <p:inputText id="telefonoPersonaTra" size="13" value="#{socioBean.numeroTelefonoTrabajo}">                
+
+            </p:inputText>
+        </h:panelGrid>
+        <!-- FIN TELEFONO-->
+
+        <!--UBICACION GEOGRAFICA-->
+        <h:panelGrid columns="8">            
+            <p:outputLabel value="#{propiedadesEtiquetaBL.PaisTrabajo}" 
+                           for="codigoUbiGeoPaiTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoUbiGeoPaiTra" 
+                             value="#{socioBean.ubiGeoPaiTra}" 
+                             required="false" 
+                             requiredMessage="#{propiedadesEtiquetaBL.PaisTrabajo} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsUbiGeoPaiTra}"
+                               var="UbiGeoPaiTraItem"
+                               itemValue="#{UbiGeoPaiTraItem}"
+                               itemLabel="#{UbiGeoPaiTraItem.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoProTra,codigoUbiGeoCiuTra,codigoUbiGeoParTra"  
+                        listener="#{socioBean.cambiaUbiGeoPaiTra()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>            
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ProviniciaTrabajo}" 
+                           for="codigoUbiGeoProTra"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoProTra" 
+                             value="#{socioBean.ubiGeoProTra}" 
+                             required="false" 
+                             requiredMessage="#{propiedadesEtiquetaBL.ProviniciaTrabajo} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsUbiGeoProTra}"
+                               var="UbiGeoProTraItem"
+                               itemValue="#{UbiGeoProTraItem}"
+                               itemLabel="#{UbiGeoProTraItem.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoCiuTra,codigoUbiGeoParTra"  
+                        listener="#{socioBean.cambiaUbiGeoProTra()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.CiudadTrabajo}" 
+                           for="codigoUbiGeoCiuTra"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoCiuTra" 
+                             value="#{socioBean.ubiGeoCiuTra}"
+                             filter="true" 
+                             filterMatchMode="contains"                             
+                             required="false" 
+                             requiredMessage="#{propiedadesEtiquetaBL.CiudadTrabajo} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsUbiGeoCiuTra}"
+                               var="UbiGeoCiuTraItem"
+                               itemValue="#{UbiGeoCiuTraItem}"
+                               itemLabel="#{UbiGeoCiuTraItem.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoParTra"  
+                        listener="#{socioBean.cambiaUbiGeoCiuTra()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>       
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ParroquiaTrabajo}" 
+                           for="codigoUbiGeoParTra"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoParTra" 
+                             value="#{socioBean.ubiGeoParTra}" 
+                             required="false" 
+                             filter="true" 
+                             filterMatchMode="contains"
+                             requiredMessage="#{propiedadesEtiquetaBL.ParroquiaTrabajo} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsUbiGeoParTra}"
+                               var="UbiGeoParTraItem"
+                               itemValue="#{UbiGeoParTraItem}"
+                               itemLabel="#{UbiGeoParTraItem.nombre}"
+                               />
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>                        
+        </h:panelGrid>
+        <!--FIN UBICACION GEOGRAFICA-->
+        
+        <!--DIRECCION-->
+        <h:panelGrid columns="2">
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Sector}" 
+                       for="sectorTra"
+                       styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="sectorTra" 
+                             value="#{socioBean.sectorTrabajo}" 
+                             required="false" 
+                             filter="true" 
+                             filterMatchMode="contains"
+                             requiredMessage="#{propiedadesEtiquetaBL.Sector} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsSector}"
+                               var="SectorItem"
+                               itemValue="#{SectorItem}"
+                               itemLabel="#{SectorItem.nombre}"
+                               />
+                <f:converter binding="#{sectorConverter}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Barrio}" 
+                           for="barrioTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.barrioTrabajo}"
+                         id="barrioTra"
+                         required="false" 
+                         size="50"
+                         onblur="value = value.toUpperCase()"
+                         requiredMessage="#{propiedadesEtiquetaBL.Barrio} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Direccion}" 
+                           for="direccionTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.direccionTrabajo}"
+                         id="direccionTra"
+                         required="false" 
+                         size="50"
+                         onblur="value = value.toUpperCase()"
+                         requiredMessage="#{propiedadesEtiquetaBL.Direccion} - #{propiedadesMensajesBL.CampoRequerido}"/>
+           
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Referencia}" 
+                           for="referenciaTra"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.referenciaTrabajo}"
+                         id="referenciaTra"
+                         required="false" 
+                         size="50"
+                         onblur="value = value.toUpperCase()"
+                         requiredMessage="#{propiedadesEtiquetaBL.Referencia} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            
+             <f:facet name="footer">
+               
+                    <p:commandButton id="agregaActEcoBot"
+                                     value="#{propiedadesEtiquetaBL.Agregar}"
+                                     update="personaActEcoTbl,actividadEconomicaTra,actividadEconomicaTra"
+                                     accesskey="A"
+                                     action="#{socioBean.agregaActividadEconomica()}"/>
+               
+            </f:facet>
+        </h:panelGrid>
+
+     
+        <h:panelGrid style="font-size: 10px;">
+            <p:contextMenu for="personaTraActEcoTbl" widgetVar="cPersonaTraActEcoTbl">     
+                <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}"  
+                            icon="ui-icon-trash" 
+                            action="#{socioBean.quitaActividadEconomica()}" 
+                            update="personaTraActEcoTbl"/>
+                <p:menuitem value="#{propiedadesEtiquetaBL.Editar}"  
+                            icon="#{propiedadesObjetosBL.IcoEditar}" 
+                            action="#{socioBean.quitaActividadEconomica()}" 
+                            update="personaTraActEcoTbl"/>
+            </p:contextMenu>   
+
+            <p:dataTable id="personaTraActEcoTbl" 
+                         value="#{socioBean.itemsPersonaTrabajoActEco}"
+                         var="itemPerTraActEco"                                                          
+                         rowKey="#{itemPerTraActEco.codigo}"
+                         paginator="true"
+                         rows="4"
+                         emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                                                      
+                         selectionMode="single"
+                         selection="#{socioBean.personaTrabajoActEcoSel}"
+                         widgetVar="personaTraActEcoTabla">
+
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Trabajos}"/>
+                </f:facet>
+
+
+                <p:column> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ActividadEconomica}"/>
+                    </f:facet>
+                    <h:outputLabel value="#{itemPerTraActEco.personaActividadEconomica.actividadEconomica.nombre}"/>
+                </p:column>
+                <p:column> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Empresa}"/>
+                    </f:facet>
+                    <h:outputLabel value="#{itemPerTraActEco.empresa.nombre}"/>
+                </p:column>
+
+                <p:column style="width: 200px"> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Cargo}"/>
+                    </f:facet>
+                    <h:outputLabel value="#{itemPerTraActEco.cargo.nombre}"/>
+                </p:column>
+                <p:column> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Periodicidad}"/>                        
+                    </f:facet>
+                    <h:outputLabel value="#{itemPerTraActEco.periodicidadTra.nombre}"/>                   
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Tiempo}"/>
+                    </f:facet>               
+                    <h:outputLabel value="#{itemPerTraActEco.tiempoTra}"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Direccion}"/>
+                    </f:facet>               
+                    <h:outputLabel value="#{itemPerTraActEco.direccion}"/>
+                </p:column>
+                <p:column style="width: 50px"> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                    </f:facet>
+                    <p:selectOneMenu id="eliminadoctividadEconomic" 
+                                     value="#{itemPerTraActEco.eliminado}"
+                                     disabled="true" style="width: 50px"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                        <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                        <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+                    </p:selectOneMenu>
+                </p:column>
+            </p:dataTable>
+        </h:panelGrid>
+    </p:panel>
+
+</ui:composition>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:componentes ="http://java.sun.com/jsf/composite/ezcomp"
+                >
+    <h:form id="mostrarDialogoCrearForm">
+        <componentes:componenteBuscarPersona
+            soloPersonaNatural="true"
+            id="componenteBusca"
+            widgetVar="listaSociosDialog"
+            onHide="seleccionaDatosSocio()"
+            >
+        </componentes:componenteBuscarPersona>   
+        <p:remoteCommand name="seleccionaDatosSocio"
+                         action="#{carteraAsignadaController.seleccionaPersona()}"
+                         update=":CarteraAsignadaCreateForm:nombresSocio"
+                         />
+    </h:form>
+    <p:dialog id="CarteraAsignadaCreateDlg" widgetVar="CarteraAsignadaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{propiedadesEtiquetaBL.CreateCarteraAsignadaTitle}">
+        <h:form id="CarteraAsignadaCreateForm">
+            <h:panelGroup id="display">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.CreateCarteraAsignadaLabel_codigoRecuperador}" for="codigoRecuperador" />
+                    <h:panelGrid columns="2" id="codigoRecuperador">
+                        <p:inputText id="nombresSocio" 
+                                     value="#{carteraAsignadaController.personaRecuperador.nombreCompleto}"
+                                     title="#{propiedadesTituloBL.CodigoIfip}"
+                                     required="true"
+                                     requiredMessage="#{propiedadesMensajesBL.CampoRequerido}"
+                                     size="30" maxlength="50"
+                                     disabled="true"/>
+                        <p:commandButton id="listaSocios"
+                                         value="#{propiedadesEtiquetaBL.Buscar} #{propiedadesEtiquetaBL.Socio}"
+                                         icon="#{propiedadesObjetosBL.IcoVer}"                                 
+                                         onclick="PF('listaSociosDialog').show();"
+                                         update="nombresSocio" 
+                                         type="button"/>
+                    </h:panelGrid>                                                           
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_solicitud}" for="solicitud" />
+                    <p:inputText id="solicitud" value="#{carteraAsignadaController.codigoSolicitud}"                                 
+                                 title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_vigente}"
+                                 required="true"                                 
+                                 requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_vigente}">
+                        <p:ajax event="blur" update="socio" listener="#{carteraAsignadaController.buscarSocio}"/>
+                    </p:inputText>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.CreateCarteraAsignadaTitle_socioSolicitud}" for="socio" />
+                    <p:inputText id="socio" value="#{carteraAsignadaController.nombresPersona}" style="width: 100%;"
+                                 size="50"
+                                 title="#{propiedadesEtiquetaBL.CreateCarteraAsignadaTitle_socioSolicitud}"
+                                 disabled="true"/>
+                </p:panelGrid>
+                <p:commandButton actionListener="#{carteraAsignadaController.crear}" 
+                                 value="#{propiedadesEtiquetaBL.Aceptar}"                                  
+                                 update=":CarteraAsignadaListForm:datalist" />
+                <p:commandButton value="#{propiedadesEtiquetaBL.Cancelar}" onclick="CarteraAsignadaCreateDialog.hide()"/>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="AsignacionCargoDlg"                  
+              modal="true" style="height: 500px"
+              widgetVar="AsignacionCargoDialog">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="encabezadoAsignacionCargo"
+                            value="CARGO PERSONA IFIP"
+                            styleClass="encabezadosDialog"/>               
+
+
+        </f:facet>
+        <h:form id="AsignacionCargoForm">
+            <h:panelGrid id="AsignacionCargoGri" columns="1" style="font-size: 10px; height: 400px" >
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombres}" styleClass="etiqueta"/>
+                    <p:outputLabel id="nombresSocioBusqueda"
+                                   value="#{personaVinculadoBean.personaSel.nombreCompleto}"/>
+                    <p:outputLabel value="AGENCIA" styleClass="etiqueta" for="agencia"/>
+                    <p:selectOneMenu id="agencia" 
+                                     value="#{personaVinculadoBean.personaRelacionIfip.codigoIfipAgencia}" >    
+                        <f:selectItems value="#{personaVinculadoBean.itemsIfipAgencia}"
+                                       var="IfipAgencia"
+                                       itemValue="#{IfipAgencia}"
+                                       itemLabel="#{IfipAgencia.nombre}"
+                                       />
+                        <f:converter binding="#{ifipAgenciaConverter}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="CARGO" styleClass="etiqueta" for="cargo"/>
+                    <p:selectOneMenu id="cargo" 
+                                     value="#{personaVinculadoBean.personaRelacionIfip.codigoCargo}" >    
+                        <f:selectItems value="#{personaVinculadoBean.itemsCargo}"
+                                       var="VarCargo"
+                                       itemValue="#{VarCargo}"
+                                       itemLabel="#{VarCargo.nombre}"
+                                       />
+                        <f:converter binding="#{cargoConverter}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="OBSERVACIONES" styleClass="etiqueta" for="observaciones"/>
+                    <p:inputText id="observaciones" 
+                                   value="#{personaVinculadoBean.personaRelacionIfip.observaciones}" />
+                    <p:outputLabel value="ELIMINADO" styleClass="etiqueta" for="eliminado"/>
+                    <p:selectOneMenu id="eliminado"                                  
+                                     value="#{personaVinculadoBean.personaRelacionIfip.eliminado}"
+                                     required="true"                                  
+                                     requiredMessage="Eliminado : #{propiedadesMensajesBL.CampoRequerido}">                          
+                        <f:selectItem itemLabel="SI" itemValue="S" />  
+                        <f:selectItem itemLabel="NO" itemValue="N" />
+                    </p:selectOneMenu> 
+                </h:panelGrid>
+                <p:commandButton id="aceptarBot" ajax="false"
+                                 value="GUARDAR / EDITAR"   
+                                 actionListener="#{personaVinculadoBean.crearEditarCargo}"
+                                 update=":barraForm"
+                                 oncomplete="AsignacionCargoDialog.hide();"
+                                 />
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+
+</ui:composition>

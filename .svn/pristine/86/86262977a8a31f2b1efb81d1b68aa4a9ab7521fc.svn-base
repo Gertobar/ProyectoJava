@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CuentaContableItemVentaListForm">
+         <!-- ̣̣̣̣**************************************************************************
+         DESCRIBIR LO QUE CONTIENE EL SIGUIENTE CONTENIDO                           -->
+
+        <!-- EXPLICACION: COLOCAR AQUI LO CONCERNIENTE AL RESULTADO DE LA BUSQUEDA (TABLA) /
+             LOS COMPONENTES DE LA VENTANA DE TRANSACCION 
+             EL SIGUIENTE CONTENIDO ES UN EJEMPLO EL CUAL DEBE SER BORRADO-->
+        <p:dataTable id="datalist"
+                     value="#{cuentaContableItemVentaController.itemsCuentaContableItemVenta}"
+                     var="item"
+                     rowKey="#{item.cuentaContableItemVentaPK}"
+                     paginator="true"
+                     rows="7"
+                     selectionMode="single"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}" 
+                     selection="#{cuentaContableItemVentaController.selected}">
+
+             <f:facet name="header">
+                 <h:outputLabel value="#{propiedadesEtiquetaBL.CuentasContablesItemVenta}"/>
+            </f:facet>
+            
+            <p:ajax event="rowSelect"   update=":barraForm"/>
+            <p:ajax event="rowUnselect" update=":barraForm"/>
+
+            <p:column sortBy="#{item.itemVenta.nombre}" 
+                      filterBy="#{item.itemVenta.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ItemVenta}"/>
+                </f:facet>
+                <h:outputText value="#{item.itemVenta.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.planDeCuentaIfip.planDeCuentaIfipPK.cuentaContable}" 
+                      filterBy="#{item.planDeCuentaIfip.planDeCuentaIfipPK.cuentaContable}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CuentaContable}"/>
+                </f:facet>
+                <h:outputText value="#{item.planDeCuentaIfip.planDeCuentaIfipPK.cuentaContable}: #{item.planDeCuentaIfip.planDeCuenta.nombre}"/>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaRegistro}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+
+                </p:selectOneMenu>
+            </p:column>
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

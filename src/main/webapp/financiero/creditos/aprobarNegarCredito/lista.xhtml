@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="AprobarNegarForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{solicitudAprobadaNegadaController.itemsSolicitud}" 
+                     var="item"                    
+                     selection="#{solicitudAprobadaNegadaController.itemsSolicitudSel}"
+                     rowKey="#{item.solicitudPK.numero}"
+                     scrollHeight="160"                                                                
+                     editable="true"
+                     editMode="cell"
+                     rows="10"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.AprobacionNegacion} #{propiedadesEtiquetaBL.De} #{propiedadesEtiquetaBL.Creditos}" />
+            </f:facet>
+
+            <p:ajax event="rowSelectCheckbox" 
+                    listener="#{solicitudAprobadaNegadaController.solicitudSeleccionada}"
+                    update=":barraForm:Aprobado,:barraForm:AprobadoPendienteDocumento,:barraForm:Negado, :barraForm:Devolver"/>
+
+            <p:ajax event="rowUnselectCheckbox" 
+                    listener="#{solicitudAprobadaNegadaController.solicitudNoSeleccionada}"
+                    update=":barraForm:Aprobado,:barraForm:AprobadoPendienteDocumento,:barraForm:Negado, :barraForm:Devolver"/>
+
+            <p:ajax event="toggleSelect"  
+                    listener="#{solicitudAprobadaNegadaController.solicitudesSeleccionadas}"
+                    update=":barraForm:Aprobado,:barraForm:AprobadoPendienteDocumento,:barraForm:Negado, :barraForm:Devolver"/>
+
+            <p:column selectionMode="multiple"  style="text-align:center" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.AprobarNegar}"
+                                  />
+                </f:facet>                                     
+            </p:column>
+
+            <p:column style="width:16px">
+                <p:rowToggler />
+            </p:column>
+
+            <p:column sortBy="#{item.fechaEstado}" filterBy="#{item.fechaEstado}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaEnvioFabrica}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaEstado}">
+                    <f:convertDateTime pattern="dd/MM/yyyy  HH:mm:ss" timeZone="EST" />
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.ifipAgencia.nombre}" style="width:  30px" filterBy="#{item.ifipAgencia.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Agencia}"/>
+                </f:facet>
+                <h:outputText value="#{item.ifipAgencia.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.solicitudPK.numero}" style="width:  10px" filterBy="#{item.solicitudPK.numero}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Numero}"/>
+                </f:facet>
+                <h:outputText value="#{item.solicitudPK.numero}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.socio.codigoPersona.nombreCompleto}" style="width:  10px" 
+                      filterBy="#{item.socio.codigoPersona.nombreCompleto}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                </f:facet>
+                <h:outputText value="#{item.socio.codigoPersona.nombreCompleto}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}" 
+                      filterBy="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                </f:facet>
+                <h:outputText value="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.montoCredito}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Monto}"/>
+                </f:facet>
+                <h:outputText value="#{item.montoCredito}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column sortBy="#{item.plazoDias}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.PlazoMeses}"/>
+                </f:facet>
+                <h:outputText value="#{item.plazoMeses}">
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.fechaSolicitud}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaSolicitud}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaSolicitud}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ObservacionesDocumentacionPendiente}"/>
+                </f:facet>
+                <p:cellEditor>  
+                    <f:facet name="output">#{item.observacionPendienteParaConceder} </f:facet>
+                    <f:facet name="input">
+                        <p:inputText id="observaciones" 
+                                     value="#{item.observacionPendienteParaConceder}"
+                                     required="false"                                                                                        
+                                     style="width: 100%;size: 200px"> 
+                        </p:inputText>                                    
+                    </f:facet>                    
+                </p:cellEditor>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.MotivoDevolucion}"/>
+                </f:facet>
+                <p:selectOneMenu id="motivoDevolucion" 
+                                 value="#{item.solicitudMotivoDevolucion}" 
+                                 disabled="false"
+                                 required="false">                        
+                    <f:selectItems value="#{solicitudAprobadaNegadaController.listaMotivosDevolucion}"
+                                   var="solictiudMotivoDevolucionItem"
+                                   itemValue="#{solictiudMotivoDevolucionItem}"
+                                   itemLabel="#{solictiudMotivoDevolucionItem.motivo}"/>
+                    <f:converter binding="#{solicitudMotivoDevolucionConverter}"/>
+                </p:selectOneMenu>  
+
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ObservacionesDevolucion}"/>
+                </f:facet>
+                <p:cellEditor>  
+                    <f:facet name="output">#{item.observacionesDevolucion} </f:facet>
+                    <f:facet name="input">
+                        <p:inputText id="observacionesDevolucion" 
+                                     value="#{item.observacionesDevolucion}"
+                                     required="false"                                                                                        
+                                     style="width: 100%;size: 200px"> 
+                        </p:inputText>                                    
+                    </f:facet>                    
+                </p:cellEditor>
+            </p:column>
+
+            <p:rowExpansion>
+                <p:panelGrid columns="2" columnClasses="labe,value" style="width:100%">
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}"/>
+                    <h:outputText value="#{item.observacionPreAprobacion}"/>
+                </p:panelGrid>
+            </p:rowExpansion>            
+
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>

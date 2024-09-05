@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="IngresoEgresoListForm">
+
+
+
+        <p:dataTable id="datalist"
+                     value="#{ingresoEgresoController.items}"
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{ingresoEgresoController.selected}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="10"
+                     rowsPerPageTemplate="10,20,30,40,50"
+                     >
+
+
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot "/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                </f:facet>
+                <h:outputText value="#{item.nombre}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.siglas}" filterBy="#{item.siglas}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Siglas}"/>
+                </f:facet>
+                <h:outputText value="#{item.siglas}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Descripcion}"/>
+                </f:facet>
+                <h:outputText value="#{item.descripcion}"/>
+            </p:column>
+
+
+              <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.AfectaCaja}"/>
+                </f:facet>
+                <p:selectOneMenu id="afectaCaja" 
+                                 disabled="true"
+                                 value="#{item.afectaCaja}"> 
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                      
+                </p:selectOneMenu>
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Contabiliza}"/>
+                </f:facet>
+                <p:selectOneMenu id="contabiliza" 
+                                 disabled="true"
+                                 value="#{item.contabiliza}"> 
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                      
+                </p:selectOneMenu>
+            </p:column>
+
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+
+                </p:selectOneMenu>
+            </p:column>  
+
+
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.esIngreso}"/>
+                </f:facet>
+                <p:selectOneMenu id="esIngreso" 
+                                 disabled="true"
+                                 value="#{item.esIngreso}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+
+                </p:selectOneMenu>
+            </p:column>  
+
+
+        </p:dataTable>
+
+
+
+
+    </h:form>
+
+</ui:composition>

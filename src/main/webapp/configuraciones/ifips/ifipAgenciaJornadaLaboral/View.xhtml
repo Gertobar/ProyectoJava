@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaJornadaLaboralViewDlg" widgetVar="IfipAgenciaJornadaLaboralViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewIfipAgenciaJornadaLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="IfipAgenciaJornadaLaboralViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ifipAgenciaJornadaLaboralController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewIfipAgenciaJornadaLaboralLabel_ifipAgenciaJornadaLaboralPK_dia}"/>
+                        <h:outputText value="#{ifipAgenciaJornadaLaboralController.selected.ifipAgenciaJornadaLaboralPK.dia}" title="#{myBundle.ViewIfipAgenciaJornadaLaboralTitle_ifipAgenciaJornadaLaboralPK_dia}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipAgenciaJornadaLaboralLabel_ifipAgenciaJornadaLaboralPK_meridiano}"/>
+                        <h:outputText value="#{ifipAgenciaJornadaLaboralController.selected.ifipAgenciaJornadaLaboralPK.meridiano}" title="#{myBundle.ViewIfipAgenciaJornadaLaboralTitle_ifipAgenciaJornadaLaboralPK_meridiano}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipAgenciaJornadaLaboralLabel_horaInicial}"/>
+                        <h:outputText value="#{ifipAgenciaJornadaLaboralController.selected.horaInicial}" title="#{myBundle.ViewIfipAgenciaJornadaLaboralTitle_horaInicial}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipAgenciaJornadaLaboralLabel_horaFinal}"/>
+                        <h:outputText value="#{ifipAgenciaJornadaLaboralController.selected.horaFinal}" title="#{myBundle.ViewIfipAgenciaJornadaLaboralTitle_horaFinal}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipAgenciaJornadaLaboralLabel_eliminado}"/>
+                        <h:outputText value="#{ifipAgenciaJornadaLaboralController.selected.eliminado}" title="#{myBundle.ViewIfipAgenciaJornadaLaboralTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipAgenciaJornadaLaboralLabel_ifipAgencia}"/>
+                        <h:outputText value="#{ifipAgenciaJornadaLaboralController.selected.ifipAgencia.codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="IfipAgenciaJornadaLaboralViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

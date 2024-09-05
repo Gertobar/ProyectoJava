@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="BloqueoCuentaUsuarioListForm">
+
+        <p:dataTable id="datalist"  
+                     value="#{bloqueoCuentaUsuarioController.itemsUsuSistema}" 
+                     var="item"
+                     selectionMode="single"
+                     selection="#{bloqueoCuentaUsuarioController.usuarioSistemaSel}"
+                     rowKey="#{item.usuarioSistemaPK}"
+                     paginator="true"                       
+                     rows="8"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.BloqueoCuentaUsuario}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column sortBy="#{item.usuario.codigoPersona.nombreCompleto}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                </f:facet>
+                <h:outputText value="#{item.usuario.codigoPersona.nombreCompleto}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.usuario.username}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Usuario}"/>
+                </f:facet>
+                <h:outputText value="#{item.usuario.username}"/>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CorreoElectronico}"/>
+                </f:facet>
+                <h:outputText value="#{item.usuario.codigoPersona.correoEletronico}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.fechaCaducaContrasena}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaCaducaContrasena}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaCaducaContrasena}">
+                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                </h:outputText>
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <p:selectOneMenu id="estado" 
+                                 disabled="true"
+                                 value="#{item.estado}">    
+                    <f:selectItem itemLabel="VIGENTE" itemValue="V" />
+                    <f:selectItem itemLabel="EXPIRADO" itemValue="X" />  
+                    <f:selectItem itemLabel="CADUCADO" itemValue="C" /> 
+                    <f:selectItem itemLabel="BLOQUEADO" itemValue="B" /> 
+                    <f:selectItem itemLabel="ELIMINADO" itemValue="E" /> 
+                </p:selectOneMenu>
+            </p:column>
+
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

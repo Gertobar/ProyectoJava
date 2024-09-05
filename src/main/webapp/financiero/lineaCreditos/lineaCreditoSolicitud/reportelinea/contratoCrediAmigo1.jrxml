@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contratoCrediAmigo_subreport2" language="groovy" pageWidth="595" pageHeight="802" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="906d1da9-cdb4-4ce8-9094-96fffe3bac88">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="272"/>
+	<style name="table">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="cuotasDataSet" uuid="f11871d9-ef20-4106-a1f0-e926cbeee6f7">
+		<parameter name="codigoLineaCredito" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[$P{codigoLineaCredito}]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT '$'||TRIM( TO_CHAR(lcp.monto_inicio_plazo,'FM9999999990.00') ) desde,
+       '$'||TRIM( TO_CHAR(lcp.monto_fin_plazo,'FM9999999990.00') ) hasta,
+       lcp.numero_cuotas||CASE WHEN lcp.numero_cuotas  = 1 THEN ' CUOTA'
+                               ELSE ' CUOTAS' END cuotas
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_creditos.linea_credito_plazo lcp
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo = lcp.codigo_linea_credito
+AND    lcs.codigo = $P{codigoLineaCredito}
+AND    lcp.eliminado = 'N'
+ORDER BY lcp.monto_inicio_plazo]]>
+		</queryString>
+		<field name="DESDE" class="java.lang.String"/>
+		<field name="HASTA" class="java.lang.String"/>
+		<field name="CUOTAS" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoLineaCredito" class="java.lang.Long"/>
+	<parameter name="contratoCrediAmigo1" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+(
+SELECT UPPER( i.razon_social ) ||' '||
+       'CONTRATO DE CRÉDITO-'||UPPER( lc.nombre ) titulo2
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_ifips.ifip i
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo_ifip = i.codigo
+AND    lcs.codigo = $P{codigoLineaCredito}
+)contenido0,
+
+'Autorizando a LA COOPERATIVA para que con cada avance de efectivo se debite desde mi cuenta de ahorros el valor correspondiente al 3% del Fondo de Reservas Irrepartibles, en aplicación a la Resolución vigente de la Junta de Política y Regulación Monetaria y Financiera.
+
+La disponibilidad de esta Línea de Crédito para futuros avances de efectivo, se encontrarán en función del cupo límite aprobado y el saldo capital de los avances de efectivo realizados, y, siempre que EL DEUDOR se encuentre al día con el pago de las obligaciones contraídas con LA COOPERATIVA.
+
+QUINTA. – PLAZOS Y MONTOS:
+El plazo de tiempo establecido para la generación de las cuotas a pagar dependerá del monto utilizado de la línea '||UPPER( lc.nombre )||', conforme el siguiente detalle:' contenido1,
+
+'LA COOPERATIVA podrá dar por terminado el presente contrato en forma unilateral cuando EL DEUDOR haya incumplido cualquiera de las condiciones establecidas en el presente contrato, sin lugar a futuros reclamos. Por cuanto, EL DEUDOR continuará cancelando los valores pendientes de pago, conforme los estados de cuenta generados y entregados al SOCIO de manera física o electrónica, constantes en su cuenta de ahorros o cuenta determinada para este producto de crédito.
+
+La terminación del contrato suspende automáticamente el derecho de EL DEUDOR para acceder a futuros avances de efectivo inherentes a esta Línea de Crédito.
+
+SEXTA. – FECHAS DE PAGOS, TASA DE INTERÉS Y FORMA DE PAGO:
+El SOCIO pagará a la Cooperativa hasta el día veinte y cinco (25)  de  cada mes, los  valores  recibidos de  esta Línea de Crédito, más los intereses y demás rubros de acuerdo a los vencimientos sucesivos de la (s) tabla (s) de amortización generada por todos los avances de efectivo realizados por ELSOCIO.
+
+La  tasa de interés de esta Línea de Crédito será reajustable, por lo que, de existir cambio y/o modificación alguna, la nueva tasa de interés se aplicará únicamente a los nuevos avances de efectivo; la aceptación del reajuste de la tasa de interés se entenderá aceptada por EL SOCIO, por el uso de la línea de crédito '||UPPER( lc.nombre )||'.
+
+SÉPTIMA. – SANCIONES POR MORA Y OBLIGACIONES:
+Si el SOCIO incurre en mora por falta de pago de un dividendo automáticamente la línea de crédito quedará bloqueada. 
+Si el socio incurre en mora por falta de pago en dos o más dividendos, la COOPERATIVA por su sola voluntad dará por cancelada la línea de crédito CREDIAMIGO y podrá exigir el pago total de lo adeudado, es decir, capital más interés pactados y de mora; de igual manera EL SOCIO se obliga a cubrir todos los gastos extrajudiciales, judiciales, costas procesales y honorarios profesionales que se originen por el cobro del crédito impago, bastando para su determinación la mera aseveración de la COOPERATIVA.
+
+Las obligaciones que asume EL SOCIO en este contrato son indivisibles y el incumplimiento de cualquiera de ellas permitirá a LA COOPERATIVA suspender definitivamente la línea de crédito CREDIAMIGO sin mediar ningún trámite o diligencia. 
+
+El SOCIO y garante (s) solidario (s) se obligan con todos los bienes presentes y futuros, además autoriza a LA COOPERATIVA para que en caso de mora disponga de cualquier valor o valores que existan a su favor en la COOPERATIVA, e imputen los mismos al pago total o parcial contenida en este contrato, de sus intereses o gastos ocasionados por la mora o cualquier otro gasto, sin que para este efecto la COOPERATIVA dé aviso alguno o requiera de una nueva autorización. Adicionalmente, autorizamos a LA COOPERATIVA a precancelar el (los) Certificado (s) de Depósito a Plazo Fijo antes de su vencimiento, a fin de imputar el pago de la (s) obligación (es) crediticia (s) contraída (s) para con LA COOPERATIVA.
+
+' contenido2
+FROM  mks_creditos.linea_credito_solicitud lcs,
+      mks_creditos.linea_credito lc,
+      mks_creditos.producto_credito_moneda_ifip pc,
+      mks_creditos.tasa_interes_pro_cre_mon_ifi tipc,
+      mks_creditos.tasa_interes_credito_ifip ti,
+      mks_ifips.ifip i
+WHERE lcs.codigo_linea_credito = lc.codigo
+AND   lc.codigo_producto = pc.codigo_producto
+AND   lc.codigo_moneda = pc.codigo_moneda
+AND   lc.codigo_ifip = pc.codigo_ifip
+AND   pc.codigo_producto = tipc.codigo_producto
+AND   pc.codigo_moneda = tipc.codigo_moneda
+AND   pc.codigo_ifip = tipc.codigo_ifip
+AND   tipc.codigo_tasa = ti.codigo
+AND   lcs.codigo_ifip = i.codigo
+AND   lcs.codigo = $P{codigoLineaCredito}]]>
+	</queryString>
+	<field name="CONTENIDO0" class="java.lang.String"/>
+	<field name="CONTENIDO1" class="java.lang.String"/>
+	<field name="CONTENIDO2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="754" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 2" x="60" y="166" width="474" height="70" uuid="7b72d698-47cc-421f-8fa1-3782a66bbeff"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="cuotasDataSet" uuid="0cd0f460-b0cc-4db7-b95e-6b188743a12c">
+						<datasetParameter name="codigoLineaCredito">
+							<datasetParameterExpression><![CDATA[$P{codigoLineaCredito}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="163" uuid="cdcab6fa-f866-4133-973d-eccb6cc9a616">
+						<jr:tableHeader height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="163" height="13" uuid="d1cbbd77-3924-4af7-bb5d-6ae2f32bf88a"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true" isStrikeThrough="false"/>
+								</textElement>
+								<text><![CDATA[MONTO]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:columnHeader height="17" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="163" height="17" uuid="46d038c1-984d-40e8-a5fd-495986ca0408"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[DESDE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="922b4e92-4671-4c0e-910f-fcde3571bdb4"/>
+								<textFieldExpression><![CDATA[$F{DESDE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="172" uuid="f08eed9e-6fe7-42d4-b00e-937d10e5fbfe">
+						<jr:tableHeader height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="172" height="13" uuid="06a3d468-2141-44d8-842f-c60a9dcf23fa"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true" isStrikeThrough="false"/>
+								</textElement>
+								<text><![CDATA[PLAZO]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:columnHeader height="17" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="17" uuid="61d4274c-56ac-4128-aa41-3eb4413f8524"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[HASTA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="f7b5bc19-7675-477f-b7e9-29ecde289e75"/>
+								<textFieldExpression><![CDATA[$F{HASTA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="533b5834-c933-4716-99e2-b5dfe147b75b">
+						<jr:tableHeader height="13" rowSpan="1"/>
+						<jr:columnHeader height="17" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="17" uuid="4732b74c-4bd1-4831-95d5-4e748349c45f"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Nº CUOTAS]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="669f0e39-a422-4b9a-9f17-d1bc738b27a7"/>
+								<textFieldExpression><![CDATA[$F{CUOTAS}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField>
+				<reportElement x="30" y="277" width="538" height="477" uuid="e12fe23c-d457-4195-80fc-5aef0b9af5f0"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="21" width="538" height="152" uuid="eaf4a821-c42f-4394-a7f4-ed22d8d8a78f"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<summary>
+		<band height="49">
+			<subreport>
+				<reportElement x="0" y="0" width="595" height="49" uuid="30e1c9f1-26c4-4ee5-8d17-b5cb64d8a9d3"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="contratoCrediAmigo1">
+					<subreportParameterExpression><![CDATA[$P{contratoCrediAmigo1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1}+ "contratoCrediAmigo2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

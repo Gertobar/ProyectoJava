@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoTelefonoEditDlg" 
+                  widgetVar="TipoTelefonoEditDialog"
+                  modal="true" 
+                  resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true">
+
+              <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.EntidadFinanciera}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <h:form id="TipoTelefonoEditForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{tipoTelefonoController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{tipoTelefonoController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre"
+                                       styleClass="etiquetaRequerida"
+                                       />
+                        <p:inputText id="nombre" value="#{tipoTelefonoController.selected.nombre}" 
+                                     title="#{propiedadesEtiquetaBL.Nombre}" required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre}"
+                                     size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Siglas}" 
+                                       for="siglas" 
+                                       styleClass="etiquetaRequerida"
+                                       />
+                        <p:inputText id="siglas" 
+                                     value="#{tipoTelefonoController.selected.siglas}" 
+                                     title="#{propiedadesEtiquetaBL.Siglas}" required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Siglas}" 
+                                     size="5" maxlength="5"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"
+                                       styleClass="etiquetaRequerida"
+                                       />
+                        <p:selectOneMenu id="eliminado" value="#{tipoTelefonoController.selected.eliminado}" 
+                                         required="true" >
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N"/>
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S"/>
+
+                        </p:selectOneMenu>
+
+                                <p:commandButton actionListener="#{tipoTelefonoController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:TipoTelefonoListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,TipoTelefonoEditDialog);"/>
+                       
+                    </p:panelGrid>
+                    
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

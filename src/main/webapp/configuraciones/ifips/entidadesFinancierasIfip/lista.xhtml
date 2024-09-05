@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EntidadFinancieraIfiAgeListForm">
+
+
+
+        <p:dataTable id="datalist" 
+                     value="#{entidadFinancieraIfiAgeController.itemsEntidadFinancieraIfipAge}"
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{entidadFinancieraIfiAgeController.selected}"
+                     rowKey="#{item.entidadFinancieraIfiAgePK}"
+                     paginator="true"
+                     rows="10"
+                     rowsPerPageTemplate="10,20,30"
+                     >
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot "/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+
+            <p:column sortBy="#{item.entidadFinancieraIfiAgePK.codigoEntidadFinanciera}" filterBy="#{item.entidadFinancieraIfiAgePK.codigoEntidadFinanciera}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.EntidadFinanciera}"/>
+                </f:facet>
+                <h:outputText value="#{item.entidadFinanciera.nombre.toString()}"/>
+
+            </p:column>
+
+
+            <p:column sortBy="#{item.ingresadoPor}" filterBy="#{item.ingresadoPor}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.IngresadoPor}"/>
+                </f:facet>
+                <h:outputText value="#{item.usuarioIngresadoPor.codigoPersona.nombreCompleto.toString()}"/>
+
+            </p:column>
+
+
+            <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}">
+                <f:facet name="header">
+
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaIngreso}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaIngreso}">
+                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.ifipAgencia.codigo}" filterBy="#{item.ifipAgencia.nombre.toString()}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.IfipAgencia}"/>
+                </f:facet>
+
+                <h:outputText value="#{item.ifipAgencia.nombre.toString()}"/>
+            </p:column>
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+
+                </p:selectOneMenu>
+            </p:column> 
+
+
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

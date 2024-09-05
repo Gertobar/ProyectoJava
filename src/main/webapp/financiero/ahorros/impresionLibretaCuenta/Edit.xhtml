@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ImpresionLibretaCuentaEditDlg" widgetVar="ImpresionLibretaCuentaEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditImpresionLibretaCuentaTitle}" closeOnEscape="true">
+
+            <h:form id="ImpresionLibretaCuentaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{impresionLibretaCuentaController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditImpresionLibretaCuentaLabel_codigoMovimiento}" for="codigoMovimiento" />
+                        <h:outputText id="codigoMovimiento" value="#{impresionLibretaCuentaController.selected.codigoMovimiento}" />
+
+                        <p:outputLabel value="#{myBundle.EditImpresionLibretaCuentaLabel_numeroLinea}" for="numeroLinea" />
+                        <p:inputText id="numeroLinea" value="#{impresionLibretaCuentaController.selected.numeroLinea}" title="#{myBundle.EditImpresionLibretaCuentaTitle_numeroLinea}" required="true" requiredMessage="#{myBundle.EditImpresionLibretaCuentaRequiredMessage_numeroLinea}"/>
+
+                        <p:outputLabel value="#{myBundle.EditImpresionLibretaCuentaLabel_movimientoCuenta}" for="movimientoCuenta" />
+                        <p:selectOneMenu id="movimientoCuenta" value="#{impresionLibretaCuentaController.selected.movimientoCuenta}" required="true" requiredMessage="#{myBundle.EditImpresionLibretaCuentaRequiredMessage_movimientoCuenta}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{movimientoCuentaController.items}"
+                                           var="movimientoCuentaItem"
+                                           itemValue="#{movimientoCuentaItem}"
+                                           itemLabel="#{movimientoCuentaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{movimientoCuentaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditImpresionLibretaCuentaLabel_numeroLibreta}" for="numeroLibreta" />
+                        <p:selectOneMenu id="numeroLibreta" value="#{impresionLibretaCuentaController.selected.numeroLibreta}" required="true" requiredMessage="#{myBundle.EditImpresionLibretaCuentaRequiredMessage_numeroLibreta}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{libretaAsignadaCuentaController.items}"
+                                           var="numeroLibretaItem"
+                                           itemValue="#{numeroLibretaItem}"
+                                           itemLabel="#{numeroLibretaItem.numeroLibreta.toString()}"
+                                           />
+                            <f:converter binding="#{libretaAsignadaCuentaConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{impresionLibretaCuentaController.save}" value="#{myBundle.Save}" update="display,:ImpresionLibretaCuentaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ImpresionLibretaCuentaEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="ImpresionLibretaCuentaEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

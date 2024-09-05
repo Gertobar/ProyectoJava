@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProtestoChequeDetalleEditDlg" widgetVar="ProtestoChequeDetalleEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditProtestoChequeDetalleTitle}" closeOnEscape="true">
+
+            <h:form id="ProtestoChequeDetalleEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{protestoChequeDetalleController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditProtestoChequeDetalleLabel_protestoChequeDetallePK_codigoMoneda}" for="protestoChequeDetallePK_codigoMoneda" />
+                        <h:outputText id="protestoChequeDetallePK_codigoMoneda" value="#{protestoChequeDetalleController.selected.protestoChequeDetallePK.codigoMoneda}" />
+
+                        <p:outputLabel value="#{myBundle.EditProtestoChequeDetalleLabel_numeroCheques}" for="numeroCheques" />
+                        <p:inputText id="numeroCheques" value="#{protestoChequeDetalleController.selected.numeroCheques}" title="#{myBundle.EditProtestoChequeDetalleTitle_numeroCheques}" required="true" requiredMessage="#{myBundle.EditProtestoChequeDetalleRequiredMessage_numeroCheques}"/>
+
+                        <p:outputLabel value="#{myBundle.EditProtestoChequeDetalleLabel_totalCheques}" for="totalCheques" />
+                        <p:inputText id="totalCheques" value="#{protestoChequeDetalleController.selected.totalCheques}" title="#{myBundle.EditProtestoChequeDetalleTitle_totalCheques}" required="true" requiredMessage="#{myBundle.EditProtestoChequeDetalleRequiredMessage_totalCheques}"/>
+
+                        <p:outputLabel value="#{myBundle.EditProtestoChequeDetalleLabel_totalProtesto}" for="totalProtesto" />
+                        <p:inputText id="totalProtesto" value="#{protestoChequeDetalleController.selected.totalProtesto}" title="#{myBundle.EditProtestoChequeDetalleTitle_totalProtesto}" required="true" requiredMessage="#{myBundle.EditProtestoChequeDetalleRequiredMessage_totalProtesto}"/>
+
+                        <h:outputLabel value="#{myBundle.EditProtestoChequeDetalleLabel_protestoCheque}" for="protestoCheque" />
+                        <h:outputText id="protestoCheque" value="#{protestoChequeDetalleController.selected.protestoCheque}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{protestoChequeDetalleController.save}" value="#{myBundle.Save}" update="display,:ProtestoChequeDetalleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ProtestoChequeDetalleEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="ProtestoChequeDetalleEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

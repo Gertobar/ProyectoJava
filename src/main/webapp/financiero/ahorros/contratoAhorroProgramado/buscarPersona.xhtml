@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component xmlns:ui="http://java.sun.com/jsf/facelets"
+              xmlns:componentes ="http://java.sun.com/jsf/composite/ezcomp"
+              xmlns:h="http://java.sun.com/jsf/html"
+              xmlns:p="http://primefaces.org/ui">
+    <h:form id="componentePersonaForm">
+        <componentes:componenteBuscarPersona
+            id="componenteBuscarPersona"
+            widgetVar="listaPersonaDialog"
+            onHide="cargarBeneficiario()"
+            soloPersonaNatural="false">            
+        </componentes:componenteBuscarPersona>
+        <p:remoteCommand name="cargarBeneficiario"
+                         actionListener="#{contratoAhorroProgramadoController.cargarBeneficiario}"
+                         update=":contratoAhorroProgramadoCreateForm:beneficiario,:contratoAhorroProgramadoCreateForm:focus"/>
+    </h:form>
+</ui:component>

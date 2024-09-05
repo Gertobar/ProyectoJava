@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comprobante" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Detalle" uuid="3d80251e-0e4e-4b18-aa7d-aba9eb50b3e9">
+		<parameter name="codIfip" class="java.lang.Long"/>
+		<parameter name="fecCorte" class="java.util.Date"/>
+		<parameter name="fecInicio" class="java.util.Date"/>
+		<parameter name="per" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT  (SELECT nombre
+         FROM   mks_contables.plan_de_cuenta
+         WHERE  cuenta_contable                
+                   = (SELECT   cuenta_padre
+                     FROM     mks_contables.plan_de_cuenta
+                     WHERE    cuenta_contable = pla.cuenta_padre  
+                     AND      codigo_tipo_plan=pla.codigo_tipo_plan)
+         AND    codigo_tipo_plan=pla.codigo_tipo_plan)                            "GRUPO",
+        pla.nombre                                                                "NOMBRE CUENTA",
+        pla.cuenta_contable                                                       "CUENTA CONTABLE",
+        debito-credito                                                            "SALDO"
+FROM    (SELECT  SUM(DECODE(cod.tipo,'C',cod.valor,0)) credito,
+                  SUM(DECODE(cod.tipo,'D',cod.valor,0)) debito,
+                  cod.codigo_tipo_plan                  codigo_tipo_plan,
+                  cod.cuenta_contable                   cuenta_contable
+          FROM    mks_contables.comprobante                 com,
+                  mks_contables.comprobante_detalle         cod
+          WHERE   com.codigo_periodo                        = $P{per}
+          AND     com.codigo_ifip                           = $P{codIfip}
+          AND     cod.cuenta_contable                       LIKE '14%'
+          AND     cod.cuenta_contable                       NOT LIKE '1499%'
+          AND     TRUNC(com.fecha)                          >= TRUNC($P{fecInicio})
+          AND     TRUNC(com.fecha)                          <= TRUNC($P{fecCorte})
+          AND     com.codigo                                = cod.codigo_comprobante
+          AND     com.codigo_estado                         <>4
+          GROUP BY cod.cuenta_contable, cod.codigo_tipo_plan)                     con,
+          mks_contables.plan_de_cuenta                                            pla,
+          mks_contables.tipo_plan_de_cuenta                                       tpc
+WHERE     con.codigo_tipo_plan                                                    = pla.codigo_tipo_plan
+AND       con.cuenta_contable                                                     = pla.cuenta_contable
+AND       tpc.codigo                                                              = pla.codigo_tipo_plan
+AND       trunc(tpc.fecha_inicio_vigencia)                                        <=TRUNC($P{fecCorte})    
+AND       (trunc(tpc.fecha_fin_vigencia)                                          is null
+          OR
+          trunc(tpc.fecha_fin_vigencia)                                           >=TRUNC($P{fecCorte}))
+
+--AND       debito-credito                                                          > 0
+ORDER BY  pla.cuenta_contable]]>
+		</queryString>
+		<field name="GRUPO" class="java.lang.String"/>
+		<field name="NOMBRE CUENTA" class="java.lang.String"/>
+		<field name="CUENTA CONTABLE" class="java.lang.String"/>
+		<field name="SALDO" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<parameter name="fechaCorte" class="java.util.Date"/>
+	<parameter name="periodo" class="java.lang.String"/>
+	<parameter name="fechaInicio" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT  tti.nombre||' '||ifi.nombre           "IFIP",
+        ifi.path_imagen                       "IMAGEN"
+
+FROM    mks_ifips.ifip                         ifi,
+        mks_ifips.tipo_ifip                    tti
+WHERE   ifi.codigo                             = $P{codigoIfip}
+AND     tti.codigo                             = ifi.codigo_tipo_ifip]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="IMAGEN" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="67" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" mode="Transparent" x="5" y="25" width="544" height="20" uuid="28018225-171b-471e-a66f-838ed0428d25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="0" width="57" height="25" uuid="7f644b82-cc9c-4ce2-bf2a-f72fecf0b70b"/>
+				<imageExpression><![CDATA[$F{IMAGEN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="46" width="544" height="20" uuid="07bdd9f4-ab48-4af9-90e3-8a11fadaf09b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECLASIFICACION CONTABLE DE CARTERA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="119" splitType="Immediate">
+			<staticText>
+				<reportElement positionType="Float" x="8" y="39" width="96" height="17" uuid="e94ffd36-8ad9-4a67-91a3-8c5617b3333f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA IMPRESION]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement positionType="Float" x="104" y="39" width="197" height="17" uuid="a75ac576-3326-4015-880d-b63dcba01c60"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="8" y="22" width="96" height="17" uuid="57589624-c9bb-4920-b603-65c2e970738c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA DE CORTE]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="Float" x="104" y="22" width="197" height="17" uuid="3e4d7ef2-ad3d-47d2-a33f-d28aae17814e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaCorte}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="8" y="5" width="96" height="17" uuid="b7af0dcd-b811-4cb1-a8ed-137e89e17916"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERIODO]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement positionType="Float" x="104" y="5" width="197" height="17" uuid="12ac997e-b82c-4f50-903f-5fff9bdc6af0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{periodo}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table 7" style="table 7" x="0" y="58" width="555" height="50" uuid="40a4cc72-d664-44ca-83b3-01ea72123fc4"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Detalle" uuid="a7205293-6aab-4fa5-94fe-691e76632fd5">
+						<datasetParameter name="codIfip">
+							<datasetParameterExpression><![CDATA[$P{codigoIfip}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fecCorte">
+							<datasetParameterExpression><![CDATA[$P{fechaCorte}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fecInicio">
+							<datasetParameterExpression><![CDATA[$P{fechaInicio}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="per">
+							<datasetParameterExpression><![CDATA[$P{periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="212" uuid="82763f4a-991d-4655-9406-f7d66cbb2a98">
+						<jr:columnHeader style="table 7_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="212" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="8334086a-e894-43c1-8e52-d39c1bcbc9fc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[GRUPO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 7_TD" height="31" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="212" height="31" uuid="733736b6-711b-49df-9921-353bbeb222fb"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GRUPO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="145" uuid="8f852f9e-1309-4edf-9666-c4a8f8045118">
+						<jr:columnHeader style="table 7_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="145" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="2303b96d-4f85-4ffc-a146-b27ca00923d5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NOMBRE CUENTA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 7_TD" height="31" rowSpan="1">
+							<textField>
+								<reportElement x="16" y="0" width="129" height="31" uuid="a366bc52-ac34-4759-9254-c1a232c10aae"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NOMBRE CUENTA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="83" uuid="d176255c-1604-46c0-b29c-a87d6d5c45ff">
+						<jr:columnHeader style="table 7_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="83" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="989e98c0-e1f4-4d83-b7bb-13ae1be4fc05"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[CUENTA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 7_TD" height="31" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="83" height="31" uuid="f44d832f-75f6-4635-947c-c92b2d16cd06"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CUENTA CONTABLE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="114" uuid="f83daaea-a1d3-4207-b94f-b2197f396773">
+						<jr:columnHeader style="table 7_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="114" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="d1fd1c17-e581-4122-b809-7624c36f3abf"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[SALDO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 7_TD" height="31" rowSpan="1">
+							<textField pattern="###,###,##0.00;-###,###,##0.00">
+								<reportElement x="0" y="0" width="114" height="31" uuid="fa3fe123-72be-4107-bb7d-c3c2bd677af0"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SALDO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

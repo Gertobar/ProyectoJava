@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="transferenciaChequeDepFor"> 
+
+        <p:panel  id="transferenciaChequeDepPan"   
+                  header="#{propiedadesEtiquetaBL.TransferenciaChequeDep}"  style="width: 720px"
+                  styleClass="encabezadosDialog">         
+            <p:focus context="transferenciaChequeDepPan"/>      
+
+            <p:separator/>
+            <h:panelGrid  id="transferenciaChequeDepGri"  columns="1">
+                <p:dataTable id="transferenciaChequeDepTbl"  
+                             value="#{transferenciaChequeDepController.itemsChequeDepositado}"
+                             widgetVar="transferenciaChequeDepTabla"
+                             var="itemTransferenciaCheque"
+                             rowKey="#{itemTransferenciaCheque.codigo}"    
+                             scrollable="true" 
+                             scrollHeight="160" 
+                             editable="true" 
+                             editMode="cell" 
+                             style="width: 695px"
+                             rows="10"
+                             emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.ChequeDepositado}"
+                                       />                
+                    </f:facet>                     
+
+
+                    <p:column  style="width: 100px; text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.NumeroCheque}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemTransferenciaCheque.numeroCheque}">                            
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column  style="width: 100px; text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.NumeroCuenta}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemTransferenciaCheque.numeroCuenta}">                           
+                        </h:outputText>
+                    </p:column> 
+
+                    <p:column  style="width: 100px; text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.EntidadFinanciera}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemTransferenciaCheque.entidadFinanciera.codigoTipoEntidad.siglas} #{itemTransferenciaCheque.entidadFinanciera.nombre}">                           
+                        </h:outputText>
+                    </p:column>   
+
+                    <p:column  style="width: 100px; text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Movimiento}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemTransferenciaCheque.codigoMovimiento}">                           
+                        </h:outputText>
+                    </p:column>    
+
+                    <p:column  style="width: 100px; text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemTransferenciaCheque.valor}">     
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </p:column> 
+                </p:dataTable>
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" width="600px">
+                <h:panelGrid columns="1" width="500px" style="text-align:  right">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Total}" styleClass="encabezadosPanelGrid"/>
+                </h:panelGrid>
+                <h:panelGrid columns="1" width="150px" style="text-align: right">
+                    <h:outputText id="totalEfectivo" 
+                                  value="#{transferenciaChequeDepController.total}" 
+                                  styleClass="encabezadosPanelGrid">
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                    </h:outputText>
+                </h:panelGrid>
+
+                <f:facet name="footer">
+                    <p:commandButton id="transferirBot"
+                                     actionListener="#{transferenciaChequeDepController.transfiereChequeDep}"
+                                     disabled="#{transferenciaChequeDepController.deshabilitaBotonTransferir}"
+                                     value="#{propiedadesEtiquetaBL.Transferir}"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     update=":mensaje,:transferenciaChequeDepFor,:transferenciaChequeDepFor:transferenciaChequeDepTbl,:ComprobanteFor,:impresionLab" >                    
+                        <p:confirm message="#{propiedadesMensajesBL.SeguroRealizarTransferenciaCheque}" 
+                                   icon="ui-icon-info"
+                                   class="encabezadosDialog"                                     
+                                   header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                    </p:commandButton>
+                </f:facet>
+            </h:panelGrid>
+
+            <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+                <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+            </p:confirmDialog>
+        </p:panel>
+    </h:form>
+</ui:composition>

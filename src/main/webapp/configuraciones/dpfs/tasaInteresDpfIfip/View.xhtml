@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TasaInteresDpfIfipViewDlg" widgetVar="TasaInteresDpfIfipViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{myBundle.ViewTasaInteresDpfIfipTitle}" closeOnEscape="true">
+
+            <h:form id="TasaInteresDpfIfipViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tasaInteresDpfIfipController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresDpfIfipLabel_codigo}"/>
+                        <h:outputText value="#{tasaInteresDpfIfipController.selected.codigo}" title="#{myBundle.ViewTasaInteresDpfIfipTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresDpfIfipLabel_codigoIfip}"/>
+                        <h:outputText value="#{tasaInteresDpfIfipController.selected.codigoIfip}" title="#{myBundle.ViewTasaInteresDpfIfipTitle_codigoIfip}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresDpfIfipLabel_valor}"/>
+                        <h:outputText value="#{tasaInteresDpfIfipController.selected.valor}" title="#{myBundle.ViewTasaInteresDpfIfipTitle_valor}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresDpfIfipLabel_registradoPor}"/>
+                        <h:outputText value="#{tasaInteresDpfIfipController.selected.registradoPor}" title="#{myBundle.ViewTasaInteresDpfIfipTitle_registradoPor}"/>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresDpfIfipLabel_fechaRegistro}"/>
+                        <h:outputText value="#{tasaInteresDpfIfipController.selected.fechaRegistro}" title="#{myBundle.ViewTasaInteresDpfIfipTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewTasaInteresDpfIfipLabel_eliminado}"/>
+                        <h:outputText value="#{tasaInteresDpfIfipController.selected.eliminado}" title="#{myBundle.ViewTasaInteresDpfIfipTitle_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="TasaInteresDpfIfipViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

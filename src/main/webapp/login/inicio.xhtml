@@ -1,0 +1,206 @@
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="/resources/plantilla/loginPlantilla.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="formulario">
+        <script type="text/javascript">
+            function myIP() {
+                var yip2 = java.net.InetAddress.getLocalHost();
+                var yip = yip2.getHostAddress();
+                return yip;
+            } //end myIP
+
+            alert("your machine's local network IP is " + myIP())
+        </script>
+        <ui:include src="olvideClave.xhtml"/>
+        <h:form id="LoginFor">
+            <h:panelGrid id="panel" columns="1" cellspacing="2" width="50%" 
+                         style=" margin-top: 23%; margin-left: 54%">
+                <p:focus context="panel"/>
+                <p:messages id="mensaje" showDetail="true" autoUpdate="true" closable="true" />
+                <h:panelGrid columns="2" cellspacing="2" width="50%">                    
+                    <h:outputLabel  value="#{propiedadesEtiquetaBL.Usuario}: " 
+                                    style="color: black;                                                 
+                                    font-size:  small"  />
+                    <h:inputText id="usuario" value="#{usuarioController.username}"
+                                 onkeyup="value = value.toUpperCase()"
+                                 onblur="value = value.toUpperCase()"
+                                 style=" border-color:  #333333;
+                                 height: 25px;
+                                 font-size: x-small"/>
+                    <h:outputLabel  value="#{propiedadesEtiquetaBL.ContrasenaLogin}: "
+                                    style="color: black;                                                 
+                                    font-size:  small
+                                    " />                                        
+                    <h:inputSecret id="contrasena" value="#{usuarioController.contrasena}"
+                                   style="border-color:  #333333;
+                                   height: 25px;
+                                   font-size: x-small"/>
+                </h:panelGrid>
+                <h:panelGrid id="panelBoton" 
+                             width="44%" 
+                             style="margin-left: 114px;margin-right: auto;"
+                             columns="2">
+                    <p:commandLink value="Olvide contraseña"
+                                   onclick="PF('olvideClaveDialog').show();"/>
+                    <p:commandLink />
+                    <p:commandButton value="Iniciar Sesion" 
+                                     action="#{usuarioController.validaUsuario()}"
+                                     onclick="procesandoDlg.show();"                                     
+                                     update="mensaje,panel,:CambioContrasenaFor:cambioContrasenaLab"
+                                     oncomplete="procesandoDlg.hide();" />
+                </h:panelGrid>
+            </h:panelGrid>   
+            <p:dialog closable="false"
+                      appendTo="@(body)"
+                      modal="true" maximizable="false" 
+                      resizable="false"                
+                      id="procesandoDlg"
+                      widgetVar="procesandoDlg">     
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Espere}"
+                                   styleClass="encabezadosDialog"/>
+                </f:facet>
+                <p:graphicImage value="#{propiedadesObjetosBL.ImgProcesando}" />  
+            </p:dialog> 
+
+
+
+            <p:dialog closable="true"
+                      appendTo="@(body)"
+                      modal="true" 
+                      maximizable="false" 
+                      resizable="false"                
+                      id="BloqueoCuentaDlg"
+                      widgetVar="BloqueoCuentaDialogo">     
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Informacion}"
+                                   styleClass="encabezadosDialog"/>
+                </f:facet>
+
+                <h:outputText  value="#{propiedadesMensajesBL.UsuarioBloqueoCuenta}"
+                               styleClass="invalido"/>             
+                <p:separator/>
+                <p:commandButton  onclick="BloqueoCuentaDialogo.hide();"
+                                  value="#{propiedadesEtiquetaBL.Aceptar}"
+                                  style="font-size:  10px;"
+                                  />
+
+            </p:dialog> 
+
+            <p:dialog closable="true"
+                      appendTo="@(body)"
+                      modal="true" 
+                      maximizable="false" 
+                      resizable="false"                
+                      id="informacionDlg"
+                      widgetVar="InformacionDialogo">     
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Informacion}"
+                                   styleClass="encabezadosDialog"/>
+                </f:facet>
+
+                <h:outputText value="#{propiedadesMensajesBL.ProximoIntentoFallidoBloqueaCuenta}"
+                              styleClass="invalido"/>            
+                <p:separator/>
+                <p:commandButton  onclick="InformacionDialogo.hide();"
+                                  value="#{propiedadesEtiquetaBL.Aceptar}"
+                                  style="font-size:  10px;"
+                                  />
+
+            </p:dialog> 
+        </h:form>
+        <p:dialog closable="false"
+                  appendTo="@(body)"
+                  modal="true" 
+                  maximizable="false" 
+                  resizable="false"                
+                  id="CambioContrasenaDlg"
+                  widgetVar="CambioContrasenaDialogo">     
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Informacion}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <h:form id="CambioContrasenaFor">
+                <h:outputText id="cambioContrasenaLab"
+                              value="#{usuarioController.mensajeDialogoCambioContrasena}"
+                              styleClass="invalido"/>    
+                <p:separator/>
+                <p:commandButton    value="#{propiedadesEtiquetaBL.CambiarContrasena}"
+                                    action="#{usuarioController.cambiaContrasena()}"
+                                    style="font-size:  10px;"/>
+            </h:form>
+        </p:dialog> 
+
+
+        <p:dialog closable="false"
+                  appendTo="@(body)"
+                  modal="true"
+                  maximizable="false"
+                  resizable="false"
+                  id="CambioContrasenaTemporalDlg"
+                  widgetVar="CambioContrasenaTemporalDialogo"
+                  onShow="abrirDialogo();">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.ActualizarClaveTemporal}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <h:form id="CambioContrasenaTemporalForm">
+                <p:remoteCommand name="abrirDialogo" update="foco"/>
+                <p:focus id="foco" 
+                         context="CambioContrasenaTemporalForm"
+                         for="#{usuarioController.focoDialogoCambioContrasenaTemporal}" />
+                <h:panelGrid id="panelClave" columns="2" style="font-size:  10px;">
+                    <p:outputLabel id="claveTemporalLabel"
+                                   value="#{propiedadesEtiquetaBL.ClaveTemporal} *"
+                                   styleClass="invalido"/>
+                    <p:inputText id="claveTemporal"
+                                 value="#{usuarioController.claveTemporal}"
+                                 size="10"
+                                 maxlength="6"
+                                 validator="validadorSoloNumero"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.ContrasenaNueva} *"
+                                   for="claveNueva"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:password id="claveNueva"
+                                value="#{usuarioController.claveNueva}"
+                                title="#{propiedadesTituloBL.ContrasenaNueva}"
+                                feedback="true"
+                                promptLabel="Por favor ingrese una clave" 
+                                weakLabel="Debil"
+                                goodLabel="Media" 
+                                strongLabel="Fuerte"
+                                size="20" 
+                                maxlength="20">
+                        <p:ajax event="change"
+                                listener="#{usuarioController.validaComplejidadClave(true, true)}"
+                                update="claveConfirma,foco"/>
+                    </p:password>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.ConfirmacionContrasena}"
+                                   for="claveConfirma"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:password id="claveConfirma"
+                                value="#{usuarioController.claveConfirmacion}"
+                                title="#{propiedadesTituloBL.ConfirmacionContrasena}"
+                                size="20" 
+                                maxlength="20">
+                        <p:ajax event="change"
+                                listener="#{usuarioController.validaCoincidenciaClave(true)}"
+                                update="foco"/>
+                    </p:password>
+                    <p:outputLabel value="#{propiedadesMensajesBL.LeyendaClaveTemporal}"
+                                   style="width: 20px"/>
+                    <p:commandButton id="cambiarClaveBot"
+                                     value="#{propiedadesEtiquetaBL.CambiarContrasenaTemporal}"
+                                     actionListener="#{usuarioController.cambiaContrasenaTemporal}"
+                                     style="font-size: 10px;"
+                                     update=":LoginFor"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

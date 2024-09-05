@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="ConfirmacionCierreDlg"                  
+              modal="true"
+              widgetVar="ConfirmacionDialogo">     
+
+
+        <f:facet name="header">
+            <h:outputLabel  value="#{propiedadesEtiquetaBL.Confirmacion}"
+                            styleClass="encabezadosDialog"/>
+        </f:facet>
+        <h:form id="ConfirmacionFor">
+            <h:panelGrid columns="1" style="text-align: center; size: 10px">
+
+                <h:outputText  styleClass="etiqueta" 
+                               value="#{propiedadesMensajesBL.SeguroGuardarCierre}"/>
+                <h:outputText styleClass="invalido" 
+                              value="#{cierreController.mensajeCabecera}"/>
+                <h:outputText styleClass="invalido" 
+                              value="#{cierreController.mensajeConfirmacion}"/>
+                <h:panelGrid columns="2" style="text-align: center">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Si}"
+                                     actionListener="#{cierreController.guardaCierre}"
+                                     update=":CierreCajaFor:guardarBot"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.No}"
+                                     onclick="ConfirmacionDialogo.hide()"/>
+                </h:panelGrid>
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+</ui:composition>

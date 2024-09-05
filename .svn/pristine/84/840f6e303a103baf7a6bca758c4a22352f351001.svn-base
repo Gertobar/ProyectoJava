@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PersonaDlg" 
+                  widgetVar="PersonaDialogo" 
+                  modal="true" 
+                  resizable="false" 
+                  appendToBody="true"
+                  closeOnEscape="true" 
+                  style="height: 500px; width: 700px"
+                  onShow="personaWizer.loadStep(personaWizer.cfg.steps[0], true)">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.PersonaNatural}"
+                               styleClass="encabezadosDialog"/>
+                <h:outputLabel id="tipoUAF" value="#{personaGeneralBean.mensajePanel}"
+                               style="#{personaGeneralBean.estiloMensaje == 1 ? 'font-size: 12px;color:Green;' :personaGeneralBean.estiloMensaje == 2 ? 'font-size: 12px;color:Orange;':personaGeneralBean.estiloMensaje==3?'font-size:12px;color:Red;':'font-size: 12px;color:Black;'}"/>
+            </f:facet>
+
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+
+            <h:form id="PersonaFor">
+
+                <p:wizard id="personaWiz"  
+                          widgetVar="personaWizer" 
+                          flowListener="#{personaGeneralBean.sigueFlujo}"
+                          style="font-size: 10px; margin-top: 0px;" 
+                          showStepStatus="true"   
+                          showNavBar="true"
+                          backLabel="#{propiedadesEtiquetaBL.Atras}"
+                          nextLabel="#{propiedadesEtiquetaBL.Siguinte}"                                                                              
+                          >  
+
+                    <p:tab  id="naturalTab" 
+                            title="#{propiedadesEtiquetaBL.PersonaNatural}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="datosBasicos.xhtml"/> 
+                    </p:tab>  
+
+                    <p:tab  id="residenciaPerNatTab" 
+                            title="#{propiedadesEtiquetaBL.Residencia}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="residencia.xhtml"/> 
+                    </p:tab>  
+
+                    <p:tab  id="telefonoPerNatTab" 
+                            title="#{propiedadesEtiquetaBL.Telefonos}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="telefono.xhtml"/> 
+                    </p:tab>
+
+                    <p:tab  id="actividadEconomicaPerNatTab" 
+                            title="#{propiedadesEtiquetaBL.ActividadEconomica}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="actidadEconomica.xhtml"/> 
+                    </p:tab>  
+
+                    <p:tab  id="confirmacionPerNatTab" 
+                            title="#{propiedadesEtiquetaBL.Confirmacion}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="confirmacion.xhtml"/> 
+                    </p:tab>  
+
+
+                </p:wizard>  
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
+

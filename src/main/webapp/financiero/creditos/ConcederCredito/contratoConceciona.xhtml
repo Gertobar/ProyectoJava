@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="contratoPan" 
+              header="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Credito}"
+              style="height: 500px; width: 700px">  
+        <p:focus context="contratoPan"/>   
+        <h:panelGrid id="numeroSolicitudGri" columns="2" columnClasses="label, value" styleClass="grid">  
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Numero}" 
+                           for="numeroSolicitud"
+                           styleClass="etiquetaRequerida"/>
+            <h:outputText value="#{concedeBean.solicitud.solicitudPK.numero}"
+                          id="numeroSolicitud"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}" 
+                           for="socio"
+                           styleClass="etiquetaRequerida"/>                             
+            <h:outputText  id="socio"
+                           value="#{concedeBean.solicitud.socio.codigoPersona.nombreCompleto}"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaSolicitud}" 
+                           for="fechaSolicitud"
+                           styleClass="etiquetaRequerida"/>                             
+            <h:outputText  id="fechaSolicitud"
+                           value="#{concedeBean.solicitud.fechaSolicitud}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ActividadEconomica}" 
+                           for="actividadEconomica"
+                           styleClass="etiquetaRequerida"/>
+            <h:outputText id="actividadEconomica" 
+                          value="#{concedeBean.solicitud.actividadEconomica.nombre}"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                           for="moneda"
+                           styleClass="etiquetaRequerida"/>
+            <h:outputText id="moneda" 
+                          value="#{concedeBean.solicitud.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.nombre}" />
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                           for="productoCredito"
+                           styleClass="etiquetaRequerida"/>
+            <h:outputText id="productoCredito" 
+                          value="#{concedeBean.solicitud.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}"    />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.MontoCredito}" 
+                           for="socio"
+                           styleClass="etiquetaRequerida"/>                             
+            <h:outputText  id="nombreSocio"
+                           value="#{concedeBean.solicitud.montoCredito}">
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+            </h:outputText>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" 
+                           for="tasaCredito"
+                           styleClass="etiquetaRequeriada"/>
+            <h:outputText id="tasaCredito"
+                          value="#{concedeBean.solicitud.tasa}"  >
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />  
+            </h:outputText>
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" 
+                           for="periodicidad"
+                           styleClass="etiquetaRequerida"/>
+            <h:outputText id="periodicidad" 
+                          value="#{concedeBean.solicitud.periodicidadProMonIfi.periodicidad.nombre}"/>
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Cuotas} *" 
+                           for="cuotas"
+                           styleClass="etiquetaRequerida"/>
+            <h:outputText id="cuotas"
+                          value="#{concedeBean.solicitud.numeroCuotas}"/>
+            
+            <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroPagare} *" 
+                           for="numeroPagare"
+                           styleClass="etiquetaRequerida"/>
+            <h:outputText id="numeroPagare"
+                          value="#{concedeBean.solicitudPagare.numeroPagare}"/>
+
+
+        </h:panelGrid>  
+
+        <p:spacer height="10"/>
+
+        <h:panelGrid id="agregarCuentasCreditoGri" columns="5">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}"
+                           styleClass="etiquetaRequerida"
+                           for="cuenta"/>
+            <p:selectOneMenu id="cuenta" 
+                             value="#{concedeBean.cuentaCombo}"
+                             >                          
+                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                <f:selectItems value="#{concedeBean.itemsCuentas}"
+                               var="CuentaItem"
+                               itemValue="#{CuentaItem}"
+                               itemLabel="#{CuentaItem.numero} : #{CuentaItem.tipoProducto.nombre}"
+                               />
+                <f:converter binding="#{cuentaConverter}"/>
+                <p:ajax event="change" 
+                        listener="#{concedeBean.verificaSeleccionCuenta()}" 
+                        update=":ConcecionCreditoFor:cuenta"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                           for="tipoItem"
+                           styleClass="etiquetaRequerida" />
+            <p:selectOneMenu id="tipoItem" 
+                             value="#{concedeBean.tipoCuentaSel}"
+                             >                          
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Debito}" itemValue="D" />  
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Credito}" itemValue="C" />                                  
+            </p:selectOneMenu>
+            <p:commandButton id="agregarCuentaBot" 
+                             value="#{propiedadesEtiquetaBL.Agregar}"
+                             update=":ConcecionCreditoFor:cuentasTbl"
+                             action="#{concedeBean.agregaCuentaDetalle()}">
+            </p:commandButton>
+        </h:panelGrid>
+
+        <p:dataTable id="cuentasTbl" 
+                     value="#{concedeBean.itemsSolicitudDetalle}"
+                     var="itemSolicitudDetalle"                                                          
+                     rowKey="#{itemSolicitudDetalle.solicitudDetallePK}"
+                     paginator="true"
+                     rows="2"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                                                 
+                     widgetVar="cuentasTabla">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Cuentas} #{propiedadesEtiquetaBL.Credito}"/>
+            </f:facet>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                </f:facet>
+                <h:outputLabel value="#{itemSolicitudDetalle.cuentaAcreditada.productoIfip.producto.tipoProducto.nombre}"/>
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Credito}"/>
+                </f:facet>
+                <h:outputLabel value="#{itemSolicitudDetalle.cuentaAcreditada.numero}"/>
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Debito}"/>
+                </f:facet>
+                <h:outputLabel value="#{itemSolicitudDetalle.cuentaDebito.numero}"/>
+            </p:column>
+
+        </p:dataTable>
+
+
+
+    </p:panel>
+
+</ui:composition>

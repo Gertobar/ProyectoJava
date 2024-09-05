@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="buscarPersona" method-signature="void buscar(java.lang.String)"/>
+        <cc:attribute name="inactivaControl" method-signature="void inactivaControl(java.lang.Boolean)"/>
+        <cc:attribute name="vaciarControl" method-signature="void vaciarControl(java.lang.Boolean)"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="formularioInactivaControles" style="display: none;">
+            <p:remoteCommand id="buscar" 
+                             process="@this" 
+                             action="#{cc.attrs.buscarPersona}" 
+                             autoRun="true" />
+
+            <p:remoteCommand id="eventoInactivaControl" 
+                             process="@this" 
+                             action="#{cc.attrs.inactivaControl}" 
+                             autoRun="true" />
+
+            <p:remoteCommand id="eventoVaciarControl" 
+                             process="@this" 
+                             action="#{cc.attrs.vaciarControl}" 
+                             autoRun="true" />    
+        </h:form>
+        <p:inputText id="identificacionPersona" 
+                     value="#{componentePersonaSocio.identificacionBusqueda}" 
+                     size="10"
+                     style="#{componentePersonaSocio.styleBusqueda}"
+                     maxlength="15"
+                     disabled="#{componentePersonaSocio.inactivaControl}">
+            <p:ajax event="change"
+                    update="nombrePersona, btnNuevaPersona, personaGrilla, identificacionPersonaComponente, codigoPersonaComponente, nombrePersonaComponente"
+                    listener="#{componentePersonaSocio.buscarPersona()}"/>
+        </p:inputText>
+        <p:inputText id="nombrePersona" 
+                     value="#{componentePersonaSocio.nombrePersona}" 
+                     size="40" 
+                     disabled="false"
+                     readonly="true"
+                     style="#{componentePersonaSocio.styleBusqueda}">
+        </p:inputText>
+        <p:commandButton id="btnNuevaPersona"
+                         disabled="#{(componentePersonaSocio.inactivoBotonNuevaPersona or componentePersonaSocio.inactivaControl) ? true : false}"
+                         icon="#{propiedadesObjetosBL.IcoNuevo}"
+                         actionListener="#{componentePersonaSocio.ocultaBusqueda}"
+                         update="btnNuevaPersona, identificacionPersona, nombrePersona, personaGrilla, identificacionPersonaComponente, codigoPersonaComponente, nombrePersonaComponente"
+                         style="#{componentePersonaSocio.styleBusqueda}"
+                         oncomplete="#{componentePersonaSocio.focoNuevaPersona}"/>
+        <h:panelGrid id="personaGrilla" columns="2" style="#{componentePersonaSocio.styleNuevaPersona}">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoPersona}"
+                           for="codigoTipoPersona"/>
+            <p:selectOneMenu id="codigoTipoPersona"
+                             value="#{componentePersonaSocio.tipoPersonaNuevaPersona}">
+                <f:selectItems value="#{componentePersonaSocio.listaTipoPersona}"
+                               var="codigoTipoPersonaItem"
+                               itemValue="#{codigoTipoPersonaItem.codigo}"
+                               itemLabel="#{codigoTipoPersonaItem.nombre}"/>
+                <p:ajax event="change" listener="#{componentePersonaSocio.cambiaTipoIdentificacion}" update="codigoTipoIdentificacion"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoIdentificacion}"
+                           for="codigoTipoIdentificacion"/>
+            <p:selectOneMenu id="codigoTipoIdentificacion"
+                             value="#{componentePersonaSocio.tipoIdentificacionNuevaPersona}">
+                <f:selectItems value="#{componentePersonaSocio.listaTipoIdentificacion}"
+                               var="codigoTipoIdentificacionItem"
+                               itemValue="#{codigoTipoIdentificacionItem.codigo}"
+                               itemLabel="#{codigoTipoIdentificacionItem.nombre}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}"
+                           for="identificacionNuevaPersona"/>
+            <p:inputText id="identificacionNuevaPersona" 
+                         disabled="true"
+                         value="#{componentePersonaSocio.identificacionNuevaPersona}"
+                         size="35"
+                         maxlength="30">
+            </p:inputText>  
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Nombres}"
+                           for="nombreNuevaPersona"/>
+            <p:inputText id="nombreNuevaPersona"
+                         value="#{componentePersonaSocio.nombreNuevaPersona}"
+                         size="35"
+                         maxlength="150"></p:inputText>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Caducidad} #{propiedadesEtiquetaBL.Identificacion}"
+                           for="fechaCaducidadIdentificacionNuevaPersona"/>
+            <p:calendar id="fechaCaducidadIdentificacionNuevaPersona"
+                        value="#{componentePersonaSocio.fechaCaducidadIdentificacionNuevaPersona}"
+                        readonly="false"
+                        size="35"
+                        pattern="dd/MM/yyyy"
+                        locale="es" />
+
+            <p:commandButton id="btnGuardar"
+                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                             value="#{propiedadesEtiquetaBL.Guardar}"
+                             actionListener="#{componentePersonaSocio.guardaPersona}"
+                             update="identificacionPersona, nombrePersona, btnNuevaPersona, personaGrilla, identificacionPersonaComponente, codigoPersonaComponente, nombrePersonaComponente"/>
+            <p:commandButton id="btnCancelar"
+                             icon="#{propiedadesObjetosBL.IcoEliminar}"
+                             value="#{propiedadesEtiquetaBL.Cancelar}"
+                             actionListener="#{componentePersonaSocio.visualizaBusqueda}"
+                             update="identificacionPersona, nombrePersona, btnNuevaPersona, personaGrilla, identificacionPersonaComponente, codigoPersonaComponente, nombrePersonaComponente"
+                             oncomplete="#{componentePersonaSocio.focoIdentificacion}"/>
+        </h:panelGrid>
+        <h:inputHidden id="identificacionPersonaComponente" value="#{componentePersonaSocio.identificacionBusqueda}"/>
+        <h:inputHidden id="codigoPersonaComponente" value="#{componentePersonaSocio.codigoPersona}"/>
+        <h:inputHidden id="nombrePersonaComponente" value="#{componentePersonaSocio.nombrePersona}"/>
+    </cc:implementation>
+</html>

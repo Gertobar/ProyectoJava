@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="tablaAmortizacion" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a363c4bb-6d70-4021-a83e-0834fee9e169">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoSocio" class="java.math.BigDecimal"/>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select t.total_ingresos_socio     "INGRESO SOCIO",
+       t.total_ingresos_conyuge   "INGRESO CONYUGE",
+       t.total_gastos_socio       "GASTOS SOCIO",
+       t.saldo                    "SALDO",
+       t.cobertura                "COBERTURA",
+       p.total_activos            "TOTAL ACTIVOS",
+       p.total_pasivos            "TOTAL PASIVOS",
+       p.total_patrimonio         "PATRIMONIO"
+from mks_socios.socio_flujo_caja t,
+     mks_socios.socio_situacion_patrimonial p 
+where t.codigo_socio=p.codigo_socio and
+      t.codigo_ifip=p.codigo_ifip and 
+      t.codigo_socio=$P{codigoSocio} and t.codigo_ifip=$P{codigoIfip}]]>
+	</queryString>
+	<field name="INGRESO SOCIO" class="java.math.BigDecimal"/>
+	<field name="INGRESO CONYUGE" class="java.math.BigDecimal"/>
+	<field name="GASTOS SOCIO" class="java.math.BigDecimal"/>
+	<field name="SALDO" class="java.math.BigDecimal"/>
+	<field name="COBERTURA" class="java.math.BigDecimal"/>
+	<field name="TOTAL ACTIVOS" class="java.math.BigDecimal"/>
+	<field name="TOTAL PASIVOS" class="java.math.BigDecimal"/>
+	<field name="PATRIMONIO" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="121" splitType="Stretch">
+			<textField pattern="###,###,##0.00;(###,###,##0.00)">
+				<reportElement x="142" y="22" width="85" height="20" uuid="db32a5d2-ef00-467d-b601-f6e2a0bddb94"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INGRESO SOCIO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="2" width="176" height="20" uuid="ac35e78e-77f1-41be-9f1c-8e68d9dd0141"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[FLUJO DE EFECTIVO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="22" width="118" height="20" uuid="c373d8a5-f841-42f2-80c6-d0a0899ef09a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL INGRESOS SOCIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="41" width="118" height="20" uuid="ee907866-aa04-46a4-a0f9-b1962cf9b919"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL INGRESOS CONYUGE]]></text>
+			</staticText>
+			<textField pattern="###,###,##0.00;(###,###,##0.00)">
+				<reportElement x="142" y="41" width="85" height="20" uuid="20f1a574-71e3-4944-bb74-fdbead965cd1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INGRESO CONYUGE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="60" width="118" height="20" uuid="60c7897d-6483-463a-a3ee-2391adb724f7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL GASTOS SOCIO]]></text>
+			</staticText>
+			<textField pattern="###,###,##0.00;(###,###,##0.00)">
+				<reportElement x="142" y="60" width="85" height="20" uuid="110ed801-3a37-4a08-9126-2f4d36468ba2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GASTOS SOCIO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="79" width="118" height="20" uuid="bfac8843-d4e0-4577-a6f2-de4265119a79"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO]]></text>
+			</staticText>
+			<textField pattern="###,###,##0.00;(###,###,##0.00)">
+				<reportElement x="142" y="79" width="85" height="20" uuid="76b04924-6ef8-4182-8d30-8acd055fe636"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALDO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="98" width="118" height="20" uuid="b500bfd0-4ba5-4328-8d3f-a3841c15ba9e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COBERTURA]]></text>
+			</staticText>
+			<textField pattern="###,###,##0.00;(###,###,##0.00)">
+				<reportElement x="142" y="98" width="85" height="20" uuid="72fa3f35-c7cb-46bb-a22a-e2f9c6db8ceb"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COBERTURA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,##0.00;(###,###,##0.00)">
+				<reportElement x="412" y="41" width="85" height="20" uuid="08199497-5cc9-448c-8650-e90e873798cd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL PASIVOS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,##0.00;(###,###,##0.00)">
+				<reportElement x="412" y="22" width="85" height="20" uuid="9fde9e8a-3463-4721-be25-5861e928d02f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL ACTIVOS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="284" y="41" width="118" height="20" uuid="5d196a58-6050-47ce-929d-fa3a51fd6b17"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL PASIVOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="60" width="118" height="20" uuid="9a03ff99-1b12-48f8-ba6f-45263380efb8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PATRIMONIO ]]></text>
+			</staticText>
+			<textField pattern="###,###,##0.00;(###,###,##0.00)">
+				<reportElement x="412" y="60" width="85" height="20" uuid="c368bdd9-b6e2-4b0e-b4a0-1ed9f33b103a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PATRIMONIO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="273" y="2" width="176" height="20" uuid="76e5c818-dbf4-4baf-b264-e62094e8a2b7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[SITUACION PATRIMONIAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="22" width="118" height="20" uuid="f680d622-2514-44be-a503-9d540ac6f751"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL ACTIVOS ]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

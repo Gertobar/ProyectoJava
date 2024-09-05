@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaCuentaEntFinViewDlg" widgetVar="IfipAgenciaCuentaEntFinViewDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinTitle}" closeOnEscape="true">
+
+            <h:form id="IfipAgenciaCuentaEntFinViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ifipAgenciaCuentaEntFinController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinLabel_codigo}"/>
+                        <h:outputText value="#{ifipAgenciaCuentaEntFinController.selected.codigo}" title="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinTitle_codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinLabel_codigoTipCue}"/>
+                        <h:outputText value="#{ifipAgenciaCuentaEntFinController.selected.codigoTipCue}" title="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinTitle_codigoTipCue}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinLabel_numeroCuenta}"/>
+                        <h:outputText value="#{ifipAgenciaCuentaEntFinController.selected.numeroCuenta}" title="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinTitle_numeroCuenta}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinLabel_nombreCuenta}"/>
+                        <h:outputText value="#{ifipAgenciaCuentaEntFinController.selected.nombreCuenta}" title="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinTitle_nombreCuenta}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinLabel_observaciones}"/>
+                        <h:outputText value="#{ifipAgenciaCuentaEntFinController.selected.observaciones}" title="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinTitle_observaciones}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinLabel_eliminado}"/>
+                        <h:outputText value="#{ifipAgenciaCuentaEntFinController.selected.eliminado}" title="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinTitle_eliminado}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewIfipAgenciaCuentaEntFinLabel_entidadFinancieraIfiAge}"/>
+                        <h:outputText value="#{ifipAgenciaCuentaEntFinController.selected.entidadFinancieraIfiAge.entidadFinancieraIfiAgePK}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Close}" onclick="IfipAgenciaCuentaEntFinViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

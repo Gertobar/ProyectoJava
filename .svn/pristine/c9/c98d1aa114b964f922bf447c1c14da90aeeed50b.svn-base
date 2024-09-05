@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BloqueoCuentaUsuarioViewDlg" widgetVar="BloqueoCuentaUsuarioViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewBloqueoCuentaUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="BloqueoCuentaUsuarioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{bloqueoCuentaUsuarioController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaUsuarioLabel_codigo}"/>
+                        <h:outputText value="#{bloqueoCuentaUsuarioController.selected.codigo}" title="#{myBundle.ViewBloqueoCuentaUsuarioTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaUsuarioLabel_fechaBloqueo}"/>
+                        <h:outputText value="#{bloqueoCuentaUsuarioController.selected.fechaBloqueo}" title="#{myBundle.ViewBloqueoCuentaUsuarioTitle_fechaBloqueo}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaUsuarioLabel_vigente}"/>
+                        <h:outputText value="#{bloqueoCuentaUsuarioController.selected.vigente}" title="#{myBundle.ViewBloqueoCuentaUsuarioTitle_vigente}"/>
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaUsuarioLabel_usuarioSistema}"/>
+                        <h:outputText value="#{bloqueoCuentaUsuarioController.selected.usuarioSistema.usuarioSistemaPK}"/>
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaUsuarioLabel_bloqueadoPor}"/>
+                        <h:outputText value="#{bloqueoCuentaUsuarioController.selected.bloqueadoPor.username}"/>
+
+                        <h:outputText value="#{myBundle.ViewBloqueoCuentaUsuarioLabel_codigoMotivoBloqueo}"/>
+                        <h:outputText value="#{bloqueoCuentaUsuarioController.selected.codigoMotivoBloqueo.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="BloqueoCuentaUsuarioViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

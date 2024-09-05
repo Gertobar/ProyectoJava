@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="TipoRubroProCreMonIfiListFor">
+
+        <p:dataTable id="datalist" 
+                     value="#{tipoRubroProCreMonIfiController.itemsTipoRubroProCreMonIfi}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{tipoRubroProCreMonIfiController.selected}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="8"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.RubroProducto}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm"/>
+            <p:ajax event="rowUnselect" update=":barraForm"/>
+
+            <p:column sortBy="#{item.codigoTipoRubro.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.TipoRubro}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoTipoRubro.nombre}"/>
+            </p:column>
+            <p:column sortBy="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ProductoCredito}"/>
+                </f:facet>
+                <h:outputText value="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}"/>
+            </p:column>
+            <p:column sortBy="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                </f:facet>
+                <h:outputText value="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.nombre}"/>
+            </p:column>
+            <p:column sortBy="#{item.tipo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Tipo}"/>
+                </f:facet>
+                <p:selectOneMenu id="tipo" 
+                                 disabled="true"
+                                 value="#{item.tipo}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Porcentaje}" itemValue="P" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Valor}" itemValue="V" />                          
+                </p:selectOneMenu>
+            </p:column>
+            <p:column sortBy="#{item.valor}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Valor}" />
+                </f:facet>
+                <h:outputText value="#{item.valor.doubleValue()}" style="float: right">
+                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText>
+            </p:column>
+            <p:column sortBy="#{item.calculaSobre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CalculaSobre}"/>
+                </f:facet>
+                <p:selectOneMenu id="calculaSobre" 
+                                 disabled="true"
+                                 value="#{item.calculaSobre}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.MontoTotalCredito}" itemValue="M" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.SaldoCapital}" itemValue="S" />                          
+                </p:selectOneMenu>
+            </p:column>
+            <p:column sortBy="#{item.cobradoEn}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CobradoEn}"/>
+                </f:facet>
+                <p:selectOneMenu id="cobradoEn" 
+                                 disabled="true"
+                                 value="#{item.cobradoEn}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.ConcederCredito}" itemValue="C" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.DistribuidoTablaAmortizacion}" itemValue="D" />     
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.CancelacionFinalCredito}" itemValue="F" />                          
+                </p:selectOneMenu>
+            </p:column>
+            <p:column sortBy="#{item.ordenCobro}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.OrdenCobro}"/>
+                </f:facet>
+                <h:outputText value="#{item.ordenCobro}"/>
+            </p:column>
+          
+            <p:column sortBy="#{item.eliminado}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                         
+                </p:selectOneMenu>
+            </p:column>
+
+
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

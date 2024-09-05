@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="lineaCreditoCreateDlg" 
+                  widgetVar="lineaCreditoCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <h:form id="lineaCreditoCreateForm">
+                <p:wizard flowListener="#{lineaCreditoController.flujoProceso}"
+                          style="font-size: 9px; margin-top: 0px;" 
+                          backLabel="#{propiedadesEtiquetaBL.Atras}"
+                          nextLabel="#{propiedadesEtiquetaBL.Siguinte}"
+                          showStepStatus="true"   
+                          showNavBar="true"
+                          widgetVar="wiz"
+                          id="wiz">
+                    <p:tab id="lineaCredito" 
+                           title="#{propiedadesEtiquetaBL.LineaCredito}"
+                           titleStyle="font-size: 10px">
+                        <ui:include src="guardaLineaCredito.xhtml"/>
+                    </p:tab>
+                    <p:tab id="lineaCreditoPlazo" 
+                           title="#{propiedadesEtiquetaBL.Plazo} #{propiedadesEtiquetaBL.LineaCredito}"
+                           titleStyle="font-size: 10px">
+                        <ui:include src="guardaLineaCreditoPlazo.xhtml"/>
+                    </p:tab>
+                    <p:tab id="lineaCreditoPlazoMaximo" 
+                           title="#{propiedadesEtiquetaBL.Plazo} #{propiedadesEtiquetaBL.LineaCredito} #{propiedadesEtiquetaBL.Maximo}"
+                           titleStyle="font-size: 10px">
+                        <ui:include src="guardaLineaCreditoPlazoMaximo.xhtml"/>
+                    </p:tab>
+                </p:wizard>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

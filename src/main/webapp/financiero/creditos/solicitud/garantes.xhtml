@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="garantesPan" 
+              header="#{propiedadesEtiquetaBL.Garantes}"
+              style="height: 530px; width: 1000px">  
+        <p:focus context="garantesPan"/>  
+        <h:panelGrid id="codigoGaranteGri" columns="3" styleClass="grid">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.GarantesRequeridos}" 
+                           styleClass="etiqueta"/>
+            <p:outputLabel styleClass="etiqueta"
+                           value="#{solicitudController.garantesRequeridos}"/>
+            <p:outputLabel/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Obligatorio}" 
+                           for="coberturaSocio"
+                           styleClass="etiqueta"/>
+            <p:outputLabel styleClass="etiqueta"
+                           value="#{solicitudController.garantesObligatorios}"/>
+            <p:outputLabel/>
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Garantes}"/>
+                <p:separator/>
+            </f:facet>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                           for="codigoGarante"
+                           styleClass="etiquetaRequerida"/>
+            <h:inputText id="codigoGarante" 
+                         style="text-align:  right"
+                         requiredMessage="#{propiedadesEtiquetaBL.Socio} #{propiedadesMensajesBL.CampoRequerido}"
+                         value="#{solicitudController.identificacionGarante}">
+                <p:ajax event="blur" 
+                        listener="#{solicitudController.buscaGaranteSolicitud()}"
+                        update="mensajeWizard, nombreGarante,identificacionConyugeGar,eliminarConyugeGarBot,guardarConyugeGarBot,nombreConyugeGar,buscarConyugeGarBot"/>
+            </h:inputText>
+            <p:inputText  id="nombreGarante"
+                          size="60"
+                          readonly="true"
+                          value="#{solicitudController.personaGarante.nombreCompleto}"/>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Cobertura}" 
+                           for="coberturaGarante"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="coberturaGarante"
+                         value="#{solicitudController.coberturaGarante}"  
+                         styleClass="campoRequeridoValor" > 
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />  
+            </p:inputText>
+            <p:commandButton id="AgregarGarBot" 
+                             value="#{propiedadesEtiquetaBL.Agregar}"
+                             actionListener="#{solicitudController.agregaGarante()}"
+                             update="coberturaGarante,garantesTbl,codigoGarante,nombreGarante,mensajeWizard,identificacionConyugeGar,nombreConyugeGar,identificacionConyugeGar,nombreConyugeGar,buscarConyugeGarBot,guardarConyugeGarBot,eliminarConyugeGarBot"/>
+            <f:facet name="footer">
+                <p:commandButton id="buscarGaranteSolicitud" 
+                                 value="#{propiedadesEtiquetaBL.Buscar}"
+                                 icon="#{propiedadesObjetosBL.IcoVer}" 
+                                 onclick="procesandoDlg.show()"
+                                 update=":ListaGarantesForm"
+                                 actionListener="#{solicitudController.prepareBusquedaGarante()}"
+                                 oncomplete="procesandoDlg.hide();ListaGarantesDialog.show();"
+                                 />
+            </f:facet>
+        </h:panelGrid>
+
+        <h:panelGrid id="datosConyugeGaranteGri" columns="5" styleClass="grid">  
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Conyuge}"/>
+                <p:separator/>
+            </f:facet>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                           for="identificacionConyugeGar"
+                           styleClass="etiquetaRequerida"/>
+            <h:inputText id="identificacionConyugeGar"    
+                         disabled="#{solicitudController.deshabilitaTextoIdentificacionConGar}"
+                         value="#{solicitudController.identificacionConyugeGar}">
+                <p:ajax event="blur" 
+                        listener="#{solicitudController.buscaConyugeGar()}"
+                        update="mensajeWizard,identificacionConyugeGar,eliminarConyugeGarBot,guardarConyugeGarBot,nombreConyugeGar,buscarConyugeGarBot"/>
+            </h:inputText>
+            <p:inputText id="nombreConyugeGar"
+                         readonly="true"
+                         size="40"
+                         value="#{solicitudController.personaConyugeGarante.nombreCompleto}"/>
+
+            <f:facet name="footer">
+                <p:commandButton id="buscarConyugeGarBot" 
+                                 value="#{propiedadesEtiquetaBL.Buscar}"
+                                 icon="#{propiedadesObjetosBL.IcoVer}" 
+                                 onclick="procesandoDlg.show()"
+                                 update="mensajeWizard,:ListaConyugesGarForm:nombresConyugeBusquedaGar,:ListaConyugesGarForm:datalistConyugeGar"
+                                 actionListener="#{solicitudController.preparaBusquedaConyugeGar}"
+                                 disabled="#{solicitudController.deshabilitarBuscarConGar}" 
+                                 oncomplete="procesandoDlg.hide();ListaConyugesGarDialog.show();"
+                                 /> 
+                <p:commandButton id="guardarConyugeGarBot" 
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 disabled="#{solicitudController.deshabilitarGuardarConGar}"
+                                 actionListener="#{solicitudController.guardaConyugeGar}"
+                                 update="mensajeWizard,identificacionConyugeGar,nombreConyugeGar,buscarConyugeGarBot,guardarConyugeGarBot,eliminarConyugeGarBot"/>
+                <p:commandButton id="eliminarConyugeGarBot" 
+                                 icon="#{propiedadesObjetosBL.IcoEliminar}"
+                                 value="#{propiedadesEtiquetaBL.Eliminar}"
+                                 disabled="#{solicitudController.deshabilitarEliminarConGar}"
+                                 actionListener="#{solicitudController.eliminarConyugeGar}"
+                                 update="mensajeWizard, identificacionConyugeGar,nombreConyugeGar,buscarConyugeGarBot,guardarConyugeGarBot,eliminarConyugeGarBot"/>
+            </f:facet>
+        </h:panelGrid>        
+        <p:contextMenu for="garantesTbl">
+            <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                        icon="#{propiedadesObjetosBL.IcoEliminar}" 
+                        update=":SolicitudNuevaFor:garantesTbl"
+                        actionListener="#{solicitudController.quitarGarante()}" />
+        </p:contextMenu>
+        <p:dataTable id="garantesTbl" 
+                     var="itemGarante"                                 
+                     value="#{solicitudController.itemsGaranteCredito}"                         
+                     rowKey="#{itemGarante.garante.codigoPersona}"
+                     selection="#{solicitudController.garanteCredito}"
+                     editable="true"
+                     editMode="cell"
+                     selectionMode="single"                     
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}" >
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Garantes}"/>
+            </f:facet>
+
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                </f:facet>
+                <h:outputLabel value="#{itemGarante.garante.persona.identificacion}"/>
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                </f:facet>
+                <h:outputLabel value="#{itemGarante.garante.persona.nombreCompleto}"/>
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Cobertura}"/>
+                </f:facet>
+
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{itemGarante.coberturaDada}" >
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />  
+                        </h:outputText>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{itemGarante.coberturaDada}" style="width:100%">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />  
+                        </p:inputText>
+                    </f:facet>
+                </p:cellEditor>
+
+            </p:column>
+
+        </p:dataTable>
+
+    </p:panel>
+
+</ui:composition>

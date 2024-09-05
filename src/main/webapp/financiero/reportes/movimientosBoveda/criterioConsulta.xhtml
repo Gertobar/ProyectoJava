@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="4">
+            <h:outputLabel styleClass="etiquetaRequerida" value="#{propiedadesEtiquetaBL.FechaMovimiento}"/>                         
+            <p:calendar  id="fechaMovimiento" 
+                         value="#{reporteMovmientosBovedaBean.fechaMovimiento}"
+                         maxdate="#{reporteMovmientosBovedaBean.fechaActual}"
+                         pattern="dd/MM/yyyy" 
+                         locale="es"                         
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.FechaMovimiento} - #{propiedadesMensajesBL.CampoRequerido}"                         
+                         />
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Boveda}"
+                           styleClass="etiquetaRequerida"
+                           for="codigoBoveda" />
+            <p:selectOneMenu id="codigoBoveda" 
+                             value="#{reporteMovmientosBovedaBean.boveda}" 
+                             disabled="false"
+                             requiredMessage="#{propiedadesEtiquetaBL.Boveda} - #{propiedadesMensajesBL.CampoRequerido}"
+                             required="false">                
+                <f:selectItems value="#{reporteMovmientosBovedaBean.itemsBovedas}"
+                               var="bovedaItem"
+                               itemValue="#{bovedaItem}"
+                               itemLabel="#{bovedaItem.nombre}"
+                               />
+                <f:converter binding="#{bovedaConverter}"/>
+            </p:selectOneMenu>
+        </h:panelGrid>
+        <p:separator/>
+
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

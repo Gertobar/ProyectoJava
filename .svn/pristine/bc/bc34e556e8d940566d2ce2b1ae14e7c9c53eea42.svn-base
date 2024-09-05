@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RolConceptoTransaccionIfipViewDlg" widgetVar="RolConceptoTransaccionIfipViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewRolConceptoTransaccionIfipTitle}" closeOnEscape="true">
+
+            <h:form id="RolConceptoTransaccionIfipViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{rolConceptoTransaccionIfipController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewRolConceptoTransaccionIfipLabel_rolConceptoTransaccionIfipPK_codigoIfip}"/>
+                        <h:outputText value="#{rolConceptoTransaccionIfipController.selected.rolConceptoTransaccionIfipPK.codigoIfip}" title="#{myBundle.ViewRolConceptoTransaccionIfipTitle_rolConceptoTransaccionIfipPK_codigoIfip}"/>
+
+                        <h:outputText value="#{myBundle.ViewRolConceptoTransaccionIfipLabel_rolConceptoTransaccionIfipPK_codigoTipoProducto}"/>
+                        <h:outputText value="#{rolConceptoTransaccionIfipController.selected.rolConceptoTransaccionIfipPK.codigoTipoProducto}" title="#{myBundle.ViewRolConceptoTransaccionIfipTitle_rolConceptoTransaccionIfipPK_codigoTipoProducto}"/>
+
+                        <h:outputText value="#{myBundle.ViewRolConceptoTransaccionIfipLabel_rolConceptoTransaccionIfipPK_codigoConcepto}"/>
+                        <h:outputText value="#{rolConceptoTransaccionIfipController.selected.rolConceptoTransaccionIfipPK.codigoConcepto}" title="#{myBundle.ViewRolConceptoTransaccionIfipTitle_rolConceptoTransaccionIfipPK_codigoConcepto}"/>
+
+                        <h:outputText value="#{myBundle.ViewRolConceptoTransaccionIfipLabel_rolConceptoTransaccionIfipPK_codigoMoneda}"/>
+                        <h:outputText value="#{rolConceptoTransaccionIfipController.selected.rolConceptoTransaccionIfipPK.codigoMoneda}" title="#{myBundle.ViewRolConceptoTransaccionIfipTitle_rolConceptoTransaccionIfipPK_codigoMoneda}"/>
+
+                        <h:outputText value="#{myBundle.ViewRolConceptoTransaccionIfipLabel_fechaIngreso}"/>
+                        <h:outputText value="#{rolConceptoTransaccionIfipController.selected.fechaIngreso}" title="#{myBundle.ViewRolConceptoTransaccionIfipTitle_fechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewRolConceptoTransaccionIfipLabel_eliminado}"/>
+                        <h:outputText value="#{rolConceptoTransaccionIfipController.selected.eliminado}" title="#{myBundle.ViewRolConceptoTransaccionIfipTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewRolConceptoTransaccionIfipLabel_ingresadoPor}"/>
+                        <h:outputText value="#{rolConceptoTransaccionIfipController.selected.ingresadoPor.username}"/>
+
+                        <h:outputText value="#{myBundle.ViewRolConceptoTransaccionIfipLabel_rol}"/>
+                        <h:outputText value="#{rolConceptoTransaccionIfipController.selected.rol.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="RolConceptoTransaccionIfipViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

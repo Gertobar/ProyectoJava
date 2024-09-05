@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CalificacionTipoCarteraEditDlg" 
+                  widgetVar="CalificacionTipoCarteraIfitEditDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.CalificacionTipoCartera}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="CalificacionTipoCarteraIfitEditForm">
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                       for="codigoIfip"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoIfip" 
+                                     value="#{calificacionTipoCarteraIfipController.ifip.nombre}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10"
+                                     disabled="true"/>   
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaModificacion}"
+                                       for="fechaModificacion"  styleClass="etiquetaRequerida" />
+                        <p:calendar id="fechaModificacion"
+                                    pattern="dd/MM/yyyy HH:mm:ss"
+                                    value="#{calificacionTipoCarteraIfipController.selected.fechaUltimaModificacion}"
+                                    title="#{propiedadesTituloBL.FechaRegistro}" 
+                                    required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}  -  #{propiedadesMensajesBL.CampoRequerido}" 
+                                    showOn="button"
+                                    disabled="true"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoCartera}" 
+                                       for="tipoCartera"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="tipoCartera" 
+                                         value="#{calificacionTipoCarteraIfipController.selected.codigoTipoCartera}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.TipoCartera} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         disabled="true">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{calificacionTipoCarteraIfipController.listaTipoCartera}"
+                                           var="listaTipoCartera"
+                                           itemValue="#{listaTipoCartera}"
+                                           itemLabel="#{listaTipoCartera.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{tipoCarteraConverter}"/>
+                        </p:selectOneMenu> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Calificacion}" 
+                                       for="calificacion" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="calificacion" 
+                                     value="#{calificacionTipoCarteraIfipController.selected.calificacion}"
+                                     title="#{propiedadesEtiquetaBL.Calificacion}"
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Calificacion} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="5" 
+                                     maxlength="5"
+                                     disabled="true"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.DiasMoraInicial}" 
+                                       for="diasMoraInicial" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="diasMoraInicial" 
+                                     value="#{calificacionTipoCarteraIfipController.selected.diasMoraInicial}"
+                                     title="#{propiedadesEtiquetaBL.DiasMoraInicial}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.DiasMoraInicial} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" maxlength="10"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.DiasMoraFinal}" 
+                                       for="diasMoraFinal" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="diasMoraFinal" 
+                                     value="#{calificacionTipoCarteraIfipController.selected.diasMoraFinal}"
+                                     title="#{propiedadesEtiquetaBL.DiasMoraFinal}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.DiasMoraFinal} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" maxlength="10"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ProvisionDesde}" 
+                                       for="provisionDesde" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="provisionDesde" 
+                                     value="#{calificacionTipoCarteraIfipController.selected.provisionDesde}"
+                                     title="#{propiedadesEtiquetaBL.ProvisionDesde}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.ProvisionDesde} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" maxlength="10"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ProvisionHasta}" 
+                                       for="provisionHasta" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="provisionHasta" 
+                                     value="#{calificacionTipoCarteraIfipController.selected.provisionHasta}"
+                                     title="#{propiedadesEtiquetaBL.ProvisionHasta}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.ProvisionHasta} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" maxlength="10"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ProvisionActual}" 
+                                       for="provisionActual" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="provisionActual" 
+                                     value="#{calificacionTipoCarteraIfipController.selected.valorActualProvision}"
+                                     title="#{propiedadesEtiquetaBL.ProvisionActual}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.ProvisionActual} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{calificacionTipoCarteraIfipController.selected.eliminado}"
+                                         required="true" 
+                                         disabled="false"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                        
+                    </p:panelGrid>
+                    <p:commandButton id="guardarBot"
+                                     actionListener="#{calificacionTipoCarteraIfipController.guarda}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:CalificacionTipoCarteraIfitListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,CalificacionTipoCarteraIfitEditDialog);"/>        
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="IngresoEgresoMonedaListForm">
+
+
+        <p:dataTable id="datalist"
+                     value="#{ingresoEgresoMonedaController.items}"
+                     selectionMode="single" selection="#{ingresoEgresoMonedaController.selected}"
+                     var="item"
+                     rowKey="#{item.ingresoEgresoMonedaPK}"
+                     paginator="true"
+                     rows="10"
+                     rowsPerPageTemplate="10,20,30,40,50"
+                     >
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot "/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+
+            <p:column sortBy="#{item.ingresoEgresoMonedaPK.codigoMoneda}" filterBy="#{item.ingresoEgresoMonedaPK.codigoMoneda}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CodigoMoneda}"/>
+                </f:facet>
+                <h:outputText value="#{item.ingresoEgresoMonedaPK.codigoMoneda}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.mostrar}" filterBy="#{item.mostrar}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Mostrar}"/>
+                </f:facet>
+                <h:outputText value="#{item.mostrar}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.registradoPor}" filterBy="#{item.registradoPor}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                </f:facet>
+                <h:outputText value="#{item.registradoPor}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaRegistro}">
+                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                </h:outputText>
+            </p:column>
+
+
+            <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <h:outputText value="#{item.eliminado}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.ingresoEgreso.descripcion}" filterBy="#{item.ingresoEgreso.descripcion}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.IngresoEgreso}"/>
+                </f:facet>
+                <h:outputText value="#{item.ingresoEgreso.descripcion}"/>
+            </p:column>
+
+
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

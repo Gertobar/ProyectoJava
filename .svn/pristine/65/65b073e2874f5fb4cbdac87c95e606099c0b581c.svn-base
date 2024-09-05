@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TasaInteresProDpfMonCreateDlg" widgetVar="TasaInteresProDpfMonCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateTasaInteresProDpfMonTitle}" closeOnEscape="true">
+
+            <h:form id="TasaInteresProDpfMonCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tasaInteresProDpfMonController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{tasaInteresProDpfMonController.selected.codigo}" title="#{myBundle.CreateTasaInteresProDpfMonTitle_codigo}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_codigo}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_codigoMoneda}" for="codigoMoneda" />
+                        <p:inputText id="codigoMoneda" value="#{tasaInteresProDpfMonController.selected.codigoMoneda}" title="#{myBundle.CreateTasaInteresProDpfMonTitle_codigoMoneda}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_codigoMoneda}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_codigoIfip}" for="codigoIfip" />
+                        <p:inputText id="codigoIfip" value="#{tasaInteresProDpfMonController.selected.codigoIfip}" title="#{myBundle.CreateTasaInteresProDpfMonTitle_codigoIfip}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_codigoIfip}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_montoInicial}" for="montoInicial" />
+                        <p:inputText id="montoInicial" value="#{tasaInteresProDpfMonController.selected.montoInicial}" title="#{myBundle.CreateTasaInteresProDpfMonTitle_montoInicial}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_montoInicial}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_montoFinal}" for="montoFinal" />
+                        <p:inputText id="montoFinal" value="#{tasaInteresProDpfMonController.selected.montoFinal}" title="#{myBundle.CreateTasaInteresProDpfMonTitle_montoFinal}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_montoFinal}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{tasaInteresProDpfMonController.selected.registradoPor}" title="#{myBundle.CreateTasaInteresProDpfMonTitle_registradoPor}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{tasaInteresProDpfMonController.selected.fechaRegistro}" title="#{myBundle.CreateTasaInteresProDpfMonTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tasaInteresProDpfMonController.selected.eliminado}" title="#{myBundle.CreateTasaInteresProDpfMonTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_codigoTasa}" for="codigoTasa" />
+                        <p:selectOneMenu id="codigoTasa" value="#{tasaInteresProDpfMonController.selected.codigoTasa}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_codigoTasa}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tasaInteresDpfIfipController.items}"
+                                           var="codigoTasaItem"
+                                           itemValue="#{codigoTasaItem}"
+                                           itemLabel="#{codigoTasaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{tasaInteresDpfIfipConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_codigoRango}" for="codigoRango" />
+                        <p:selectOneMenu id="codigoRango" value="#{tasaInteresProDpfMonController.selected.codigoRango}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_codigoRango}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rangoDiasDpfController.items}"
+                                           var="codigoRangoItem"
+                                           itemValue="#{codigoRangoItem}"
+                                           itemLabel="#{codigoRangoItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{rangoDiasDpfConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_moneda}" for="moneda" />
+                        <p:selectOneMenu id="moneda" value="#{tasaInteresProDpfMonController.selected.moneda}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_moneda}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{monedaController.items}"
+                                           var="monedaItem"
+                                           itemValue="#{monedaItem}"
+                                           itemLabel="#{monedaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateTasaInteresProDpfMonLabel_usuarioRealizadoPor}" for="usuarioRealizadoPor" />
+                        <p:selectOneMenu id="usuarioRealizadoPor" value="#{tasaInteresProDpfMonController.selected.usuarioRealizadoPor}" required="true" requiredMessage="#{myBundle.CreateTasaInteresProDpfMonRequiredMessage_usuarioRealizadoPor}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="usuarioRealizadoPorItem"
+                                           itemValue="#{usuarioRealizadoPorItem}"
+                                           itemLabel="#{usuarioRealizadoPorItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tasaInteresProDpfMonController.saveNew}" value="#{myBundle.Save}" update="display,:TasaInteresProDpfMonListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TasaInteresProDpfMonCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TasaInteresProDpfMonCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

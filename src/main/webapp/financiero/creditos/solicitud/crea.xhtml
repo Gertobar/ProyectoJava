@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SolicitudNuevaDlg" 
+                  widgetVar="SolicitudNuevaDialog" 
+                  modal="true" 
+                  resizable="false"                                     
+                  appendTo="@(body)"
+                  closeOnEscape="true" 
+                  closable="true"
+                  style="height: 530px; width: 1000px"
+                  onShow="solciitudWizer.loadStep(solciitudWizer.cfg.steps[0], true);">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Solicitud}"
+                               styleClass="encabezadosDialog"/>
+                <br/>
+                <h:outputText id="mensajeCriterioDialogo" value="#{solicitudController.msg}" styleClass="invalido"/>
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="6000" />
+
+            <h:form id="SolicitudNuevaFor">
+
+                <p:wizard id="solciitudWiz"  
+                          widgetVar="solciitudWizer" 
+                          style="font-size: 10px; margin-top: 0px;" 
+                          showStepStatus="true"   
+                          showNavBar="true"
+                          flowListener="#{solicitudController.sigueProcesoSocio}"
+                          backLabel="#{propiedadesEtiquetaBL.Atras}"
+                          nextLabel="#{propiedadesEtiquetaBL.Siguinte}"
+                          >  
+                    <f:facet name="header">
+                        <h:outputText id="mensajeWizard" value="#{solicitudController.msg}" style="font-size:  12px; color: #BE1313"/>
+                    </f:facet>
+                    
+                    <p:tab  id="contratoTab" 
+                            title="#{propiedadesEtiquetaBL.Contrato}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="contrato.xhtml"/> 
+                    </p:tab>  
+
+                    <p:tab  id="negociacionTab" 
+                            title="#{propiedadesEtiquetaBL.Negociacion}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="negociacion.xhtml"/> 
+                    </p:tab>
+
+                    <p:tab  id="garantesTab" 
+                            title="#{propiedadesEtiquetaBL.Garantes}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="garantes.xhtml"/> 
+                    </p:tab>
+                    
+                    <p:tab  id="confirmacionTab" 
+                            title="#{propiedadesEtiquetaBL.Confirmacion}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="confirmacion.xhtml"/> 
+                    </p:tab>
+
+                </p:wizard>  
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
+

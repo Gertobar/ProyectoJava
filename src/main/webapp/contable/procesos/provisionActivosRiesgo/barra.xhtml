@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- LOS COMENTARIOS QUE TIENEN EN SU PARTE SUPERIOR LAS LINEAS ************ Y SEGUIDO
+     SU DESCRIPCION NO DEBEN SER BORRADAS, LOS QUE SE DEBEN ELIMINAR SON LAS EXPLICACIONES
+     DE CADA CONTENIDO -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="barraForm">
+        <ui:include src="criterioBusqueda.xhtml"/>  
+        <!-- ̣̣̣̣**************************************************************************
+          BARRA DE HERRAMIENTAS                                                     -->
+        <!-- EXPLICACION: AQUI SE COLOCAN LOS BOTONES ESTANDAR PARA EL MANEJO DE LA APLICACION,
+             ESTA INCLUYEN LOS BOTONES NECESARIOS PARA LOS MANTENIMIENTOS, ES DECIR QUE
+             EN LAS VENTANAS DE MANTENIMIENTOS NO SE COLOCARAN MAS BOTONES EN LA BARRA,
+             NI EN LAS VENTANAS DE CREACION Y EDICION DE LOS QUE ESTAN YA DEFINIDAS.
+             UNICAMENTE EN LAS VENTANAS DE TRANSACCIONALIDAD (DEPOSITOS, SOLICITUDES, ETC)
+             SE PODRAN COLOCAR BOTONES ADICIONALES Y CON NOMBRE PARA LA COMPRENSION DE LOS
+             USUARIOS, ASI MISMO ESTOS BOTONES SERAN DEFINIDOS POR EL LIDER DEL PROYECTO-->
+        <p:separator/>
+        <p:toolbar>                  
+            <p:toolbarGroup align="left">  
+                <p:commandButton id="generarProvisionBot"
+                                 title="#{propiedadesEtiquetaBL.GenerarProvision}" 
+                                 value="#{propiedadesEtiquetaBL.GenerarProvision}"             
+                                 disabled="#{menuController.permisoOperacion.guardar}"
+                                 actionListener="#{provisionActivosRiesgoController.generarProvision}"
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                 update="datalist,datalistContables,totalPanel"
+                                 onclick="procesandoDlg.show();"
+                                 oncomplete="procesandoDlg.hide();"/>
+                <p:separator/>
+                <h:commandLink  id="exportaExcelProvision"
+                                title="#{propiedadesTituloBL.ExportarExcel}"
+                                value="#{propiedadesEtiquetaBL.Provision} "> 
+                    <p:graphicImage  style="border: transparent" 
+                                     value="#{propiedadesObjetosBL.ImgExportarExcel}" />  
+                    <p:dataExporter type="xls" 
+                                    target="datalist"                                           
+                                    fileName="ProvisionActivosRiesgo" />  
+                </h:commandLink>
+                <p:separator/>
+                <h:commandLink  id="exportaExcelContable"
+                                title="#{propiedadesTituloBL.ExportarExcel}" 
+                                value="#{propiedadesEtiquetaBL.Contables} "> 
+                    <p:graphicImage  style="border: transparent" 
+                                     value="#{propiedadesObjetosBL.ImgExportarExcel}" />  
+                    <p:dataExporter type="xls" 
+                                    target="datalistContables"                                           
+                                    fileName="ProvisionActivosRiesgoContables" />  
+                </h:commandLink>
+                <p:separator/>
+                <h:outputLink id="ayudaLin" 
+                              title="#{propiedadesTituloBL.Ayuda}" 
+                              value="#{menuController.urlAyuda}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="#{propiedadesObjetosBL.ImgAyuda}" />                            
+                </h:outputLink>
+                <p:separator/>
+            </p:toolbarGroup>  
+        </p:toolbar>
+        <!-- FIN DE BARRA DE HERRAMIENTAS
+         ̣̣̣̣************************************************************************** -->
+        <p:separator/>
+        <ui:include src="listaProvision.xhtml"/>  
+    </h:form>       
+</ui:composition>

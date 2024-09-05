@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EntregaChequeGiradoForm">
+
+
+        <p:dataTable id="datalist"
+                     value="#{entregaChequeGiradoBean.itemsRetiroCheques}"
+                     var="item"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="7"
+                     selectionMode="single"
+                     selection="#{entregaChequeGiradoBean.retiroCheque}"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}">
+
+             <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Cheques}"/>                
+            </f:facet>
+            
+            <p:ajax event="rowSelect"   update=":barraForm"/>
+            <p:ajax event="rowUnselect" update=":barraForm"/>
+
+              <p:column sortBy="#{item.talonarioChequeDetalle.talonarioCheque.ifipCuentaEntidadFinanciera.entidadFinanciera.codigoTipoEntidad.nombre}" 
+                      filterBy="#{item.talonarioChequeDetalle.talonarioCheque.ifipCuentaEntidadFinanciera.entidadFinanciera.codigoTipoEntidad.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.TipoEntidadFinanciera}"/>
+                </f:facet>
+                <h:outputText value="#{item.talonarioChequeDetalle.talonarioCheque.ifipCuentaEntidadFinanciera.entidadFinanciera.codigoTipoEntidad.nombre}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.talonarioChequeDetalle.talonarioCheque.ifipCuentaEntidadFinanciera.entidadFinanciera.nombre}" 
+                      filterBy="#{item.talonarioChequeDetalle.talonarioCheque.ifipCuentaEntidadFinanciera.entidadFinanciera.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.EntidadFinanciera}"/>
+                </f:facet>
+                <h:outputText value="#{item.talonarioChequeDetalle.talonarioCheque.ifipCuentaEntidadFinanciera.entidadFinanciera.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.talonarioChequeDetalle.talonarioChequeDetallePK.numeroCheque}" 
+                      filterBy="#{item.talonarioChequeDetalle.talonarioChequeDetallePK.numeroCheque}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.NumeroCheque}"/>
+                </f:facet>
+                <h:outputText value="#{item.talonarioChequeDetalle.talonarioChequeDetallePK.numeroCheque}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.codigoCuenta.socio.codigoPersona.nombreCompleto}" 
+                      filterBy="#{item.codigoCuenta.socio.codigoPersona.nombreCompleto}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoCuenta.socio.codigoPersona.nombreCompleto}"/>
+            </p:column>
+            
+          
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                </f:facet>
+                <h:outputText value="#{item.valor}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Beneficiario}"/>
+                </f:facet>
+                <h:outputText value="#{item.beneficiario}"/>
+            </p:column>
+         
+
+        </p:dataTable>
+
+
+
+
+    </h:form>
+
+</ui:composition>

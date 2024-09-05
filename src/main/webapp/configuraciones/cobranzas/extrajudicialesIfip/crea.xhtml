@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CobranzaExtrajudicialCreateDlg" 
+                  widgetVar="CobranzaExtrajudicialCreateDialog" 
+                  modal="true" 
+                  resizable="true" 
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  maximizable="true">
+            
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.CobranzaExtrajudicial}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="CobranzaExtrajudicialCreateForm">
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Capital}ES"/>
+                        </f:facet>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                       for="codigoIfip"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoIfip" 
+                                     value="#{cobranzaExtrajudicialController.ifip.nombre}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10"
+                                     disabled="true"/>   
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaModificacion}"
+                                       for="fechaModificacion"  styleClass="etiquetaRequerida" />
+                        <p:calendar id="fechaModificacion"
+                                    pattern="dd/MM/yyyy HH:mm:ss"
+                                    value="#{cobranzaExtrajudicialController.selected.fechaModificacion}"
+                                    title="#{propiedadesTituloBL.FechaRegistro}" 
+                                    required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}  -  #{propiedadesMensajesBL.CampoRequerido}" 
+                                    showOn="button"
+                                    disabled="true"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombreCobranza" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombreCobranza" 
+                                     value="#{cobranzaExtrajudicialController.selected.nombre}"
+                                     title="#{propiedadesEtiquetaBL.Nombre}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" 
+                                     maxlength="50">
+                            <f:validateLength minimum="5" maximum="50"/>
+                        </p:inputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Capital}-INICIAL" 
+                                       for="capitalInicial" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="capitalInicial" 
+                                     value="#{cobranzaExtrajudicialController.selected.valorCapitalInicial}"
+                                     title="#{propiedadesEtiquetaBL.Capital}-INICIAL" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Capital}-INICIAL - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" 
+                                     maxlength="10">
+                            <f:validateDoubleRange minimum="0" />
+                        </p:inputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Capital}-FINAL" 
+                                       for="capitalFinal" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="capitalFinal" 
+                                     value="#{cobranzaExtrajudicialController.selected.valorCapitalFinal}"
+                                     title="#{propiedadesEtiquetaBL.Capital}-FINAL" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Capital}-FINAL - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" 
+                                     maxlength="10">
+                            <f:validateDoubleRange minimum="0" />
+                        </p:inputText>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{cobranzaExtrajudicialController.selected.eliminado}"
+                                         required="true" 
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+
+                    <p:separator/>
+                    <p:toolbar>                  
+                        <p:toolbarGroup align="left">  
+                            <p:commandButton id="nuevoDetalleBot"
+                                             title="#{propiedadesTituloBL.Nuevo}"
+                                             icon="#{propiedadesObjetosBL.IcoNuevo}"
+                                             disabled="#{menuController.permisoOperacion.nuevo}"
+                                             value="Adicionar" 
+                                             actionListener="#{cobranzaExtrajudicialController.adicionarDetalle}" 
+                                             update="cobranzaDetalle"/>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                    <p:panelGrid columns="1">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Dias} Y #{propiedadesEtiquetaBL.Valor}ES PARA #{propiedadesEtiquetaBL.NotificacionCredito}"/>
+                        </f:facet>
+
+                        <p:dataTable id="cobranzaDetalle" 
+                                     var="detalle" 
+                                     value="#{cobranzaExtrajudicialController.listaCobranzaExtrajudicialDetAdicionar}" 
+                                     editable="true" 
+                                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}"
+                                     rowIndexVar="rowIndex"
+                                     editMode="cell">
+                            <p:ajax event="cellEdit" listener="#{cobranzaExtrajudicialController.editaCelda}" update="cobranzaDetalle" />
+ 
+                            <p:column headerText="#{propiedadesEtiquetaBL.Nombre}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{detalle.nombre}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{detalle.nombre}">
+                                            <f:validateLength minimum="5" maximum="50"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="#{propiedadesEtiquetaBL.Dia} INICIAL">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{detalle.numeroDiaInicial}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{detalle.numeroDiaInicial}">
+                                            <f:convertNumber integerOnly="true"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="#{propiedadesEtiquetaBL.Dia} FINAL">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{detalle.numeroDiaFinal}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{detalle.numeroDiaFinal}">
+                                            <f:convertNumber integerOnly="true"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="#{propiedadesEtiquetaBL.Valor} MAXIMO">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{detalle.valorMaximo}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{detalle.valorMaximo}">
+                                            <f:validateDoubleRange minimum="0" />
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            
+                            <p:column headerText="#{propiedadesEtiquetaBL.PorDiferencia}">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{detalle.calculaPorDiferencia}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu id="calculaPorDiferencia"
+                                                         value="#{detalle.calculaPorDiferencia}">                          
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="#{propiedadesEtiquetaBL.Servicio} #{propiedadesEtiquetaBL.Financiero}">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{detalle.codigoServicioFinancieroTipoCanal.codigoServicioFinanciero.servicio}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu id="servicioFinancieroTipoCanal"
+                                                         value="#{detalle.codigoServicioFinancieroTipoCanal}"
+                                                         required="true">
+                                            <f:selectItems value="#{cobranzaExtrajudicialController.listaServicioFinancieroTipoCanal}"
+                                                           var="codigoServicioFinancieroTipoCanal"
+                                                           itemLabel="#{codigoServicioFinancieroTipoCanal.codigoServicioFinanciero.servicio}" 
+                                                           itemValue="#{codigoServicioFinancieroTipoCanal}"/>
+                                            <f:converter binding="#{servicioFinancieroTipoCanalConverter}"/>
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                                                        
+                            <p:column headerText="#{propiedadesEtiquetaBL.Eliminado}">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{detalle.eliminado}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu id="elimidadoDetalle"
+                                                         disabled="true"
+                                                         value="#{detalle.eliminado}"
+                                                         required="true">
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            
+                            <p:column headerText="#{propiedadesEtiquetaBL.Eliminar}">
+                                <p:commandButton id="eliminarDetalleBot"
+                                                 title="#{propiedadesTituloBL.Eliminar}" 
+                                                 icon="#{propiedadesObjetosBL.IcoEliminar}"  
+                                                 disabled="#{(menuController.permisoOperacion.eliminar and detalle.codigo eq null) ? false : true}"
+                                                 actionListener="#{cobranzaExtrajudicialController.eliminarDetalle(detalle.codigo, rowIndex)}"
+                                                 update="cobranzaDetalle"
+                                                 immediate="true"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>
+                    <p:commandButton id="guardarBot"
+                                     actionListener="#{cobranzaExtrajudicialController.guarda}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     onclick="procesandoDlg.show();"
+                                     update="display,:CobranzaExtrajudicialListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,CobranzaExtrajudicialCreateDialog);procesandoDlg.hide();"/>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

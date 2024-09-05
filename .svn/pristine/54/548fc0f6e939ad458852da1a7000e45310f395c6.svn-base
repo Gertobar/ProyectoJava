@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SolicitudCreditoForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{seguimientoEstadoSolicitudController.itemsSolicitudCredito}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{seguimientoEstadoSolicitudController.solicitudSel}"
+                     rowKey="#{item.solicitudPK}"
+                     paginator="true"
+                     rows="10"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Solicitud} #{propiedadesEtiquetaBL.Credito}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:verBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:verBot"/>
+
+
+            <p:column sortBy="#{item.solicitudPK.numero}" filterBy="#{item.solicitudPK.numero}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Numero}"/>
+                </f:facet>
+                <h:outputText value="#{item.solicitudPK.numero}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ProductoCredito}"/>
+                </f:facet>
+                <h:outputText value="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.estadoCredito.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <h:outputText value="#{item.estadoCredito.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.fechaSolicitud}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaSolicitud}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaSolicitud}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.montoCredito}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.MontoCredito}"/>
+                </f:facet>
+                <h:outputText value="#{item.montoCredito}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.tasa}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Tasa}"/>
+                </f:facet>
+                <h:outputText value="#{item.tasa}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.numeroCuotas}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.NumeroCuotas}"/>
+                </f:facet>
+                <h:outputText value="#{item.numeroCuotas}"/>
+            </p:column>             
+
+
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>

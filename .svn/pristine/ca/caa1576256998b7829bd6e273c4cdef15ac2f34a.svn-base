@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PlanDeCuentaViewDlg" 
+                  widgetVar="PlanDeCuentaViewDialog" 
+                  modal="true" 
+                  resizable="false"  
+                  appendToBody="true" 
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Mostrar} #{propiedadesEtiquetaBL.PlanCuenta}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>  
+
+            <h:form id="PlanDeCuentaViewForm" >
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{planDeCuentaController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Cuenta}"/>
+                        <h:outputText value="#{planDeCuentaController.selected.planDeCuentaPK.cuentaContable}" 
+                                      title="#{propiedadesTituloBL.Cuenta}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        <h:outputText value="#{planDeCuentaController.selected.nombre}" 
+                                      title="#{propiedadesTituloBL.NombreCuenta}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.TipoPlan}"/>
+                        <h:outputText value="#{planDeCuentaController.selected.tipoPlanDeCuenta.nombre}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Grupo}"/>
+                        <h:outputText value="#{planDeCuentaController.selected.codigoGrupo.nombre}"/>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.CuentaPadre}"/>
+                        <h:outputText value="#{planDeCuentaController.selected.cuentaPadre}"/>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nivel}"/>
+                        <h:outputText value="#{planDeCuentaController.selected.nivel}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.EsDeMovimiento}"/>
+                        <p:selectOneMenu disabled="true"
+                                         value="#{planDeCuentaController.selected.esDeMovimiento}">    
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                         
+                        </p:selectOneMenu>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.PorDefecto}"/>
+                        <p:selectOneMenu disabled="true"
+                                         value="#{planDeCuentaController.selected.porDefecto}">    
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                         
+                        </p:selectOneMenu>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                        <p:selectOneMenu disabled="true"
+                                         value="#{planDeCuentaController.selected.eliminado}">    
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                         
+                        </p:selectOneMenu>
+                        
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

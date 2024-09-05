@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/plantilla/menuPlantilla.xhtml">
+
+    <ui:define name="menu">
+        <h:form id="menu">     
+            <p:menubar  model="#{menuController.menu}" >                
+            </p:menubar>
+        </h:form>
+    </ui:define>
+    <ui:define name="formulario">
+        <p:panel style="height:465px; text-align: center">
+            <h:panelGrid columns="2" style="text-align: center">
+                <p:graphicImage value="#{menuController.modulo.icono}" style="border: transparent"/>
+                <h:outputText value="#{propiedadesEtiquetaBL.Modulo}  #{menuController.modulo.nombre}" style="font-weight: bolder; font-size: large"/> 
+            </h:panelGrid>
+            <p:graphicImage value="#{menuController.logoCentral}" style="border: transparent"/>
+            
+        </p:panel>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoEntidadFinancieraCreateDlg" 
+                  widgetVar="TipoEntidadFinancieraCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendToBody="true"
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.TipoEntidadFinanciera}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="TipoEntidadFinancieraCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}"
+                                       for="nombre"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre"
+                                     value="#{tipoEntidadFinancieraController.selected.nombre}" 
+                                     title="#{propiedadesTituloBL.Nombre}"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} : #{propiedadesMensajesBL.CampoRequerido}" 
+                                     size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Siglas}" 
+                                       for="siglas"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="siglas" 
+                                     value="#{tipoEntidadFinancieraController.selected.siglas}" 
+                                     title="#{propiedadesTituloBL.Siglas}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Siglas} : #{propiedadesMensajesBL.CampoRequerido}" 
+                                     size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}"
+                                       for="eliminado"  
+                                       styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{tipoEntidadFinancieraController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="NO" itemValue="N" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{tipoEntidadFinancieraController.saveNew}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:TipoEntidadFinancieraListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,TipoEntidadFinancieraCreateDialog);"/>  
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

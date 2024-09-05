@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <!-- ̣̣̣̣**************************************************************************
+      PROCESO DE PROVISION                                                      -->
+    <p:panel style="display: block;width: 100%;overflow-x: auto;-ms-overflow-style: -ms-autohiding-scrollbar;">
+        <h:panelGroup layout="block" class="display: block;width: 100%;overflow-x: auto;-ms-overflow-style: -ms-autohiding-scrollbar;">
+            <p:panelGrid columns="2">
+                <p:dataTable id="datalist" 
+                             value ="#{provisionActivosRiesgoController.listaTmpProvisionCarteraDetalle}"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             emptyMessage=""
+                             filteredValue="#{provisionActivosRiesgoController.listaTmpProvisionCarteraDetalleFiltro}"
+                             style="width: 100%;">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ProvisionPreliminar}"/>
+                    </f:facet>
+
+                    <p:column filterBy="#{item.codigoIfipAgencia.nombre}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Agencia}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codigoIfipAgencia.nombre}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.codigoCalificacionTipoCartera.codigoTipoCartera.nombre}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Cartera}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codigoCalificacionTipoCartera.codigoTipoCartera.nombre}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.codigoCalificacionTipoCartera.calificacion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Calificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codigoCalificacionTipoCartera.calificacion}"/>
+                    </p:column>
+
+                    <p:column filterBy="#{item.numeroCredito}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Credito}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroCredito}" style="float: right"/>
+                    </p:column>
+                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Monto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.saldoCapital}" style="float: right"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.ValorProvision}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.valorProvision}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="datalistContables" 
+                             value ="#{provisionActivosRiesgoController.listaContableProvisionActivosRiesgo}"
+                             var="itemContable"
+                             paginator="true"
+                             rows="10"
+                             emptyMessage=""
+                             filteredValue="#{provisionActivosRiesgoController.listaContableProvisionActivosRiesgoFiltro}"
+                             style="width: 100%">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Contables} #{propiedadesEtiquetaBL.Preliminar}"/>
+                    </f:facet>
+
+                    <p:column filterBy="#{itemContable.agencia}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Agencia}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemContable.agencia}" style="float: right"/>
+                    </p:column>
+
+                    <p:column filterBy="#{itemContable.tipoCartera}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Cartera}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemContable.tipoCartera}" style="float: right"/>
+                    </p:column>
+
+                    <p:column filterBy="#{itemContable.calificacion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Calificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemContable.calificacion}" style="float: right"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Debito}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemContable.cuentaDebe}" style="float: right"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Credito}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemContable.cuentaHaber}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemContable.valor}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+        </h:panelGroup>
+    </p:panel>
+    <!-- PROCESO DE PROVISION
+     ̣̣̣̣************************************************************************** -->
+</ui:composition>

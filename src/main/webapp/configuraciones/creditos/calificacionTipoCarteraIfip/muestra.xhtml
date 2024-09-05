@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CalificacionTipoCarteraViewDlg" 
+                  widgetVar="CalificacionTipoCarteraIfitViewDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Mostrar} #{propiedadesEtiquetaBL.CalificacionTipoCartera}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="CalificacionTipoCarteraIfitViewForm">
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoIfip}"/>
+                        <h:outputText value="#{calificacionTipoCarteraIfipController.ifip.nombre}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}" />   
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.FechaModificacion}"/>
+                        <h:outputText value="#{calificacionTipoCarteraIfipController.selected.fechaUltimaModificacion}"
+                                      title="#{propiedadesTituloBL.FechaRegistro}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.TipoCartera}"/>
+                        <h:outputText value="#{calificacionTipoCarteraIfipController.selected.codigoTipoCartera.nombre}" 
+                                     title="#{propiedadesTituloBL.TipoCartera}" />
+                        
+                        <h:outputText  value="#{propiedadesEtiquetaBL.Calificacion}"/>
+                        <h:outputText value="#{calificacionTipoCarteraIfipController.selected.calificacion}"
+                                     title="#{propiedadesEtiquetaBL.Calificacion}"/>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.DiasMoraInicial}"/>
+                        <h:outputText value="#{calificacionTipoCarteraIfipController.selected.diasMoraInicial}"
+                                     title="#{propiedadesEtiquetaBL.DiasMoraInicial}" />
+                        
+                        <h:outputText  value="#{propiedadesEtiquetaBL.DiasMoraFinal}"/>
+                        <h:outputText value="#{calificacionTipoCarteraIfipController.selected.diasMoraFinal}"
+                                     title="#{propiedadesEtiquetaBL.DiasMoraFinal}"/>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.ProvisionDesde}"/>
+                        <h:outputText value="#{calificacionTipoCarteraIfipController.selected.provisionDesde}"
+                                      title="#{propiedadesEtiquetaBL.ProvisionDesde}"/>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.ProvisionHasta}"/>
+                        <h:outputText value="#{calificacionTipoCarteraIfipController.selected.provisionHasta}"
+                                      title="#{propiedadesEtiquetaBL.ProvisionHasta}"/>
+                        
+                        <h:outputText  value="#{propiedadesEtiquetaBL.ProvisionActual}"/>
+                        <h:outputText value="#{calificacionTipoCarteraIfipController.selected.valorActualProvision}"
+                                      title="#{propiedadesEtiquetaBL.ProvisionActual}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                        <h:outputText value="#{calificacionTipoCarteraIfipController.selected.eliminado}"
+                                      title="#{propiedadesEtiquetaBL.Eliminado}"/>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

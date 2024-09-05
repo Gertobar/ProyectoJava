@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConceptoTransaccionCreateDlg" 
+                  widgetVar="ProductoIfitCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Productos}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="ProductoIfitCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                       for="codigoProducto"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoProducto" 
+                                         value="#{tasaInteresProCreMonIfiController.productoCredito}" 
+                                         validator="#{tasaInteresProCreMonIfiController.validateUnico}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tasaInteresProCreMonIfiController.listaProductoCredito}"
+                                           var="tasaInteresProCreMonIfiControllerListaProductoCredito"
+                                           itemValue="#{tasaInteresProCreMonIfiControllerListaProductoCredito}"
+                                           itemLabel="#{tasaInteresProCreMonIfiControllerListaProductoCredito.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{productoCreditoConverter}"/>
+                            <p:ajax event="change"                    
+                                    listener="#{tasaInteresProCreMonIfiController.actualizaMoneda()}"
+                                    update="codigoMoneda">
+                            </p:ajax> 
+                        </p:selectOneMenu>   
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="codigoMoneda"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoMoneda" 
+                                         value="#{tasaInteresProCreMonIfiController.moneda}" 
+                                         validator="#{tasaInteresProCreMonIfiController.validateUnico}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tasaInteresProCreMonIfiController.listaMoneda}"
+                                           var="tasaInteresProCreMonIfiControllerListaMoneda"
+                                           itemValue="#{tasaInteresProCreMonIfiControllerListaMoneda}"
+                                           itemLabel="#{tasaInteresProCreMonIfiControllerListaMoneda.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{monedaConverter}"/>
+                            <p:ajax event="change"                    
+                                    listener="#{tasaInteresProCreMonIfiController.actualizaProductoCreditoMonedaIfip()}">
+                            </p:ajax> 
+                        </p:selectOneMenu> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                       for="codigoIfip"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoIfip" 
+                                     value="#{tasaInteresProCreMonIfiController.ifip.nombre}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10"
+                                     disabled="true"/> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" 
+                                       for="codigoTasa"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoTasa" 
+                                         value="#{tasaInteresProCreMonIfiController.selected.codigoTasa}" 
+                                         validator="#{tasaInteresProCreMonIfiController.validateUnico}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Tasa} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tasaInteresProCreMonIfiController.listaTasaInteresCreditoIfip}"
+                                           var="tasaInteresProCreMonIfiControllerListaTasaInteresCreditoIfip"
+                                           itemValue="#{tasaInteresProCreMonIfiControllerListaTasaInteresCreditoIfip}"
+                                           itemLabel="#{tasaInteresProCreMonIfiControllerListaTasaInteresCreditoIfip.valor.toString()}"
+                                           />
+                            <f:converter binding="#{tasaInteresCreditoIfipConverter}"/>
+                            <p:ajax event="change" >
+                            </p:ajax> 
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Monto} INICIAL" 
+                                       for="codigoMontoInicial"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoMontoInicial" 
+                                     value="#{tasaInteresProCreMonIfiController.selected.montoInicial}" 
+                                     validator="#{tasaInteresProCreMonIfiController.validateUnico}"
+                                     title="#{propiedadesTituloBL.Inicio}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Monto} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10">
+                            <p:ajax event="change" >
+                            </p:ajax> 
+                        </p:inputText>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Monto} FINAL" 
+                                       for="codigoMontoFinal"/>
+                        <p:inputText id="codigoMontoFinal"
+                                     value="#{tasaInteresProCreMonIfiController.selected.montoFinal}" 
+                                     title="#{propiedadesTituloBL.Inicio}"   
+                                     size="10" maxlength="10"/> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" 
+                                       for="asignadoPor"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="asignadoPor" 
+                                         value="#{tasaInteresProCreMonIfiController.selected.usuarioRegistradoPor}"                                  
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.RegistradaPor} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         disabled="true">                                                    
+                            <f:selectItem  itemValue="#{usuarioController.usuario}"
+                                           itemLabel="#{usuarioController.usuario.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>                    
+                        </p:selectOneMenu>  
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}"
+                                       for="fechaRegistro"  styleClass="etiquetaRequerida" />
+                        <p:calendar id="fechaRegistro"
+                                    pattern="dd/MM/yyyy HH:mm:ss"
+                                    value="#{tasaInteresProCreMonIfiController.selected.fechaRegistro}"
+                                    title="#{propiedadesTituloBL.FechaRegistro}" 
+                                    required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}  -  #{propiedadesMensajesBL.CampoRequerido}" 
+                                    showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{tasaInteresProCreMonIfiController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <p:commandButton id="guardarBot"
+                                     actionListener="#{tasaInteresProCreMonIfiController.saveNew}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:ProdcutoIfitListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,ProductoIfitCreateDialog);"/>        
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

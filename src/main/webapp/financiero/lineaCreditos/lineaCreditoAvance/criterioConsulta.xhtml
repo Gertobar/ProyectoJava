@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:componentes ="http://java.sun.com/jsf/composite/ezcomp">
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" style="font-size: 10px">
+        <h:panelGrid columns="1">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Socio} *" styleClass="etiquetaRequerida"/>
+                <h:panelGrid columns="3">
+                    <p:inputText id="nombreSocio" 
+                                 readonly="true"   
+                                 value="#{lineaCreditoAvanceController.nombreSocio}" 
+                                 onblur="value = value.toUpperCase()" 
+                                 size="50"
+                                 widgetVar="nom"/>
+                    <p:commandButton id="buscar"
+                                     value="#{propiedadesEtiquetaBL.Buscar} #{propiedadesEtiquetaBL.Socio}"
+                                     icon="#{propiedadesObjetosBL.IcoVer}"
+                                     onclick="PF('listaSociosDialog').show();"
+                                     type="button"/>
+                    <componentes:componenteBuscarSocio
+                        id="componenteBusca"
+                        widgetVar="listaSociosDialog"
+                        onHide="cargaSocioComponente()"
+                        soloSociosAgencia="false">
+                    </componentes:componenteBuscarSocio>
+                    <p:remoteCommand name="cargaSocioComponente"
+                                     action="#{lineaCreditoAvanceController.obtieneSolicitudesDeLineaDesdeComponente}"
+                                     update="nombreSocio, solicitudLineaCredito, :lineaCreditoAvancePagosListForm:datalist, :lineaCreditoAvancePagosListForm:capital, :lineaCreditoAvancePagosListForm:plazo, :lineaCreditoAvancePagosListForm:interesAPagar, :lineaCreditoAvancePagosListForm:rubrosAPagar, :lineaCreditoAvancePagosListForm:fechaVencimiento"
+                                     oncomplete="PF('sol').focus();"/>
+                </h:panelGrid>
+            </h:panelGrid>
+            <h:panelGrid columns="6">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Linea} *" styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="solicitudLineaCredito"
+                                 value="#{lineaCreditoAvanceController.lineaCreditoSolicitud}"
+                                 requiredMessage="#{propiedadesEtiquetaBL.LineaCredito} - #{propiedadesMensajesBL.CampoRequerido}"
+                                 style="width: 145px"
+                                 widgetVar="sol">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoAvanceController.listaLineaCreditoSolicitud}"
+                                   var="lineaSolicitudItem"
+                                   itemValue="#{lineaSolicitudItem}"
+                                   itemLabel="#{lineaSolicitudItem.lineaCredito.nombre}" />
+                    <f:converter binding="#{lineaCreditoSolicitudConverter}"/>
+                    <p:ajax event="change" listener="#{lineaCreditoAvanceController.cambiaLineaCreditoSolicitud}"
+                            update="monto, cupoConsumido, :lineaCreditoAvancePagosListForm:datalist, :lineaCreditoAvancePagosListForm:capital, :lineaCreditoAvancePagosListForm:plazo, :lineaCreditoAvancePagosListForm:interesAPagar, :lineaCreditoAvancePagosListForm:rubrosAPagar, :lineaCreditoAvancePagosListForm:fechaVencimiento, saldoDisponible, montoLineaCredito"/>
+                </p:selectOneMenu>    
+                <h:outputLabel value="#{propiedadesEtiquetaBL.MontoLineaCredito}" styleClass="etiqueta"/>
+                <p:inputText id="montoLineaCredito"
+                             value="#{lineaCreditoAvanceController.montoLineaCreditoSoliictud}"
+                             disabled="true"
+                             size="30">
+                    <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.CupoConsumido}" styleClass="etiqueta"/>
+                <p:inputText id="cupoConsumido"
+                             value="#{lineaCreditoAvanceController.cupoConsumido}"
+                             disabled="true"
+                             size="30">
+                    <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.SaldoDisponibleLineaCredito}" styleClass="etiqueta"/>
+                <p:inputText id="saldoDisponible"
+                             value="#{lineaCreditoAvanceController.saldoLineaCreditoSoliictud}"
+                             disabled="true"
+                             size="30">
+                    <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.MontoSolicitadoAvance}" styleClass="etiquetaRequerida"/>
+                <p:inputText id="montoSolicitadoAvance"
+                             value="#{lineaCreditoAvanceController.montoSolicitadoAvance}"
+                             size="30"
+                             validator="validaSoloValor">
+                    <p:ajax event="change" 
+                             listener="#{lineaCreditoAvanceController.calcularMontoAvance}"
+                             update="monto,:lineaCreditoAvancePagosListForm:datalist,:lineaCreditoAvancePagosListForm:capital,:lineaCreditoAvancePagosListForm:plazo,:lineaCreditoAvancePagosListForm:interesAPagar,:lineaCreditoAvancePagosListForm:rubrosAPagar,:lineaCreditoAvancePagosListForm:fechaVencimiento,cuotas,:barraForm:guardarBot"
+                             onstart="procesandoDlg.show();"
+                             oncomplete="procesandoDlg.hide();"/>
+                    <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.MontoAvance} *" styleClass="etiqueta"/>
+                <p:inputText id="monto"
+                             value="#{lineaCreditoAvanceController.montoSolicitado}"
+                             disabled="true"
+                             size="30">
+                     <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+            </h:panelGrid>
+            <h:panelGrid columns="2">  
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Cuotas} *" styleClass="etiqueta"/>
+                <p:inputText id="cuotas"
+                             value="#{lineaCreditoAvanceController.cuotas}"
+                             disabled="#{!lineaCreditoAvanceController.habilitaIngresoCuotas}"
+                             size="2"
+                             validator="validaSoloValor"/>
+            </h:panelGrid>
+        </h:panelGrid>
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+</ui:composition>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog appendTo="@(body)"
+                  maximizable="false" 
+                  resizable="false"                
+                  id="CrearCambioDlg"                  
+                  modal="true"
+                  closable="true"
+                  closeOnEscape="true"
+                  widgetVar="CrearCambioDialogo">     
+
+            <f:facet name="header">
+                <h:outputLabel  value="#{propiedadesEtiquetaBL.CambiarCheque}"
+                                styleClass="encabezadosDialog"/>
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="5000" />
+
+            <h:form id="CreaCambiarChequeFor">
+                <h:panelGroup style="font-size: 10px;">
+                    <h:panelGrid id="cambiarChequeGiradoGri" columns="3" columnClasses="label, value, validator"  style="font-size: 10px">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EntidadFinanciera}" 
+                                       for="entidadFinanciera"
+                                       styleClass="etiqueta"/>
+                        <p:outputLabel  id="entidadFinanciera"
+                                        value="#{cambiaChequeGiradoBean.retiroCheque.talonarioChequeDetalle.talonarioCheque.ifipCuentaEntidadFinanciera.entidadFinanciera.nombre}"                                    />
+                        <h:message for="entidadFinanciera" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Actual} #{propiedadesEtiquetaBL.NumeroCheque} " 
+                                       for="actualNumeroCheque"
+                                       styleClass="etiqueta"/>
+                        <p:outputLabel  id="actualNumeroCheque"
+                                        value="#{cambiaChequeGiradoBean.retiroCheque.talonarioChequeDetalle.talonarioChequeDetallePK.numeroCheque}"                                    />
+                        <h:message for="actualNumeroCheque" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nuevo} #{propiedadesEtiquetaBL.NumeroCheque}" 
+                                       for="nuevoNumeroCheque" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nuevoNumeroCheque"                                                                         
+                                     value="#{cambiaChequeGiradoBean.cambioChequeGirado.numeroChequeNuevo}"                                       
+                                     requiredMessage="#{propiedadesEtiquetaBL.NumeroCheque} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     styleClass="campoRequeridoValor"     
+                                     required="true"
+                                     size="20">        
+                            <p:ajax event="blur" listener="#{cambiaChequeGiradoBean.compruebaCheque()}" update=":mensaje"/>
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en" />      
+                        </p:inputText>
+                        <h:message for="nuevoNumeroCheque"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Motivo}" 
+                                       for="motivoCambio"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="motivoCambio" 
+                                         value="#{cambiaChequeGiradoBean.tipoMotivoCambioCheque}" 
+                                         disabled="false"
+                                         filter="true" 
+                                         filterMatchMode="contains"
+                                         required="false">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{cambiaChequeGiradoBean.itemsTipoMotivoCambioCheque}"
+                                           var="tipoMotivoItem"
+                                           itemValue="#{tipoMotivoItem}"
+                                           itemLabel="#{tipoMotivoItem.nombre}"
+                                           />                       
+                            <f:converter binding="#{tipoMotivoCambioChequeConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="motivoCambio"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                                       for="observaciones" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="observaciones"                                                                         
+                                     value="#{cambiaChequeGiradoBean.cambioChequeGirado.observaciones}"                                       
+                                     requiredMessage="#{propiedadesEtiquetaBL.Observaciones} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     required="true"
+                                     onblur="value = value.toUpperCase()"
+                                     size="80">                               
+                        </p:inputText>
+                        <h:message for="observaciones"  styleClass="invalido"/>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="guardarBot" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}" 
+                                             update=":mensaje,:CambiaChequeGiradoForm"    
+                                             oncomplete="CrearCambioDialogo.hide();"
+                                             actionListener="#{cambiaChequeGiradoBean.guardaCambioCheque}">
+                                <p:confirm message="#{propiedadesMensajesBL.SeguroCambiarCheque}" 
+                                           icon="ui-icon-info"
+                                           class="encabezadosDialog"                               
+                                           header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+
+                            </p:commandButton>
+                        </f:facet>
+
+                    </h:panelGrid>
+                </h:panelGroup>
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+                </p:confirmDialog>
+            </h:form>
+
+
+        </p:dialog> 
+    </ui:composition>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PeriodoEfeCheEntFinEditDlg" widgetVar="PeriodoEfeCheEntFinEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditPeriodoEfeCheEntFinTitle}" closeOnEscape="true">
+
+            <h:form id="PeriodoEfeCheEntFinEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{periodoEfeCheEntFinController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditPeriodoEfeCheEntFinLabel_codigoEntidadFinanciera}" for="codigoEntidadFinanciera" />
+                        <h:outputText id="codigoEntidadFinanciera" value="#{periodoEfeCheEntFinController.selected.codigoEntidadFinanciera}" />
+
+                        <p:outputLabel value="#{myBundle.EditPeriodoEfeCheEntFinLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{periodoEfeCheEntFinController.selected.registradoPor}" title="#{myBundle.EditPeriodoEfeCheEntFinTitle_registradoPor}" required="true" requiredMessage="#{myBundle.EditPeriodoEfeCheEntFinRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.EditPeriodoEfeCheEntFinLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{periodoEfeCheEntFinController.selected.fechaRegistro}" title="#{myBundle.EditPeriodoEfeCheEntFinTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.EditPeriodoEfeCheEntFinRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditPeriodoEfeCheEntFinLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{periodoEfeCheEntFinController.selected.eliminado}" title="#{myBundle.EditPeriodoEfeCheEntFinTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditPeriodoEfeCheEntFinRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.EditPeriodoEfeCheEntFinLabel_codigoPeriodo}" for="codigoPeriodo" />
+                        <p:selectOneMenu id="codigoPeriodo" value="#{periodoEfeCheEntFinController.selected.codigoPeriodo}" required="true" requiredMessage="#{myBundle.EditPeriodoEfeCheEntFinRequiredMessage_codigoPeriodo}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{periodoEfectivizacionChequeController.items}"
+                                           var="codigoPeriodoItem"
+                                           itemValue="#{codigoPeriodoItem}"
+                                           itemLabel="#{codigoPeriodoItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{periodoEfectivizacionChequeConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{periodoEfeCheEntFinController.save}" value="#{myBundle.Save}" update="display,:PeriodoEfeCheEntFinListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PeriodoEfeCheEntFinEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PeriodoEfeCheEntFinEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition>
+        <p:dialog id="contratoAhorroProgramadoCreateDlg" 
+                  widgetVar="contratoAhorroProgramadoCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  position="top">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.ContratoAhorroProgramado}" style="font-size: 10px;"/>
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="6000" />
+            <h:form id="contratoAhorroProgramadoCreateForm">
+                <p:panel  id="contratoPanel"
+                          style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;">                    
+                    <p:focus id="focus" for="#{contratoAhorroProgramadoController.foco}" context="contratoAhorroProgramadoCreateDlg" />
+                    <h:panelGrid columns="1" styleClass="grid"  style="font-size: 10px; margin-top: 0px;">
+                        <h:panelGrid columns="2">                            
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                           for="codigoIfip"  
+                                           styleClass="etiquetaRequerida"/>
+                            <p:inputText id="codigoIfip" 
+                                         value="#{contratoAhorroProgramadoController.ifip.nombre}" 
+                                         title="#{propiedadesTituloBL.CodigoIfip}"
+                                         size="10" 
+                                         maxlength="10"
+                                         disabled="true"/>                                                               
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.PersonaNatural}" 
+                                           for="personaNatural"  
+                                           styleClass="etiquetaRequerida"/>
+                            <p:inputText id="personaNatural" 
+                                         value="#{contratoAhorroProgramadoController.personaNatural.persona.nombreCompleto}" 
+                                         title="#{propiedadesTituloBL.PersonaNatural}"
+                                         size="60" 
+                                         maxlength="10"
+                                         disabled="true"/>                            
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Beneficiario}"
+                                           for="beneficiario"
+                                           styleClass="etiquetaRequerida"/>
+                            <h:panelGrid columns="3">
+                                <p:inputText id="beneficiario"
+                                             readonly="true"
+                                             value="#{contratoAhorroProgramadoController.personaBeneficiario.nombreCompleto}"
+                                             onblur="value = value.toUpperCase()"
+                                             size="50"/>
+                                <p:commandButton id="buscarPersonaNatural"
+                                                 value="#{propiedadesEtiquetaBL.Buscar} #{propiedadesEtiquetaBL.Persona}"
+                                                 icon="#{propiedadesObjetosBL.IcoVer}"
+                                                 type="button"
+                                                 onclick="PF('listaPersonaDialog').show();"/>
+                            </h:panelGrid>
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaDebito}"
+                                           styleClass="etiquetaRequerida"
+                                           for="cuentaDebito"/>                             
+                            <p:selectOneMenu id="cuentaDebito"
+                                             value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.codigoCuentaDebita}"
+                                             required="true">
+                                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                <f:selectItems value="#{contratoAhorroProgramadoController.listaCuentaVista}"
+                                               var="cuentaItem"
+                                               itemValue="#{cuentaItem.codigo}"
+                                               itemLabel="#{cuentaItem.numero}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaAcreditar}"
+                                           styleClass="etiquetaRequerida"
+                                           for="cuentaAcredita"/>                             
+                            <p:selectOneMenu id="cuentaAcredita"
+                                             value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.codigoCuentaAcredita}"
+                                             required="true">
+                                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                <f:selectItems value="#{contratoAhorroProgramadoController.listaCuentaVista}"
+                                               var="cuentaAcreditaItem"
+                                               itemValue="#{cuentaAcreditaItem.codigo}"
+                                               itemLabel="#{cuentaAcreditaItem.numero}"/>
+                            </p:selectOneMenu>                            
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.AhorroProgramado}"
+                                           styleClass="etiquetaRequerida"
+                                           for="ahorroProgramado"/>                                                       
+                            <h:panelGrid columns="3">
+                                <p:selectOneMenu id="ahorroProgramado"
+                                                 value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.codigoAhorroProgramado}"
+                                                 required="true">
+                                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                    <f:selectItems value="#{contratoAhorroProgramadoController.listaAhorroProgramado}"
+                                                   var="cuentaItem"
+                                                   itemValue="#{cuentaItem.codigo}"
+                                                   itemLabel="#{cuentaItem.nombre}"/>
+                                    <p:ajax event="change" 
+                                            listener="#{contratoAhorroProgramadoController.cargaCuentasAhorroProgramado}" 
+                                            update="@this,cuentaAhorroProgramado"/>                                    
+                                </p:selectOneMenu>
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.MotivoAhorroProgramado}"
+                                               styleClass="etiquetaRequerida"
+                                               for="motivoAhorroProgramado"/>                            
+                                <p:selectOneMenu id="motivoAhorroProgramado"
+                                                 value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.codigoMotivoAhorroPro}"
+                                                 required="true">
+                                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                    <f:selectItems value="#{contratoAhorroProgramadoController.listaMotivoAhorroProgramado}"
+                                                   var="motivo"
+                                                   itemValue="#{motivo.codigo}"
+                                                   itemLabel="#{motivo.nombre}"/>
+                                    <p:ajax event="change" 
+                                            update="@this"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaAhorroProgramado}"
+                                           styleClass="etiquetaRequerida"
+                                           for="cuentaAhorroProgramado"/>                             
+                            <p:selectOneMenu id="cuentaAhorroProgramado"
+                                             value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.codigoCuentaAhorroPro}"
+                                             required="true">
+                                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                <f:selectItems value="#{contratoAhorroProgramadoController.listaCuentaProgramado}"
+                                               var="cuenta"
+                                               itemValue="#{cuenta.codigo}"
+                                               itemLabel="#{cuenta.numero}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroCuotas}"
+                                           styleClass="etiquetaRequerida"
+                                           for="numeroCuotas"/>
+                            <p:inputText id="numeroCuotas"
+                                         value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.numeroCuotas}"
+                                         maxlength="5">
+                                <f:convertNumber integerOnly="true"/>
+                                <f:validateLongRange minimum="1" maximum="1000" />
+                                <p:ajax event="change" 
+                                        listener="#{contratoAhorroProgramadoController.cargaTablaContratoAhorroProgramado}"
+                                        update="@this,tablaAhorroProgramado"/>
+                            </p:inputText>
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.DiaPago}"
+                                           styleClass="etiquetaRequerida"
+                                           for="diaPago"/>
+                            <p:inputText id="diaPago" 
+                                         value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.diaPago}"
+                                         maxlength="2">
+                                <f:convertNumber integerOnly="true"/>
+                                <f:validateLongRange minimum="1" maximum="31" />
+                                <p:ajax event="change" 
+                                        listener="#{contratoAhorroProgramadoController.cargaTablaContratoAhorroProgramado}"
+                                        update="@this,tablaAhorroProgramado"/>
+                            </p:inputText>
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.MontoMensual}"
+                                           for="monto"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:inputText id="monto"
+                                         value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.monto}"
+                                         styleClass="campoRequeridoValor"
+                                         size="20">
+                                 <p:ajax event="change"
+                                         listener="#{contratoAhorroProgramadoController.cargaTablaContratoAhorroProgramado}"
+                                         update="@this,tablaAhorroProgramado"/>
+                                <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                                <f:validateDoubleRange minimum="1" />
+                            </p:inputText>                                                       
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.RenovacionAutomatica}"
+                                           for="renovacion"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="renovacion" 
+                                         value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.renovacionAutomatica}">    
+                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />
+                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />                                 
+                                <p:ajax event="change"                                       
+                                        update="@this"/>
+                            </p:selectOneMenu>                            
+                        </h:panelGrid>
+                        <p:separator />
+                        <h:panelGrid columns="1">
+                            <p:dataTable id="tablaAhorroProgramado" 
+                                         value="#{contratoAhorroProgramadoController.listaTablaAhorroProgramadoResumen}"
+                                         var="item"
+                                         paginator="true"
+                                         rows="5"
+                                         emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                         widgetVar="tablaAhorro">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.TablaAhorroProgramado}" style="font-size: 10px;"/>
+                                </f:facet>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Cuota}"/>
+                                    </f:facet>
+                                    <h:outputLabel value="#{item.cuota}"/>
+                                </p:column>
+                                <p:column> 
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.FechaInicio}"/>
+                                    </f:facet>
+                                    <h:outputLabel value="#{item.fechaInicio}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputLabel>
+                                </p:column>
+                                <p:column> 
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.FechaFin}"/>
+                                    </f:facet>
+                                    <h:outputLabel value="#{item.fechaFin}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputLabel>
+                                </p:column>
+                                <p:column> 
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                                    </f:facet>
+                                    <h:outputLabel value="#{item.valor}">
+                                        <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:outputLabel>
+                                </p:column>
+                                <p:column> 
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Interes}"/>
+                                    </f:facet>
+                                    <h:outputLabel value="#{item.interes}">
+                                        <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:outputLabel>
+                                </p:column>
+                                <p:column> 
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.FechaPagoMaxima}"/>
+                                    </f:facet>
+                                    <h:outputLabel value="#{item.fechaMaximaPago}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputLabel>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <p:commandButton id="guardarBot"
+                                     style="font-size: 10px; margin-top: 0px;"
+                                     actionListener="#{contratoAhorroProgramadoController.guarda}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     onclick="procesandoDlg.show();"
+                                     oncomplete="procesandoDlg.hide();"
+                                     update=":contratoAhorroProgramadoListForm:datalist"/>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

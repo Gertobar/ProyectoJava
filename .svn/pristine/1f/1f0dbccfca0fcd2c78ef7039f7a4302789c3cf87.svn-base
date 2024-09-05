@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<f:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <html>
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="IE=9" /> 
+                <meta http-equiv="Cache-Control" content="no-cache" />
+                <meta http-equiv="Pragma" content="no-cache" />
+                <!--<script type="text/javascript"> function hideScrollBars() { document.documentElement.style.overflowX = "hidden"; document.documentElement.style.overflowY = "hidden"; document.body.scroll = "no"; // Internet Explorer } </script> -->
+            </f:facet>           
+            <title>MinkaSoftware - MASCOOP</title>      
+            <h:outputStylesheet library="css" name="estilo.css"/>
+            <h:outputStylesheet library="css" name="icono.css"/>            
+            <h:outputScript library="scripts" name="pfcrud.js"/>
+            <h:outputScript library="scripts" name="primefaces.js"/>
+        </h:head>
+        <h:body>
+            <ui:include src="banerPlantilla.xhtml"/>                 
+            <ui:include src="barraPlantilla.xhtml"/>
+         
+                <ui:insert name="formulario">
+                </ui:insert>
+            
+            <ui:include src="creditoPlantilla.xhtml" />
+        </h:body>
+    </html>
+</f:view>

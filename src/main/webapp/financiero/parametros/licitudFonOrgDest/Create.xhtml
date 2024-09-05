@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LicitudFonOrgDestCreateDlg" widgetVar="LicitudFonOrgDestCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateLicitudFonOrgDestTitle}" closeOnEscape="true">
+
+            <h:form id="LicitudFonOrgDestCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonOrgDestLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{licitudFonOrgDestController.selected.codigo}" title="#{myBundle.CreateLicitudFonOrgDestTitle_codigo}" required="true" requiredMessage="#{myBundle.CreateLicitudFonOrgDestRequiredMessage_codigo}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonOrgDestLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{licitudFonOrgDestController.selected.nombre}" title="#{myBundle.CreateLicitudFonOrgDestTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateLicitudFonOrgDestRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonOrgDestLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{licitudFonOrgDestController.selected.descripcion}" title="#{myBundle.CreateLicitudFonOrgDestTitle_descripcion}" required="true" requiredMessage="#{myBundle.CreateLicitudFonOrgDestRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonOrgDestLabel_esOrigen}" for="esOrigen" />
+                        <p:inputText id="esOrigen" value="#{licitudFonOrgDestController.selected.esOrigen}" title="#{myBundle.CreateLicitudFonOrgDestTitle_esOrigen}" required="true" requiredMessage="#{myBundle.CreateLicitudFonOrgDestRequiredMessage_esOrigen}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonOrgDestLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{licitudFonOrgDestController.selected.eliminado}" title="#{myBundle.CreateLicitudFonOrgDestTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateLicitudFonOrgDestRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{licitudFonOrgDestController.saveNew}" value="#{myBundle.Save}" update="display,:LicitudFonOrgDestListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,LicitudFonOrgDestCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="LicitudFonOrgDestCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

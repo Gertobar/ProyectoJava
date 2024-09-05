@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UbicacionGeograficaCreateDlg"
+                  widgetVar="UbicacionGeograficaCreateDialog" 
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.UbicacionGeografica}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="UbicacionGeograficaCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">                   
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}"
+                                       for="nombre" 
+                                      styleClass="etiquetaRequerida"
+                                      />
+                        <p:inputText id="nombre" value="#{ubicacionGeograficaController.selected.nombre}" 
+                                     title="#{propiedadesEtiquetaBL.nombre}"
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre}:#{propiedadesMensajesBL.CampoRequerido}"
+                                     size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Siglas}"
+                                       for="siglas"
+                                   styleClass="etiquetaRequerida"
+                                       />
+                        <p:inputText id="siglas" value="#{ubicacionGeograficaController.selected.siglas}"
+                                     title="#{propiedadesEtiquetaBL.Siglas}}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Siglas}:#{propiedadesMensajesBL.CampoRequerido}"
+                                     size="5" maxlength="5"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoUbiGeoPadre}"
+                                       for="codigoUbiGeoPadre"
+                                   styleClass="etiquetaRequerida"
+                                       />
+                        <p:selectOneMenu id="codigoUbiGeoPadre" value="#{ubicacionGeograficaController.selected.codigoUbiGeoPadre}" >
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{ubicacionGeograficaController.items}"
+                                           var="codigoUbiGeoPadreItem"
+                                           itemValue="#{codigoUbiGeoPadreItem}"
+                                           itemLabel="#{codigoUbiGeoPadreItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{ubicacionGeograficaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoJerarquia}"
+                                       for="codigoJerarquia"
+                                      styleClass="etiquetaRequerida"
+                                       />
+                        <p:selectOneMenu id="codigoJerarquia"
+                                         value="#{ubicacionGeograficaController.selected.codigoJerarquia}" 
+                                         required="true" requiredMessage="#{propiedadesEtiquetaBL.CodigoJerarquia}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{jerarquiaUbicacionGeograficaController.items}"
+                                           var="codigoJerarquiaItem"
+                                           itemValue="#{codigoJerarquiaItem}"
+                                           itemLabel="#{codigoJerarquiaItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{jerarquiaUbicacionGeograficaConverter}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}"
+                                       for="eliminado"
+                                      styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{ubicacionGeograficaController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />   
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                                           
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{ubicacionGeograficaController.saveNew}"
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:UbicacionGeograficaListForm:datalist,:mensaje"
+                                             oncomplete="handleSubmit(xhr,status,args,UbicacionGeograficaCreateDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

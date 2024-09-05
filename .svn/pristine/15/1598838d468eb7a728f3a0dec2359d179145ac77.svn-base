@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CreaRetencionDlg" 
+                  widgetVar="CreaRetencionDilago" 
+                  modal="true" 
+                  closable="false"
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  style="height: 200px; width: 400px"
+                  closeOnEscape="false">
+
+            <f:facet name="header">
+                <h:outputLabel  value="#{propiedadesEtiquetaBL.Retencion}"
+                                styleClass="encabezadosDialog"/>       
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+            <h:form id="CreaRetencionFor">
+
+                <h:panelGroup id="display" style="font-size: 10px;">
+                    <h:panelGrid  columns="2">
+
+                        <p:outputLabel styleClass="etiqueta" value="#{propiedadesEtiquetaBL.Proveedor}"/>
+                        <p:outputLabel value="#{listadoRetencionBean.retencionSel.compra.codigoProveedor.persona.nombreCompleto}"/>
+                           
+                        <p:outputLabel styleClass="etiqueta" value="#{propiedadesEtiquetaBL.Comprobante}"/>
+                        <p:outputLabel value="#{listadoRetencionBean.retencionSel.compra.numeroComprobante}"/>
+                           
+                        <p:outputLabel styleClass="etiqueta" value="#{propiedadesEtiquetaBL.Total} #{propiedadesEtiquetaBL.Compras}"/>
+                        <p:outputLabel value="#{listadoRetencionBean.retencionSel.compra.total}"/>
+
+
+                        <p:outputLabel styleClass="etiqueta" value="#{propiedadesEtiquetaBL.TotalRetencion}"/>
+                        <p:outputLabel value="#{listadoRetencionBean.retencionSel.totalRetenido}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:outputLabel>
+                    </h:panelGrid>
+
+                    <p:separator/>
+
+                    <h:panelGrid  columns="1">
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroRetencion}" 
+                                           />
+
+                            <p:inputText id="serieRentencion"    
+                                         value="#{listadoRetencionBean.serieRetencion}"
+                                         size="4"
+                                         readonly="#{listadoRetencionBean.deshabilitaImpresionRetencion}"  
+                                         style="text-align:  right">
+                                <p:ajax event="blur" listener="#{retencionDpfBean.obtieneDocumento()}" update="numeroRentencion,:mensaje,:growl" />
+                            </p:inputText>
+
+                            <p:inputText id="numeroRentencion"  
+                                         value="#{listadoRetencionBean.numeroRetencion}"
+                                         size="16"
+                                         readonly="#{listadoRetencionBean.deshabilitaImpresionRetencion}"  
+                                         style="text-align:  right">
+                                <p:ajax event="blur" listener="#{listadoRetencionBean.obtieneDocumento()}" update="numeroRentencion,:mensaje,:growl" />
+                            </p:inputText>
+                        </h:panelGrid>
+
+                      
+
+                        <f:facet name="footer">
+                            <h:panelGrid columns="3">                            
+                                <p:commandButton id="guardaBot" 
+                                                 value="#{propiedadesEtiquetaBL.Guardar}"                                                 
+                                                 icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                                 actionListener="#{listadoRetencionBean.guardar}"
+                                                 disabled="#{listadoRetencionBean.deshabilitaImpresionRetencion}"
+                                                 update=":CreaRetencionFor, :mensaje"
+                                                 
+                                                 />
+                                <p:commandButton value="#{propiedadesEtiquetaBL.Imprimir}"
+                                                 actionListener="#{listadoRetencionBean.imprimeComprobanteRetencionr}"
+                                                 disabled="#{!listadoRetencionBean.deshabilitaImpresionRetencion}"
+                                                 icon="#{propiedadesObjetosBL.IcoImprimir}"
+                                                 id="imprimirBot"
+                                                 ajax="false"/>
+                                
+                                <p:commandButton id="cerrarBot" 
+                                                 value="#{propiedadesEtiquetaBL.Cerrar}" 
+                                                 onclick="RetencionDlg.hide()"
+                                                 icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                                 />
+
+                            </h:panelGrid>
+                        </f:facet>
+                    </h:panelGrid>
+
+                </h:panelGroup>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

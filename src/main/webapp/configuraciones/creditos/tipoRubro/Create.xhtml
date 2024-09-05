@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoRubroCreateDlg" widgetVar="TipoRubroCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateTipoRubroTitle}" closeOnEscape="true">
+
+            <h:form id="TipoRubroCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoRubroController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateTipoRubroLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoRubroController.selected.nombre}" title="#{myBundle.CreateTipoRubroTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateTipoRubroRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoRubroLabel_siglas}" for="siglas" />
+                        <p:inputText id="siglas" value="#{tipoRubroController.selected.siglas}" title="#{myBundle.CreateTipoRubroTitle_siglas}" required="true" requiredMessage="#{myBundle.CreateTipoRubroRequiredMessage_siglas}" size="5" maxlength="5"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoRubroLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{tipoRubroController.selected.descripcion}" title="#{myBundle.CreateTipoRubroTitle_descripcion}" required="true" requiredMessage="#{myBundle.CreateTipoRubroRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoRubroLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tipoRubroController.selected.eliminado}" title="#{myBundle.CreateTipoRubroTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateTipoRubroRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoRubroController.saveNew}" value="#{myBundle.Save}" update="display,:TipoRubroListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TipoRubroCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TipoRubroCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="situacionPatrimonialPan" 
+              header="#{propiedadesEtiquetaBL.SituacionPatrimonial}"
+              style="height: 530px; width: 700px">  
+        <p:focus context="situacionPatrimonialPan"/>   
+        <p:dataTable id="activosTbl"  
+                     value="#{informeTecnicoController.itemsSocioSituacionPatAct}"
+                     widgetVar="activosTabla"
+                     var="itemAct"
+                     rowKey="#{itemAct.socioSituacionPatActPK}"    
+                     scrollable="true" 
+                     scrollHeight="100" 
+                     editable="false" 
+                     editMode="cell" 
+                     style="width: 600px"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Activos}"/>                
+            </f:facet>
+            <p:ajax event="cellEdit" 
+                    listener="#{informeTecnicoController.edicionCeldaActivos}" 
+                    update=":SituacionEconomicaFor:totalActivosSocioLab,:SituacionEconomicaFor:totalPasivosSocioLab,:SituacionEconomicaFor:totalPatrimonioLab" />
+            <p:column style="width: 400px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Item}"/>
+                </f:facet>
+                <h:outputText value="#{itemAct.itemSituacionPatrimonial.nombre}"/> 
+            </p:column>
+            <p:column id="socioIngresoCol" style="width: 100px; text-align: center">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                </f:facet>
+                <p:cellEditor>  
+                    <f:facet name="output">
+                        <h:outputText value="#{itemAct.total}" >
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                    <f:facet name="input" >
+                        <p:inputText   id="totalSocioIng"                                        
+                                       value="#{itemAct.total}"
+                                       style="text-align: center">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            <f:validateLongRange minimum="0"/>
+                        </p:inputText>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>          
+        </p:dataTable>
+        <h:panelGrid columns="3">
+            <h:panelGrid columns="1" width="430px" style="text-align:  right">
+                <h:outputText value="#{propiedadesEtiquetaBL.Totales}" styleClass="encabezadosPanelGrid"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1" width="145px" style="text-align: center">
+                <h:outputText id="totalActivosSocioLab" 
+                               value="#{informeTecnicoController.socioSituacionPatrimonial.totalActivos}" 
+                               styleClass="encabezadosPanelGrid">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+
+        </h:panelGrid>
+
+        <p:separator/>
+
+        <p:dataTable id="pasivosTbl"  
+                     value="#{informeTecnicoController.itemsSocioSituacionPatPas}"
+                     widgetVar="pasivosTabla"
+                     var="itemPas"
+                     rowKey="#{itemPas.socioSituacionPatPasPK}"    
+                     scrollable="true" 
+                     scrollHeight="100" 
+                     editable="false" 
+                     editMode="cell" 
+                     style="width: 600px"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Pasivos}"/>                
+            </f:facet>
+            <p:ajax event="cellEdit" 
+                    listener="#{informeTecnicoController.edicionCeldaPasivos}" 
+                    update=":SituacionEconomicaFor:totalActivosSocioLab,:SituacionEconomicaFor:totalPasivosSocioLab,:SituacionEconomicaFor:totalPatrimonioLab" />
+            <p:column style="width: 400px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Item}"/>
+                </f:facet>
+                <h:outputText value="#{itemPas.itemSituacionPatrimonial.nombre}"/> 
+            </p:column>
+            <p:column id="socioIngresoCol" style="width: 100px; text-align: center">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                </f:facet>
+                <p:cellEditor>  
+                    <f:facet name="output">
+                        <h:outputText value="#{itemPas.total}" >
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                    <f:facet name="input" >
+                        <p:inputText   id="totalSocioIng"                                        
+                                       value="#{itemPas.total}"
+                                       style="text-align: center">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            <f:validateLongRange minimum="0"/>
+                        </p:inputText>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>          
+        </p:dataTable>
+        <h:panelGrid columns="3">
+            <h:panelGrid columns="1" width="430px" style="text-align:  right">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Totales}" styleClass="encabezadosPanelGrid"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1" width="145px" style="text-align: center">
+                <h:outputText id="totalPasivosSocioLab" 
+                               value="#{informeTecnicoController.socioSituacionPatrimonial.totalPasivos}" 
+                               styleClass="encabezadosPanelGrid">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+
+        </h:panelGrid>
+
+        <p:separator/>
+
+        <h:panelGrid columns="2" width="300">
+            <h:panelGrid columns="1">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Patrimonio}" styleClass="encabezadosPanelGrid"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1" style="text-align: center">
+                <h:outputText id="totalPatrimonioLab" 
+                               value="#{informeTecnicoController.socioSituacionPatrimonial.totalPatrimonio}" 
+                               styleClass="encabezadosPanelGrid">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>          
+        </h:panelGrid>
+
+    </p:panel>
+
+</ui:composition>

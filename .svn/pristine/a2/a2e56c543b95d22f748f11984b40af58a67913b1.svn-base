@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:dialog id="TransaccionesErrorDlg" 
+              widgetVar="TransaccionesErrorDialog" 
+              modal="true" 
+              resizable="false" 
+              appendTo="@(body)"
+              closeOnEscape="true"> 
+
+
+        <f:facet name="header">
+            <h:outputLabel  id="impresionLab"
+                            value="#{propiedadesEtiquetaBL.TransaccionesConError}"
+                            styleClass="encabezadosDialog"/>
+        </f:facet>
+        <h:form id="transaccionesErrorFor">
+            <h:panelGroup id="display"  style="font-size: 10px;">
+                <p:dataTable  id="transaccionesErrorTbl"
+                              widgetVar="transaccionesErrorTabla"
+                              value="#{transaccionLoteBean.itemsTransaccionLotErr}"
+                              paginator="true"
+                              var="item"                            
+                              rows="10"
+                              >
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.TransaccionesConError}"/>
+                    </f:facet>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column headerText="#{propiedadesEtiquetaBL.NumeroCuenta}" />
+                            <p:column headerText="#{propiedadesEtiquetaBL.Error}" />
+                            <p:column headerText="#{propiedadesEtiquetaBL.ValorTransaccion}" />
+                        </p:row>
+                    </p:columnGroup>
+
+                    <p:column sortBy="#{item.numeroCuenta}" 
+                              filterBy="#{item.numeroCuenta}" style="text-align: center">                        
+                        <h:outputText value="#{item.numeroCuenta}"/>
+                    </p:column>
+
+                    <p:column>                        
+                        <h:outputText value="#{item.error}"/>
+                    </p:column>
+                    <p:column style="text-align: right">                        
+                        <h:outputText value="#{item.valorTransaccion}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:columnGroup type="footer">
+                        <p:row>
+                            <p:column colspan="2" style="text-align:right" footerText="#{propiedadesEtiquetaBL.Total}" />
+                            <p:column footerText="#{transaccionLoteBean.productoIfip.producto.moneda.simbolo}#{transaccionLoteBean.totalTransaccionErrorCadena}"
+                                      style="text-align:right; font-size: 12px; font-weight: bolder" > 
+                            </p:column>
+
+                        </p:row>
+                    </p:columnGroup>
+                </p:dataTable>
+            </h:panelGroup>
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+</ui:composition>

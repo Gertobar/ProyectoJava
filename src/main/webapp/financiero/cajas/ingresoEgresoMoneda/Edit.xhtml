@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IngresoEgresoMonedaEditDlg" widgetVar="IngresoEgresoMonedaEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditIngresoEgresoMonedaTitle}" closeOnEscape="true">
+
+            <h:form id="IngresoEgresoMonedaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{ingresoEgresoMonedaController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditIngresoEgresoMonedaLabel_ingresoEgresoMonedaPK_codigoMoneda}" for="ingresoEgresoMonedaPK_codigoMoneda" />
+                        <h:outputText id="ingresoEgresoMonedaPK_codigoMoneda" value="#{ingresoEgresoMonedaController.selected.ingresoEgresoMonedaPK.codigoMoneda}" />
+
+                        <p:outputLabel value="#{myBundle.EditIngresoEgresoMonedaLabel_mostrar}" for="mostrar" />
+                        <p:inputText id="mostrar" value="#{ingresoEgresoMonedaController.selected.mostrar}" title="#{myBundle.EditIngresoEgresoMonedaTitle_mostrar}" required="true" requiredMessage="#{myBundle.EditIngresoEgresoMonedaRequiredMessage_mostrar}"/>
+
+                        <p:outputLabel value="#{myBundle.EditIngresoEgresoMonedaLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{ingresoEgresoMonedaController.selected.registradoPor}" title="#{myBundle.EditIngresoEgresoMonedaTitle_registradoPor}" required="true" requiredMessage="#{myBundle.EditIngresoEgresoMonedaRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.EditIngresoEgresoMonedaLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{ingresoEgresoMonedaController.selected.fechaRegistro}" title="#{myBundle.EditIngresoEgresoMonedaTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.EditIngresoEgresoMonedaRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditIngresoEgresoMonedaLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{ingresoEgresoMonedaController.selected.eliminado}" title="#{myBundle.EditIngresoEgresoMonedaTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditIngresoEgresoMonedaRequiredMessage_eliminado}"/>
+
+                        <h:outputLabel value="#{myBundle.EditIngresoEgresoMonedaLabel_ingresoEgreso}" for="ingresoEgreso" />
+                        <h:outputText id="ingresoEgreso" value="#{ingresoEgresoMonedaController.selected.ingresoEgreso}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ingresoEgresoMonedaController.save}" value="#{myBundle.Save}" update="display,:IngresoEgresoMonedaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IngresoEgresoMonedaEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="IngresoEgresoMonedaEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

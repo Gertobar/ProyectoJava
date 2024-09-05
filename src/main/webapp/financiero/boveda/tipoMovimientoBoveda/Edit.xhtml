@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoMovimientoBovedaEditDlg" widgetVar="TipoMovimientoBovedaEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditTipoMovimientoBovedaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoMovimientoBovedaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{tipoMovimientoBovedaController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditTipoMovimientoBovedaLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{tipoMovimientoBovedaController.selected.codigo}" />
+
+                        <p:outputLabel value="#{myBundle.EditTipoMovimientoBovedaLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoMovimientoBovedaController.selected.nombre}" title="#{myBundle.EditTipoMovimientoBovedaTitle_nombre}" required="true" requiredMessage="#{myBundle.EditTipoMovimientoBovedaRequiredMessage_nombre}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditTipoMovimientoBovedaLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{tipoMovimientoBovedaController.selected.descripcion}" title="#{myBundle.EditTipoMovimientoBovedaTitle_descripcion}" required="true" requiredMessage="#{myBundle.EditTipoMovimientoBovedaRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditTipoMovimientoBovedaLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tipoMovimientoBovedaController.selected.eliminado}" title="#{myBundle.EditTipoMovimientoBovedaTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditTipoMovimientoBovedaRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoMovimientoBovedaController.save}" value="#{myBundle.Save}" update="display,:TipoMovimientoBovedaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TipoMovimientoBovedaEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TipoMovimientoBovedaEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

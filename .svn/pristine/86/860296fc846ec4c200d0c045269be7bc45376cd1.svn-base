@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TasaInteresDpfIfipEditDlg" 
+                  widgetVar="TasaInteresDpfIfipEditDialog" 
+                  modal="true" resizable="false"  
+                  appendToBody="true"
+                  closeOnEscape="true">
+            
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Editar} #{propiedadesEtiquetaBL.TasaInteresDpfIfip}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>  
+
+            
+            <h:form id="TasaInteresDpfIfipEditForm">
+
+               <h:panelGroup  id="display" style="font-size: 10px; margin-top: 0px;">
+                   <p:panelGrid  columns="2">
+
+
+                       <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{tasaInteresDpfIfipController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Ifip}" for="codigoIfip" />
+                        <p:inputText id="codigoIfip" value="#{tasaInteresDpfIfipController.selected.codigoIfip}"
+                                     title="#{propiedadesEtiquetaBL.Ifip}" required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Ifip}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Valor}" for="valor" />
+                        <p:inputText id="valor" value="#{tasaInteresDpfIfipController.selected.valor}" 
+                                     title="#{propiedadesEtiquetaBL.Valor}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{tasaInteresDpfIfipController.selected.registradoPor}"
+                                     title="#{propiedadesEtiquetaBL.RegistradoPor}" 
+                                     required="true" requiredMessage="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{tasaInteresDpfIfipController.selected.fechaRegistro}"
+                                    title="#{propiedadesEtiquetaBL.FechaRegistro}" required="true" 
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tasaInteresDpfIfipController.selected.eliminado}" 
+                                     title="#{propiedadesEtiquetaBL.Eliminado}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Eliminado}"/>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{tasaInteresDpfIfipController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:TasaInteresDpfIfipListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,TasaInteresDpfIfipEditDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                   
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="lineaCreditoSolicitudNuevaDlg"
+                  widgetVar="lineaCreditoSolicitudNuevaDialog"
+                  modal="true"
+                  resizable="false"
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  closable="true"
+                  style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;"
+                  onShow="lineaCreditoSolicitudWizard.loadStep(lineaCreditoSolicitudWizard.cfg.steps[0], true);"
+                  onHide="inicializaDialogoSolicitud();">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Solicitud} #{propiedadesEtiquetaBL.LineaCredito}"
+                               styleClass="encabezadosDialog"/>
+                <br/>
+                <h:outputText id="mensajeCriterioDialogo" value="#{lineaCreditoSolicitudController.mensaje}" styleClass="invalido"/>
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="6000" />
+            <h:form id="lineaCreditoSolicitudNuevaForm">
+                <p:remoteCommand name="inicializaDialogoSolicitud" 
+                                 actionListener="#{lineaCreditoSolicitudController.inicializaPropiedades}" 
+                                 update="lineaCreditoSolicitudNuevaForm,:barraForm:nuevoBot,:barraForm:editarBot,:lineaCreditoSolicitudListForm"/>
+                <p:wizard id="wizard"
+                          widgetVar="lineaCreditoSolicitudWizard"
+                          style="font-size: 10px; margin-top: 0px;"
+                          showStepStatus="true"
+                          showNavBar="true"
+                          flowListener="#{lineaCreditoSolicitudController.flujoProceso}"
+                          backLabel="#{propiedadesEtiquetaBL.Atras}"
+                          nextLabel="#{propiedadesEtiquetaBL.Siguinte}">
+                    <f:facet name="header">
+                        <h:outputText id="mensajeWizard" value="#{lineaCreditoSolicitudController.mensaje}" style="font-size:  12px; color: #BE1313"/>
+                    </f:facet>
+                    <p:tab  id="contrato"
+                            title="#{propiedadesEtiquetaBL.Contrato}"
+                            titleStyle="font-size: 10px">
+                        <ui:include src="contrato.xhtml"/> 
+                    </p:tab>
+                    <p:tab  id="negociacion"
+                            title="#{propiedadesEtiquetaBL.Negociacion}"
+                            titleStyle="font-size: 10px">
+                        <ui:include src="negociacion.xhtml"/>
+                    </p:tab>
+                    <p:tab  id="garantes"
+                            title="#{propiedadesEtiquetaBL.Garantes}"
+                            titleStyle="font-size: 10px">
+                        <ui:include src="garantes.xhtml"/>
+                    </p:tab>
+                    <p:tab  id="confirmacion"
+                            title="#{propiedadesEtiquetaBL.Confirmacion}"
+                            titleStyle="font-size: 10px">
+                        <ui:include src="confirmacion.xhtml"/>
+                    </p:tab>
+                </p:wizard>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

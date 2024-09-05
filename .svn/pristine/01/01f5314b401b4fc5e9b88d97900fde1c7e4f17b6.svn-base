@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="confirmacionPan" 
+              header="#{propiedadesEtiquetaBL.Confirmacion}"
+              style="height: 530px; width: 700px">  
+        <p:focus context="confirmacionPan"/>   
+
+        <p:separator/>
+        <h:panelGrid columns="1" >
+            <f:facet name="header" >
+                <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.Confirmacion}" style="text-align:  center" />
+            </f:facet>
+            <p:separator/>
+            <h:panelGrid columns="2">
+                <f:facet name="header" >
+                    <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.Detalle} #{propiedadesEtiquetaBL.InformeTecnico}" style="text-align:  center" />
+                </f:facet>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Detalle}" styleClass="etiqueta"/>
+                <h:outputText value="#{informeTecnicoController.ubicaDetalle.toString()}">                
+                </h:outputText>
+            </h:panelGrid>
+
+            <p:separator/>
+            <h:panelGrid columns="2">
+                <f:facet name="header" >
+                    <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.FlujoDeCaja}" style="text-align:  center" />
+                </f:facet>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Ingresos} #{propiedadesEtiquetaBL.Socio}" styleClass="etiqueta"/>
+                <h:outputText value="#{informeTecnicoController.socioFlujoCaja.totalIngresosSocio}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Ingresos} #{propiedadesEtiquetaBL.Conyuge}" styleClass="etiqueta"/>
+                <h:outputText value="#{informeTecnicoController.socioFlujoCaja.totalIngresosConyuge}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Egresos}" styleClass="etiqueta"/>
+                <h:outputText value="#{informeTecnicoController.socioFlujoCaja.totalGastosSocio}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Saldo}" styleClass="etiqueta"/>
+                <h:outputText value="#{informeTecnicoController.socioFlujoCaja.saldo}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Cobertura}" styleClass="etiqueta"/>
+                <h:outputText value="#{informeTecnicoController.socioFlujoCaja.cobertura}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+
+
+            <h:panelGrid columns="2">
+                <f:facet name="header" >
+                    <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.SituacionPatrimonial}" style="text-align:  center" />
+                </f:facet>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Activos}" styleClass="etiqueta"/>
+                <h:outputText value="#{informeTecnicoController.socioSituacionPatrimonial.totalActivos}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Pasivos}" styleClass="etiqueta"/>
+                <h:outputText value="#{informeTecnicoController.socioSituacionPatrimonial.totalPasivos}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Patrimonio}" styleClass="etiqueta"/>
+                <h:outputText value="#{informeTecnicoController.socioSituacionPatrimonial.totalPatrimonio}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+            <p:separator/>
+
+
+
+            <f:facet name="footer">
+                <p:commandButton id="guardaSitEcoBot" 
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                 value="#{propiedadesEtiquetaBL.Guardar}" 
+                                 update=":mensaje,:InformeTecnicoForm"
+                                 onclick="procesandoDlg.show();"
+                                 disabled="#{informeTecnicoController.deshabilitaGuardaBot}"
+                                 actionListener="#{informeTecnicoController.realizaInformeTecnico}"
+                                 oncomplete="SituacionEconomicaDialog.hide();procesandoDlg.hide();imprimeInformeDialog.show();">
+                    <p:confirm message="#{propiedadesMensajesBL.SeguroGuardarInformeTecnico}" 
+                               icon="ui-icon-info"
+                               header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+
+                </p:commandButton>
+            </f:facet>
+        </h:panelGrid>
+        <p:separator/>
+
+    </p:panel>
+    <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+        <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+        <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+    </p:confirmDialog>  
+
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="imprimeInformeDlg"
+              modal="true"
+              widgetVar="imprimeInformeDialog">     
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Impresion}"
+                           styleClass="encabezadosDialog"/>
+        </f:facet>
+        <h:commandLink id="imprimeInformeBot" 
+                       value="#{propiedadesMensajesBL.ImprimirInformeTecnico}"                        
+                       actionListener="#{informeTecnicoController.imprimeInformeTecnico}" 
+                       onclick="imprimeInformeDialog.hide();"
+                       />
+    </p:dialog> 
+
+
+</ui:composition>

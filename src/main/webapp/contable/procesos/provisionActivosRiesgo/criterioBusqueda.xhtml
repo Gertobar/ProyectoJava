@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGroup layout="block" class="ui-fluid">
+        <p:panelGrid columns="2">
+            <p:panelGrid columns="1">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ProvisionActivosRiesgo}"/>
+                    <p:separator/>
+                </f:facet>
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                   for="codigoIfip"  
+                                   styleClass="etiquetaRequerida"/>
+                    <p:inputText id="codigoIfip" 
+                                 value="#{provisionActivosRiesgoController.ifip.nombre}" 
+                                 title="#{propiedadesTituloBL.CodigoIfip}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                 size="10" maxlength="10"
+                                 disabled="true"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Usuario}" 
+                                   for="usuario"  
+                                   styleClass="etiquetaRequerida"/>
+                    <p:inputText id="usuario" 
+                                 value="#{provisionActivosRiesgoController.usuario.codigoPersona.nombreCompleto}" 
+                                 title="#{propiedadesTituloBL.Usuario}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Usuario} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                 size="30" 
+                                 maxlength="30"
+                                 disabled="true"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.FechaProceso}"
+                                   for="fechaProceso"  
+                                   styleClass="etiquetaRequerida" />
+                    <p:calendar id="fechaProceso"
+                                pattern="dd/MM/yyyy HH:mm:ss"
+                                locale="es"
+                                value="#{provisionActivosRiesgoController.fechaProceso}"
+                                title="#{propiedadesEtiquetaBL.FechaProceso}" 
+                                required="true"
+                                requiredMessage="#{propiedadesEtiquetaBL.FechaProceso}  -  #{propiedadesMensajesBL.CampoRequerido}" 
+                                showOn="button"
+                                disabled="false"/>
+                    <p:outputLabel />
+                    <p:commandButton id="generarProvisionPreliminarBot"
+                                     actionListener="#{provisionActivosRiesgoController.generarProvisionPreliminar}" 
+                                     update="datalist,datalistContables,totalPanel"
+                                     disabled="#{menuController.permisoOperacion.consultar}"
+                                     icon="#{propiedadesObjetosBL.IcoEjecutarConsulta}" 
+                                     value="#{propiedadesEtiquetaBL.Preliminar}"
+                                     onclick="procesandoDlg.show();"
+                                     oncomplete="procesandoDlg.hide();"/> 
+                </p:panelGrid>
+            </p:panelGrid>
+            <p:panelGrid columns="1" style="width: 100%; margin-top: -66px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Total} A #{propiedadesEtiquetaBL.Contabilizar}"/>
+                    <p:separator/>
+                </f:facet>
+                <p:dataTable id="totalPanel" 
+                             var="itemTotal" 
+                             value="#{provisionActivosRiesgoController.listaContableProvisionActivosRiesgoTotal}" 
+                             emptyMessage=""
+                             rows="10">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Cartera}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemTotal.tipoCartera}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Debito}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemTotal.cuentaDebe}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Credito}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemTotal.cuentaHaber}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemTotal.valor}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+        </p:panelGrid>
+    </h:panelGroup>
+</ui:composition>

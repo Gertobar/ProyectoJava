@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RangoDiasDpfViewDlg" 
+                  widgetVar="RangoDiasDpfViewDialog"
+                  modal="true" resizable="false"  
+                  appendToBody="true" 
+                  header="#{propiedadesEtiquetaBL.RangoDiasDpf}" 
+                  closeOnEscape="true">
+            
+             <f:facet name="header">
+                 <h:outputLabel value="#{propiedadesEtiquetaBL.Mostrar} #{propiedadesEtiquetaBL.RangoDiasDpf}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="RangoDiasDpfViewForm">
+
+               
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{rangoDiasDpfController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                        <h:outputText value="#{rangoDiasDpfController.selected.codigo}" 
+                                      title="#{propiedadesEtiquetaBL.Codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.RangoInicial}"/>
+                        <h:outputText value="#{rangoDiasDpfController.selected.rangoInicial}" 
+                                      title="#{propiedadesEtiquetaBL.RangoInicial}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.RangoFinal}"/>
+                        <h:outputText value="#{rangoDiasDpfController.selected.rangoFinal}" 
+                                      title="#{propiedadesEtiquetaBL.RangoFinal}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                        <h:outputText value="#{rangoDiasDpfController.selected.eliminado}"
+                                      title="#{propiedadesEtiquetaBL.Eliminado}"/>
+                    </p:panelGrid>
+               
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

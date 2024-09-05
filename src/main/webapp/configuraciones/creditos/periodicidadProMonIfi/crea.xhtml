@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConceptoTransaccionCreateDlg" 
+                  widgetVar="ProductoIfitCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Productos}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="ProductoIfitCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                       for="codigoProducto"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoProducto" 
+                                         value="#{periodicidadProMonIfiController.productoCredito}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{periodicidadProMonIfiController.listaProductoCredito}"
+                                           var="periodicidadProMonIfiControllerListaProductoCredito"
+                                           itemValue="#{periodicidadProMonIfiControllerListaProductoCredito}"
+                                           itemLabel="#{periodicidadProMonIfiControllerListaProductoCredito.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{productoCreditoConverter}"/>
+                            <p:ajax event="change"                    
+                                    listener="#{periodicidadProMonIfiController.actualizaMoneda()}"
+                                    update="codigoMoneda">
+                            </p:ajax> 
+                        </p:selectOneMenu>   
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="codigoMoneda"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoMoneda" 
+                                         value="#{periodicidadProMonIfiController.moneda}" 
+                                         
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{periodicidadProMonIfiController.listaMoneda}"
+                                           var="periodicidadProMonIfiControllerListaMoneda"
+                                           itemValue="#{periodicidadProMonIfiControllerListaMoneda}"
+                                           itemLabel="#{periodicidadProMonIfiControllerListaMoneda.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{monedaConverter}"/>
+                            <p:ajax event="change"                    
+                                    listener="#{periodicidadProMonIfiController.actualizaProductoCreditoMonedaIfip()}">
+                            </p:ajax> 
+                        </p:selectOneMenu> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                       for="codigoIfip"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoIfip" 
+                                     value="#{periodicidadProMonIfiController.ifip.nombre}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10"
+                                     disabled="true"/> 
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" 
+                                       for="codigoPeriodicidad"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoPeriodicidad" 
+                                         value="#{periodicidadProMonIfiController.selected.periodicidad}" 
+                                         validator="#{periodicidadProMonIfiController.validateUnico}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Periodicidad} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{periodicidadProMonIfiController.listaPeriodicidad}"
+                                           var="periodicidadProMonIfiControllerListaPeriodicidad"
+                                           itemValue="#{periodicidadProMonIfiControllerListaPeriodicidad}"
+                                           itemLabel="#{periodicidadProMonIfiControllerListaPeriodicidad.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{periodicidadConverter}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Cuotas} MAXIMAS" 
+                                       for="cuotasMaximas"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="cuotasMaximas" 
+                                     value="#{periodicidadProMonIfiController.selected.cuotasMaximas}" 
+                                     title="#{propiedadesTituloBL.Inicio}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Cuotas} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10">
+                        <f:validateDoubleRange minimum="1" />
+                        </p:inputText> 
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" 
+                                       for="asignadoPor"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="asignadoPor" 
+                                         value="#{periodicidadProMonIfiController.selected.usuarioRegistradoPor}"                                  
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.RegistradaPor} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         disabled="true">                                                    
+                            <f:selectItem  itemValue="#{usuarioController.usuario}"
+                                           itemLabel="#{usuarioController.usuario.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>                    
+                        </p:selectOneMenu>  
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}"
+                                       for="fechaRegistro"  styleClass="etiquetaRequerida" />
+                        <p:calendar id="fechaRegistro"
+                                    pattern="dd/MM/yyyy HH:mm:ss"
+                                    value="#{periodicidadProMonIfiController.selected.fechaRegistro}"
+                                    title="#{propiedadesTituloBL.FechaRegistro}" 
+                                    required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}  -  #{propiedadesMensajesBL.CampoRequerido}" 
+                                    showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{periodicidadProMonIfiController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <p:commandButton id="guardarBot"
+                                     actionListener="#{periodicidadProMonIfiController.saveNew}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:ProdcutoIfitListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,ProductoIfitCreateDialog);"/>        
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

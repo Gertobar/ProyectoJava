@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="EditaVinculadoDlg"                  
+              modal="true" 
+              widgetVar="EditaVinculadoDialog">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="encabezadoEditaVinculado"
+                            value="EDITA PERSONA VINCULADA"
+                            styleClass="encabezadosDialog"/>               
+
+
+        </f:facet>
+        <h:form id="EditaVinculadoForm">
+            <h:panelGrid id="EditaVinculadoGri" columns="1" style="font-size: 10px;" >
+                <h:panelGrid columns="2">
+                    <p:outputLabel id="esNombreViculado"
+                                   value="#{personaVinculadoBean.selected.persona1.nombreCompleto}"/>
+                    <h:outputText value="ES" styleClass="etiqueta"/>
+                    <p:selectOneMenu id="tipoVinculacion" 
+                                     value="#{personaVinculadoBean.selected.codigoTipoVinculado}" >    
+                        <f:selectItems value="#{personaVinculadoBean.itemsTipoVinculados}"
+                                       var="VarTipoVinculacion"
+                                       itemValue="#{VarTipoVinculacion}"
+                                       itemLabel="#{VarTipoVinculacion.rol}"
+                                       />
+                        <f:converter binding="#{tipoVinculadoConverter}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="DE" styleClass="etiqueta"/>
+                    <p:outputLabel id="deNombreViculado"
+                                   value="#{personaVinculadoBean.selected.persona.nombreCompleto}"/>
+                    <div/>
+                    <p:outputLabel value="ELIMINADO" styleClass="etiqueta" for="eliminado"/>
+                    <p:selectOneMenu id="eliminado"                                  
+                                     value="#{personaVinculadoBean.selected.eliminado}"
+                                     required="true"                                  
+                                     requiredMessage="Eliminado : #{propiedadesMensajesBL.CampoRequerido}">                          
+                        <f:selectItem itemLabel="SI" itemValue="S" />  
+                        <f:selectItem itemLabel="NO" itemValue="N" />
+                    </p:selectOneMenu> 
+                </h:panelGrid>
+                <p:commandButton id="aceptarBot"
+                                 value="EDITAR"   
+                                 actionListener="#{personaVinculadoBean.editaViculado}"
+                                 update=":barraForm,:PersonaVinculadoListForm:datalist"
+                                 oncomplete="EditaVinculadoDialog.hide();"
+                                 />
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+
+</ui:composition>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="contratoAhorroProgramadoListForm">
+        <p:dataTable id="datalist" 
+                     value ="#{contratoAhorroProgramadoController.listaContratoAhorroProgramado}"
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{contratoAhorroProgramadoController.contratoAhorroProgramado}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="10"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">         
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.AhorroProgramado}"/>
+            </f:facet>            
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot :barraForm:imprimirBot :barraForm:preCancelarBot :contratoAhorroProgramadoViewForm :contratoAhorroProgramadoPreCancelaForm"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot :barraForm:imprimirBot :barraForm:preCancelarBot :contratoAhorroProgramadoViewForm :contratoAhorroProgramadoPreCancelaForm"/>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}" style="float: right"/>
+            </p:column>                        
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Agencia}"/>
+                </f:facet>
+                <h:outputText value="#{item.ifipAgencia.nombre}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Motivo}"/>
+                </f:facet>
+                <h:outputText value="#{item.motivoAhorroProgramado.nombre}"/>
+            </p:column>            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Beneficiario}"/>
+                </f:facet>
+                <h:outputText value="#{item.personaBeneficiario.nombre}"/>
+            </p:column>            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Cuenta}"/>
+                </f:facet>
+                <h:outputText value="#{item.cuentaAhorroProgramado.numero}"/>
+            </p:column>            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CuentaAcreditar}"/>
+                </f:facet>
+                <h:outputText value="#{item.cuentaAcredita.numero}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CuentaDebito}"/>
+                </f:facet>
+                <h:outputText value="#{item.cuentaDebita.numero}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.DiasPago}"/>
+                </f:facet>
+                <h:outputText value="#{item.diaPago}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaVencimiento}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaVencimiento}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Monto}">
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                    </h:outputText>
+                </f:facet>
+                <h:outputText value="#{item.monto}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Renovacion}"/>
+                </f:facet>
+                <p:selectOneMenu id="renovacion" 
+                                 disabled="true"
+                                 value="#{item.renovacionAutomatica}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />                         
+                </p:selectOneMenu>
+            </p:column>            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <p:selectOneMenu id="estado" 
+                                 disabled="true"
+                                 value="#{item.estado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Vigente}" itemValue="V" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Cancelado}" itemValue="C" />
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Pendiente}" itemValue="P" />
+                </p:selectOneMenu>
+            </p:column>            
+        </p:dataTable>
+    </h:form>
+</ui:composition>

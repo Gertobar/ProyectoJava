@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="BloqueoCuentaListForm">
+
+        <p:panel header="#{myBundle.ListBloqueoCuentaTitle}">
+
+            <p:dataTable id="datalist" value="#{bloqueoCuentaController.items}" var="item"
+                         selectionMode="single" selection="#{bloqueoCuentaController.selected}"
+                         rowKey="#{item.bloqueoCuentaPK}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.valor}" filterBy="#{item.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBloqueoCuentaTitle_valor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valor}"/>
+                </p:column>
+                <p:column sortBy="#{item.fechaInicio}" filterBy="#{item.fechaInicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBloqueoCuentaTitle_fechaInicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaInicio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column sortBy="#{item.fechaFin}" filterBy="#{item.fechaFin}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBloqueoCuentaTitle_fechaFin}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaFin}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column sortBy="#{item.vigente}" filterBy="#{item.vigente}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBloqueoCuentaTitle_vigente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.vigente}"/>
+                </p:column>
+                <p:column sortBy="#{item.tipoBloqueoCuenta.codigo}" filterBy="#{item.tipoBloqueoCuenta.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBloqueoCuentaTitle_tipoBloqueoCuenta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoBloqueoCuenta.codigo}"/>
+                </p:column>
+                <p:column sortBy="#{item.cuenta.codigo}" filterBy="#{item.cuenta.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListBloqueoCuentaTitle_cuenta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cuenta.codigo}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{bloqueoCuentaController.prepareCreate}" update=":BloqueoCuentaCreateForm" oncomplete="BloqueoCuentaCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":BloqueoCuentaViewForm" oncomplete="BloqueoCuentaViewDialog.show()" disabled="#{empty bloqueoCuentaController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":BloqueoCuentaEditForm" oncomplete="BloqueoCuentaEditDialog.show()" disabled="#{empty bloqueoCuentaController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{bloqueoCuentaController.delete}" update=":growl,datalist" disabled="#{empty bloqueoCuentaController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

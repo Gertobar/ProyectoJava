@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    
+        <!-- ̣̣̣̣**************************************************************************
+          CRITERIO DE CONSULTA                                                      -->
+        <h:panelGrid columns="1" >
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+                <p:separator/>
+            </f:facet>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Cobro - Pago:"/>
+                <p:selectOneMenu id="cobroPago" 
+                                 value="#{reporteBdhControl.cobroPago}"                                          
+                                 requiredMessage="Seleccione un Cobro/Pago"
+                                 required="true" 
+                                 >
+                    <f:selectItem itemLabel="#{bdhBL.SelectOneMessage}"/>
+                    <f:selectItems value="#{cobroPagoController.items}"
+                                   var="cobroPagoItem"
+                                   itemValue="#{cobroPagoItem}"
+                                   itemLabel="#{cobroPagoItem.descripcion.toString()}"
+                                   />
+                    <f:converter binding="#{cobroPagoConverter}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid columns="4">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.FechaInicial}: "/>
+                <p:calendar id="fecIni" 
+                            value="#{reporteBdhControl.fechaInicio}" 
+                            title="Ingrese la Fecha y Hora Inicial de Corte"
+                            pattern="dd/MM/yyyy hh:mm a"                                      
+                            locale="es" 
+                            showButtonPanel="true"
+                            stepHour="1" 
+                            stepMinute="10" 
+                            stepSecond="10">                          
+
+                </p:calendar>
+                <h:outputLabel value="Fecha Final: "/>
+                <p:calendar id="fecFin"
+                            value="#{reporteBdhControl.fechaFin}"
+                            title="Ingrese la Fecha y Hora Final de Corte"
+                            pattern="dd/MM/yyyy hh:mm a"                                      
+                            locale="es"
+                            showButtonPanel="true"
+                            stepHour="1" 
+                            stepMinute="10"
+                            stepSecond="10"/> 
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Identificacion: "/>
+                <p:inputText id="inpBeneficiario"  
+                             value="#{reporteBdhControl.identificacion}"
+                             title="Ingrese la Identificacion del Beneficiario"/>                 
+            </h:panelGrid>
+        </h:panelGrid>
+        <!-- FIN DE CRITERIO DE CONSULTA 
+         ̣̣̣̣************************************************************************** -->
+    
+
+</ui:composition>

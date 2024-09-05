@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InstruccionEditDlg" 
+                  widgetVar="InstruccionEditDialog" 
+                  modal="true" resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.Instruccion}"
+                                       styleClass="encabezadosDialog"/>
+                    </f:facet>
+
+            <h:form id="InstruccionEditForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{instruccionController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" 
+                                       for="codigo" styleClass="etiqueta" />
+                        <h:outputText id="codigo" value="#{instruccionController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" for="nombre" styleClass="etiquetaRequerida"  />
+                        <p:inputText id="nombre" value="#{instruccionController.selected.nombre}" 
+                                     title="#{propiedadesTituloBL.Nombre}"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.nombre} : #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.NivelInstruccion}" for="codigoNivelInstruccion"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoNivelInstruccion" 
+                                         value="#{instruccionController.selected.codigoNivelInstruccion}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.NivelInstruccion} : #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{nivelInstruccionController.items}"
+                                           var="codigoNivelInstruccionItem"
+                                           itemValue="#{codigoNivelInstruccionItem}"
+                                           itemLabel="#{codigoNivelInstruccionItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{nivelInstruccionConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{instruccionController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                                     
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{instruccionController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:InstruccionListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,InstruccionEditDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

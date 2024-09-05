@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <ui:composition >
+        <h:form id="AprobacionDPFListForm">           
+            <p:dataTable id="datalist" 
+                         value ="#{tasaIntenresProductoDPFMontoDetalleController.lista}"
+                         var="item"
+                         selectionMode="single" 
+                         selection="#{tasaIntenresProductoDPFMontoDetalleController.selected}"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="8"
+                         emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ModificacionTasaDPF}"/>
+                </f:facet>
+
+                <p:ajax event="rowSelect"   update=":barraForm:nuevoBot,:barraForm:editarBot"/>
+                <p:ajax event="rowUnselect" update=":barraForm:nuevoBot,:barraForm:editarBot"/>               
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ModificacionTasaDPFCodigoPersonaBenefiario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.persona.nombreCompleto}" style="float: left"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ModificacionTasaDPFTasaNormal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tasaNormal}" style="float: right"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ModificacionTasaDPFTasaAcumulada}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tasaAcumulada}" style="float: right"/>
+                </p:column>
+               
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ModificacionTasaDPFMontoCapital}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoCapital}" style="float: right"/>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ModificacionTasaDPFAprobado}"/>
+                    </f:facet>
+                    <p:selectOneMenu id="eliminado" 
+                                     disabled="true"
+                                     value="#{item.esAprobado}">    
+                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                         
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ModificacionTasaDPFDescripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}" style="float: left"/>
+                </p:column>
+                
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ModificacionTasaDPFPersonaAprueba}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuario.codigoPersona.nombreCompleto}" style="float: left"/>
+                </p:column>
+                
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ModificacionTasaDPFCodigoDPF}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contratoDpf.contratoDpfPK.codigo}" style="float: left"/>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:composition>
+</html>

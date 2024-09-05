@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="IngresoEgresoCajaFor" >
+        <p:panel id="IngresoEgresoCajaPan">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.IngresoEgresoCaja}"/>
+            </f:facet>
+
+            <p:focus context="IngresoEgresoCajaPan"/>   
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+                <h:panelGrid columns="2">
+                    <h:panelGrid id="IngresoEgresoCajaGri"  style="font-size: 10px;" columns="3">
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="moneda" 
+                                         value="#{ingresoEgresoCajaController.moneda}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{ingresoEgresoCajaController.itemsMoneda}"
+                                           var="codigoMonedaItem"
+                                           itemValue="#{codigoMonedaItem}"
+                                           itemLabel="#{codigoMonedaItem.nombre}"
+                                           />    
+                            <p:ajax event="change" listener="#{ingresoEgresoCajaController.cambiaMoneda()}" update="tipo,ingresoEgreso,guardarBot"/>
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="moneda"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                                       for="tipo"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="tipo" 
+                                         value="#{ingresoEgresoCajaController.tipo}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItem itemValue="I"
+                                          itemLabel="#{propiedadesEtiquetaBL.Ingreso}"
+                                          />    
+                            <f:selectItem itemValue="E"
+                                          itemLabel="#{propiedadesEtiquetaBL.Egreso}"
+                                          />    
+                            <p:ajax event="change" listener="#{ingresoEgresoCajaController.cambiaTipo()}" update="ingresoEgreso,guardarBot"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="tipo"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.IngresoEgreso}" 
+                                       for="ingresoEgreso"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="ingresoEgreso" 
+                                         value="#{ingresoEgresoCajaController.ingresoEgreso}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="startsWith" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.IngresoEgreso} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{ingresoEgresoCajaController.itemsIngresoEgreso}"
+                                           var="codigoIngresoEgresoItem"
+                                           itemValue="#{codigoIngresoEgresoItem}"
+                                           itemLabel="#{codigoIngresoEgresoItem.nombre}"
+                                           />    
+                            <p:ajax event="change" listener="#{ingresoEgresoCajaController.deshabilitaBotonGuardar()}" update="ingresoEgreso,guardarBot"/>
+                            <f:converter binding="#{ingresoEgresoConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="ingresoEgreso"  styleClass="invalido"/>                
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TotalEfectivo} *" 
+                                       for="totalEfectivo"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="totalEfectivo"
+                                     value="#{ingresoEgresoCajaController.ingresoEgresoCaja.totalEfectivo}"  
+                                     styleClass="campoRequeridoValor"                                     
+                                     size="20">                            
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                            
+                            <p:ajax event="keyup" listener="#{ingresoEgresoCajaController.calculaTotal()}" update="totalIngresoEgreso,guardarBot"  />
+                            <p:ajax event="blur"  listener="#{ingresoEgresoCajaController.calculaTotal()}" update="totalIngresoEgreso,totalEfectivo,guardarBot" />
+                        </p:inputText>
+                        <h:message for="totalEfectivo"  styleClass="invalido"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TotalIngresoEgreso}" 
+                                       for="totalIngresoEgreso"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="totalIngresoEgreso"
+                                     value="#{ingresoEgresoCajaController.ingresoEgresoCaja.totalIngresoEgreso}"  
+                                     required="true"
+                                     styleClass="campoRequeridoValor"
+                                     requiredMessage="#{propiedadesEtiquetaBL.TotalIngresoEgreso} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="20">                                     
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                            
+                        </p:inputText>
+                        <h:message for="totalIngresoEgreso"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones} *" 
+                                       for="observaciones"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="observaciones"
+                                     value="#{ingresoEgresoCajaController.ingresoEgresoCaja.observaciones}"                                     
+                                     size="50"
+                                     onblur="value = value.toUpperCase()">
+                            <p:ajax event="blur" listener="#{ingresoEgresoCajaController.deshabilitaBotonGuardar()}" update="observaciones,guardarBot"/>
+                        </p:inputText>
+                        <h:message for="observaciones" styleClass="invalido" />
+
+
+
+                    </h:panelGrid>
+
+                </h:panelGrid>
+
+                <p:commandButton id="guardarBot"                                      
+                                 disabled="#{ingresoEgresoCajaController.deshabilitaBotonGuardar}"
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                 actionListener="#{ingresoEgresoCajaController.guardaIngresoEgreso}"
+                                 update="display,:IngresoEgresoCajaFor,:mensaje,:ComprobanteFor,:impresionLab" />
+            </h:panelGroup>
+
+        </p:panel>  
+    </h:form>
+
+</ui:composition>

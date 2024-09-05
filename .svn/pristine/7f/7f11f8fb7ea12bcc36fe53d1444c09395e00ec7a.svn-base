@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CalificacionTipoCarteraIfitListForm">
+
+        <p:dataTable id="datalist" 
+                     value ="#{calificacionTipoCarteraIfipController.listaCalificacionTipoCartera}"
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{calificacionTipoCarteraIfipController.selected}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="10"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+            
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.CalificacionTipoCartera}"/>
+            </f:facet>
+            
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.TipoCartera}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoTipoCartera.nombre}" style="float: right"/>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Calificacion}"/>
+                </f:facet>
+                <h:outputText value="#{item.calificacion}"/>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.DiasMoraInicial}"/>
+                </f:facet>
+                <h:outputText value="#{item.diasMoraInicial}"/>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.DiasMoraFinal}"/>
+                </f:facet>
+                <h:outputText value="#{item.diasMoraFinal}"/>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ProvisionDesde}"/>
+                </f:facet>
+                <h:outputText value="#{item.provisionDesde}"/>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ProvisionHasta}"/>
+                </f:facet>
+                <h:outputText value="#{item.provisionHasta}"/>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ProvisionActual}"/>
+                </f:facet>
+                <h:outputText value="#{item.valorActualProvision}"/>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaModificacion}"/>
+                </f:facet>
+                <h:inputText value="#{item.fechaUltimaModificacion}" disabled="true">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                </h:inputText>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                         
+                </p:selectOneMenu>
+            </p:column>
+            
+        </p:dataTable>
+    </h:form>
+</ui:composition>

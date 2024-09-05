@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="solicitudSocios" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.5000000000000016"/>
+	<property name="ireport.x" value="178"/>
+	<property name="ireport.y" value="251"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="detalle" uuid="f0a03d36-07f0-427d-90a0-6fc11a40f5a5">
+		<parameter name="codSoc" class="java.lang.Long"/>
+		<parameter name="codIfi" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[select sol.monto_credito MONTO_CONCEDIDO, 
+       det.saldo_capital SALDO,
+       (select min (tab.fecha_inicio) from mks_creditos.tabla_amortizacion tab where tab.numero_credito=sol.numero ) FECHA_INICIO,
+       (select max (tab.fecha_pago) from mks_creditos.tabla_amortizacion tab where tab.numero_credito=sol.numero) FECHA_FIN,       
+       mks_creditos.f_obtiene_calificacion_credito((select max(c.dias_mora) from mks_creditos.calculo_cuota_pagar c, mks_creditos.tabla_amortizacion t 
+where t.numero_credito=c.numero_credito
+      and t.cuota=c.cuota
+      and t.codigo_ifip=c.codigo_ifip 
+      and t.estado='P'
+      and c.numero_credito=sol.numero),pro.codigo_tipo_cartera)  calificacion,
+       sol.numero					 numero
+from                     mks_creditos.solicitud sol,
+                         mks_creditos.solicitud_detalle det,
+                         mks_creditos.producto_credito pro
+where sol.numero=det.numero_credito 
+      and pro.codigo=sol.codigo_producto
+      and sol.codigo_estado=6
+      and sol.codigo_socio=$P{codSoc}
+      and sol.codigo_ifip=$P{codIfi}]]>
+		</queryString>
+		<field name="MONTO_CONCEDIDO" class="java.math.BigDecimal"/>
+		<field name="SALDO" class="java.math.BigDecimal"/>
+		<field name="FECHA_INICIO" class="java.sql.Timestamp"/>
+		<field name="FECHA_FIN" class="java.sql.Timestamp"/>
+		<field name="CALIFICACION" class="java.lang.String"/>
+		<field name="NUMERO" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="codigoContratoSeg" class="java.lang.Long"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT per.identificacion IDENTIFICACION,
+       per.nombre_completo,
+       ubi.nombre||', '|| TRIM(TO_CHAR(con.fecha_contrato,'DD "DE" MONTH "DE" YYYY', 'NLS_DATE_LANGUAGE=SPANISH'))      "CIUDAD",
+       CASE 
+         WHEN con.tipo='V'THEN
+           replace(replace((SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 13
+                AND     codigo_fragmento                   = 1),'$SOCIO',per.nombre_completo),'$IDENTIFICACION',per.identificacion) 
+         ELSE
+           replace(replace((SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 13
+                AND     codigo_fragmento                   = 2),'$SOCIO',per.nombre_completo),'$IDENTIFICACION',per.identificacion) 
+         END    texto
+FROM   mks_socios.socio     soc,
+       mks_socios.persona   per,
+       mks_seguros.contrato_seguro con,
+       mks_ifips.ifip_agencia ifa,
+       mks_comunes.ubicacion_geografica ubi
+WHERE  soc.codigo_persona   =per.codigo
+AND    soc.codigo           =con.codigo_socio
+AND    con.codigo_ifip_agencia=ifa.codigo
+AND    ifa.codigo_ubi_geo_ciudad=ubi.codigo
+AND    con.codigo=$P{codigoContratoSeg}
+AND    con.codigo_ifip=$P{codigoIfip}]]>
+	</queryString>
+	<field name="IDENTIFICACION" class="java.lang.String"/>
+	<field name="NOMBRE_COMPLETO" class="java.lang.String"/>
+	<field name="CIUDAD" class="java.lang.String"/>
+	<field name="TEXTO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="400" splitType="Immediate">
+			<textField>
+				<reportElement positionType="Float" x="35" y="112" width="490" height="146" uuid="9707cf03-aab6-4534-8d1e-4b8a3931b051"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TEXTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="40" y="285" width="235" height="20" uuid="fe1887fa-454c-4b04-ac3b-74c3c2ef7798"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[__________________________________]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="40" y="305" width="235" height="16" uuid="ef3e3b5c-e60b-4285-b76a-a7cda66833a4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE_COMPLETO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="40" y="321" width="235" height="16" uuid="103f9914-3c81-4f96-bf2f-d1b4ebcbd78a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IDENTIFICACION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="281" y="285" width="235" height="20" uuid="afeadd98-43e5-4a8d-9acb-463c857b3c2f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIUDAD}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="281" y="305" width="235" height="20" uuid="679de7e5-7140-4874-813b-3630ee98ab93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[LUGAR Y FECHA]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

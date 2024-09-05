@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Personas Naturales --> 
+    <p:panel id="personaResidenciaPerNatPan"  
+             header="#{propiedadesEtiquetaBL.PersonaResidencia}" 
+             style="border: 0; height: 500px; width: 700px">
+        <p:focus context="personaResidenciaPerNatPan"/>   
+        <!-- PanelGrid para Personas Naturales --> 
+        <h:panelGrid id="personaResidenciaPerNatGri" columns="3" columnClasses="label, value" styleClass="grid">
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.PaisResidencia}" 
+                           for="codigoUbiGeoPaiResPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoUbiGeoPaiResPerNat" 
+                             value="#{personaGeneralBean.ubiGeoPaiRes}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.PaisResidencia} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsUbiGeoPaiRes}"
+                               var="UbiGeoPaiResItem"
+                               itemValue="#{UbiGeoPaiResItem}"
+                               itemLabel="#{UbiGeoPaiResItem.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoProResPerNat,codigoUbiGeoCiuResPerNat,codigoUbiGeoParResPerNat"  
+                        listener="#{personaGeneralBean.cambiaUbiGeoPaiRes()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoUbiGeoPaiResPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ProviniciaResidencia}" 
+                           for="codigoUbiGeoProResPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoUbiGeoProResPerNat" 
+                             value="#{personaGeneralBean.ubiGeoProRes}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.ProviniciaResidencia} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsUbiGeoProRes}"
+                               var="UbiGeoProResItem"
+                               itemValue="#{UbiGeoProResItem}"
+                               itemLabel="#{UbiGeoProResItem.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoCiuResPerNat,codigoUbiGeoParResPerNat"  
+                        listener="#{personaGeneralBean.cambiaUbiGeoProRes()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoUbiGeoProResPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.CiudadResidencia}" 
+                           for="codigoUbiGeoCiuResPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoUbiGeoCiuResPerNat" 
+                             value="#{personaGeneralBean.ubiGeoCiuRes}"
+                             filter="true" 
+                             filterMatchMode="startsWith"                             
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.CiudadResidencia} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsUbiGeoCiuRes}"
+                               var="UbiGeoCiuResItem"
+                               itemValue="#{UbiGeoCiuResItem}"
+                               itemLabel="#{UbiGeoCiuResItem.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoParResPerNat"  
+                        listener="#{personaGeneralBean.cambiaUbiGeoCiuRes()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>       
+            <h:message for="codigoUbiGeoCiuResPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ParroquiaResidencia}" 
+                           for="codigoUbiGeoParResPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoUbiGeoParResPerNat" 
+                             value="#{personaGeneralBean.ubiGeoParRes}" 
+                             required="true" 
+                             filter="true" 
+                             filterMatchMode="startsWith"
+                             requiredMessage="#{propiedadesEtiquetaBL.PaisResidencia} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsUbiGeoParRes}"
+                               var="UbiGeoParResItem"
+                               itemValue="#{UbiGeoParResItem}"
+                               itemLabel="#{UbiGeoParResItem.nombre}"
+                               />
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoUbiGeoParResPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoVivienda}" 
+                           for="tipoViviendaPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="tipoViviendaPerNat" 
+                             value="#{personaGeneralBean.personaResidencia.codigoTipoVivienda}" 
+                             required="true" 
+                             filter="true" 
+                             filterMatchMode="startsWith"
+                             requiredMessage="#{propiedadesEtiquetaBL.TipoVivienda} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsTipoVivienda}"
+                               var="TipoViviendaItem"
+                               itemValue="#{TipoViviendaItem}"
+                               itemLabel="#{TipoViviendaItem.nombre}"
+                               />
+                <f:converter binding="#{tipoViviendaConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="tipoViviendaPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" 
+                           for="periodicidadPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="periodicidadPerNat" 
+                             value="#{personaGeneralBean.personaResidencia.codigoPeriodicidad}" 
+                             required="true" 
+                             filter="true" 
+                             filterMatchMode="startsWith"
+                             requiredMessage="#{propiedadesEtiquetaBL.Periodicidad} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsPeriodicidad}"
+                               var="PeriodicidadItem"
+                               itemValue="#{PeriodicidadItem}"
+                               itemLabel="#{PeriodicidadItem.nombre}"
+                               />
+                <f:converter binding="#{periodicidadConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="periodicidadPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Tiempo}" 
+                           for="tiempoPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{personaGeneralBean.personaResidencia.tiempo}"
+                         id="tiempoPerNat"
+                         required="true"                         
+                         requiredMessage="#{propiedadesEtiquetaBL.Tiempo} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:convertNumber integerOnly="true"/>
+                <f:validateLongRange minimum="1"/>
+            </p:inputText>
+            <h:message for="tiempoPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Sector}" 
+                           for="sectorPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="sectorPerNat" 
+                             value="#{personaGeneralBean.personaResidencia.codigoSector}" 
+                             required="true" 
+                             filter="true" 
+                             filterMatchMode="startsWith"
+                             requiredMessage="#{propiedadesEtiquetaBL.Sector} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsSector}"
+                               var="SectorItem"
+                               itemValue="#{SectorItem}"
+                               itemLabel="#{SectorItem.nombre}"
+                               />
+                <f:converter binding="#{sectorConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="sectorPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Barrio}" 
+                           for="barrioPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{personaGeneralBean.personaResidencia.barrio}"
+                         id="barrioPerNat"
+                         required="true" 
+                         size="50"
+                         onblur="value=value.toUpperCase()"
+                         requiredMessage="#{propiedadesEtiquetaBL.Barrio} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            <h:message for="barrioPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Direccion}" 
+                           for="direccionPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{personaGeneralBean.personaResidencia.direccion}"
+                         id="direccionPerNat"
+                         required="true" 
+                         size="50"
+                         onblur="value=value.toUpperCase()"
+                         requiredMessage="#{propiedadesEtiquetaBL.Direccion} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            <h:message for="direccionPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Referencia}" 
+                           for="referenciaPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{personaGeneralBean.personaResidencia.referencia}"
+                         id="referenciaPerNat"
+                         required="true" 
+                         size="50"
+                         onblur="value=value.toUpperCase()"
+                         requiredMessage="#{propiedadesEtiquetaBL.Referencia} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            <h:message for="referenciaPerNat"  styleClass="invalido"/>
+
+
+
+        </h:panelGrid>
+
+
+
+    </p:panel>
+
+</ui:composition>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="listaPagosDpfDlg"                  
+              modal="true" style="height: 500px"
+              widgetVar="listaPagosDpfDialog">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="listaPagosDpfLab"
+                            value="#{propiedadesEtiquetaBL.PagosDpf}"
+                            styleClass="encabezadosDialog"/>       
+        </f:facet>
+
+        <h:form id="ListaPagosDpfForm">
+            <h:panelGrid id="ListaPagosDpfGri" columns="1" style="font-size: 10px; height: 400px" >
+                <p:dataTable id="datalist"
+                             value="#{retencionDpfBean.itemsPagosDpf}"
+                             var="item"
+                             rowKey="#{item.pagoDpfPK}"
+                             paginator="true"
+                             rows="7"
+                             selectionMode="single"
+                             selection="#{retencionDpfBean.pagoDpfSel}"
+                             emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}">
+
+                    <h:outputLabel  value="#{propiedadesEtiquetaBL.PagosDpf}"
+                                    styleClass="encabezadosDialog"/>    
+                    <p:ajax event="rowSelect"   update=":barraForm" listener="#{retencionDpfBean.seleccionaPagoDpf()}"/>
+                    <p:ajax event="rowUnselect" update=":barraForm"/>
+
+
+
+                    <p:column sortBy="#{item.fechaPago}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.FechaPago}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaPago}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column filterValue="#{item.capital}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Capital}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.capital}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column filterValue="#{item.interesPagado}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.InteresPagado}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.interesPagado}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column filterValue="#{item.retencion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Retencion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.retencion}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:commandButton id="aceptarBot"
+                                 value="#{propiedadesEtiquetaBL.Aceptar}"                                   
+                                 update=":CreaRetencionFor,:barraForm"
+                                 action="#{retencionDpfBean.seleccionaPago()}"
+                                 oncomplete="listaPagosDpfDialog.hide();"
+                                 />
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+</ui:composition>

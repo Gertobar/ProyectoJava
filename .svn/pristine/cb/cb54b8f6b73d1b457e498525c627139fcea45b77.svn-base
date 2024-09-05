@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="3">
+            
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}"/>
+            <p:inputText id="criterioTex" 
+                         value="#{licitudFondosBean.criterio}"   
+                         style="text-align:  right"
+                         onblur="value = value.toUpperCase()" 
+                         size="15">
+                <p:ajax event="blur" 
+                        listener="#{licitudFondosBean.obtieneLicitudFondos()}" 
+                        update=":barraForm,:LicitudFondosListForm"/>
+            </p:inputText>
+
+            <p:inputText id="nombreSocio" 
+                         readonly="true"   
+                         value="#{licitudFondosBean.nombrePersona}" 
+                         onblur="value = value.toUpperCase()" 
+                         size="50"/>
+            
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Estado}"/>
+            <p:selectOneMenu id="buscarPor"                                  
+                             value="#{licitudFondosBean.estadoLicitud}"
+                             required="true"                                  
+                             requiredMessage="#{propiedadesEtiquetaBL.Estado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>  
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Pendiente}" itemValue="P" />  
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Impreso}" itemValue="I" />
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Anulado}" itemValue="A" />
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Registrado}" itemValue="R" />
+                <p:ajax event="change" listener="#{licitudFondosBean.obtieneLicitudFondos()}" update=":barraForm,:LicitudFondosListForm"/>
+            </p:selectOneMenu>           
+            
+        </h:panelGrid>
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

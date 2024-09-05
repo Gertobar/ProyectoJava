@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- LOS COMENTARIOS QUE TIENEN EN SU PARTE SUPERIOR LAS LINEAS ************ Y SEGUIDO
+     SU DESCRIPCION NO DEBEN SER BORRADAS, LOS QUE SE DEBEN ELIMINAR SON LAS EXPLICACIONES
+     DE CADA CONTENIDO -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="ejecucionForm">      
+        <p:panel id="ejecucionPan" style="width:  650px; height:450px">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Ejecucion}"/>
+            </f:facet>
+
+            <h:panelGrid columns="4">
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Periodo}" 
+                               for="periodo"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="periodo"  
+                                 filter="true" 
+                                 disabled="#{reporteadorBean.deshabilitaPeriodoContable}"
+                                 filterMatchMode="contains" 
+                                 value="#{reporteadorBean.periodoContable}"                                 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Periodo} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{reporteadorBean.itemsPeriodoContable}"
+                                   var="periodoItem"
+                                   itemValue="#{periodoItem}"
+                                   itemLabel="#{periodoItem.codigo}"
+                                   />                        
+                    <f:converter binding="#{periodoContableConverter}"/>
+                </p:selectOneMenu> 
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                               for="moneda"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="moneda" 
+                                 filter="true" 
+                                 disabled="#{reporteadorBean.deshabilitaMoneda}"
+                                 filterMatchMode="contains" 
+                                 value="#{reporteadorBean.moneda}"                                 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{reporteadorBean.itemsMoneda}"
+                                   var="codigoMonedaItem"
+                                   itemValue="#{codigoMonedaItem}"
+                                   itemLabel="#{codigoMonedaItem.nombre}"
+                                   />    
+                    <p:ajax event="change" listener="#{reporteadorBean.cambiaMoneda()}" update="productoAhorro,productoCredito,concepto"/>
+                    <f:converter binding="#{monedaConverter}"/>
+                </p:selectOneMenu> 
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Agencia}" 
+                               for="agencia"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="agencia" 
+                                 filter="true" 
+                                 disabled="#{reporteadorBean.deshabilitaIfipAgencia}"
+                                 filterMatchMode="contains" 
+                                 value="#{reporteadorBean.ifipAgencia}"                                 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Agencia} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{reporteadorBean.itemsIfipAgencia}"
+                                   var="agenciaItem"
+                                   itemValue="#{agenciaItem}"
+                                   itemLabel="#{agenciaItem.nombre}"
+                                   />                                       
+                    <f:converter binding="#{ifipAgenciaConverter}"/>
+                </p:selectOneMenu> 
+
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.ProductoAhorro}" 
+                               for="productoAhorro"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="productoAhorro" 
+                                 value="#{reporteadorBean.productoAhorro}"                                          
+                                 filter="true" 
+                                 disabled="#{reporteadorBean.deshabilitaProductoAhorro}"
+                                 filterMatchMode="contains" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Producto} #{propiedadesEtiquetaBL.Ahorro} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{reporteadorBean.itemsProductosAhorro}"
+                                   var="codigoProductoIfipItem"
+                                   itemValue="#{codigoProductoIfipItem}"
+                                   itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.codigo} #{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                   />  
+                    <p:ajax event="change" listener="#{reporteadorBean.cambiaProductoAhorro()}" update="concepto"/>
+                    <f:converter binding="#{productoIfipConverter}"/>
+                </p:selectOneMenu>                                      
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Producto} #{propiedadesEtiquetaBL.Credito}" 
+                               for="productoCredito"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="productoCredito" 
+                                 value="#{reporteadorBean.productoCredito}"                                          
+                                 filter="true" 
+                                 disabled="#{reporteadorBean.deshabilitaProductoCredito}"
+                                 filterMatchMode="contains" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Producto} #{propiedadesEtiquetaBL.Credito} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{reporteadorBean.itemsProductosCredito}"
+                                   var="productoCreditoItem"
+                                   itemValue="#{productoCreditoItem}"
+                                   itemLabel="#{productoCreditoItem.productoCreditoMoneda.productoCredito.nombre}"
+                                   />                                        
+                    <f:converter binding="#{productoCreditoMonedaConverter}"/>
+                </p:selectOneMenu>    
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Concepto}" 
+                               for="concepto"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="concepto" 
+                                 value="#{reporteadorBean.conceptoTransaccionPro}" 
+                                 filter="true" 
+                                 disabled="#{reporteadorBean.deshabilitaConceptoTrnsaccionPro}"
+                                 filterMatchMode="contains" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Concepto} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{reporteadorBean.itemsConceptoTransaccionPro}"
+                                   var="codigoConceptoTranaccionItem"
+                                   itemValue="#{codigoConceptoTranaccionItem}"
+                                   itemLabel="#{codigoConceptoTranaccionItem.conceptoTransaccion.codigo} #{codigoConceptoTranaccionItem.conceptoTransaccion.nombre}"
+                                   />     
+                    <f:converter binding="#{conceptoTransaccionProConverter}"/>
+                </p:selectOneMenu>      
+
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaInicio} " 
+                               for="fechaInicio"
+                               styleClass="etiquetaRequerida" />
+                <p:calendar id="fechaInicio"
+                            pattern="dd/MM/yyyy"
+                            value="#{reporteadorBean.fechaInicio}"
+                            title="#{propiedadesTituloBL.FechaInicio}"
+                            showOn="button"     
+                            size="7"
+                            disabled="#{reporteadorBean.deshabilitaFechaInicio}"
+                            locale="es"
+                            maxdate="#{reporteadorBean.fechaMaxima}"
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaInicio} : #{propiedadesMensajesBL.CampoRequerido}">                    
+                </p:calendar>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaFin} " 
+                               for="fechaFin"
+                               styleClass="etiquetaRequerida" />
+                <p:calendar id="fechaFin"
+                            pattern="dd/MM/yyyy"
+                            value="#{reporteadorBean.fechaFin}"
+                            title="#{propiedadesTituloBL.Fecha}"
+                            showOn="button"
+                            size="7"
+                            disabled="#{reporteadorBean.deshabilitaFechaFin}"
+                            locale="es"
+                            maxdate="#{reporteadorBean.fechaMaxima}"
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaFin} : #{propiedadesMensajesBL.CampoRequerido}">                    
+                </p:calendar>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaContableInicio} " 
+                               for="cuentaContableInicio"
+                               styleClass="etiquetaRequerida" />
+                <p:inputText id="cuentaContableInicio" size="8" value="#{reporteadorBean.cuentaContableInicio}" disabled="#{reporteadorBean.deshabilitaCuentaContableInicio}"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaContableFin} " 
+                               for="cuentaContableFin"
+                               styleClass="etiquetaRequerida" />
+                <p:inputText id="cuentaContableFin" size="8" value="#{reporteadorBean.cuentaContableFin}" disabled="#{reporteadorBean.deshabilitaCuentaContableFin}"/>
+
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaInicio} " 
+                               for="cuentaInicio"
+                               styleClass="etiquetaRequerida" />
+                <p:inputText id="cuentaInicio" size="8" value="#{reporteadorBean.cuentaIncio}" disabled="#{reporteadorBean.deshabilitaCuentaInicio}"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaFin} " 
+                               for="cuentaFin"
+                               styleClass="etiquetaRequerida" />
+                <p:inputText id="cuentaFin" size="8" value="#{reporteadorBean.cuentaFin}" disabled="#{reporteadorBean.deshabilitaCuentaFin}"/>              
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Codigo} " 
+                               for="socios"
+                               styleClass="etiquetaRequerida" />
+                <p:inputText id="socios" size="8" value="#{reporteadorBean.codigo_Socio}" disabled="#{reporteadorBean.deshabilidaCodigo_Socio}"/>
+
+
+            </h:panelGrid>
+
+            <ui:include src="barra.xhtml"/>
+            <h:panelGrid id="panelResultado" columns="1" style="width: 60px">
+                <p:outputLabel value="#{reporteadorBean.resultadoReporte} " 
+                               id="resultadoReporte"
+                               styleClass="etiquetaRequerida" />
+                <p:dataTable id="datosTbl" 
+                            var="itemDato" 
+                            value="#{reporteadorBean.itemsDatos}" 
+                            widgetVar="datosTabla" 
+                            scrollable="true" 
+                            scrollWidth="100%" 
+                            rows="50" 
+                            paginator="false"
+                            emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}"
+                            scrollHeight="150"
+                            style="width: 650px !important;">                    
+                   <p:columns value="#{reporteadorBean.itemsColumnas}" 
+                              style="width: 130px"
+                              var="columna" columnIndexVar="colIndex">
+                       <f:facet name="header">
+                           <h:outputText value="#{columna.header}" />
+                       </f:facet>
+                       <h:outputText value="#{itemDato[columna.property]}">
+                       </h:outputText>
+                   </p:columns>
+               </p:dataTable>
+            </h:panelGrid>
+
+        </p:panel>
+    </h:form>       
+</ui:composition>

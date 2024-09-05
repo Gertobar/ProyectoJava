@@ -1,0 +1,21 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="/resources/plantilla/sesionExpiradaPlantilla.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="formulario">
+        <h:form>
+            <h:panelGrid id="panel" columns="1" cellspacing="2" width="50%" 
+                style=" margin-top: 15%; margin-left: 12%; text-align:  center">
+                <f:facet name="header">
+                    <h:outputLabel value="Contraseña Cambiada con Exito, Inicie Sesion" styleClass="encabezadosPanelGrid"/>
+                </f:facet>
+                
+                <h:outputLabel  value="#{propiedadesMensajesBL.IncieSesionAqui}"/>
+                <p:commandButton action="#{usuarioController.cerrarSesion()}"  
+                                           value ="#{propiedadesEtiquetaBL.InicioSesion}"/>               
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

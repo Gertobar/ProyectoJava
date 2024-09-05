@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TransaccionEditDlg" widgetVar="TransaccionEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditTransaccionTitle}" closeOnEscape="true">
+
+            <h:form id="TransaccionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{transaccionController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditTransaccionLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{transaccionController.selected.codigo}" />
+
+                        <p:outputLabel value="#{myBundle.EditTransaccionLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{transaccionController.selected.nombre}" title="#{myBundle.EditTransaccionTitle_nombre}" required="true" requiredMessage="#{myBundle.EditTransaccionRequiredMessage_nombre}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.EditTransaccionLabel_tipo}" for="tipo" />
+                        <p:inputText id="tipo" value="#{transaccionController.selected.tipo}" title="#{myBundle.EditTransaccionTitle_tipo}" required="true" requiredMessage="#{myBundle.EditTransaccionRequiredMessage_tipo}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTransaccionLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{transaccionController.selected.eliminado}" title="#{myBundle.EditTransaccionTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditTransaccionRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{transaccionController.save}" value="#{myBundle.Save}" update="display,:TransaccionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TransaccionEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TransaccionEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

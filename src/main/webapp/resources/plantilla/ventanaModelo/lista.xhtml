@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- LOS COMENTARIOS QUE TIENEN EN SU PARTE SUPERIOR LAS LINEAS ************ Y SEGUIDO
+     SU DESCRIPCION NO DEBEN SER BORRADAS, LOS QUE SE DEBEN ELIMINAR SON LAS EXPLICACIONES
+     DE CADA CONTENIDO -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="listaForm">
+        <!-- ̣̣̣̣**************************************************************************
+         DESCRIBIR LO QUE CONTIENE EL SIGUIENTE CONTENIDO                           -->
+
+        <!-- EXPLICACION: COLOCAR AQUI LO CONCERNIENTE AL RESULTADO DE LA BUSQUEDA (TABLA) /
+             LOS COMPONENTES DE LA VENTANA DE TRANSACCION 
+             EL SIGUIENTE CONTENIDO ES UN EJEMPLO EL CUAL DEBE SER BORRADO-->
+        <p:dataTable id="datalist"                             
+                     value="#{reporteBdhControl.itemsTransaccionPago}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{reporteBdhControl.selectedPago}"
+                     rowKey="#{item.codigo}"                         
+                     paginator="true"
+                     rows="8"
+                     >
+            <f:facet name="header"><h:outputLabel value="PAGOS DEL #{reporteBdhControl.cobroPago.descripcion}"/></f:facet>
+
+            <p:column sortBy="#{item.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{bdhBL.ListTransaccionPagoAdicionalTitle_codigoTransaccionPago}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}" styleClass="campoResultadoValor"/>
+            </p:column>
+
+            <p:column sortBy="#{item.pagadoEn}" filterBy="#{item.pagadoEn}">
+                <f:facet name="header">
+                    <h:outputText value="Pagado En"/>
+                </f:facet>
+                <h:outputText value="#{item.pagadoEn}" styleClass="campoResultadoValor"/>
+            </p:column>
+
+            <p:column sortBy="#{item.identificacion}" filterBy="#{item.identificacion}">
+                <f:facet name="header">
+                    <h:outputText value="#{bdhBL.ListTransaccionPagoAdicionalTitle_identificacionBeneficiario}"/>
+                </f:facet>
+                <h:outputText value="#{item.identificacion}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.beneficiario}" filterBy="#{item.beneficiario}">
+                <f:facet name="header">
+                    <h:outputText value="#{bdhBL.ListTransaccionPagoAdicionalTitle_beneficiario}"/>
+                </f:facet>
+                <h:outputText value="#{item.beneficiario}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                <f:facet name="header">
+                    <h:outputText value="#{bdhBL.ListTransaccionPagoTitle_fechaTransaccion}"/>
+                </f:facet>
+                <h:outputText value="#{item.fecha}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.valor}">
+                <f:facet name="header">
+                    <h:outputText value="#{bdhBL.ListTransaccionPagoTitle_valorTransaccion}"/>
+                </f:facet>
+                <h:outputText value="#{item.valor}" style=" text-align:  right">
+                    <f:convertNumber pattern="#0.00" locale="pt_BR"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.estado}">
+                <f:facet name="header">
+                    <h:outputText value="Estado"/>
+                </f:facet>
+                <h:outputText value="#{item.estado}"/>
+            </p:column>                   
+        </p:dataTable>     
+        <!-- FIN DE TABLA DE COBROS/PAGOS REALIZADOS                                          
+         ̣̣̣̣************************************************************************** -->
+    </h:form>
+</ui:composition>

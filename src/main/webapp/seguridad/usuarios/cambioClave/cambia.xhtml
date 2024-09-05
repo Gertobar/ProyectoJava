@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="contrasenaUsuarioPan" 
+              header="#{propiedadesEtiquetaBL.CambioContrasena} ">         
+        <p:focus context="contrasenaUsuarioPan"/> 
+
+        <h:form id="contrasenaUsuarioFor">
+            <h:panelGrid id="contrasenaUsuarioGri" 
+                         columns="4" columnClasses="label, value, validator" 
+                         styleClass="grid">  
+            
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Usuario}" 
+                               for="usuario"  styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="usuario" 
+                                 value="#{contrasenaUsuarioController.usuarioSistema.usuario}"                                  
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Usuario} - #{propiedadesMensajesBL.CampoRequerido}">                                                    
+                    <f:selectItem  itemValue="#{usuarioController.usuario}"
+                                   itemLabel="#{usuarioController.usuario.codigoPersona.nombreCompleto}"
+                                   />
+                    <f:converter binding="#{usuarioConverter}"/>                    
+                </p:selectOneMenu>                
+                <h:message for="usuario" styleClass="invalido" />
+                <h:outputLabel value=""/>    
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.ContrasenaActual}" 
+                               for="contrasenaActual"  styleClass="etiquetaRequerida"/>
+                <p:password id="contrasenaActual" 
+                            value="#{contrasenaUsuarioController.contrasenaActual}"
+                            title="#{propiedadesTituloBL.ContrasenaActual}" 
+                            required="true" 
+                            requiredMessage="#{propiedadesEtiquetaBL.ContrasenaActual} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                <h:message for="contrasenaActual" styleClass="invalido" />
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.ContrasenaNueva}" 
+                               for="contrasenaNueva"  styleClass="etiquetaRequerida"/>
+                <p:password id="contrasenaNueva" 
+                            value="#{contrasenaUsuarioController.contrasenaNueva}"
+                            title="#{propiedadesTituloBL.ContrasenaNueva}" 
+                            required="true" 
+                            requiredMessage="#{propiedadesEtiquetaBL.ContrasenaNueva} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <p:ajax event="keyup" 
+                            update="contrasenaNuevaEti" 
+                            listener="#{contrasenaUsuarioController.validaComplejidadContrasena()}"/>
+                </p:password>
+                <h:message for="contrasenaNueva" styleClass="invalido" />
+                <h:outputLabel id="contrasenaNuevaEti" value="#{contrasenaUsuarioController.mensajeComplejidad}"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.ConfirmacionContrasena}" 
+                               for="confirmaConstrasena"  styleClass="etiquetaRequerida"/>
+                <p:password id="confirmaConstrasena" 
+                            value="#{contrasenaUsuarioController.confirmacionContrasena}" 
+                            title="#{propiedadesTituloBL.ConfirmacionContrasena}"
+                            required="true" 
+                            requiredMessage="#{propiedadesEtiquetaBL.ConfirmacionContrasena}- #{propiedadesMensajesBL.CampoRequerido}"
+                            size="50" maxlength="50"/>     
+                <h:message for="confirmaConstrasena" styleClass="invalido" />
+                <h:outputLabel  value=""/>
+
+                <f:facet name="footer">
+                    <p:commandButton id="cambioContrasenaBot" 
+                                     value="#{propiedadesEtiquetaBL.Cambiar}" 
+                                     update=":mensaje,:contrasenaUsuarioFor"       
+                                     onclick="procesandoDlg.show();"
+                                     action="#{contrasenaUsuarioController.cambiaContrasenaUsuario()}"
+                                     oncomplete="procesandoDlg.hide();"/>
+                </f:facet>
+            </h:panelGrid>             
+        </h:form>
+    </p:panel>
+
+</ui:composition>
+

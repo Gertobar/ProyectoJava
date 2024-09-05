@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConceptoTransaccionProCreateDlg" widgetVar="ConceptoTransaccionProCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateConceptoTransaccionProTitle}" closeOnEscape="true">
+
+            <h:form id="ConceptoTransaccionProCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateConceptoTransaccionProLabel_mostrar}" for="mostrar" />
+                        <p:inputText id="mostrar" value="#{conceptoTransaccionProController.selected.mostrar}" title="#{myBundle.CreateConceptoTransaccionProTitle_mostrar}" required="true" requiredMessage="#{myBundle.CreateConceptoTransaccionProRequiredMessage_mostrar}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateConceptoTransaccionProLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{conceptoTransaccionProController.selected.registradoPor}" title="#{myBundle.CreateConceptoTransaccionProTitle_registradoPor}" required="true" requiredMessage="#{myBundle.CreateConceptoTransaccionProRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateConceptoTransaccionProLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{conceptoTransaccionProController.selected.fechaRegistro}" title="#{myBundle.EditConceptoTransaccionProTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.EditConceptoTransaccionProRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateConceptoTransaccionProLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{conceptoTransaccionProController.selected.eliminado}" title="#{myBundle.CreateConceptoTransaccionProTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateConceptoTransaccionProRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateConceptoTransaccionProLabel_producto}" for="producto" />
+                        <p:selectOneMenu id="producto" value="#{conceptoTransaccionProController.selected.producto}" required="true" requiredMessage="#{myBundle.EditConceptoTransaccionProRequiredMessage_producto}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productoController.items}"
+                                           var="productoItem"
+                                           itemValue="#{productoItem}"
+                                           itemLabel="#{productoItem.productoPK.toString()}"
+                                           />
+                            <f:converter binding="#{productoConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateConceptoTransaccionProLabel_conceptoTransaccion}" for="conceptoTransaccion" />
+                        <p:selectOneMenu id="conceptoTransaccion" value="#{conceptoTransaccionProController.selected.conceptoTransaccion}" required="true" requiredMessage="#{myBundle.EditConceptoTransaccionProRequiredMessage_conceptoTransaccion}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{conceptoTransaccionController.items}"
+                                           var="conceptoTransaccionItem"
+                                           itemValue="#{conceptoTransaccionItem}"
+                                           itemLabel="#{conceptoTransaccionItem.descripcion.toString()}"
+                                           />
+                            <f:converter binding="#{conceptoTransaccionConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{conceptoTransaccionProController.saveNew}" value="#{myBundle.Save}" update="display,:ConceptoTransaccionProListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ConceptoTransaccionProCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="ConceptoTransaccionProCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

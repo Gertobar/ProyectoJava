@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <html>
+        <c:if test="#{!cambiarContrasena}">
+            #{usuarioController.validaSesion()}        
+        </c:if>
+        <p:panel styleClass="panelBanner">
+            <h:panelGrid columns="2"  width="100%">
+                <h:panelGrid columns="1" width="100%" style=" text-align: right ">                                           
+                    <h:form>           
+                        <p:commandLink action="#{usuarioController.cerrarSesion()}"  
+                                       style="color: #3870A6; text-decoration: none; font-weight: bold" 
+                                       value ="#{propiedadesEtiquetaBL.CerrarSesion}"/>               
+                        <br/> 
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Usuario}" styleClass="etiqueta"/>                
+                        <h:outputLabel value="  #{usuarioController.usuario.username} - #{usuarioController.usuario.codigoPersona.nombreCompleto}" />
+                        <br />
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Ifip}" styleClass="etiqueta"/>
+                        <h:outputLabel value="   #{usuarioController.usuario.codigoIfip.codigoTipoIfip.siglas} #{usuarioController.usuario.codigoIfip.nombre}    " />
+                        <h:outputLabel value=" " styleClass="etiqueta" />
+
+                        <c:if test="#{usuarioIfipAgenciaController.usuarioIfipAgencia  != null}">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Sucursal}" styleClass="etiqueta"/>
+                            <h:outputLabel value="#{usuarioIfipAgenciaController.usuarioIfipAgencia.ifipAgencia.nombre}" />
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Rol}" styleClass="etiqueta"/>
+                            <h:outputLabel value="#{usuarioIfipAgenciaController.usuarioIfipAgencia.codigoRol.codigo}" />
+                        </c:if>
+                        <br />
+                        <h:outputFormat value="#{propiedadesEtiquetaBL.Fecha}" styleClass="etiqueta"/>
+                        <h:outputText value="  #{usuarioController.fecha.toLocaleString()}" >   
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                        </h:outputText>
+                    </h:form>
+                </h:panelGrid>
+            </h:panelGrid>
+        </p:panel>
+    </html>
+</f:view>

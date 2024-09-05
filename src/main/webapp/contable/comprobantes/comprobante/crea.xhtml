@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComprobanteCreateDlg" 
+                  widgetVar="ComprobanteCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  position="center top">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Comprobante}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+            <h:form id="ComprobanteCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+
+                    <h:panelGrid id="cabeceraComprobanteGri" columns="1" style="width: 600px;">            
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.CabeceraComprobante}"/>
+                        </f:facet>
+
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Periodo}" 
+                                           for="periodo"
+                                           styleClass="etiquetaRequerida" />
+                            <p:outputLabel id="periodo"
+                                           value="#{comprobanteController.peridoCotable}" 
+                                           styleClass="etiqueta" />
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroComprobante }" 
+                                           styleClass="etiqueta"/>
+                            <p:outputLabel id="numComprobante"
+                                           value="#{comprobanteController.comprobante.numeroComprobante.toString()}" 
+                                           styleClass="etiqueta"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Fecha}" 
+                                           for="fechaComprobante"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:calendar  value="#{comprobanteController.comprobante.fecha}"
+                                         pattern="dd/MM/yyyy"
+                                         id="fechaComprobante" 
+                                         locale="es"                         
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.FechaNacimiento} - #{propiedadesMensajesBL.CampoRequerido}"                         
+                                         mindate="#{comprobanteController.fechaMimina}"
+                                         maxdate="#{comprobanteController.fechaMaxima}"
+                                         > 
+                            </p:calendar>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoComprobante}" 
+                                           for="tipoComprobante"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="tipoComprobante" 
+                                             value="#{comprobanteController.comprobante.codigoTipoComprobante}"
+                                             required="true" 
+                                             requiredMessage="#{propiedadesEtiquetaBL.TipoComprobante} - #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                <f:selectItems value="#{comprobanteController.itemsTipoComprobante}"
+                                               var="TipoComprobanteItem"
+                                               itemValue="#{TipoComprobanteItem}"
+                                               itemLabel="#{TipoComprobanteItem.nombre.toString()}"
+                                               />
+                                <f:converter binding="#{tipoComprobanteConverter}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Glosa}"
+                                           for="glosa"
+                                           styleClass="etiquetaRequerida"/>                
+                                <p:inputTextarea id="glosa" value="#{comprobanteController.comprobante.glosa}"
+                                                 onblur="value = value.toUpperCase()"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Glosa} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         maxlength="200"
+                                         cols="55"/>
+                           
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.EstadoComprobante}" 
+                                           for="estadoComprobante"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="estadoComprobante" 
+                                             value="#{comprobanteController.comprobante.codigoEstado}"
+                                             required="true" 
+                                             requiredMessage="#{propiedadesEtiquetaBL.EstadoComprobante} - #{propiedadesMensajesBL.CampoRequerido}"
+                                             disabled="true">
+                                <f:selectItem itemLabel="#{comprobanteController.comprobante.codigoEstado.nombre}"/>
+                                <f:selectItems value="#{comprobanteController.itemsEstadoComprobante}"
+                                               var="estadoComprobanteItem"
+                                               itemValue="#{estadoComprobanteItem}"
+                                               itemLabel="#{estadoComprobanteItem.nombre.toString()}"
+                                               />
+                                <f:converter binding="#{estadoComprobanteConverter}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+
+                        <h:panelGrid id="datoComprobanteGri" columns="2" style="width: 600px;">            
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Item} #{propiedadesEtiquetaBL.Comprobante}"/>
+                            </f:facet>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.PlanCuenta}" 
+                                           for="planCuenta"
+                                           styleClass="etiquetaRequerida" />
+                            <p:selectOneMenu id="planCuenta" 
+                                             filter="true" 
+                                             filterMatchMode="startsWith"
+                                             value="#{comprobanteController.planDeCuenta}"
+                                             style="width: 400px;"
+                                             required="true" 
+                                             requiredMessage="#{propiedadesEtiquetaBL.PlanCuenta} : #{propiedadesMensajesBL.CampoRequerido}">                          
+
+                                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                <f:selectItems value="#{comprobanteController.itemsPlanDeCuenta}"
+                                               var="PlanCuentaItem"
+                                               itemValue="#{PlanCuentaItem}"
+                                               itemLabel="#{PlanCuentaItem.planDeCuentaPK.cuentaContable} : #{PlanCuentaItem.nombre.toString()}"
+                                               />   
+                                <f:converter binding="#{planDeCuentaConverter}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                                           for="tipoItem"
+                                           styleClass="etiquetaRequerida" />
+                            <p:selectOneMenu id="tipoItem" 
+                                             value="#{comprobanteController.itemActual.tipo}"
+                                             required="true" 
+                                             requiredMessage="#{propiedadesEtiquetaBL.Tipo} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Debito}" itemValue="D" />  
+                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Credito}" itemValue="C" />                                  
+                            </p:selectOneMenu>
+
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Valor}"
+                                           for="valor"
+                                           styleClass="etiquetaRequerida"/>                
+                            <p:inputText id="valor"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Valor} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         value="#{comprobanteController.itemActual.valor}"> 
+                                <p:ajax event="blur" 
+                                        listener="#{comprobanteController.formatoValor()}" 
+                                        update="valor"/>
+                            </p:inputText>
+
+                            <p:commandButton id="agregaItemBot" 
+                                             value="#{propiedadesEtiquetaBL.Agregar}"
+                                             update=":ComprobanteCreateForm:detalleTbl,:growl,:ComprobanteCreateForm:guardarBot, :ComprobanteCreateForm:totalDebito, :ComprobanteCreateForm:totalCredito, :ComprobanteCreateForm:mensajeDetalle"
+                                             action="#{comprobanteController.agregarItemDetalle()}"/>
+                        </h:panelGrid>                        
+                    </h:panelGrid>
+
+
+                    <p:contextMenu for="detalleTbl">     
+                        <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                                    icon="ui-icon-trash" 
+                                    action="#{comprobanteController.quitarItemDetalle()}" 
+                                    update=":ComprobanteCreateForm:detalleTbl,:ComprobanteCreateForm:guardarBot, :ComprobanteCreateForm:totalDebito, :ComprobanteCreateForm:totalCredito, :ComprobanteCreateForm:mensajeDetalle"/>            
+                    </p:contextMenu>   
+                    <h:panelGrid columns="1" style="font-size: 10px;">
+                        <p:dataTable id="detalleTbl" 
+                                     value="#{comprobanteController.itemsComprobanteDetalle}"
+                                     var="itemDetalleTabla"                                                          
+                                     rowKey="#{itemDetalleTabla.comprobanteDetallePK}"
+                                     paginator="true"
+                                     rows="8"
+                                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                                     editable="true"
+                                     editMode="cell"
+                                     selectionMode="single"
+                                     selection="#{comprobanteController.itemDetalleSel}"                     
+                                     style="width: 600px;"
+                                     widgetVar="detalleTabla">
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.DetalleComprobante}"/>
+                            </f:facet>
+
+                            <p:column sortBy="#{itemDetalleTabla.planDeCuentaIfip.planDeCuenta.nombre}" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.PlanCuenta}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDetalleTabla.planDeCuentaIfip.planDeCuentaIfipPK.cuentaContable} : #{itemDetalleTabla.planDeCuentaIfip.planDeCuenta.nombre}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Tipo}"/>
+                                </f:facet>
+                                <p:cellEditor> 
+
+                                    <f:facet name="output">  
+                                        <h:outputText  value="#{itemDetalleTabla.tipo}" />  
+                                    </f:facet>
+
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{itemDetalleTabla.tipo}"
+                                                         style="width: 100%" > 
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Debito}" itemValue="D" /> 
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Creditos}" itemValue="C" /> 
+                                            <p:ajax event="change" 
+                                                    listener="#{comprobanteController.habilitarBotonGuardar()}" 
+                                                    update=":ComprobanteCreateForm:guardarBot, :ComprobanteCreateForm:totalDebito, :ComprobanteCreateForm:totalCredito, :ComprobanteCreateForm:mensajeDetalle"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                                </f:facet>
+
+                                <p:cellEditor>  
+                                    <f:facet name="output">  
+                                        <h:outputText value="#{itemDetalleTabla.valor}" />  
+                                    </f:facet>  
+                                    <f:facet name="input">  
+                                        <p:inputText value="#{itemDetalleTabla.valor}" style="width:100%">
+                                            <p:ajax event="blur" 
+                                                    listener="#{comprobanteController.habilitarBotonGuardar()}" 
+                                                    update=":ComprobanteCreateForm:guardarBot, :ComprobanteCreateForm:totalDebito, :ComprobanteCreateForm:totalCredito, :ComprobanteCreateForm:mensajeDetalle"/>
+                                        </p:inputText>
+
+                                    </f:facet>  
+                                </p:cellEditor>
+
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+
+
+                    <h:panelGrid id="totalDebitoCreditoGri" columns="2"> 
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Total} #{propiedadesEtiquetaBL.Debito}"
+                                       styleClass="etiqueta"/> 
+                        <h:outputLabel id="totalDebito"
+                                       value="#{comprobanteController.totalDebito}"
+                                       styleClass="etiqueta"/>
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Total} #{propiedadesEtiquetaBL.Credito}"
+                                       styleClass="etiqueta"/>
+                        <h:outputLabel id="totalCredito"
+                                       value="#{comprobanteController.totalCredito}"
+                                       styleClass="etiqueta"/>
+                        <h:outputLabel id="mensajeDetalle" value="#{comprobanteController.mensajeDetalle}"
+                                       styleClass="invalido"/>
+                    </h:panelGrid>
+
+
+                    <p:commandButton id="guardarBot"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     disabled="#{comprobanteController.deshabilitarBotonGuardar}"
+                                     update="display,:ComprobanteFor,:impresionLab,:mensaje,:ComprobanteCreateForm:numComprobante,:ComprobanteListForm:datalist, :ComprobanteCreateForm:guardarBot"
+                                     actionListener="#{comprobanteController.guardarComprobante}"/>        
+
+                </h:panelGroup>
+
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

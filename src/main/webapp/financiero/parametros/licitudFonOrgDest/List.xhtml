@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="LicitudFonOrgDestListForm">
+
+        <p:panel header="#{myBundle.ListLicitudFonOrgDestTitle}">
+
+            <p:dataTable id="datalist" value="#{licitudFonOrgDestController.items}" var="item"
+                         selectionMode="single" selection="#{licitudFonOrgDestController.selected}"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLicitudFonOrgDestTitle_codigo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLicitudFonOrgDestTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLicitudFonOrgDestTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+                <p:column sortBy="#{item.esOrigen}" filterBy="#{item.esOrigen}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLicitudFonOrgDestTitle_esOrigen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.esOrigen}"/>
+                </p:column>
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLicitudFonOrgDestTitle_eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{licitudFonOrgDestController.prepareCreate}" update=":LicitudFonOrgDestCreateForm" oncomplete="LicitudFonOrgDestCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":LicitudFonOrgDestViewForm" oncomplete="LicitudFonOrgDestViewDialog.show()" disabled="#{empty licitudFonOrgDestController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":LicitudFonOrgDestEditForm" oncomplete="LicitudFonOrgDestEditDialog.show()" disabled="#{empty licitudFonOrgDestController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{licitudFonOrgDestController.delete}" update=":growl,datalist" disabled="#{empty licitudFonOrgDestController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

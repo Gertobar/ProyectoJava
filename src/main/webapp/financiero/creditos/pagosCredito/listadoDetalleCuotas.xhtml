@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <p:dialog id="ListaDetalleCuotasDlg" 
+              widgetVar="ListaDetalleCuotasDialog"
+              modal="true" 
+              resizable="false" 
+              appendTo="@(body)"
+              maximizable="false" 
+              closeOnEscape="true"                                               
+              style="height:350px; width: 500px">
+        <f:facet name="header">
+            <h:outputLabel  value="#{propiedadesEtiquetaBL.Listado} #{propiedadesEtiquetaBL.DetalleCuotas}"
+                            styleClass="encabezadosDialog"/>               
+
+        </f:facet>
+        <p:growl id="growlDet" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+
+
+        <h:form id="ListaDetalleCuotasForm">
+            <h:panelGrid columns="1" style="font-size: 10px; height: 200px" >
+
+                <h:panelGrid  id="DatosGri" columns="2" 
+                              columnClasses="label, value" styleClass="grid" style="text-align: left; height: 10px">  
+                    <f:facet name="header">                                                   
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}:        "
+                                       styleClass="etiqueta"/>
+                        <h:outputText value="#{pagoCreditoController.solicitudSel.socio.codigoPersona.nombreCompleto.toString()}"
+                                      style="font-weight: normal" />        
+                        <br/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Codigo} #{propiedadesEtiquetaBL.PagoCredito}: "
+                                       styleClass="etiqueta"/>
+                        <h:outputText value="#{pagoCreditoController.pagoCreditoSel.codigo}"
+                                      style="font-weight: normal" />    
+                    </f:facet>
+                </h:panelGrid>
+
+                <p:separator/>
+
+                <p:panel header="#{propiedadesEtiquetaBL.SeleccioneDetalleCuota}" style="font-size: 10px; border: #FFFFFF">
+
+                    <p:dataTable id="datalist" 
+                                 value="#{pagoCreditoController.itemsPagoCreditoCuota}" 
+                                 var="item"
+                                 selectionMode="single" 
+                                 selection="#{pagoCreditoController.pagoCreditoDetalleCuotaSel}"
+                                 rowKey="#{item.pagoCreditoDetalleCuotaPK}"
+                                 paginator="true"
+                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                 rows="10">
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.PagoCreditoDetalleCuota}"/>
+                        </f:facet>
+
+                        <p:ajax event="rowSelect"   
+                                listener="#{pagoCreditoController.obtieneDetalleRubrosNotificaciones()}"
+                                update=":ListaDetalleCuotasForm:detalles"/>
+                        <p:ajax event="rowUnselect"                                              
+                                update=":ListaDetalleCuotasForm:detalles"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Tipo}"/>
+                            </f:facet>
+                            <p:selectOneMenu value="#{item.tipo}" 
+                                             disabled="true">                              
+                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Total}" itemValue="T" />  
+                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Parcial}" itemValue="P" />                           
+                            </p:selectOneMenu>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cuota}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pagoCreditoDetalleCuotaPK.cuota}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Capital}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.capital}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Rubros}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rubros}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Notificaciones}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.notificaciones}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Interes}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.interes}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.DiasInteres}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.diasInteres}">                            
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Mora}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.mora}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.DiasMora}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.diasMora}">                           
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.totalPago}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.CapitalAPagar}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.capitalAPagar}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                    </p:dataTable>               
+
+                    <p:separator/>
+
+                    <p:panel style="width: 650px; border: #333333">
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.DetalleRubrosYNotificaciones}"/>
+                        </f:facet>
+                        <p:tabView id="detalles">
+
+                            <p:tab id="rubros" title="#{propiedadesTituloBL.DetalleRubros}">
+                                <h:panelGrid id="DetalleRubGri" columns="1" style="font-size: 10px; width: 600px; height: 150px" >
+
+                                    <p:dataTable id="datalistRub" 
+                                                 value="#{pagoCreditoController.itemsPagoCreditoRubro}" 
+                                                 var="item"                                                                      
+                                                 rowKey="#{item.pagoCreditoDetalleRubroPK}"
+                                                 paginator="true"
+                                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                                 rows="10">
+
+                                        <f:facet name="header">
+                                            <h:outputLabel value="#{propiedadesEtiquetaBL.PagoCreditoDetalleRubro}"/>
+                                        </f:facet>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.Cuota}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.pagoCreditoDetalleRubroPK.cuota}"/>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.NotificacionCredito}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.rubroTablaAmortizacion.tipoRubroProCreMonIfi.codigoTipoRubro.nombre.toString()}"/>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.Tipo}"/>
+                                            </f:facet>
+                                            <p:selectOneMenu value="#{item.tipo}" 
+                                                             disabled="true">                              
+                                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Total}" itemValue="T" />  
+                                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Parcial}" itemValue="P" />                           
+                                            </p:selectOneMenu>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.valor}">
+                                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.Saldo}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.saldo}">
+                                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                            </h:outputText>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:panelGrid>
+
+                            </p:tab>
+                            <p:tab id="notificaciones" title="#{propiedadesTituloBL.DetalleNotificaciones}">
+                                <h:panelGrid id="DetalleNotGri" columns="1" style="font-size: 10px; width: 600px; height: 150px" >
+
+                                    <p:dataTable id="datalistNot" 
+                                                 value="#{pagoCreditoController.itemsPagoCreditoNot}" 
+                                                 var="item"                                                                     
+                                                 rowKey="#{item.pagoCreditoDetalleNotPK}"
+                                                 paginator="true"                        
+                                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                                 rows="10">
+
+                                        <f:facet name="header">
+                                            <h:outputLabel value="#{propiedadesEtiquetaBL.PagoCreditoDetalleNot}"/>
+                                        </f:facet>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.Cuota}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.pagoCreditoDetalleNotPK.cuota}"/>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.NotificacionCredito}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.notificacionCredito.tipoNotificacionIfip.tipoNotificacion.nombre.toString()}"/>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.Tipo}"/>
+                                            </f:facet>
+                                            <p:selectOneMenu value="#{item.tipo}" 
+                                                             disabled="true">                              
+                                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Total}" itemValue="T" />  
+                                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Parcial}" itemValue="P" />                           
+                                            </p:selectOneMenu>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.valor}">
+                                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                            </h:outputText>
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.Saldo}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.saldo}">
+                                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                            </h:outputText>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:panelGrid>
+
+                            </p:tab>                      
+                        </p:tabView>
+
+                    </p:panel>
+                </p:panel>
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+</ui:composition>

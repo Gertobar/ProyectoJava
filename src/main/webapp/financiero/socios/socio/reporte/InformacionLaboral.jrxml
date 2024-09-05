@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="504" pageHeight="86" columnWidth="504" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a0a4a632-d3d8-4a6d-8772-b0558184c2c0">
+	<property name="ireport.zoom" value="1.610510000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoSocio" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[$P{codigoSocio}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select 
+emp.nombre                                  "NOMB EMPRESA", 
+cargo.nombre                                "CARGO EMP", 
+perio.nombre||' '||  pac.tiempo             "TIEMP TRAB", 
+pac.numero_telefonico                       "TEL_EMP", 
+trunc(pac.fecha_ingreso)                    "FEC_INGRESO",
+pac.direccion                               "DIR EMPR"
+from mks_socios.persona_trabajo_act_eco     pac,
+     mks_comunes.empresa                    emp,
+     mks_socios.cargo                       cargo,
+     mks_socios.persona_act_eco_pri         ecopri,
+     mks_socios.persona_actividad_economica act,
+     mks_socios.persona                     p,
+     mks_comunes.periodicidad               perio
+where   pac.codigo_persona                  = p.codigo
+and     perio.codigo                        = pac.codigo_periodicidad
+and     emp.codigo                          = pac.codigo_empresa
+and     cargo.codigo                        = pac.codigo_cargo
+and     ecopri.codigo_persona               = p.codigo
+and     ecopri.codigo_actividad_economica   = act.codigo_actividad_economica
+and     act.codigo_persona                  = p.codigo
+--and     perio.codigo                        = act.codigo_periodicidad
+and     p.codigo = (select sos.codigo_persona from mks_socios.socio sos where sos.codigo = $P{codigoSocio})
+and     pac.eliminado                       = 'N'
+and     act.eliminado                       = 'N']]>
+	</queryString>
+	<field name="NOMB EMPRESA" class="java.lang.String"/>
+	<field name="CARGO EMP" class="java.lang.String"/>
+	<field name="TIEMP TRAB" class="java.lang.String"/>
+	<field name="TEL_EMP" class="java.lang.String"/>
+	<field name="FEC_INGRESO" class="java.sql.Timestamp"/>
+	<field name="DIR EMPR" class="java.lang.String"/>
+	<detail>
+		<band height="86">
+			<staticText>
+				<reportElement x="0" y="56" width="134" height="15" isRemoveLineWhenBlank="true" uuid="c8b04494-62ca-4ef8-91c7-65014602e2ba"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA INGRESO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="70" width="134" height="15" isRemoveLineWhenBlank="true" uuid="d0e8c0dd-0e23-400c-81c7-73e6da63bee0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIEMPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="14" width="134" height="15" isRemoveLineWhenBlank="true" uuid="83709a03-2bc6-4165-b3e8-46df820224e1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="134" height="15" isRemoveLineWhenBlank="true" uuid="11047979-e003-485f-83df-40258ab4e29a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPRESA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="42" width="134" height="15" isRemoveLineWhenBlank="true" uuid="a8b7a25b-9d90-4bf9-ac02-8025559cf6e6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="135" y="0" width="369" height="15" isRemoveLineWhenBlank="true" uuid="8c1b12c5-9260-4051-a145-88f6c12efd90"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMB EMPRESA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="28" width="134" height="15" isRemoveLineWhenBlank="true" uuid="42580afe-6e21-43e5-9569-e7f948d87d14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELÉFONO]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="135" y="56" width="369" height="15" isRemoveLineWhenBlank="true" uuid="68408cfc-e8a4-401e-b38a-8265a3c2e8cb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FEC_INGRESO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="135" y="28" width="369" height="15" isRemoveLineWhenBlank="true" uuid="0ded81a2-b264-46d3-af70-8e776a1ac733"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TEL_EMP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="135" y="14" width="369" height="15" isRemoveLineWhenBlank="true" uuid="757a26ef-c72e-4ba3-a857-7ae51e3846e1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CARGO EMP}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="135" y="70" width="369" height="15" isRemoveLineWhenBlank="true" uuid="7901dcab-c3fe-4936-9897-5eba0c39e306"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TIEMP TRAB}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="135" y="42" width="369" height="15" isRemoveLineWhenBlank="true" uuid="67e86629-ecb2-484c-b90f-a93892b7ca1f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIR EMPR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

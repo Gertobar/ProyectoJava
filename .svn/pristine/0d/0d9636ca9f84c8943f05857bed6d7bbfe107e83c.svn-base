@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <p:panel  id="contratoPanel"
+              style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;">
+        <p:focus id="focus" for="#{lineaCreditoSolicitudController.foco}" context="lineaCreditoSolicitudNuevaDlg" />
+        <h:panelGrid columns="1" styleClass="grid">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Linea} #{propiedadesEtiquetaBL.Socio}"/>
+                <p:separator/>
+            </f:facet>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Socio}"
+                               styleClass="etiquetaRequerida"/>
+                <h:panelGrid columns="3">
+                    <p:inputText id="nombreSocioSolicitud"
+                                 readonly="true"
+                                 value="#{lineaCreditoSolicitudController.nombreCompletoSocio}"
+                                 onblur="value = value.toUpperCase()"
+                                 size="50">
+                    </p:inputText>
+                    <p:commandButton id="buscarSocioSolicitud"
+                                     value="#{propiedadesEtiquetaBL.Buscar} #{propiedadesEtiquetaBL.Socio}"
+                                     icon="#{propiedadesObjetosBL.IcoVer}"
+                                     onclick="cambiaBusquedaSolicitud();PF('listaSociosDialog').show();"
+                                     type="button"/>
+                    <p:remoteCommand name="cambiaBusquedaSolicitud"
+                                     action="#{lineaCreditoSolicitudController.noBuscaSolicitudesDesdeComponente}"/>
+                </h:panelGrid>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.LineaCredito}"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="linea"
+                                 value="#{lineaCreditoSolicitudController.lineaCredito}"
+                                 requiredMessage="#{propiedadesEtiquetaBL.LineaCredito} - #{propiedadesMensajesBL.CampoRequerido}"
+                                 required="false"
+                                 disabled="#{lineaCreditoSolicitudController.edicion}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaLineaCredito}"
+                                   var="lineaItem"
+                                   itemValue="#{lineaItem}"
+                                   itemLabel="#{lineaItem.nombre}" />
+                    <f:converter binding="#{lineaCreditoConverter}"/>
+                    <p:ajax event="change" update="@this,montoMinimo,montoMaximo,diaPago,diaEstadoCuenta,tasaCredito" listener="#{lineaCreditoSolicitudController.cambiaLineaCredito}"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Minimo}"
+                               styleClass="etiquetaRequerida"/>
+                <h:panelGrid columns="1">
+                    <h:panelGrid columns="3">
+                        <p:inputText id="montoMinimo"
+                                     readonly="true"
+                                     value="#{lineaCreditoSolicitudController.lineaCredito.montoMinimo}"
+                                     size="30"/>
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Maximo}"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="montoMaximo"
+                                     readonly="true"
+                                     value="#{lineaCreditoSolicitudController.lineaCredito.montoMaximo}"
+                                     size="30"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Pago}"
+                               styleClass="etiquetaRequerida"/>
+                <h:panelGrid columns="1">
+                    <h:panelGrid columns="3">
+                        <p:inputText id="diaPago"
+                                     readonly="true"
+                                     value="#{lineaCreditoSolicitudController.lineaCredito.diaGeneraCredito}"
+                                     size="30"/>
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Estado} #{propiedadesEtiquetaBL.Cuenta}"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="diaEstadoCuenta"
+                                     readonly="true"
+                                     value="#{lineaCreditoSolicitudController.lineaCredito.diaGeneraCredito}"
+                                     size="30"/>    
+                    </h:panelGrid>
+                </h:panelGrid>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.CanalServicio}"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="canal"
+                                 value="#{lineaCreditoSolicitudController.canalServicio}"
+                                 requiredMessage="#{propiedadesEtiquetaBL.CanalServicio} - #{propiedadesMensajesBL.CampoRequerido}"
+                                 required="false"
+                                 disabled="#{lineaCreditoSolicitudController.edicion}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaCanalServicio}"
+                                   var="canalServicio"
+                                   itemValue="#{canalServicio}"
+                                   itemLabel="#{canalServicio.canal}" />
+                    <f:converter binding="#{canalServicioIfipConverter}"/>
+                    <p:ajax event="change" listener="#{lineaCreditoSolicitudController.cambiaCanalServicio}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid id="socioInformacion" columns="2">
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Socio}"/>
+                    <p:separator/>
+                </f:facet>
+                <h:panelGrid id="socioDatos" columns="2">
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Actualizacion}" 
+                                   for="actualizacionSocio"
+                                   styleClass="etiqueta"/>
+                    <p:calendar id="actualizacionSocio"
+                                readonly="true"  
+                                disabled="true"
+                                pattern="dd/MM/yyyy HH:mm:ss"
+                                value="#{lineaCreditoSolicitudController.socio.fechaActualizacion}"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.SituacionPatrimonial}"
+                                   for="actualizacionSituacionPatrimonial"
+                                   styleClass="etiqueta"/>
+                    <p:calendar id="actualizacionSituacionPatrimonial"      
+                                readonly="true"
+                                disabled="true"
+                                pattern="dd/MM/yyyy HH:mm:ss"                           
+                                value="#{lineaCreditoSolicitudController.socioSituacionPatrimonial.fechaActualizacion}"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Cobertura}" 
+                                   for="actualizacionCobertura"
+                                   styleClass="etiqueta"/>
+                    <p:inputText id="actualizacionCobertura"      
+                                 readonly="true"
+                                 disabled="true"
+                                 value="#{lineaCreditoSolicitudController.socioFlujoCaja.cobertura}">
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                    </p:inputText>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Patrimonio}" 
+                                   for="actualizacionPatrimonio"
+                                   styleClass="etiqueta">
+                    </p:outputLabel>
+                    <p:inputText id="actualizacionPatrimonio"    
+                                 readonly="true"
+                                 disabled="true"
+                                 value="#{lineaCreditoSolicitudController.socioSituacionPatrimonial.totalPatrimonio}">                
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                    </p:inputText>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Socio} #{propiedadesEtiquetaBL.Conyuge}"
+                                   for="socioConyugeInformacion"
+                                   styleClass="etiqueta">
+                    </p:outputLabel>
+                    <h:panelGrid id="socioConyugeInformacion" columns="2">
+                        <p:inputText id="nombreConyuge"
+                                     readonly="true"
+                                     size="40"
+                                     value="#{lineaCreditoSolicitudController.personaConyugeSocio.nombreCompleto}"/>
+                        <p:commandButton id="buscarSocioConyuge"
+                                         value="#{propiedadesEtiquetaBL.Buscar}"
+                                         icon="#{propiedadesObjetosBL.IcoVer}"
+                                         type="button"
+                                         onclick="#{(lineaCreditoSolicitudController.personaConyugeSocio eq null) ? 'PF(\'listaPersonasDialog\').show();' : ''}"
+                                         disabled="#{((lineaCreditoSolicitudController.personaConyugeSocio eq null) and !(lineaCreditoSolicitudController.socio eq null)) ? false : true}"/>
+                        <h:panelGrid id="socioConyugeAccion" columns="2">
+                            <p:commandButton id="editarConyuge" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             disabled="#{!lineaCreditoSolicitudController.habilitarBotonEditarConyuge}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             actionListener="#{lineaCreditoSolicitudController.guardarPersonaConyuge}"
+                                             update="editarConyuge,eliminarConyuge,socioConyugeInformacion,focus"/>
+                            <p:commandButton id="eliminarConyuge" 
+                                             icon="#{propiedadesObjetosBL.IcoEliminar}"
+                                             disabled="#{!lineaCreditoSolicitudController.habilitarBotonEliminarConyuge}"
+                                             value="#{propiedadesEtiquetaBL.Eliminar}"
+                                             actionListener="#{lineaCreditoSolicitudController.eliminarPersonaConyuge}"
+                                             update="editarConyuge,eliminarConyuge,socioConyugeInformacion,focus"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <h:panelGrid id="socioCuentas" columns="1">
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Cuentas} #{propiedadesEtiquetaBL.Socio}"/>
+                        <p:separator/>
+                    </f:facet>
+                    <p:dataTable id="cuentasSocioTable"
+                                 value="#{lineaCreditoSolicitudController.listaSocioCuenta}"
+                                 var="itemCuenta"
+                                 rowKey="#{itemCuenta.codigo}"
+                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                 widgetVar="cuentasSocio"
+                                 rows="3">
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{itemCuenta.tipoProducto.nombre}"/>
+                        </p:column>
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.NumeroCuenta}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{itemCuenta.numero}"/>
+                        </p:column>
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{itemCuenta.moneda.nombre}"/>
+                        </p:column>
+                        <p:column style="height: 25px "> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.SaldoTotal}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{itemCuenta.saldoTotal}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputLabel>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+                <h:panelGrid id="panelCuentasSolicitud" columns="5">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Agregar}"/>
+                        <p:separator/>
+                    </f:facet>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}"
+                                   for="tpoCuentaDebitoCredito"
+                                   styleClass="etiquetaRequerida" />
+                    <p:selectOneMenu id="tpoCuentaDebitoCredito"
+                                     value="#{lineaCreditoSolicitudController.tipoCuentaSolicitudSeleccionada}">
+                        <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Debito}" itemValue="D" />
+                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Credito}" itemValue="C" />
+                    </p:selectOneMenu>
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}"
+                                   styleClass="etiquetaRequerida"
+                                   for="cuentasSolicitud"/>
+                    <p:selectOneMenu id="cuentasSolicitud"
+                                     value="#{lineaCreditoSolicitudController.cuentaSolicitudSeleccionada}">
+                        <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                        <f:selectItems value="#{lineaCreditoSolicitudController.listaSocioCuentasVista}"
+                                       var="cuentaItem"
+                                       itemValue="#{cuentaItem}"
+                                       itemLabel="#{cuentaItem.numero}"/>
+                        <f:converter binding="#{cuentaConverter}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton id="agregarCuenta" 
+                                     value="#{propiedadesEtiquetaBL.Agregar}"
+                                     update="cuentasSolicitudTable"
+                                     action="#{lineaCreditoSolicitudController.agregaCuentaSolicitud}">
+                    </p:commandButton>
+                </h:panelGrid>
+                <h:panelGrid id="cuentaSolicitudInformacion" columns="2">
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Cuentas} #{propiedadesEtiquetaBL.Linea}"/>
+                        <p:separator/>
+                    </f:facet>
+                    <p:dataTable id="cuentasSolicitudTable"
+                                 value="#{lineaCreditoSolicitudController.listaCuentasSolicitudAgredadas}"
+                                 var="item"
+                                 rowKey="#{item.codigo}"
+                                 paginator="false"
+                                 rows="2"
+                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                 widgetVar="cuentasSolicitudTabla">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaAcreditada.productoIfip.producto.tipoProducto.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Credito}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaAcreditada.numero}   "/>
+                        </p:column>
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Debito}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaDebito.numero}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+            </h:panelGrid>
+        </h:panelGrid>
+    </p:panel>
+</ui:composition>

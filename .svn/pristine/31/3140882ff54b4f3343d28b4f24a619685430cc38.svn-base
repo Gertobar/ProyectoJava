@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductoIfipViewDlg" widgetVar="ProductoIfipViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewProductoIfipTitle}" closeOnEscape="true">
+
+            <h:form id="ProductoIfipViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{productoIfipController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewProductoIfipLabel_productoIfipPK_codigoIfip}"/>
+                        <h:outputText value="#{productoIfipController.selected.productoIfipPK.codigoIfip}" title="#{myBundle.ViewProductoIfipTitle_productoIfipPK_codigoIfip}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductoIfipLabel_codigoPerCal}"/>
+                        <h:outputText value="#{productoIfipController.selected.codigoPerCal}" title="#{myBundle.ViewProductoIfipTitle_codigoPerCal}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductoIfipLabel_codigoPerCap}"/>
+                        <h:outputText value="#{productoIfipController.selected.codigoPerCap}" title="#{myBundle.ViewProductoIfipTitle_codigoPerCap}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductoIfipLabel_registradoPor}"/>
+                        <h:outputText value="#{productoIfipController.selected.registradoPor}" title="#{myBundle.ViewProductoIfipTitle_registradoPor}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductoIfipLabel_siglasLibreta}"/>
+                        <h:outputText value="#{productoIfipController.selected.siglasLibreta}" title="#{myBundle.ViewProductoIfipTitle_siglasLibreta}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductoIfipLabel_fechaRegistro}"/>
+                        <h:outputText value="#{productoIfipController.selected.fechaRegistro}" title="#{myBundle.ViewProductoIfipTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewProductoIfipLabel_interesCalculadoSobre}"/>
+                        <h:outputText value="#{productoIfipController.selected.interesCalculadoSobre}" title="#{myBundle.ViewProductoIfipTitle_interesCalculadoSobre}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductoIfipLabel_eliminado}"/>
+                        <h:outputText value="#{productoIfipController.selected.eliminado}" title="#{myBundle.ViewProductoIfipTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductoIfipLabel_producto}"/>
+                        <h:outputText value="#{productoIfipController.selected.producto.productoPK}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="ProductoIfipViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

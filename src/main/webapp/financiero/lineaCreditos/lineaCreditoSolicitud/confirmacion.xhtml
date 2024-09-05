@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <p:panel id="confirmacionPan"  header="#{propiedadesEtiquetaBL.Confirmacion}"
+             style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;">
+        <p:focus context="confirmacionPan"/>
+        <p:separator/>
+        <h:panelGrid columns="1" >
+            <f:facet name="header" >
+                <h:outputLabel styleClass="encabezadosPanelGrid"
+                               value="#{propiedadesEtiquetaBL.ConfirmacionDatosLineaCreditoSolicitudGuardar}"
+                               style="text-align:  center" />
+            </f:facet>
+            <p:separator/>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.CodigoSocio}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{lineaCreditoSolicitudController.socio.socioPK.codigo}"/>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{lineaCreditoSolicitudController.socio.codigoPersona.nombreCompleto}"/>
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{lineaCreditoSolicitudController.lineaCredito.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.nombre}"/>
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TipoCartera}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{lineaCreditoSolicitudController.lineaCredito.codigoProducto.codigoTipoCartera.nombre}"/>
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Producto}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{lineaCreditoSolicitudController.lineaCredito.codigoProducto.nombre}"/>
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{lineaCreditoSolicitudController.tasaLineaCredito.codigoTasa.valor}"/>
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.LineaCredito}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{lineaCreditoSolicitudController.lineaCredito.nombre}"/>
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.MontoLineaCredito}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{lineaCreditoSolicitudController.lineaCreditoSolicitud.montoLineaCredito}"/>
+            </h:panelGrid>
+            <p:separator/>
+            <f:facet name="footer">
+                <p:commandButton id="guardaSolicitudBot"
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 onclick="procesandoDlg.show();"
+                                 actionListener="#{lineaCreditoSolicitudController.guardaLineaCreditoSolicitud}"
+                                 oncomplete="lineaCreditoSolicitudNuevaDialog.hide();procesandoDlg.hide();"
+                                 update=":barraForm:editarBot,:barraForm:imprimirBot,:barraForm:imprimirSolicitudBot,:barraForm:imprimirPagareBot,:barraForm:imprimirInformeBot"/>
+            </f:facet>
+        </h:panelGrid>
+    </p:panel>
+</ui:composition>

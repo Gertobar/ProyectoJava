@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="informacionForm">
+        <h:panelGrid columns="1" style="font-size: 10px">
+            <p:panelGrid columns="4">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado} #{propiedadesEtiquetaBL.LineaCredito}"/>
+                </f:facet>
+                <h:outputLabel for="monto" value="#{propiedadesEtiquetaBL.Monto}"/>
+                <p:inputText id="monto"
+                             value="#{lineaCreditoSolicitudCambiaEstadoController.lineaCreditoSolicitud.montoLineaCredito}"
+                             size="25"
+                             readonly="true"
+                             disabled="true"/>
+                <h:outputLabel for="fechaVencimiento" value="#{propiedadesEtiquetaBL.FechaVencimiento}"/>
+                <p:calendar id="fechaVencimiento"
+                        pattern="dd/MM/yyyy"
+                        value="#{lineaCreditoSolicitudCambiaEstadoController.fechaVencimiento}"
+                        title="#{propiedadesTituloBL.FechaVencimiento}"
+                        readonly="true"
+                        disabled="true"/>
+                <h:outputLabel for="capitalPorPagar" value="#{propiedadesEtiquetaBL.CapitalAPagar}"/>
+                <p:inputText id="capitalPorPagar"
+                             value="#{lineaCreditoSolicitudCambiaEstadoController.capitalAPagar}"
+                             size="25"
+                             readonly="true"
+                             disabled="true"/>
+                <h:outputLabel for="interesAPagar" value="#{propiedadesEtiquetaBL.InteresAPagar}"/>
+                <p:inputText id="interesAPagar"
+                             value="#{lineaCreditoSolicitudCambiaEstadoController.interesAPagar}"
+                             size="25"
+                             readonly="true"
+                             disabled="true"/>
+                <h:outputLabel for="moraAPagar" value="#{propiedadesEtiquetaBL.MoraAPagar}"/>
+                <p:inputText id="moraAPagar"
+                             value="#{lineaCreditoSolicitudCambiaEstadoController.moraAPagar}"
+                             size="25"
+                             readonly="true"
+                             disabled="true"/>
+                <h:outputLabel for="rubrosAPagar" value="#{propiedadesEtiquetaBL.RubrosAPagar}"/>
+                <p:inputText id="rubrosAPagar"
+                             value="#{lineaCreditoSolicitudCambiaEstadoController.rubrosAPagar}"
+                             size="25"
+                             readonly="true"
+                             disabled="true"/>
+                <h:outputLabel for="diasMora" value="#{propiedadesEtiquetaBL.DiasMora}"/>
+                <p:inputText id="diasMora"
+                             value="#{lineaCreditoSolicitudCambiaEstadoController.diasMora}"
+                             size="25"
+                             readonly="true"
+                             disabled="true"/>
+                <h:outputLabel for="diasRetraso" value="#{propiedadesEtiquetaBL.DiasRetraso}"/>
+                <p:inputText id="diasRetraso"
+                             value="#{lineaCreditoSolicitudCambiaEstadoController.diasRetraso}"
+                             size="25"
+                             readonly="true"
+                             disabled="true"/>
+                <h:outputLabel for="cuotasRetraso" value="#{propiedadesEtiquetaBL.CuotasRetraso}"/>
+                <p:inputText id="cuotasRetraso"
+                             value="#{lineaCreditoSolicitudCambiaEstadoController.cuotasRetraso}"
+                             size="25"
+                             readonly="true"
+                             disabled="true"/>
+            </p:panelGrid>
+        </h:panelGrid>
+    </h:form>
+</ui:composition>

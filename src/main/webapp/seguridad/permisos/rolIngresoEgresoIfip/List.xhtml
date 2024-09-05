@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RolIngresoEgresoIfipListForm">
+
+        <p:panel header="#{myBundle.ListRolIngresoEgresoIfipTitle}">
+            <p:contextMenu id="RolIngresoEgresoIfipDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('RolIngresoEgresoIfipListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('RolIngresoEgresoIfipListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('RolIngresoEgresoIfipListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('RolIngresoEgresoIfipListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.RolIngresoEgresoIfipMenuItem_rol}" icon="ui-icon-search"  actionListener="#{rolIngresoEgresoIfipController.prepareRol}" update=":RolViewForm" oncomplete="RolViewDialog.show()" disabled="#{empty rolIngresoEgresoIfipController.selected.rol}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{rolIngresoEgresoIfipController.items}"
+                         var="item"
+                         rowKey="#{item.rolIngresoEgresoIfipPK}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{rolIngresoEgresoIfipController.selected}">
+
+                <p:ajax event="rowSelect"   update=":RolIngresoEgresoIfipListForm:createButton :RolIngresoEgresoIfipListForm:viewButton :RolIngresoEgresoIfipListForm:editButton :RolIngresoEgresoIfipListForm:deleteButton :RolIngresoEgresoIfipListForm:RolIngresoEgresoIfipDataTableContextMenu" listener="#{rolIngresoEgresoIfipController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":RolIngresoEgresoIfipListForm:createButton :RolIngresoEgresoIfipListForm:viewButton :RolIngresoEgresoIfipListForm:editButton :RolIngresoEgresoIfipListForm:deleteButton :RolIngresoEgresoIfipListForm:RolIngresoEgresoIfipDataTableContextMenu" listener="#{rolIngresoEgresoIfipController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('RolIngresoEgresoIfipListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.rolIngresoEgresoIfipPK.codigoIngresoEgreso}" filterBy="#{item.rolIngresoEgresoIfipPK.codigoIngresoEgreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRolIngresoEgresoIfipTitle_rolIngresoEgresoIfipPK_codigoIngresoEgreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rolIngresoEgresoIfipPK.codigoIngresoEgreso}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.rolIngresoEgresoIfipPK.codigoMoneda}" filterBy="#{item.rolIngresoEgresoIfipPK.codigoMoneda}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRolIngresoEgresoIfipTitle_rolIngresoEgresoIfipPK_codigoMoneda}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rolIngresoEgresoIfipPK.codigoMoneda}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.rolIngresoEgresoIfipPK.codigoIfip}" filterBy="#{item.rolIngresoEgresoIfipPK.codigoIfip}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRolIngresoEgresoIfipTitle_rolIngresoEgresoIfipPK_codigoIfip}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rolIngresoEgresoIfipPK.codigoIfip}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ingresadoPor}" filterBy="#{item.ingresadoPor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRolIngresoEgresoIfipTitle_ingresadoPor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ingresadoPor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaIngreso}" filterBy="#{item.fechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRolIngresoEgresoIfipTitle_fechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRolIngresoEgresoIfipTitle_eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.rol.descripcion}" filterBy="#{item.rol.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListRolIngresoEgresoIfipTitle_rol}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.rol.descripcion}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{rolIngresoEgresoIfipController.prepareCreate}" update=":RolIngresoEgresoIfipCreateForm" oncomplete="RolIngresoEgresoIfipCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":RolIngresoEgresoIfipViewForm" oncomplete="RolIngresoEgresoIfipViewDialog.show()" disabled="#{empty rolIngresoEgresoIfipController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RolIngresoEgresoIfipEditForm" oncomplete="RolIngresoEgresoIfipEditDialog.show()" disabled="#{empty rolIngresoEgresoIfipController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{rolIngresoEgresoIfipController.delete}" update=":growl,datalist" disabled="#{empty rolIngresoEgresoIfipController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

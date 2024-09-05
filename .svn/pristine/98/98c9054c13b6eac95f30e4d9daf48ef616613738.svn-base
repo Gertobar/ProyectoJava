@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:componentes ="http://java.sun.com/jsf/composite/ezcomp">
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:form id="criterioForm">
+        <p:focus context="criterioForm"/>
+        <h:panelGrid columns="1" style="font-size: 10px">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Socio} *" styleClass="etiquetaRequerida"/>
+                <h:panelGrid columns="2">
+                    <p:inputText id="nombreSocio" 
+                                 readonly="true"   
+                                 value="#{lineaCreditoSolicitudCambiaEstadoController.nombreSocio}"
+                                 onblur="value = value.toUpperCase()" 
+                                 size="50"/>
+                    <p:commandButton id="buscar"
+                                     value="#{propiedadesEtiquetaBL.Buscar} #{propiedadesEtiquetaBL.Socio}"
+                                     icon="#{propiedadesObjetosBL.IcoVer}"
+                                     onclick="PF('listaSociosDialog').show();"
+                                     type="button"/>
+                    <componentes:componenteBuscarSocio
+                        id="componenteBusca"
+                        widgetVar="listaSociosDialog"
+                        onHide="cargaSocioComponente()"
+                        soloSociosAgencia="true">
+                    </componentes:componenteBuscarSocio>
+                    <p:remoteCommand name="cargaSocioComponente"
+                                     action="#{lineaCreditoSolicitudCambiaEstadoController.obtieneSolicitudesDeLineaDesdeComponente}"
+                                     oncomplete="PF('sol').focus();"
+                                     update="nombreSocio, observaciones, solicitudLineaCredito, :informacionForm:monto, :informacionForm:fechaVencimiento, :informacionForm:capitalPorPagar, :informacionForm:interesAPagar, :informacionForm:moraAPagar, :informacionForm:rubrosAPagar, :informacionForm:diasMora, :informacionForm:diasRetraso, :informacionForm:cuotasRetraso, :barraForm:guardarBot"/>
+                </h:panelGrid>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Linea} *" styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="solicitudLineaCredito"
+                                 value="#{lineaCreditoSolicitudCambiaEstadoController.lineaCreditoSolicitud}"
+                                 requiredMessage="#{propiedadesEtiquetaBL.LineaCredito} - #{propiedadesMensajesBL.CampoRequerido}"
+                                 style="width: 150px"
+                                 widgetVar="sol">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudCambiaEstadoController.listaLineaCreditoSolicitud}"
+                                   var="lineaSolicitudItem"
+                                   itemValue="#{lineaSolicitudItem}"
+                                   itemLabel="#{lineaSolicitudItem.nombreLineaCredito}" />
+                    <f:converter binding="#{lineaCreditoSolicitudConverter}"/>
+                    <p:ajax event="change" 
+                            listener="#{lineaCreditoSolicitudCambiaEstadoController.cambiaLineaCreditoSolicitud}"
+                            update="@this, observaciones, :informacionForm:monto, :informacionForm:fechaVencimiento, :informacionForm:capitalPorPagar, :informacionForm:interesAPagar, :informacionForm:moraAPagar, :informacionForm:rubrosAPagar, :informacionForm:diasMora, :informacionForm:diasRetraso, :informacionForm:cuotasRetraso, :barraForm:guardarBot, :informacionForm:estadoActual"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Estado} *" styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="lineaCreditoEstadoSolicitud"
+                                 value="#{lineaCreditoSolicitudCambiaEstadoController.lineaCreditoEstadoSolicitud}"
+                                 style="width: 150px">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudCambiaEstadoController.listaLineaCreditoEstadoSolicitud}"
+                                   var="lineaEstadoSolicitudItem"
+                                   itemValue="#{lineaEstadoSolicitudItem}"
+                                   itemLabel="#{lineaEstadoSolicitudItem.nombre}" />
+                    <f:converter binding="#{lineaCreditoEstadoSolicitudConverter}"/>
+                    <p:ajax event="change" update="@this" />
+                </p:selectOneMenu>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Observaciones} *" styleClass="etiquetaRequerida"/>
+                <p:inputText id="observaciones"
+                             size="50"
+                             maxlength="150"
+                             value="#{lineaCreditoSolicitudCambiaEstadoController.observacion}">
+                    <p:ajax event="change" update="@this" />
+                </p:inputText>
+            </h:panelGrid>
+        </h:panelGrid>
+    </h:form>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+</ui:composition>

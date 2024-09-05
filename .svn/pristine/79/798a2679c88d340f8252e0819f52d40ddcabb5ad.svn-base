@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PeriodicidadCreateDlg" 
+                  widgetVar="PeriodicidadCreateDialog" 
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Periodicidad}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>  
+
+            <h:form id="PeriodicidadCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" style="font-size: 10px; margin-top: 0px;">
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" for="nombre" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" value="#{periodicidadController.selected.nombre}"
+                                     title="#{propiedadesEtiquetaBL.Nombre}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre}:#{propiedadesMensajesBL.CampoRequerido}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Siglas}"
+                                       for="siglas"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="siglas" value="#{periodicidadController.selected.siglas}" 
+                                     title="#{propiedadesEtiquetaBL.Siglas}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Siglas}" size="5" maxlength="5"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EquivalenciaDias}" 
+                                       for="equivalenciaDias"
+                                       styleClass="etiquetaRequerida"
+                                       />
+                        <p:inputText id="equivalenciaDias" value="#{periodicidadController.selected.equivalenciaDias}"
+                                     title="#{propiedadesEtiquetaBL.EquivalenciaDias}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.EquivalenciaDias}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EquivalenciaMeses}" 
+                                       for="equivalenciaMeses"
+                                       styleClass="etiquetaRequerida"
+                                       />
+                        <p:inputText id="equivalenciaMeses" value="#{periodicidadController.selected.equivalenciaMeses}"
+                                     title="#{propiedadesEtiquetaBL.EquivalenciaMeses}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.EquivalenciaMeses}"/>
+
+                          <p:outputLabel value="#{propiedadesEtiquetaBL.Espara}" 
+                                       for="esParaCredito"   />
+                        <p:selectOneMenu id="esParaCredito" 
+                                         value="#{periodicidadController.selected.esParaCredito}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.EsParaCredito}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                        
+                          <p:outputLabel value="#{propiedadesEtiquetaBL.EsParaDPF}" 
+                                       for="esParaDpf"   />
+                        <p:selectOneMenu id="esParaDpf" 
+                                         value="#{periodicidadController.selected.esParaDpf}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.EsParaDPF}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                          <p:outputLabel value="#{propiedadesEtiquetaBL.EsParaSolicitudSocio}" 
+                                       for="esParaSolicitudSocio"   />
+                        <p:selectOneMenu id="esParaSolicitudSocio" 
+                                         value="#{periodicidadController.selected.esParaSolicitudSocio}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.EsParaSolicitudSocio}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                         
+                          <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{periodicidadController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado}: #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{periodicidadController.saveNew}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:PeriodicidadListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,PeriodicidadCreateDialog);"/>   
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="lineaCreditoAvancePagosListForm">
+        <p:dataTable id="datalist" 
+                     value="#{lineaCreditoAvanceController.listaPagoLineaCreditoAvance}"
+                     var="item"
+                     paginator="true"
+                     rows="10"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Pagos}"/>
+            </f:facet>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Cuota}"/>
+                </f:facet>
+                <h:outputText value="#{item.cuota}"/>
+            </p:column>            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaPago}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaPago}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.SaldoCapital}"/>
+                </f:facet>
+                <h:outputText value="#{item.saldoCapital}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Capital}"/>
+                </f:facet>
+                <h:outputText value="#{item.capital}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Total} #{propiedadesEtiquetaBL.Pago}"/>
+                </f:facet>
+                <h:outputText value="#{item.totalAPagar}"/>
+            </p:column>
+        </p:dataTable>
+        <br/>
+        <h:panelGrid columns="4" style="font-size: 10px">
+            <h:outputLabel for="capital" value="#{propiedadesEtiquetaBL.CapitalAPagar}"/>
+            <p:inputText id="capital"
+                         value="#{lineaCreditoAvanceController.capitalAPagar}"
+                         size="25"
+                         readonly="true"/>
+            <h:outputLabel for="plazo" value="#{propiedadesEtiquetaBL.Plazo} EN #{propiedadesEtiquetaBL.Dias}"/>
+            <p:inputText id="plazo"
+                         value="#{lineaCreditoAvanceController.plazoEnDias}"
+                         size="25"
+                         readonly="true"/>
+            <h:outputLabel for="interesAPagar" value="#{propiedadesEtiquetaBL.InteresAPagar}"/>
+            <p:inputText id="interesAPagar"
+                         value="#{lineaCreditoAvanceController.interesAPagar}"
+                         size="25"
+                         readonly="true"/>
+            <h:outputLabel for="rubrosAPagar" value="#{propiedadesEtiquetaBL.RubrosAPagar}"/>
+            <p:inputText id="rubrosAPagar"
+                         value="#{lineaCreditoAvanceController.rubrosAPagar}"
+                         size="25"
+                         readonly="true"/>
+            <h:outputLabel for="fechaVencimiento" value="#{propiedadesEtiquetaBL.FechaVencimiento}"/>
+            <p:calendar id="fechaVencimiento"
+                        pattern="dd/MM/yyyy"
+                        value="#{lineaCreditoAvanceController.fechaVencimiento}"
+                        title="#{propiedadesTituloBL.FechaVencimiento}"
+                        readonly="true"/>
+        </h:panelGrid>
+    </h:form>
+</ui:composition>

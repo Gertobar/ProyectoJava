@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AsignaLibretaCuentaDlg" 
+                  widgetVar="AsignaLibretaCuentaDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendToBody="true" 
+                  closable="false"
+                  style="font-size: 10px; height: 500px; width: 700px">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.AsignarLibreta}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="AsignaLibretaCuentaForm">
+                <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+                <h:panelGroup style="font-size: 10px; height: 500px; width: 700px">
+                    <h:panelGrid id="cabeceraPanCreLab" columns="2" style="font-size: 10px">
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Socio}"
+                                           styleClass="encabezadosDialog"/>
+                        </f:facet>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"
+                                      styleClass="etiqueta"/>
+                        <h:outputText value="#{cuentaController.socioSel.codigoPersona.identificacion}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"
+                                      styleClass="etiqueta"/>
+                        <h:outputText value="#{cuentaController.socioSel.codigoPersona.nombreCompleto}"/>
+
+                    </h:panelGrid>
+                    <p:separator/>      
+                    <h:panelGrid columns="1">
+                        <p:outputLabel styleClass="etiqueta" value="#{propiedadesMensajesBL.DigiteUltimosNumerosLibreta}"/>
+                    </h:panelGrid>
+                    <p:panelGrid id="edicionCuentaGri"
+                                 columns="3" 
+                                 columnClasses="label, value, validator" 
+                                 styleClass="grid" 
+                                 style="font-size: 10px;">  
+                        <p:focus context="edicionCuentaGri"/>                          
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="moneda" 
+                                         value="#{cuentaController.moneda}" 
+                                         required="true"
+                                         disabled="#{cuentaController.deshabilidaMoneda}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{cuentaController.itemsMoneda}"
+                                           var="codigoMonedaItem"
+                                           itemValue="#{codigoMonedaItem}"
+                                           itemLabel="#{codigoMonedaItem.nombre}"
+                                           />
+                            <p:ajax update="producto"  
+                                    listener="#{cuentaController.cambiaMoneda()}" /> 
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>                      
+                        <h:message for="moneda" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                       for="producto"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="producto" 
+                                         value="#{cuentaController.productoIfip}" 
+                                         required="true" 
+                                         disabled="#{cuentaController.deshabilidaProducto}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{cuentaController.itemsProductoIfip}"
+                                           var="codigoProductoIfipItem"
+                                           itemValue="#{codigoProductoIfipItem}"
+                                           itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                           />
+                            <p:ajax update="guardarBot,etiNumeroLibreta,etiNumeroLibretaDos"  
+                                    listener="#{cuentaController.cambiaProducto()}" /> 
+                            <f:converter binding="#{productoIfipConverter}"/>
+                        </p:selectOneMenu>  
+                        <h:message for="producto" styleClass="invalido" />
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroCuenta}" 
+                                       for="numeroCuenta"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:outputLabel id="numeroCuenta"
+                                       value="#{cuentaController.selected.numero}"
+                                       />
+                        <h:message for="numeroCuenta" styleClass="invalido" />
+
+                        <p:outputLabel id="etiNumeroLibretaDos"
+                                       value="#{propiedadesEtiquetaBL.NumeroLibreta} #{propiedadesEtiquetaBL.Actual} #{cuentaController.productoIfip.siglasLibreta}" 
+                                       for="libretaActual"
+                                       styleClass="etiqueta"/>
+                        <p:outputLabel id="libretaActual"
+                                       value="#{cuentaController.selected.numeroLibreta}"/>
+                        <h:message for="libretaActual" styleClass="invalido" />
+
+                        <p:outputLabel id="etiNumeroLibreta"
+                                       value="#{propiedadesEtiquetaBL.NumeroLibreta} #{cuentaController.productoIfip.siglasLibreta}" 
+                                       for="numeroLibreta"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="numeroLibreta"
+                                     value="#{cuentaController.numeroLibreta}"
+                                     size="30"
+                                     disabled="#{cuentaController.deshabilidaNumeroCuenta}"
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.NumeroLibreta} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <p:ajax event="blur" 
+                                    update="guardarBot,:mensaje,numeroLibreta" 
+                                    listener="#{cuentaController.buscaNumeroLibreta()}" /> 
+                        </p:inputText>
+                        <h:message for="numeroLibreta" styleClass="invalido" />
+                    </p:panelGrid>
+
+                    <p:separator/>
+
+                    <h:panelGrid columns="2" style="font-size: 10px;">
+                        <p:commandButton id="guardarBot"                                    
+                                         icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                         value="#{propiedadesEtiquetaBL.Guardar}"
+                                         disabled="#{cuentaController.deshabilitaBotonGuardar}"
+                                         onclick="procesandoDlg.show();"
+                                         update=":CuentaListForm:datalist,:mensaje,:barraForm,:AsignaLibretaCuentaForm" 
+                                         oncomplete="procesandoDlg.hide();"
+                                         action="#{cuentaController.guardaCuenta()}"/>
+
+                        <p:commandButton id="cerrarBot"                                    
+                                         icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                         value="#{propiedadesEtiquetaBL.Cancelar}"
+                                         update=":CuentaListForm,:mensaje,:barraForm,:AsignaLibretaCuentaForm" 
+                                         oncomplete="AsignaLibretaCuentaDialog.hide();"
+                                         action="#{cuentaController.obtieneCuentasSocios()}"/>
+
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

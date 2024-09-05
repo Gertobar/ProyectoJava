@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaJornadaLaboralEditDlg" widgetVar="IfipAgenciaJornadaLaboralEditDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="IfipAgenciaJornadaLaboralEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{ifipAgenciaJornadaLaboralController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralLabel_ifipAgenciaJornadaLaboralPK_dia}" for="ifipAgenciaJornadaLaboralPK_dia" />
+                        <h:outputText id="ifipAgenciaJornadaLaboralPK_dia" value="#{ifipAgenciaJornadaLaboralController.selected.ifipAgenciaJornadaLaboralPK.dia}" />
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralLabel_ifipAgenciaJornadaLaboralPK_meridiano}" for="ifipAgenciaJornadaLaboralPK_meridiano" />
+                        <h:outputText id="ifipAgenciaJornadaLaboralPK_meridiano" value="#{ifipAgenciaJornadaLaboralController.selected.ifipAgenciaJornadaLaboralPK.meridiano}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralLabel_horaInicial}" for="horaInicial" />
+                        <p:inputText id="horaInicial" value="#{ifipAgenciaJornadaLaboralController.selected.horaInicial}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralTitle_horaInicial}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralRequiredMessage_horaInicial}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralLabel_horaFinal}" for="horaFinal" />
+                        <p:inputText id="horaFinal" value="#{ifipAgenciaJornadaLaboralController.selected.horaFinal}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralTitle_horaFinal}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralRequiredMessage_horaFinal}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{ifipAgenciaJornadaLaboralController.selected.eliminado}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralTitle_eliminado}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralRequiredMessage_eliminado}"/>
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaJornadaLaboralLabel_ifipAgencia}" for="ifipAgencia" />
+                        <h:outputText id="ifipAgencia" value="#{ifipAgenciaJornadaLaboralController.selected.ifipAgencia}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ifipAgenciaJornadaLaboralController.save}" value="#{propiedadesEtiquetaBL.Save}" update="display,:IfipAgenciaJornadaLaboralListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IfipAgenciaJornadaLaboralEditDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancel}" onclick="IfipAgenciaJornadaLaboralEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

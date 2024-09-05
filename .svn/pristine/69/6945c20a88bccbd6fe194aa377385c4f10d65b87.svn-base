@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RangoDiasDpfListForm">
+
+        <p:panel header="#{myBundle.ListRangoDiasDpfTitle}">
+            <p:contextMenu id="RangoDiasDpfDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('RangoDiasDpfListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('RangoDiasDpfListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('RangoDiasDpfListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('RangoDiasDpfListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.RangoDiasDpfMenuItem_tasaInteresProDpfMonCollection}" icon="ui-icon-search"  action="#{rangoDiasDpfController.navigateTasaInteresProDpfMonCollection}" disabled="#{empty rangoDiasDpfController.selected.tasaInteresProDpfMonCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{rangoDiasDpfController.items}"
+                         var="item"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{rangoDiasDpfController.selected}">
+
+                <p:ajax event="rowSelect"   update=":RangoDiasDpfListForm:createButton :RangoDiasDpfListForm:viewButton :RangoDiasDpfListForm:editButton :RangoDiasDpfListForm:deleteButton :RangoDiasDpfListForm:RangoDiasDpfDataTableContextMenu" listener="#{rangoDiasDpfController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":RangoDiasDpfListForm:createButton :RangoDiasDpfListForm:viewButton :RangoDiasDpfListForm:editButton :RangoDiasDpfListForm:deleteButton :RangoDiasDpfListForm:RangoDiasDpfDataTableContextMenu" listener="#{rangoDiasDpfController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('RangoDiasDpfListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRangoDiasDpfTitle_codigo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.rangoInicial}" filterBy="#{item.rangoInicial}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRangoDiasDpfTitle_rangoInicial}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rangoInicial}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.rangoFinal}" filterBy="#{item.rangoFinal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRangoDiasDpfTitle_rangoFinal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rangoFinal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRangoDiasDpfTitle_eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{rangoDiasDpfController.prepareCreate}" update=":RangoDiasDpfCreateForm" oncomplete="RangoDiasDpfCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":RangoDiasDpfViewForm" oncomplete="RangoDiasDpfViewDialog.show()" disabled="#{empty rangoDiasDpfController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RangoDiasDpfEditForm" oncomplete="RangoDiasDpfEditDialog.show()" disabled="#{empty rangoDiasDpfController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{rangoDiasDpfController.delete}" update=":growl,datalist" disabled="#{empty rangoDiasDpfController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

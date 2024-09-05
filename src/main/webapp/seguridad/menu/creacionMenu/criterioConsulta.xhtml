@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+   <!-- ̣̣̣̣**************************************************************************
+          CRITERIO DE CONSULTA                                                    -->                       
+        <h:panelGrid columns="1"  id="criterioGri">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+                <p:separator/>
+            </f:facet>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Sistema}"/>
+                <p:selectOneMenu id="sistemaCriterio" value="#{menuController.sistema}" required="true" requiredMessage="#{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{sistemaController.items}"
+                                   var="item"
+                                   itemValue="#{item}"
+                                   itemLabel="#{item.nombre}"
+                                   />
+                    <f:converter binding="#{sistemaConverter}"/>
+
+                </p:selectOneMenu>
+            </h:panelGrid>
+        </h:panelGrid>
+        <!-- FIN DE CRITERIO DE CONSULTA 
+         ̣̣̣̣************************************************************************** -->
+
+</ui:composition>

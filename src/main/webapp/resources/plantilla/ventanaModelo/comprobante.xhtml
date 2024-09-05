@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- LOS COMENTARIOS QUE TIENEN EN SU PARTE SUPERIOR LAS LINEAS ************ Y SEGUIDO
+     SU DESCRIPCION NO DEBEN SER BORRADAS, LOS QUE SE DEBEN ELIMINAR SON LAS EXPLICACIONES
+     DE CADA CONTENIDO -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <!-- ̣̣̣̣**************************************************************************
+      COMPROBANTE DE PAGO                          
+      EXPLICACION: EN CASO DE VENTANAS DE NECESITAR VENTANAS EXTERNAS (DIALOGOS) SE DEBEN COLOCAR
+         EN ESTA SECCION, SI EL CONTENIDO DEL DIALOGO SUPERA LAS 100 LINEAS 
+         SE DEBE COLOCAR EN OTRA PAGINA Y LUEGO INCLUIRLA EJEMPLO:
+          <ui:include src="/tramaCobro/List.xhtml"/>
+         EL SIGUIENTE DIALOGO ES PARA PRESENTAR UN COMPROBANTE DE PAGO,
+         EL MISMO QUE DEBE SER BORRADO Y SUSTITUIDO POR LOS DIALOGOS QUE LA VENTANA VA A NECESITAR -->
+
+    <h:form id="comprobanteForm">
+        <p:dialog id="comprobanteDlg" 
+                  widgetVar="comprobanteBDHDialog" 
+                  modal="true"  
+                  resizable="false" 
+                  appendToBody="true" 
+                  header="Comprobante de Pago del BDH" closeOnEscape="true">
+            <h:panelGrid  id="comprobantePnr" columns="1">
+
+                <h:panelGrid id="cabeceraPnr" 
+                             columns="1" 
+                             cellpadding="2" 
+                             cellspacing="2" 
+                             style=" text-align:  center" >  
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Comprobante}"  
+                                   styleClass="etiquetaCabeceraComprobante" />
+                    <p:graphicImage value="/resources/images/bdh.png" /> 
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value="Pagado en: #{reporteBdhControl.selectedPago.pagadoEn}" 
+                                   styleClass="campoResultadoComprobante"/>
+                    <h:outputLabel value=""/>
+                </h:panelGrid>
+                <p:separator/>
+                <h:panelGrid id="comBDH" columns="2" 
+                             cellpadding="4" cellspacing="4">
+                    <h:outputLabel value="Fecha de Pago" styleClass="etiquetaComprobante" />
+                    <h:outputLabel value="#{reporteBdhControl.selectedPago.fecha}" styleClass="campoResultadoComprobante" />   
+                    <h:outputLabel value="Identificacion"  styleClass="etiquetaComprobante" />
+                    <h:outputLabel value="#{reporteBdhControl.selectedPago.identificacion}" styleClass="campoResultadoComprobante" />   
+                    <h:outputLabel value="Beneficiario"   styleClass="etiquetaComprobante" />
+                    <h:outputLabel value="#{reporteBdhControl.selectedPago.beneficiario}" styleClass="campoResultadoComprobante" />   
+                    <h:outputLabel value="Valor"  styleClass="etiquetaComprobante" />
+                    <h:outputLabel value="#{reporteBdhControl.selectedPago.valor}" styleClass="campoResultadoComprobante" >   
+                        <f:convertNumber pattern="#0.00" locale="pt_BR"/>
+                    </h:outputLabel>
+                </h:panelGrid>
+                <p:separator/>
+                <h:panelGrid id="firma" columns="1" cellpadding="2" cellspacing="2" style=" text-align:  center">
+
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value="....................................................................."
+                                   styleClass="campoResultadoComprobante" />   
+                    <h:outputLabel value="#{reporteBdhControl.selectedPago.beneficiario}" 
+                                   styleClass="campoResultadoComprobante" />   
+
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value="....................................................................."
+                                   styleClass="campoResultadoComprobante" />
+                    <h:outputLabel value="#{activacion.nombreCompleto}" 
+                                   styleClass="campoResultadoComprobante" />   
+                    <h:outputLabel value="Cajero(a)" 
+                                   styleClass="campoResultadoComprobante" />   
+                </h:panelGrid> 
+            </h:panelGrid>
+            <f:facet name="footer">
+                <p:commandButton value="Imprimir" >  
+                    <p:printer target="comprobante" />  
+                </p:commandButton>  
+            </f:facet>
+        </p:dialog>
+    </h:form>
+</ui:composition>

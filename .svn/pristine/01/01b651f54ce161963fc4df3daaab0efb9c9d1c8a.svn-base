@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LicitudFonOrgDestViewDlg" widgetVar="LicitudFonOrgDestViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewLicitudFonOrgDestTitle}" closeOnEscape="true">
+
+            <h:form id="LicitudFonOrgDestViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{licitudFonOrgDestController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonOrgDestLabel_codigo}"/>
+                        <h:outputText value="#{licitudFonOrgDestController.selected.codigo}" title="#{myBundle.ViewLicitudFonOrgDestTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonOrgDestLabel_nombre}"/>
+                        <h:outputText value="#{licitudFonOrgDestController.selected.nombre}" title="#{myBundle.ViewLicitudFonOrgDestTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonOrgDestLabel_descripcion}"/>
+                        <h:outputText value="#{licitudFonOrgDestController.selected.descripcion}" title="#{myBundle.ViewLicitudFonOrgDestTitle_descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonOrgDestLabel_esOrigen}"/>
+                        <h:outputText value="#{licitudFonOrgDestController.selected.esOrigen}" title="#{myBundle.ViewLicitudFonOrgDestTitle_esOrigen}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonOrgDestLabel_eliminado}"/>
+                        <h:outputText value="#{licitudFonOrgDestController.selected.eliminado}" title="#{myBundle.ViewLicitudFonOrgDestTitle_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="LicitudFonOrgDestViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

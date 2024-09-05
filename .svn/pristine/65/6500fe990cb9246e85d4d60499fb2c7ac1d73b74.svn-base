@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConceptoTransaccionViewDlg" 
+                  widgetVar="ProductoIfitViewDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Mostrar} #{propiedadesEtiquetaBL.Tasa}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>    
+
+            <h:form id="ProductoIfitViewForm">
+
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" rendered="#{periodicidadProMonIfiController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                        <h:outputText value="#{periodicidadProMonIfiController.selected.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                        <h:outputText value="#{periodicidadProMonIfiController.selected.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.nombre}"/>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.Ifip}"/>
+                        <h:outputText value="#{periodicidadProMonIfiController.selected.productoCreditoMonedaIfip.ifip.nombre}"/>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.Periodicidad}"/>
+                        <h:outputText value="#{periodicidadProMonIfiController.selected.periodicidad.nombre}"/>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.Cuotas} MAXIMAS"/>
+                        <h:outputText value="#{periodicidadProMonIfiController.selected.cuotasMaximas}"/>
+                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.RegistradaPor}"/>
+                        <h:outputText value="#{periodicidadProMonIfiController.selected.usuarioRegistradoPor.username}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>
+                        <h:outputText value="#{periodicidadProMonIfiController.selected.fechaRegistro}"
+                                      title="#{propiedadesTituloBL.FechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                        <h:outputText value="#{periodicidadProMonIfiController.selected.eliminado}"
+                                      title="#{propiedadesTituloBL.Eliminado}"/>                       
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

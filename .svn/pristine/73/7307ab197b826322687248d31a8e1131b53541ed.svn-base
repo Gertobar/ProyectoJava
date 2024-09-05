@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="contratoDispensadorListForm">
+        <p:dataTable id="datalist"
+                     value ="#{contratoDispensadorControlador.listaContratoDispensador}"
+                     var="item"
+                     selectionMode="single"
+                     selection="#{contratoDispensadorControlador.contratoDispensador}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="10"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.ContratoDispensador}"/>
+            </f:facet>
+            <p:ajax event="rowSelect"
+                    listener="#{contratoDispensadorControlador.rowSelected}"
+                    update=":barraForm:nuevoBot :barraForm:editarBot :barraForm:vincularBot :barraForm:cambiaEstadoBot"/>
+            <p:ajax event="rowUnselect"
+                    listener="#{contratoDispensadorControlador.rowUnSelected}"
+                    update=":barraForm:nuevoBot :barraForm:editarBot :barraForm:vincularBot :barraForm:cambiaEstadoBot"/>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}" style="float: right"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Agencia}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoIfipAgencia}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Celular}"/>
+                </f:facet>
+                <h:outputText value="#{item.celular}"/>
+            </p:column>            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CorreoElectronico}"/>
+                </f:facet>
+                <h:outputText value="#{item.correoElectronico}"/>
+            </p:column>            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <p:selectOneMenu id="estado" 
+                                 disabled="true"
+                                 value="#{item.estado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Contratado}" itemValue="C"/>
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Bloqueado}" itemValue="B"/>
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Finalizado}" itemValue="F"/>
+                </p:selectOneMenu>
+            </p:column>            
+        </p:dataTable>
+    </h:form>
+</ui:composition>

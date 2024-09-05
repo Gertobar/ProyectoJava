@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="descuento" pageWidth="1996" pageHeight="555" orientation="Landscape" columnWidth="1996" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="5cd02e63-c8ce-46e2-a281-f6dc75207d96">
+	<property name="ireport.zoom" value="1.464100000000002"/>
+	<property name="ireport.x" value="851"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaCorte" class="java.util.Date"/>
+	<parameter name="codigo_grupo" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT    s.cedula              "CEDULA",
+          s.ahorro              "AHORROS",
+          s.certificados        "CERTIFICADOS",
+          s.fondo_mortuorio     "FONDO MORTUORIO",
+          s.suma_creditos       "SUMA CREDITOS",
+          s.total_descuento     "TOTAL DESCUENTO",
+          s.nombres             "NOMBRES",
+          s.coofec              "COOFEC",
+          s.coode1              "COODE1",
+          s.cooces              "COOCES",
+          s.ordinario           "ORDINARIO",
+          s.emergente           "EMERGENTE",
+          s.urgente             "URGENTE",
+          s.productivo          "PRODUCTIVO",
+          s.estudio             "ESTUDIO",
+          s.hipotecario         "HIPOTECARIO",
+          s.agil1               "AGIL1",
+          s.agil2               "AGIL2",
+          s.agil3               "AGIL3",
+          s.desarrollo1         "DESARROLLO1",
+          s.desarrollo2         "DESARROLLO2",
+          s.desarrollo3         "DESARROLLO3",
+          s.solucion1           "SOLUCION1",
+          s.solucion2           "SOLUCION2",
+          s.solucion3           "SOLUCION3",
+          s.oportuno           "OPORTUNO",
+          s.medico              "MEDICO",
+          s.cuenta_certificados "CTA CERTIFICADOS",
+          s.cuenta_vista        "CTA VISTA",
+          s.cuenta_restringidos "CTA RESTRINGIDOS",
+          0   "COOEFE"
+FROM      mks_etapa.descuento_socio s
+          INNER JOIN mks_socios.persona p                   on s.cedula          = p.identificacion
+          INNER JOIN mks_socios.socio ss                    on ss.codigo_persona =p.codigo
+          INNER JOIN mks_socios.grupo_institucion_age_det d on d.codigo_socio    =ss.codigo
+WHERE     TRUNC(s.fecha_generacion)       =TRUNC($P{fechaCorte})
+          and  d.codigo_grupo             =$P{codigo_grupo}
+ORDER BY  nombres]]>
+	</queryString>
+	<field name="CEDULA" class="java.lang.String"/>
+	<field name="AHORROS" class="java.math.BigDecimal"/>
+	<field name="CERTIFICADOS" class="java.math.BigDecimal"/>
+	<field name="FONDO MORTUORIO" class="java.math.BigDecimal"/>
+	<field name="SUMA CREDITOS" class="java.math.BigDecimal"/>
+	<field name="TOTAL DESCUENTO" class="java.math.BigDecimal"/>
+	<field name="NOMBRES" class="java.lang.String"/>
+	<field name="COOFEC" class="java.lang.String"/>
+	<field name="COODE1" class="java.math.BigDecimal"/>
+	<field name="COOCES" class="java.math.BigDecimal"/>
+	<field name="ORDINARIO" class="java.math.BigDecimal"/>
+	<field name="EMERGENTE" class="java.math.BigDecimal"/>
+	<field name="URGENTE" class="java.math.BigDecimal"/>
+	<field name="PRODUCTIVO" class="java.math.BigDecimal"/>
+	<field name="ESTUDIO" class="java.math.BigDecimal"/>
+	<field name="HIPOTECARIO" class="java.math.BigDecimal"/>
+	<field name="AGIL1" class="java.math.BigDecimal"/>
+	<field name="AGIL2" class="java.math.BigDecimal"/>
+	<field name="AGIL3" class="java.math.BigDecimal"/>
+	<field name="DESARROLLO1" class="java.math.BigDecimal"/>
+	<field name="DESARROLLO2" class="java.math.BigDecimal"/>
+	<field name="DESARROLLO3" class="java.math.BigDecimal"/>
+	<field name="SOLUCION1" class="java.math.BigDecimal"/>
+	<field name="SOLUCION2" class="java.math.BigDecimal"/>
+	<field name="SOLUCION3" class="java.math.BigDecimal"/>
+	<field name="OPORTUNO" class="java.math.BigDecimal"/>
+	<field name="MEDICO" class="java.math.BigDecimal"/>
+	<field name="CTA CERTIFICADOS" class="java.lang.String"/>
+	<field name="CTA VISTA" class="java.lang.String"/>
+	<field name="CTA RESTRINGIDOS" class="java.lang.String"/>
+	<field name="COOEFE" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="58" height="16" uuid="bae68227-c78b-4f22-bef0-e24e717af648"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOCED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="58" y="0" width="58" height="16" uuid="5da587bf-8835-40b1-b887-4853c7d93d60"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOAHO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="116" y="0" width="58" height="16" uuid="3656ef46-489d-494b-9225-d971eedb480d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOCER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="0" width="58" height="16" uuid="ee870881-1bb5-4f35-bc2f-37dbf76ac8e7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOMOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="232" y="0" width="58" height="16" uuid="fd835ce1-23a5-4151-a03c-6d931d40ecdf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOCRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="0" width="58" height="16" uuid="81809d9c-77c3-490f-a0b4-52ff2568f4f4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COODES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="0" width="247" height="16" uuid="3ad6f668-4a7f-49de-982d-9945419f489d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COONOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="595" y="0" width="58" height="16" uuid="ce3e62c6-fbaa-4e36-932f-25e9a0bf616b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOFEC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="653" y="0" width="58" height="16" uuid="a865ad4c-cbe9-4984-9dc1-2fd09cfde9d3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COODE1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="711" y="0" width="58" height="16" uuid="d466fb50-edf4-4f7e-810c-ec3d40976c64"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOCES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="943" y="0" width="58" height="16" uuid="f17543a7-a43b-4048-aa6d-80e89051d5d5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOORD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="827" y="0" width="58" height="16" uuid="882b8dc9-af5b-49a1-9b56-57c5bf07383f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOEME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1001" y="0" width="58" height="16" uuid="aeeec644-24d7-4b33-bb9f-a1139e063e80"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOURG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1117" y="0" width="58" height="16" uuid="65dcec7d-dd2c-449a-b362-c15b3bb8382f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOPRO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="769" y="0" width="58" height="16" uuid="901b8e56-e9ee-4cf1-85c2-3636ea48c0d6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOEST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="885" y="0" width="58" height="16" uuid="7e54de46-0183-4b04-9428-b928153a6348"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOHIP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1175" y="0" width="58" height="16" uuid="a69899c0-993d-4439-9e7e-78fd8aa321dd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOOTR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1233" y="0" width="58" height="16" uuid="67323108-7f36-45ff-9e06-d646d71c90ae"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CTA CERT.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1291" y="0" width="58" height="16" uuid="9b06142c-161c-40c2-a34a-f4085d2fa74d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CTA VISTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1349" y="0" width="58" height="16" uuid="300ed6b0-c245-414b-a61c-034336fdae9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CTA REST.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1407" y="0" width="58" height="16" uuid="300ed6b0-c245-414b-a61c-034336fdae9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOAGL1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1465" y="0" width="58" height="16" uuid="300ed6b0-c245-414b-a61c-034336fdae9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOAGL2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1523" y="0" width="58" height="16" uuid="300ed6b0-c245-414b-a61c-034336fdae9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOAGL3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1581" y="0" width="58" height="16" uuid="300ed6b0-c245-414b-a61c-034336fdae9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COODSRR1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1639" y="0" width="58" height="16" uuid="300ed6b0-c245-414b-a61c-034336fdae9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COODSRR2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1697" y="0" width="58" height="16" uuid="300ed6b0-c245-414b-a61c-034336fdae9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COODSRR3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1755" y="0" width="58" height="16" uuid="300ed6b0-c245-414b-a61c-034336fdae9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOSLN1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1813" y="0" width="58" height="16" uuid="300ed6b0-c245-414b-a61c-034336fdae9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOSLN2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1871" y="0" width="58" height="16" uuid="300ed6b0-c245-414b-a61c-034336fdae9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOSLN3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1059" y="0" width="58" height="16" uuid="2825ddd8-966d-42b8-b1ce-05c438d32dd8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOEFE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1929" y="0" width="58" height="16" uuid="28623e6a-5575-411c-8183-fa243686ad1b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOOPO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16">
+			<textField>
+				<reportElement x="0" y="0" width="58" height="16" uuid="98f87efb-5fc9-491e-9ab5-cf8633ff845c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CEDULA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="827" y="0" width="58" height="16" uuid="3c14c240-9df4-469f-9f39-f78e736906fb"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMERGENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="0" width="58" height="16" uuid="7549f0b3-d3a6-46ee-895a-7429ef0f54d6"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AHORROS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="0" width="58" height="16" uuid="6d7e14d1-518c-48f7-9195-97f4d8d447b5"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CERTIFICADOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="0" width="58" height="16" uuid="32fb621e-9fd5-4dc6-8bce-1525ead5b46b"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FONDO MORTUORIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="232" y="0" width="58" height="16" uuid="71e586de-591d-41c1-ae9d-3fdca623f3ce"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMA CREDITOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="0" width="58" height="16" uuid="1f3c0635-e748-4290-b9c7-6eb3e60af40a"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL DESCUENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="348" y="0" width="247" height="16" uuid="55070a29-1f22-4982-a830-590984010bca"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="595" y="0" width="58" height="16" uuid="5888e877-2122-4eca-aabb-ef0f6abf383f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOFEC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="653" y="0" width="58" height="16" uuid="abab93b2-a379-4de8-80ac-827e7dc88951"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COODE1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="711" y="0" width="58" height="16" uuid="114461ed-41ed-4086-ae50-761de1bf8412"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOCES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="769" y="0" width="58" height="16" uuid="efa52e1c-d595-4014-981a-ecf968fff9c8"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESTUDIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="885" y="0" width="58" height="16" uuid="183dfbfc-acd2-4b12-abf7-2433c5c0bc18"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HIPOTECARIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="943" y="0" width="58" height="16" uuid="02e77271-eb88-4ad0-a801-78b6f11878d8"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ORDINARIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1001" y="0" width="58" height="16" uuid="833f6c22-5c87-4717-9dbe-f8495f1302d0"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{URGENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1059" y="0" width="58" height="16" uuid="24868ae0-1ece-4aa5-8b5b-672d60d85d91"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOEFE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1117" y="0" width="58" height="16" uuid="e5503afc-e87a-4a23-b38e-22f6ea6640db"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRODUCTIVO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1175" y="0" width="58" height="16" uuid="203b6d00-9554-453c-bea1-255069ad5a16"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEDICO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1233" y="0" width="58" height="16" uuid="a53e19b1-3d58-4061-9942-6e0aa8ab6561"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CTA CERTIFICADOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1291" y="0" width="58" height="16" uuid="cd816be8-2fb2-4e05-91e1-c5e12212dcec"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CTA VISTA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1349" y="0" width="58" height="16" uuid="f5c0a1ab-35f4-40f9-ab49-849a79a68184"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CTA RESTRINGIDOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1465" y="0" width="58" height="16" uuid="f5c0a1ab-35f4-40f9-ab49-849a79a68184"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGIL2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1523" y="0" width="58" height="16" uuid="f5c0a1ab-35f4-40f9-ab49-849a79a68184"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGIL3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1581" y="0" width="58" height="16" uuid="f5c0a1ab-35f4-40f9-ab49-849a79a68184"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESARROLLO1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1639" y="0" width="58" height="16" uuid="f5c0a1ab-35f4-40f9-ab49-849a79a68184"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESARROLLO2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1697" y="0" width="58" height="16" uuid="f5c0a1ab-35f4-40f9-ab49-849a79a68184"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESARROLLO3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1755" y="0" width="58" height="16" uuid="f5c0a1ab-35f4-40f9-ab49-849a79a68184"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOLUCION1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1813" y="0" width="58" height="16" uuid="f5c0a1ab-35f4-40f9-ab49-849a79a68184"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOLUCION2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1871" y="0" width="58" height="16" uuid="f5c0a1ab-35f4-40f9-ab49-849a79a68184"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOLUCION3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1407" y="0" width="58" height="16" uuid="4e530b5f-aa13-4f79-b23f-708887d002d8"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGIL1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1929" y="0" width="58" height="16" uuid="071b4492-4420-44f1-8644-fdadb85031fe"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OPORTUNO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,56 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="/resources/plantilla/moduloPlantilla.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="modulo">
+        <ui:include src="periodoContable.xhtml"/> 
+        <h:form>
+            <p:panel id="panelPrincipal" style="height:470px; text-align: center " >  
+                <p:messages id="mensaje" showDetail="true" autoUpdate="true" closable="true" /> 
+                <p:focus context="panelPrincipal"/>  
+                <h:form id="menu"> 
+                    <br/>
+                    <br/>
+                    <h:panelGrid columns="5" width="100%">
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.SeleccioneModulo}"
+                                           styleClass="encabezadosPanelGrid"/>
+                        </f:facet>
+                        
+                        <p:dataGrid id="datalist" 
+                                    value="#{menuController.itemsModulos}" 
+                                     var="item" 
+                                    columns="3"  
+                                    rows="6" paginator="true"  
+                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                    style=" width: 60%"
+                                    >      
+                                         
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Modulos}"/>
+                            </f:facet>
+                             <p:panel style="text-align:center">  
+                                <h:panelGrid columns="1" style="width:100%">  
+
+                                    <p:commandLink  action="#{menuController.irMenu()}" update=":periodoContableLab,:PeriodoContableFor">  
+                                        <p:graphicImage value="#{item.icono}"  style="border: transparent" />
+                                        <f:setPropertyActionListener target="#{menuController.modulo}" value="#{item}" />
+                                        
+                                    </p:commandLink>   
+
+                                    <h:outputText value="#{item.nombre}" style="font-weight: bolder;" /> 
+                                    
+                                </h:panelGrid>  
+                            </p:panel>  
+                        
+                        </p:dataGrid>
+                    </h:panelGrid>
+
+                </h:form>
+            </p:panel>            
+        </h:form>
+        
+    </ui:define>
+</ui:composition>

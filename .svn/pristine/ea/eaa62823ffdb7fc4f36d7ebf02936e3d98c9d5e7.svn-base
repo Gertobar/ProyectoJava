@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UbicacionGeograficaViewDlg" widgetVar="UbicacionGeograficaViewDialog" 
+                  modal="true" resizable="false" appendToBody="true" 
+                   closeOnEscape="true">
+             <f:facet name="header">
+                 <h:outputLabel value="#{propiedadesEtiquetaBL.Mostrar} #{propiedadesEtiquetaBL.UbicacionGeografica}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>  
+
+            <h:form id="UbicacionGeograficaViewForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" rendered="#{ubicacionGeograficaController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                        <h:outputText value="#{ubicacionGeograficaController.selected.codigo}" 
+                                      title="#{propiedadesEtiquetaBL.Codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        <h:outputText value="#{ubicacionGeograficaController.selected.nombre}" 
+                                      title="#{propiedadesEtiquetaBL.Nombre}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Siglas}"/>
+                        <h:outputText value="#{ubicacionGeograficaController.selected.siglas}" 
+                                      title="#{propiedadesEtiquetaBL.Siglas}"/>
+
+                       
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoUbiGeoPadre}"/>
+                        <h:outputText value="#{ubicacionGeograficaController.selected.codigoUbiGeoPadre.nombre.toString()}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoJerarquia}"/>
+                        <h:outputText value="#{ubicacionGeograficaController.selected.codigoJerarquia.nombre.toString()}"/>
+                         <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                         
+                        <h:selectOneMenu id="eliminado" value="#{ubicacionGeograficaController.selected.eliminado}"  disabled="true">
+                            <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}"/>
+                            <f:selectItem itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}"/>
+                        </h:selectOneMenu> 
+                    </p:panelGrid>
+                 
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

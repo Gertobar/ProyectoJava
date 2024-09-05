@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="informeTecnicoNuevoDlg"
+                  widgetVar="informeTecnicoNuevoDialog"
+                  modal="true"
+                  resizable="false"
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  closable="true"
+                  style="height: 530px; width: 1000px"
+                  onShow="informeTecnicoWizard.loadStep(informeTecnicoWizard.cfg.steps[0], true)"
+                  onHide="vaciarComponenteFlujoCajaSocio();vaciarComponenteSituacionPatrimonial();muestraMensajeProceso();">
+            <f:facet name="header">
+                <h:outputLabel id="tituloWizar"
+                               value="#{propiedadesEtiquetaBL.InformeTecnico} - #{lineaCreditoInformeController.nombreSocio}"
+                               styleClass="encabezadosDialog"/>
+                <br/>
+                <h:outputText id="mensajeCriterioDialogo" value="#{lineaCreditoInformeController.mensaje}" styleClass="invalido"/>
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="6000" />
+            <h:form id="informeTecnicoNuevoForm">
+                <p:remoteCommand id="iniciaDialogo" 
+                                 update="componenteFlujoCaja,componenteSituacionPatrimonial,informeTecnicoPanel,guardaInformeTecnico"/>
+                <p:remoteCommand name="vaciarComponenteFlujoCajaSocio"
+                                 action="#{flujoCajaComponenteController.vaciarComponente}"/>
+                <p:remoteCommand name="vaciarComponenteSituacionPatrimonial"
+                                 action="#{situacionPatrimonialComponenteController.vaciarComponente}"/>
+                <p:remoteCommand name="muestraMensajeProceso"
+                                 action="#{lineaCreditoInformeController.muestraMensajeProceso}"/>
+                <p:wizard id="wizard"
+                          widgetVar="informeTecnicoWizard"
+                          style="font-size: 10px; margin-top: 0px;"
+                          showStepStatus="true"
+                          showNavBar="true"
+                          flowListener="#{lineaCreditoInformeController.flujoProceso}"
+                          backLabel="#{propiedadesEtiquetaBL.Atras}"
+                          nextLabel="#{propiedadesEtiquetaBL.Siguinte}">
+                    <f:facet name="header">
+                        <h:outputText id="mensajeWizard" value="#{lineaCreditoInformeController.mensaje}" style="font-size:  12px; color: #BE1313"/>
+                    </f:facet>
+                    <p:tab  id="contrato"
+                            title="#{propiedadesEtiquetaBL.FlujoDeCaja}"
+                            titleStyle="font-size: 10px">
+                        <ui:include src="flujoCaja.xhtml"/>
+                    </p:tab>
+                    <p:tab  id="negociacion"
+                            title="#{propiedadesEtiquetaBL.SituacionPatrimonial}"
+                            titleStyle="font-size: 10px">
+                        <ui:include src="situacionPatrimonial.xhtml"/>
+                    </p:tab>
+                    <p:tab  id="garantes"
+                            title="#{propiedadesEtiquetaBL.InformeTecnico}"
+                            titleStyle="font-size: 10px">
+                        <ui:include src="informeTecnico.xhtml"/>
+                    </p:tab>
+                    <p:tab  id="confirmacion"
+                            title="#{propiedadesEtiquetaBL.Confirmacion}"
+                            titleStyle="font-size: 10px">
+                        <ui:include src="confirmacion.xhtml"/>
+                    </p:tab>
+                </p:wizard>  
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

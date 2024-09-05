@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="pagoProveedoresListForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{pagoCompraBean.itemsCompras}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{pagoCompraBean.compraSel}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="6"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Compras}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm"/>
+            <p:ajax event="rowUnselect" update=":barraForm"/>
+
+            <p:column sortBy="#{item.codigo}" style="width:  10px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}"/>
+            </p:column>
+            <p:column sortBy="#{item.codigoProveedor.persona.nombreCompleto}" filterBy="#{item.codigoProveedor.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Proveedor}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoProveedor.persona.nombreCompleto}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.estado}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <h:outputText value="#{item.estado}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.fechaSistema}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaSistema}"/>
+                </f:facet>
+                <p:calendar  value="#{item.fechaSistema}"
+                             pattern="dd/MM/yyyy HH:mm:ss"
+                             disabled="true"
+                             id="fechaIngresoFactura" 
+                             size="20"
+                             locale="es" 
+                             
+                             >               
+                </p:calendar> 
+            </p:column>
+
+            <p:column sortBy="#{item.fechaEmisionComprobante}" filterBy="#{item.fechaEmisionComprobante}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaEmision}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaEmisionComprobante}">
+
+                    <f:convertDateTime type="date" pattern="dd/MM/yy"/>
+                </h:outputText>
+            </p:column>
+
+ 
+
+            <p:column sortBy="#{item.total}" filterBy="#{item.total}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                </f:facet>
+                <h:outputText value="#{item.total}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.abono}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Abono}"/>
+                </f:facet>
+                <h:outputText value="#{item.abono}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.saldo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Saldo}"/>
+                </f:facet>
+                <h:outputText value="#{item.saldo}"/>
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Personas Naturales --> 
+    <p:panel id="grupoPan" 
+             header="#{propiedadesEtiquetaBL.Grupo}" 
+             style="border: 0; height: 500px; width: 700px">
+        <p:focus context="grupoPan"/>   
+        <!-- PanelGrid Asignacion de Grupos --> 
+        
+        <h:panelGrid id="grupoGri" 
+                     columns="3" 
+                     columnClasses="label, value, validator" 
+                     styleClass="grid">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.AsignarGrupo}" 
+                           for="asginar"/>
+                <h:selectBooleanCheckbox id="asigna" value="#{socioBean.asignaGrupo}" label="SI" >  
+                    <p:ajax event="change" listener="#{socioBean.cambiaAsignacionGrupo()}" update="grupo,valorAporte"/>
+                </h:selectBooleanCheckbox>
+            <h:message for="asginar"  styleClass="invalido"/>
+            
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Grupo}" 
+                           for="grupo"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="grupo" 
+                             value="#{socioBean.grupoInstitucionAgeDet.grupoInstitucionIfipAgencia}" 
+                             disabled="#{socioBean.deshabilitaAsignacionGrupo}"
+                             required="false">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>                
+                <f:selectItems value="#{socioBean.itemsGrupoInstitucionIfipAgencia}"
+                               var="grupoAgenciaItem"
+                               itemValue="#{grupoAgenciaItem}"
+                               itemLabel="#{grupoAgenciaItem.grupoInstitucion.codigoPersonaInstitucion.razonSocial}"
+                               />
+                <f:converter binding="#{grupoInstitucionIfipAgenciaConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="grupo"  styleClass="invalido"/>
+            
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ValorAporte}" 
+                           for="valorAporte"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="valorAporte" 
+                             value="#{socioBean.grupoInstitucionAgeDet.valorAporte}" 
+                             disabled="#{socioBean.deshabilitaAsignacionGrupo}"
+                             required="false">
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+            </p:inputText>
+            <h:message for="valorAporte"  styleClass="invalido"/>
+        </h:panelGrid>
+
+    </p:panel>
+
+</ui:composition>

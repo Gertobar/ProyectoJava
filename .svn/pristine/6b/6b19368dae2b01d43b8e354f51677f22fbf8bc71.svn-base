@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConceptoTransaccionViewDlg" 
+                  widgetVar="ConceptoTransaccionViewDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Mostrar} #{propiedadesEtiquetaBL.Transacciones}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>    
+
+            <h:form id="ConceptoTransaccionViewForm">
+
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" rendered="#{conceptoTransaccionProController.selected != null}">
+
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Tipo}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.producto.tipoProducto.nombre}" 
+                                      title="#{propiedadesTituloBL.Tipo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.producto.moneda.nombre}"/>
+
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Concepto}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.conceptoTransaccion.nombre}"
+                                      title="#{propiedadesTituloBL.Nombre}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Mostrar}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.mostrar}" 
+                                      title="#{propiedadesTituloBL.Mostrar}"/>
+
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.RegistradaPor}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.registradoPorUsuario.username}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.fechaRegistro}"
+                                      title="#{propiedadesTituloBL.FechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.eliminado}"
+                                      title="#{propiedadesTituloBL.Eliminado}"/>                       
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

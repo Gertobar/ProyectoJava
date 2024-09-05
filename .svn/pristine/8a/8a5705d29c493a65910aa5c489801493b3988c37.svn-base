@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- LOS COMENTARIOS QUE TIENEN EN SU PARTE SUPERIOR LAS LINEAS ************ Y SEGUIDO
+     SU DESCRIPCION NO DEBEN SER BORRADAS, LOS QUE SE DEBEN ELIMINAR SON LAS EXPLICACIONES
+     DE CADA CONTENIDO -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="barraForm">
+        
+        
+        <!-- ̣̣̣̣**************************************************************************
+          BARRA DE HERRAMIENTAS                                                     -->
+        <!-- EXPLICACION: AQUI SE COLOCAN LOS BOTONES ESTANDAR PARA EL MANEJO DE LA APLICACION,
+             ESTA INCLUYEN LOS BOTONES NECESARIOS PARA LOS MANTENIMIENTOS, ES DECIR QUE
+             EN LAS VENTANAS DE MANTENIMIENTOS NO SE COLOCARAN MAS BOTONES EN LA BARRA,
+             NI EN LAS VENTANAS DE CREACION Y EDICION DE LOS QUE ESTAN YA DEFINIDAS.
+             UNICAMENTE EN LAS VENTANAS DE TRANSACCIONALIDAD (DEPOSITOS, SOLICITUDES, ETC)
+             SE PODRAN COLOCAR BOTONES ADICIONALES Y CON NOMBRE PARA LA COMPRENSION DE LOS
+             USUARIOS, ASI MISMO ESTOS BOTONES SERAN DEFINIDOS POR EL LIDER DEL PROYECTO-->
+        <p:toolbar>                  
+            <p:toolbarGroup align="left">  
+                <p:commandButton id="executarConsultaBot"
+                                 title="#{propiedadesTituloBL.EjecutarConsulta}"
+                                 icon="#{propiedadesObjetosBL.IcoEjecutarConsulta}"                                         
+                                 disabled="true"
+                                 /> 
+                <p:separator/>
+               
+                
+                <p:commandButton id="nuevoBot"
+                                 title="#{propiedadesTituloBL.Nuevo}" 
+                                 icon="#{propiedadesObjetosBL.IcoNuevo}" 
+                                 disabled="#{menuController.permisoOperacion.nuevo}"                                
+                                 actionListener="#{planDeCuentaController.nuevo}" 
+                                 update=":PlanDeCuentaCreateForm" 
+                                 onclick="procesandoDlg.show();"
+                                 oncomplete="PlanDeCuentaCreateDialog.show();procesandoDlg.hide();"/>                 
+
+                <p:commandButton id="editarBot"
+                                 title="#{propiedadesTituloBL.Editar}" 
+                                 icon="#{propiedadesObjetosBL.IcoEditar}"  
+                                 disabled="#{(!menuController.permisoOperacion.editar and !empty planDeCuentaController.selected) ? false : true}"
+                                 onclick="procesandoDlg.show();"                                
+                                 actionListener="#{planDeCuentaController.edita}" 
+                                 update=":PlanDeCuentaEditForm" 
+                                 oncomplete="PlanDeCuentaEditDialog.show();procesandoDlg.hide();"
+                                 />  
+
+                <p:commandButton id="eliminarBot"
+                                 title="#{propiedadesTituloBL.Eliminar}" 
+                                 icon="#{propiedadesObjetosBL.IcoEliminar}" 
+                                 disabled="#{(!menuController.permisoOperacion.eliminar and !empty planDeCuentaController.selected) ? false : true}"
+                                 actionListener="#{planDeCuentaController.eliminaPlanDeCuenta}" 
+                                 onclick="procesandoDlg.show();"
+                                 update=":mensaje,:PlanDeCuentaListForm:datalist"
+                                 oncomplete="procesandoDlg.hide();"
+                                 /> 
+                                 
+                 <p:commandButton id="verBot"   
+                                 icon="#{propiedadesObjetosBL.IcoVer}"
+                                 disabled="#{(!menuController.permisoOperacion.editar and !empty planDeCuentaController.selected) ? false : true}"
+                                 onclick="procesandoDlg.show();"
+                                 update=":PlanDeCuentaViewForm" 
+                                 oncomplete="PlanDeCuentaViewDialog.show();procesandoDlg.hide();"/>
+                <p:separator/>
+                <p:commandButton id="imprimirBot"
+                                 title="#{propiedadesTituloBL.Imprimir}" 
+                                 icon="#{propiedadesObjetosBL.IcoImprimir}"  
+                                 disabled="true"/>  
+                <p:separator/>
+
+                <h:commandLink  id="exportaExcelLin"
+                                title="#{propiedadesTituloBL.ExportarExcel}" > 
+                    <p:graphicImage  style="border: transparent" 
+                                     value="#{propiedadesObjetosBL.ImgExportarExcel}"
+                                    />  
+                    <p:dataExporter type="xls" 
+                                    target=":PlanDeCuentaListForm:datalist"                                           
+                                    fileName="Catálogo de Cuentas" />  
+                </h:commandLink>  
+                <p:spacer width="3px"/>
+                <h:commandLink  id="exportaPdfLin"
+                                title="#{propiedadesTituloBL.ExportarPDF}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="/#{propiedadesObjetosBL.ImgExportarPdf}" />  
+                    <p:dataExporter type="pdf" 
+                                    target=":PlanDeCuentaListForm:datalist" 
+                                    fileName="Catálogo de Cuentas" />  
+                </h:commandLink>  
+                <p:spacer width="3px"/>
+                <h:commandLink  id="exportaXmlLin"
+                                title="#{propiedadesTituloBL.ExportarXML}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="#{propiedadesObjetosBL.ImgExportarXml}" />  
+                    <p:dataExporter type="xml" 
+                                    target=":PlanDeCuentaListForm:datalist" 
+                                    fileName="Catálogo de Cuentas" />  
+                </h:commandLink>  
+                <p:separator/>
+                <h:outputLink id="ayudaLin" 
+                              title="#{propiedadesTituloBL.Ayuda}" 
+                              value="#{menuController.urlAyuda}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="#{propiedadesObjetosBL.ImgAyuda}" />                            
+                </h:outputLink>
+                <p:separator/>
+
+            </p:toolbarGroup>  
+        </p:toolbar>
+        <p:separator/>
+        <!-- FIN DE BARRA DE HERRAMIENTAS
+         ̣̣̣̣************************************************************************** -->
+
+    </h:form>       
+</ui:composition>

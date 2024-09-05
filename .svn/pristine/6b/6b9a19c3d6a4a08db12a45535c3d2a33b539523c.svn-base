@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IngresoEgresoCreateDlg" widgetVar="IngresoEgresoCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateIngresoEgresoTitle}" closeOnEscape="true">
+
+            <h:form id="IngresoEgresoCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{ingresoEgresoController.selected.nombre}" title="#{myBundle.CreateIngresoEgresoTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateIngresoEgresoRequiredMessage_nombre}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoLabel_siglas}" for="siglas" />
+                        <p:inputText id="siglas" value="#{ingresoEgresoController.selected.siglas}" title="#{myBundle.CreateIngresoEgresoTitle_siglas}" required="true" requiredMessage="#{myBundle.CreateIngresoEgresoRequiredMessage_siglas}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{ingresoEgresoController.selected.descripcion}" title="#{myBundle.CreateIngresoEgresoTitle_descripcion}" required="true" requiredMessage="#{myBundle.CreateIngresoEgresoRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoLabel_afectaCaja}" for="afectaCaja" />
+                        <p:inputText id="afectaCaja" value="#{ingresoEgresoController.selected.afectaCaja}" title="#{myBundle.CreateIngresoEgresoTitle_afectaCaja}" required="true" requiredMessage="#{myBundle.CreateIngresoEgresoRequiredMessage_afectaCaja}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoLabel_contabiliza}" for="contabiliza" />
+                        <p:inputText id="contabiliza" value="#{ingresoEgresoController.selected.contabiliza}" title="#{myBundle.CreateIngresoEgresoTitle_contabiliza}" required="true" requiredMessage="#{myBundle.CreateIngresoEgresoRequiredMessage_contabiliza}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{ingresoEgresoController.selected.eliminado}" title="#{myBundle.CreateIngresoEgresoTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateIngresoEgresoRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ingresoEgresoController.saveNew}" value="#{myBundle.Save}" update="display,:IngresoEgresoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IngresoEgresoCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="IngresoEgresoCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="2" >
+            <p:outputLabel value="#{propiedadesEtiquetaBL.PeriodoContableCerrar}" 
+                               for="periodo"
+                               styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="periodo" 
+                                 filter="true" 
+                                 filterMatchMode="startsWith"
+                                 value="#{cierrePeriodoAnualBean.periodoContable}"
+                                 style="width: 400px;"
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Periodo} : #{propiedadesMensajesBL.CampoRequerido}">                          
+
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{cierrePeriodoAnualBean.itemsPeriodoContable}"
+                                   var="periodoItem"
+                                   itemValue="#{periodoItem}"
+                                   itemLabel="#{periodoItem.codigo}"
+                                   />   
+                    <f:converter binding="#{periodoContableConverter}"/>                     
+                </p:selectOneMenu>  
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaContableUtilidad}" 
+                               for="cuentaUtilidad"
+                               styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="cuentaUtilidad" 
+                                 filter="true" 
+                                 filterMatchMode="startsWith"
+                                 value="#{cierrePeriodoAnualBean.planCuentaCuentaUtilidad}"
+                                 style="width: 400px;"
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.CuentaContableUtilidad} : #{propiedadesMensajesBL.CampoRequerido}">                          
+
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{cierrePeriodoAnualBean.itemsPlanDeCuentaCuentaUtilidad}"
+                                   var="cuentaUtilidadItem"
+                                   itemValue="#{cuentaUtilidadItem}"
+                                   itemLabel="#{cuentaUtilidadItem.planDeCuentaPK.cuentaContable} : #{cuentaUtilidadItem.nombre}"
+                                   />   
+                    <f:converter binding="#{planDeCuentaConverter}"/>                     
+                </p:selectOneMenu>  
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaContablePerdida}" 
+                               for="cuentaPerdida"
+                               styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="cuentaPerdida" 
+                                 filter="true" 
+                                 filterMatchMode="startsWith"
+                                 value="#{cierrePeriodoAnualBean.planCuentaCuentaPerdida}"
+                                 style="width: 400px;"
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.CuentaContablePerdida} : #{propiedadesMensajesBL.CampoRequerido}">                          
+
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{cierrePeriodoAnualBean.itemsPlanDeCuentaCuentaPerdida}"
+                                   var="cuentaPeridaItem"
+                                   itemValue="#{cuentaPeridaItem}"
+                                   itemLabel="#{cuentaPeridaItem.planDeCuentaPK.cuentaContable} : #{cuentaPeridaItem.nombre}"
+                                   />   
+                    <f:converter binding="#{planDeCuentaConverter}"/>                     
+                </p:selectOneMenu>  
+        </h:panelGrid>  
+        
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

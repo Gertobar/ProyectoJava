@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PeriodicidadProMonIfiCreateDlg" widgetVar="PeriodicidadProMonIfiCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreatePeriodicidadProMonIfiTitle}" closeOnEscape="true">
+
+            <h:form id="PeriodicidadProMonIfiCreateForm">
+
+                <h:panelGroup id="display" rendered="#{periodicidadProMonIfiController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreatePeriodicidadProMonIfiLabel_periodicidadProMonIfiPK_codigoPeriodicidad}" for="periodicidadProMonIfiPK_codigoPeriodicidad" />
+                        <p:inputText id="periodicidadProMonIfiPK_codigoPeriodicidad" value="#{periodicidadProMonIfiController.selected.periodicidadProMonIfiPK.codigoPeriodicidad}" title="#{myBundle.CreatePeriodicidadProMonIfiTitle_periodicidadProMonIfiPK_codigoPeriodicidad}" required="true" requiredMessage="#{myBundle.CreatePeriodicidadProMonIfiRequiredMessage_periodicidadProMonIfiPK_codigoPeriodicidad}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePeriodicidadProMonIfiLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{periodicidadProMonIfiController.selected.registradoPor}" title="#{myBundle.CreatePeriodicidadProMonIfiTitle_registradoPor}" required="true" requiredMessage="#{myBundle.CreatePeriodicidadProMonIfiRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePeriodicidadProMonIfiLabel_cuotasMaximas}" for="cuotasMaximas" />
+                        <p:inputText id="cuotasMaximas" value="#{periodicidadProMonIfiController.selected.cuotasMaximas}" title="#{myBundle.CreatePeriodicidadProMonIfiTitle_cuotasMaximas}" required="true" requiredMessage="#{myBundle.CreatePeriodicidadProMonIfiRequiredMessage_cuotasMaximas}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePeriodicidadProMonIfiLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{periodicidadProMonIfiController.selected.fechaRegistro}" title="#{myBundle.CreatePeriodicidadProMonIfiTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.CreatePeriodicidadProMonIfiRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePeriodicidadProMonIfiLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{periodicidadProMonIfiController.selected.eliminado}" title="#{myBundle.CreatePeriodicidadProMonIfiTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreatePeriodicidadProMonIfiRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePeriodicidadProMonIfiLabel_productoCreditoMonedaIfip}" for="productoCreditoMonedaIfip" />
+                        <p:selectOneMenu id="productoCreditoMonedaIfip" value="#{periodicidadProMonIfiController.selected.productoCreditoMonedaIfip}" required="true" requiredMessage="#{myBundle.CreatePeriodicidadProMonIfiRequiredMessage_productoCreditoMonedaIfip}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productoCreditoMonedaIfipController.items}"
+                                           var="productoCreditoMonedaIfipItem"
+                                           itemValue="#{productoCreditoMonedaIfipItem}"
+                                           itemLabel="#{productoCreditoMonedaIfipItem.productoCreditoMonedaIfipPK.toString()}"
+                                           />
+                            <f:converter binding="#{productoCreditoMonedaIfipConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{periodicidadProMonIfiController.saveNew}" value="#{myBundle.Save}" update="display,:PeriodicidadProMonIfiListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PeriodicidadProMonIfiCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PeriodicidadProMonIfiCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

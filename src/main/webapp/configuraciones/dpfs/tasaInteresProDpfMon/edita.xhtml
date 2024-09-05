@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TasaInteresProDpfMonEditDlg" 
+                  widgetVar="TasaInteresProDpfMonEditDialog"
+                  modal="true" resizable="false"  
+                  appendToBody="true" 
+                  closeOnEscape="true">
+
+             <f:facet name="header">
+                 <h:outputLabel value="#{propiedadesEtiquetaBL.Editar} #{propiedadesEtiquetaBL.TasaInteresDpfIfip}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <h:form id="TasaInteresProDpfMonEditForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tasaInteresProDpfMonController.selected != null}">
+
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{tasaInteresProDpfMonController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoMoneda}" for="codigoMoneda" />
+                        <p:inputText id="codigoMoneda" value="#{tasaInteresProDpfMonController.selected.codigoMoneda}" 
+                                     title="#{propiedadesEtiquetaBL.CodigoMoneda}" required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoMoneda}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Ifip}" for="codigoIfip" />
+                        <p:inputText id="codigoIfip" value="#{tasaInteresProDpfMonController.selected.codigoIfip}" 
+                                     title="#{propiedadesEtiquetaBL.Ifip}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Ifip}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.MontoInicial}" 
+                                       for="montoInicial" />
+                        <p:inputText id="montoInicial" value="#{tasaInteresProDpfMonController.selected.montoInicial}" 
+                                     title="#{propiedadesEtiquetaBL.MontoInicial}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.MontoInicial}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.MontoFinal}" for="montoFinal" />
+                        <p:inputText id="montoFinal" value="#{tasaInteresProDpfMonController.selected.montoFinal}" 
+                                     title="#{propiedadesEtiquetaBL.MontoFinal}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.MontoFinal}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{tasaInteresProDpfMonController.selected.registradoPor}"
+                                     title="#{propiedadesEtiquetaBL.RegistradoPor}" required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{tasaInteresProDpfMonController.selected.fechaRegistro}"
+                                    title="#{propiedadesEtiquetaBL.FechaRegistro}" required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tasaInteresProDpfMonController.selected.eliminado}" 
+                                     title="#{propiedadesEtiquetaBL.Eliminado}" required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Eliminado}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" for="codigoTasa" />
+                        <p:selectOneMenu id="codigoTasa" value="#{tasaInteresProDpfMonController.selected.codigoTasa}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Tasa}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tasaInteresDpfIfipController.items}"
+                                           var="codigoTasaItem"
+                                           itemValue="#{codigoTasaItem}"
+                                           itemLabel="#{codigoTasaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{tasaInteresDpfIfipConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RangoDiasDpf}" for="codigoRango" />
+                        <p:selectOneMenu id="codigoRango" value="#{tasaInteresProDpfMonController.selected.codigoRango}"
+                                         required="true" requiredMessage="#{propiedadesEtiquetaBL.RangoDiasDpf}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{rangoDiasDpfController.items}"
+                                           var="codigoRangoItem"
+                                           itemValue="#{codigoRangoItem}"
+                                           itemLabel="#{codigoRangoItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{rangoDiasDpfConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" for="moneda" />
+                        <p:selectOneMenu id="moneda" value="#{tasaInteresProDpfMonController.selected.moneda}" required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{monedaController.items}"
+                                           var="monedaItem"
+                                           itemValue="#{monedaItem}"
+                                           itemLabel="#{monedaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradaPor}" for="usuarioRealizadoPor" />
+                        <p:selectOneMenu id="usuarioRealizadoPor" value="#{tasaInteresProDpfMonController.selected.usuarioRealizadoPor}" 
+                                         required="true" requiredMessage="#{propiedadesEtiquetaBL.RegistradaPor}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="usuarioRealizadoPorItem"
+                                           itemValue="#{usuarioRealizadoPorItem}"
+                                           itemLabel="#{usuarioRealizadoPorItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+                        
+                         <f:facet name="footer">
+                       <p:commandButton actionListener="#{tasaInteresProDpfMonController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:TasaInteresProDpfMonListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,TasaInteresProDpfMonEditDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                 
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

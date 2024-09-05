@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ImpresionLibretaCuentaListForm">
+
+        <p:panel header="#{myBundle.ListImpresionLibretaCuentaTitle}">
+
+            <p:dataTable id="datalist" value="#{impresionLibretaCuentaController.items}" var="item"
+                         selectionMode="single" selection="#{impresionLibretaCuentaController.selected}"
+                         rowKey="#{item.codigoMovimiento}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.codigoMovimiento}" filterBy="#{item.codigoMovimiento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListImpresionLibretaCuentaTitle_codigoMovimiento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoMovimiento}"/>
+                </p:column>
+                <p:column sortBy="#{item.numeroLinea}" filterBy="#{item.numeroLinea}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListImpresionLibretaCuentaTitle_numeroLinea}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroLinea}"/>
+                </p:column>
+                <p:column sortBy="#{item.movimientoCuenta.codigo}" filterBy="#{item.movimientoCuenta.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListImpresionLibretaCuentaTitle_movimientoCuenta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.movimientoCuenta.codigo}"/>
+                </p:column>
+                <p:column sortBy="#{item.numeroLibreta.numeroLibreta}" filterBy="#{item.numeroLibreta.numeroLibreta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListImpresionLibretaCuentaTitle_numeroLibreta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroLibreta.numeroLibreta}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{impresionLibretaCuentaController.prepareCreate}" update=":ImpresionLibretaCuentaCreateForm" oncomplete="ImpresionLibretaCuentaCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":ImpresionLibretaCuentaViewForm" oncomplete="ImpresionLibretaCuentaViewDialog.show()" disabled="#{empty impresionLibretaCuentaController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ImpresionLibretaCuentaEditForm" oncomplete="ImpresionLibretaCuentaEditDialog.show()" disabled="#{empty impresionLibretaCuentaController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{impresionLibretaCuentaController.delete}" update=":growl,datalist" disabled="#{empty impresionLibretaCuentaController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

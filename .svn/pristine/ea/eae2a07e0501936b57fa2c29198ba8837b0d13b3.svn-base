@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PeriodoEfeCheEntFinListForm">
+
+       
+            <p:dataTable id="datalist"
+                         value="#{periodoEfeCheEntFinController.items}"
+                         var="item"
+                         rowKey="#{item.codigoEntidadFinanciera}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{periodoEfeCheEntFinController.selected}">
+
+              
+                <p:column sortBy="#{item.codigoEntidadFinanciera}" filterBy="#{item.codigoEntidadFinanciera}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.EntidadFinanciera}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoEntidadFinanciera}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.registradoPor}" filterBy="#{item.registradoPor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.registradoPor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.codigoPeriodo.codigo}" filterBy="#{item.codigoPeriodo.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.PeriodoEfeCheEntFin}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoPeriodo.codigo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.entidadFinanciera.codigo}" filterBy="#{item.entidadFinanciera.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.EntidadFinanciera}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.entidadFinanciera.codigo}"/>
+                </p:column>
+
+                
+                                    <p:column sortBy="#{item.codigoIfip}" filterBy="#{item.codigoIfip}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{propiedadesEtiquetaBL.Ifip}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.codigoIfip}"/>
+                                    </p:column>
+             
+
+            </p:dataTable>
+
+            
+            </h:form>
+
+</ui:composition>

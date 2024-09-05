@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="balanceGeneral" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 8">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 8_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 8_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 9">
+		<box>
+			<pen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 9_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 9_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 10">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 12">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 12_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 12_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 12_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="mayorGeneral" uuid="7dbcb560-d1d5-4f04-b3d4-457627d02204">
+		<parameter name="codIfip" class="java.lang.Long"/>
+		<parameter name="fecInicio" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="fecFin" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="cueCont" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="codigoTipoPlan" class="java.lang.Long"/>
+		<parameter name="codPer" class="java.lang.String"/>
+		<parameter name="saldoInicial" class="java.math.BigDecimal"/>
+		<queryString>
+			<![CDATA[SELECT c.*,
+        case when rownum=1 then
+        $P{saldoInicial}
+            ELSE 0
+            END SALDOINICIAL
+FROM(
+SELECT  com.numero_comprobante                "NUMERO COMPROBANTE",
+        com.codigo                            "CODIGO",
+        com.glosa                             "GLOSA",
+        com.fecha                             "FECHA",
+        CASE WHEN cdt.tipo = 'C' THEN -1*cdt.valor ELSE 0 END  "CREDITO",
+        CASE WHEN cdt.tipo = 'D' THEN cdt.valor ELSE 0 END     "DEBITO"
+FROM    mks_contables.comprobante             com,
+        mks_contables.comprobante_detalle     cdt
+WHERE   com.codigo_ifip                       =$P{codIfip}
+AND     cdt.cuenta_contable                   =$P{cueCont}
+AND     TRUNC(com.fecha)                      >= trunc($P{fecInicio})
+AND     TRUNC(com.fecha)                      <= trunc($P{fecFin})
+AND     com.codigo_estado        = 3
+AND     cdt.codigo_tipo_plan        = $P{codigoTipoPlan}
+AND     com.codigo                            =cdt.codigo_comprobante
+AND     com.codigo_estado                     <>4
+ORDER BY             com.fecha) c]]>
+		</queryString>
+		<field name="NUMERO COMPROBANTE" class="java.lang.String"/>
+		<field name="CODIGO" class="java.math.BigDecimal"/>
+		<field name="GLOSA" class="java.lang.String"/>
+		<field name="FECHA" class="java.sql.Timestamp"/>
+		<field name="CREDITO" class="java.math.BigDecimal"/>
+		<field name="DEBITO" class="java.math.BigDecimal"/>
+		<field name="SALDOINICIAL" class="java.math.BigDecimal"/>
+		<variable name="saldo" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{CREDITO}.add( $F{DEBITO}).add($F{SALDOINICIAL})]]></variableExpression>
+			<initialValueExpression><![CDATA[0.00]]></initialValueExpression>
+		</variable>
+		<variable name="totalCredito" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{CREDITO}]]></variableExpression>
+			<initialValueExpression><![CDATA[]]></initialValueExpression>
+		</variable>
+		<variable name="totalDebito" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{DEBITO}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoIfip" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cuentaContable" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoTipoPlan" class="java.lang.Long"/>
+	<parameter name="codigoPeriodo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[WITH det AS (SELECT  CASE WHEN cdt.tipo = 'C' THEN cdt.valor ELSE 0 END     credito,
+                     CASE WHEN cdt.tipo = 'D' THEN cdt.valor ELSE 0 END     debito
+FROM    mks_contables.comprobante             com,
+        mks_contables.comprobante_detalle     cdt
+WHERE   com.codigo_ifip                       =$P{codigoIfip}
+AND     cdt.cuenta_contable                   =$P{cuentaContable}
+AND     TRUNC(com.fecha)                      >= $P{fechaInicio}
+AND     TRUNC(com.fecha)                      <= $P{fechaFin}
+AND     cdt.codigo_tipo_plan		     = $P{codigoTipoPlan}
+AND    com.codigo_periodo         	     = $P{codigoPeriodo}
+AND     com.codigo                            =cdt.codigo_comprobante
+AND     com.codigo_estado		     <>4)
+
+
+SELECT  tti.nombre||' '||ifi.nombre           "IFIP",
+        ifi.path_imagen                       "IMAGEN",
+        plc.nombre                            "CUENTA",
+        (SELECT (sum(det.debito))
+                FROM
+                det)                          "TOTAL DEBITO",
+        (SELECT (sum(det.credito)*-1)
+                FROM
+                det)                          "TOTAL CREDITO",
+        (select nvl(
+                   sum(
+                   case dt.tipo
+                   WHEN 'D' THEN dt.valor
+                   ELSE dt.valor*-1
+                   END),0)
+            from   mks_contables.comprobante_detalle dt,
+                   mks_contables.comprobante cm
+            where  cm.codigo=dt.codigo_comprobante
+            AND    dt.codigo_tipo_plan=$P{codigoTipoPlan}
+            AND    dt.cuenta_contable=$P{cuentaContable}
+            AND    cm.codigo_periodo         =$P{codigoPeriodo}
+	  AND    cm.codigo_estado<>4
+            AND    trunc(cm.fecha)<trunc($P{fechaInicio}
+	 ))+
+        (SELECT (sum(det.debito)-sum(det.credito))
+                FROM
+                det)                          "SALDO",
+        (select nvl(
+                   sum(
+                   case dt.tipo
+                   WHEN 'D' THEN dt.valor
+                   ELSE dt.valor*-1
+                   END),0)
+            from   mks_contables.comprobante_detalle dt,
+                   mks_contables.comprobante cm
+            where  cm.codigo=dt.codigo_comprobante
+            AND    dt.codigo_tipo_plan=$P{codigoTipoPlan}
+            AND    dt.cuenta_contable=$P{cuentaContable}
+            AND    cm.codigo_periodo         =$P{codigoPeriodo}
+	  AND    cm.codigo_estado<>4
+            AND    trunc(cm.fecha)<trunc($P{fechaInicio})) SALDOINICIAL
+FROM    mks_ifips.ifip                         ifi,
+        mks_ifips.tipo_ifip                    tti,
+        mks_contables.plan_de_cuenta           plc
+WHERE   ifi.codigo                             =$P{codigoIfip}
+AND     plc.cuenta_contable                    =$P{cuentaContable}
+AND     tti.codigo                             =ifi.codigo_tipo_ifip
+AND     plc.codigo_tipo_plan                   =$P{codigoTipoPlan}]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="IMAGEN" class="java.lang.String"/>
+	<field name="CUENTA" class="java.lang.String"/>
+	<field name="TOTAL DEBITO" class="java.math.BigDecimal"/>
+	<field name="TOTAL CREDITO" class="java.math.BigDecimal"/>
+	<field name="SALDO" class="java.math.BigDecimal"/>
+	<field name="SALDOINICIAL" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="184" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="5" y="25" width="550" height="30" uuid="28018225-171b-471e-a66f-838ed0428d25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="0" width="57" height="25" uuid="7f644b82-cc9c-4ce2-bf2a-f72fecf0b70b"/>
+				<imageExpression><![CDATA[$F{IMAGEN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="4" y="55" width="101" height="20" uuid="07bdd9f4-ab48-4af9-90e3-8a11fadaf09b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MAYOR GENERAL AL ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="115" width="101" height="20" uuid="e94ffd36-8ad9-4a67-91a3-8c5617b3333f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA IMPRESION ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement x="105" y="115" width="215" height="20" uuid="efc768ac-d4a7-4288-ae0e-2de5af28f6e3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="105" y="55" width="215" height="20" uuid="abfa8324-0f34-4b37-b491-e62a643a3bce"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="105" y="75" width="215" height="20" uuid="42cbba77-9af5-4657-85fd-f0f08f3f6498"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cuentaContable}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="75" width="101" height="20" uuid="996955f0-9b05-42d1-a2d1-ab23c4932b3c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO CUENTA ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="105" y="95" width="215" height="20" uuid="843c9037-0c47-44fe-8a76-863009a9d6fb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUENTA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="95" width="101" height="20" uuid="78ff9575-5811-4945-b515-183bb721a896"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE CUENTA ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="105" y="135" width="215" height="20" isRemoveLineWhenBlank="true" uuid="cc9c9b7c-4de7-4306-a677-a3e5dbf04dd1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALDOINICIAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="135" width="101" height="20" uuid="636cbfb3-1a3e-4146-ba75-1963907604ae"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO INICIAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="155" width="101" height="20" uuid="b542a268-f152-4237-929a-0f4d08e9a887"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO FINAL]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="105" y="155" width="215" height="20" isRemoveLineWhenBlank="true" uuid="953d21f6-3e21-41d6-a7d1-858d95386e13"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALDO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="96" splitType="Immediate">
+			<componentElement>
+				<reportElement key="table 11" style="table 11" positionType="Float" x="0" y="37" width="555" height="50" uuid="2a999b8d-fea4-4c86-8534-cb0f35a8f197"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="mayorGeneral" uuid="5d6a356c-caaa-4e02-8641-6ce26e82c838">
+						<datasetParameter name="codIfip">
+							<datasetParameterExpression><![CDATA[$P{codigoIfip}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fecInicio">
+							<datasetParameterExpression><![CDATA[$P{fechaInicio}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fecFin">
+							<datasetParameterExpression><![CDATA[$P{fechaFin}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="cueCont">
+							<datasetParameterExpression><![CDATA[$P{cuentaContable}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="codigoTipoPlan">
+							<datasetParameterExpression><![CDATA[$P{codigoTipoPlan}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="codPer">
+							<datasetParameterExpression><![CDATA[$P{codigoPeriodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="saldoInicial">
+							<datasetParameterExpression><![CDATA[$F{SALDOINICIAL}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="75" uuid="8cbf39fe-cbf7-427d-86f2-2143e3f00f3a">
+						<jr:columnFooter height="20" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="75" height="20" uuid="36a17b7e-9363-42bb-a25c-9656bfd8bfe2"/>
+								<box leftPadding="5"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TOTALES ]]></text>
+							</staticText>
+						</jr:columnFooter>
+						<jr:detailCell style="table 11_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="75" height="20" uuid="edb22afe-6aaf-407d-afe5-dec850a01d11"/>
+								<box leftPadding="5"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NUMERO COMPROBANTE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="7c4047c2-b3fc-44d9-bef1-7340f4d857e9">
+						<jr:detailCell style="table 11_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="20" uuid="003393c5-0d20-4121-8e10-27966e9b5d7b"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CODIGO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="183" uuid="9fe84f73-9077-43f6-a256-cb23e6e81a98">
+						<jr:detailCell style="table 11_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="183" height="20" uuid="55b4cdac-a295-4870-8fa7-ce0dd6e496ff"/>
+								<box leftPadding="5"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GLOSA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="51" uuid="46d8fd9f-38d0-4570-bbae-db44b53c5beb">
+						<jr:detailCell style="table 11_TD" height="20" rowSpan="1">
+							<textField pattern="dd/MM/yyyy">
+								<reportElement x="0" y="0" width="51" height="20" uuid="e356a2e0-08ae-474f-9f8b-9e1889bb2f57"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FECHA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="6b68c281-5e10-46cb-b6ee-b974f151d3f8">
+						<jr:columnFooter height="20" rowSpan="1">
+							<textField pattern="#,##0.00;-#,##0.00">
+								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="65" height="20" uuid="64136d0c-4e53-48e9-adbe-7c2bf3351506"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalDebito}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell style="table 11_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00;-#,##0.00">
+								<reportElement x="0" y="0" width="65" height="20" uuid="221872bf-0336-4bbe-bdfc-508157830dad"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DEBITO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="885cc92c-0f9e-4421-aaec-697e1346f1a6">
+						<jr:columnFooter height="20" rowSpan="1">
+							<textField pattern="#,##0.00;-#,##0.00">
+								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="65" height="20" uuid="9274af07-eb3f-4cc2-bc25-d581ffac3f31"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalCredito}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell style="table 11_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0.00;-#,##0.00">
+								<reportElement x="0" y="0" width="65" height="20" uuid="f4b0cb7c-9182-460d-83a2-cbcf22e75e61"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CREDITO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="e8236470-146d-4144-a2a4-ec4038569e24">
+						<jr:detailCell height="20" rowSpan="1">
+							<textField pattern="#,##0.00  ;-#,##0.00  " isBlankWhenNull="false">
+								<reportElement mode="Transparent" x="0" y="0" width="65" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="51051029-a150-46b4-ada6-e0bb14be3d94"/>
+								<box rightPadding="5">
+									<pen lineWidth="1.0" lineColor="#666666"/>
+									<topPen lineWidth="1.0" lineColor="#666666"/>
+									<leftPen lineWidth="1.0" lineColor="#666666"/>
+									<bottomPen lineWidth="1.0" lineColor="#666666"/>
+									<rightPen lineWidth="1.0" lineColor="#666666"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{saldo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement mode="Opaque" x="494" y="17" width="65" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="b268f133-dcf5-4eb9-85cc-a5609746b177"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="75" y="17" width="55" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="ec099c4d-977c-4643-94ab-af9d2c965c90"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="17" width="75" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="780c2b6a-231b-474b-a388-3e99ea45837f"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO COMPROBANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="130" y="17" width="183" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="bad942a5-ec03-4b46-ae10-0197127cf61b"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GLOSA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="364" y="17" width="65" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="6f6878aa-efd1-4c97-a379-ecb5e7cb8f1c"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEBITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="313" y="17" width="51" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="1fdaf0ba-6c52-42c3-bb4f-fc215dca1c84"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="429" y="17" width="65" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="9b439356-7841-44fe-a58b-a8e49655c164"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CREDITO]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

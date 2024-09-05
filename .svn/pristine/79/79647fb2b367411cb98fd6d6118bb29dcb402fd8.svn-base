@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoFirmaCreateDlg" 
+                  widgetVar="TipoFirmaCreateDialog" 
+                  modal="true" resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.TipoFirma}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>      
+
+            <h:form id="TipoFirmaCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" value="#{tipoFirmaController.selected.nombre}" 
+                                     title="#{propiedadesTituloBL.Nombre}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TieneFirmas}" 
+                                       for="tieneFirmas"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="tieneFirmas" 
+                                         value="#{tipoFirmaController.selected.tieneFirmas}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.TieneFirmas} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                   
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.QuienFirma}" 
+                                       for="quienFirma"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="quienFirma" 
+                                         value="#{tipoFirmaController.selected.quienFirma}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.QuienFirma} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.SoloSocio}" itemValue="S" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.UnSoloFirmante}" itemValue="U" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.TodosFirman}" itemValue="T" />                              
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{tipoFirmaController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{tipoFirmaController.saveNew}"
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:TipoFirmaListForm:datalist,:mensaje"
+                                             oncomplete="handleSubmit(xhr,status,args,TipoFirmaCreateDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

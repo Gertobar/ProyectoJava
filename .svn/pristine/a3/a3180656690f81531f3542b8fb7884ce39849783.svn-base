@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Personas Naturales --> 
+    <p:panel id="datosPersona"  header="#{propiedadesEtiquetaBL.Informacion}" 
+             style="height: 520px; width: 800px">
+        <p:focus context="datosPersona"/>   
+
+        <!-- PanelGrid para Personas-->         
+        <h:panelGrid id="personaNaturalGri" columns="1" columnClasses="label, value, validator" styleClass="grid">
+
+            <h:panelGrid columns="2" style="border: transparent" columnClasses="label, value, validator" styleClass="grid">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                               for="identificacion" styleClass="etiquetaRequerida"/>
+                <p:inputText id="identificacion" 
+                             value="#{proveedorBean.identificacion}" 
+                             title="#{propiedadesTituloBL.Identificacion}" 
+                             required="true"
+                             requiredMessage ="#{propiedadesEtiquetaBL.Identificacion} #{propiedadesMensajesBL.CampoRequerido}">
+                    <p:ajax event="blur"
+                            listener="#{proveedorBean.buscaPersonaPorIdentificion()}"
+                            update="personasA, tipoIdentificacionPersona,tipoPersonaPersona, correoElectronico, nombreCompleto"> 
+                    </p:ajax>
+                </p:inputText>
+            </h:panelGrid>
+
+            <!--DATOS DE PERSONA-->         
+            <h:panelGrid id="personasA" columns="3" style="border: transparent" columnClasses="label, value, validator" styleClass="grid"> 
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoIdentificacion}" 
+                               for="tipoIdentificacionPersona"   styleClass="etiquetaRequerida"/>
+
+                <p:selectOneMenu id="tipoIdentificacionPersona" 
+                                 value="#{proveedorBean.tipoIdentificacion}" 
+                                 required="true" 
+                                 disabled="true"
+                                 requiredMessage="#{propiedadesEtiquetaBL.TipoIdentificacion} #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{bdhBL.SelectOneMessage}"/>
+                    <f:selectItems value="#{proveedorBean.itemsTipoIdentificacion}"
+                                   var="tipoIdentificacionItems"
+                                   itemValue="#{tipoIdentificacionItems}"
+                                   itemLabel="#{tipoIdentificacionItems.nombre}"
+                                   />
+                    <f:converter binding="#{tipoIdentificacionConverter}"/>
+                    
+
+                </p:selectOneMenu> 
+                <h:message for="tipoIdentificacionPersona" styleClass="invalido" />
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoPersona}" 
+                               for="tipoPersonaPersona"  styleClass="etiquetaRequerida"/>
+
+                <p:selectOneMenu id="tipoPersonaPersona" 
+                                 value="#{proveedorBean.tipoPersona}" 
+                                 required="true" 
+                                 disabled="true"
+                                 requiredMessage="#{propiedadesEtiquetaBL.TipoPersona} #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{bdhBL.SelectOneMessage}"/>
+                    <f:selectItems value="#{proveedorBean.itemsTipoPersona}"
+                                   var="tipoPersonaItems"
+                                   itemValue="#{tipoPersonaItems}"
+                                   itemLabel="#{tipoPersonaItems.nombre}"
+                                   />
+                    <f:converter binding="#{tipoPersonaConverter}"/>
+                </p:selectOneMenu> 
+                <h:message for="tipoPersonaPersona" styleClass="invalido" />
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.NombreCompleto}" 
+                               for="nombreCompleto"   styleClass="etiquetaRequerida"/>
+                <p:inputText id="nombreCompleto" 
+                             required="true"
+                             value="#{proveedorBean.persona.nombreCompleto}"
+                             onblur="value = value.toUpperCase()" 
+                             size="80"                             
+                             title="#{propiedadesTituloBL.NombreCompleto}" 
+                             requiredMessage="#{propiedadesEtiquetaBL.NombreCompleto} #{propiedadesMensajesBL.CampoRequerido}"/>
+                <h:message for="nombreCompleto" styleClass="invalido" />
+                
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Direccion}" 
+                               for="direccion"   styleClass="etiqueta"/>
+                <p:inputText id="direccion" 
+                             value="#{proveedorBean.proveedor.direccion}"
+                             title="#{propiedadesTituloBL.Direccion}" 
+                             required="false"
+                             size="90"
+                             onblur="value = value.toUpperCase()" 
+                             maxlength="90">
+                </p:inputText>
+                <h:message for="direccion" styleClass="invalido" />
+
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Telefono}" 
+                               for="telefono"   styleClass="etiqueta"/>
+                <p:inputText id="telefono" 
+                             value="#{proveedorBean.proveedor.telefono}"
+                             title="#{propiedadesTituloBL.Telefono}" 
+                             required="false"
+                             size="20"
+                             maxlength="17">                    
+                </p:inputText>
+                <h:message for="telefono" styleClass="invalido" />
+
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CorreoElectronico}" 
+                               for="correoElectronico"   styleClass="etiquetaRequerida"/>
+                <p:inputText id="correoElectronico" 
+                             value="#{proveedorBean.persona.correoEletronico}"
+                             title="#{propiedadesTituloBL.CorreoElectronico}" 
+                             required="false"
+                             size="80"
+                             validator="correoElectronicoValidador"
+                             maxlength="90"
+                             requiredMessage="#{propiedadesEtiquetaBL.CorreoElectronico} #{propiedadesMensajesBL.CampoRequerido}">
+                </p:inputText>
+                <h:message for="correoElectronico" styleClass="invalido" />
+
+                 
+                <p:outputLabel value="#{propiedadesEtiquetaBL.EstadoProEliminadoIfip}"
+                               for="eliminadoProIfip"   styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="eliminadoProIfip"
+                                 value="#{proveedorBean.proveedorIfip.eliminado}"
+                                 required="true" 
+                                 disabled="#{proveedorBean.estadoIngresoProIfip}"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                </p:selectOneMenu>
+                
+
+            </h:panelGrid>
+
+
+        </h:panelGrid>
+    </p:panel>
+</ui:composition>

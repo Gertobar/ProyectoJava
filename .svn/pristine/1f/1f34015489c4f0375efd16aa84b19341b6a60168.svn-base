@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="125" pageHeight="104" columnWidth="125" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d3db4470-ac84-40d3-9c5b-aae96c3c684a">
+	<property name="ireport.zoom" value="3.797498335832415"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoSocio" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[$P{codigoSocio}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select ceg.total_socio    "TOT EGRESOS", 
+       ifc.nombre         "NOMBRE EGR"
+from 
+       mks_socios.socio_flujo_caja_egreso ceg,
+       mks_socios.item_flujo_caja ifc
+where
+       ceg.codigo_socio = $P{codigoSocio}
+and    ceg.codigo_item_flu_caj = ifc.codigo]]>
+	</queryString>
+	<field name="TOT EGRESOS" class="java.math.BigDecimal"/>
+	<field name="NOMBRE EGR" class="java.lang.String"/>
+	<variable name="TOT EGRESOS_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOT EGRESOS}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="125" height="15" backcolor="#3B83BD" uuid="793596f4-9fde-4f3c-b746-a4e85512eb59"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EGRESOS]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="80" height="15" uuid="11cbdd2c-59f9-4fbb-81a9-7122422dd92e"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["  "+$F{NOMBRE EGR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="45" height="15" backcolor="#0099CC" uuid="35517b5c-2337-4755-b3cb-9713a8663a46"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOT EGRESOS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="80" y="0" width="45" height="15" backcolor="#0099CC" uuid="99c175a2-5be8-42d2-9b10-efe60e20eee5"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOT EGRESOS_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="15" uuid="7572daef-8a82-4c5f-9997-6e20ebf31513"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL EGRESOS]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

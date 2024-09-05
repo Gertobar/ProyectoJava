@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="flujoCajaPan" 
+              header="#{propiedadesEtiquetaBL.FlujoDeCaja}"
+              style="height: 530px; width: 700px"
+              >  
+        <p:focus context="flujoCajaPan"/>   
+
+        <p:dataTable id="ingresosTbl"  
+                     value="#{informeTecnicoController.itemsSocioFlujoCajIng}"
+                     widgetVar="ingresosTabla"
+                     var="itemIng"
+                     rowKey="#{itemIng.socioFlujoCajaIngresoPK}"    
+                     scrollable="true" 
+                     scrollHeight="100" 
+                     editable="false" 
+                     editMode="cell" 
+                     style="width: 700px"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Ingresos}"/>                
+            </f:facet>
+            <p:ajax event="cellEdit" 
+                    listener="#{informeTecnicoController.edicionCeldaIngresos}" 
+                    update=":SituacionEconomicaFor:totalIngresosSocioLab,:SituacionEconomicaFor:totalIngresosConyugeLab,:SituacionEconomicaFor:saldoLab,:SituacionEconomicaFor:coberturaLab" />
+            <p:column style="width: 400px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Item}"/>
+                </f:facet>
+                <h:outputText value="#{itemIng.itemFlujoCaja.nombre}"/> 
+            </p:column>
+            <p:column id="socioIngresoCol" style="width: 100px; text-align: center">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                </f:facet>
+                <p:cellEditor>  
+                    <f:facet name="output">
+                        <h:outputText value="#{itemIng.totalSocio}" >
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                    <f:facet name="input" >
+                        <p:inputText   id="totalSocioIng"                                        
+                                       value="#{itemIng.totalSocio}"
+                                       style="text-align: center">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            <f:validateLongRange minimum="0"/>
+                        </p:inputText>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column id="conyugeIngresoCol" style="width: 100px; text-align: center">
+                <f:facet name="header"> 
+                    <h:outputText value="#{propiedadesEtiquetaBL.Conyuge}"/>
+                </f:facet>
+                <p:cellEditor>  
+                    <f:facet name="output">
+                        <h:outputText value="#{itemIng.totalConyuge}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                    <f:facet name="input" >
+                        <p:inputText   id="totalConyugeIng"                                        
+                                       value="#{itemIng.totalConyuge}"
+                                       style="text-align: center">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            <f:validateLongRange minimum="0"/>                         
+                        </p:inputText>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+        </p:dataTable>
+        <h:panelGrid columns="3" width="600px">
+            <h:panelGrid columns="1" width="430px" style="text-align:  right">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Totales}" styleClass="encabezadosPanelGrid"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1" width="120px" style="text-align: center">
+                <h:outputText id="totalIngresosSocioLab" 
+                               value="#{informeTecnicoController.socioFlujoCaja.totalIngresosSocio}" 
+                               styleClass="encabezadosPanelGrid">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+            <h:panelGrid columns="1" width="125px" style="text-align: center">
+                <h:outputText id="totalIngresosConyugeLab" 
+                              value="#{situacionEconomicaBean.socioFlujoCaja.totalIngresosConyuge}" 
+                              styleClass="encabezadosPanelGrid">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+        </h:panelGrid>
+
+        <p:separator/>
+
+        <p:dataTable id="egresosTbl"  
+                     value="#{informeTecnicoController.itemsSocioFlujoCajEgr}"
+                     widgetVar="egresosTabla"
+                     var="itemIng"
+                     rowKey="#{itemIng.socioFlujoCajaEgresoPK}"    
+                     scrollable="true" 
+                     scrollHeight="100" 
+                     editable="false" 
+                     editMode="cell" 
+                     style="width: 600px"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Egresos}"/>                
+            </f:facet>
+            <p:ajax event="cellEdit" 
+                    listener="#{informeTecnicoController.edicionCeldaEgresos}" 
+                    update=":SituacionEconomicaFor:totalGastosSocioLab,:SituacionEconomicaFor:saldoLab,:SituacionEconomicaFor:coberturaLab" />
+            <p:column style="width: 400px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Item}"/>
+                </f:facet>
+                <h:outputText value="#{itemIng.itemFlujoCaja.nombre}"/> 
+            </p:column>
+            <p:column id="socioIngresoCol" style="width: 100px; text-align: center">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/> 
+                </f:facet>
+                <p:cellEditor>  
+                    <f:facet name="output">
+                        <h:outputText value="#{itemIng.totalSocio}" >
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                    <f:facet name="input" >
+                        <p:inputText   id="totalSocioIng"                                        
+                                       value="#{itemIng.totalSocio}"
+                                       style="text-align: center">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            <f:validateLongRange minimum="0"/>
+                        </p:inputText>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>          
+        </p:dataTable>
+        <h:panelGrid columns="3">
+            <h:panelGrid columns="1" width="430px" style="text-align:  right">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Totales}" styleClass="encabezadosPanelGrid"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1" width="145px" style="text-align: center">
+                <h:outputText id="totalGastosSocioLab" 
+                               value="#{informeTecnicoController.socioFlujoCaja.totalGastosSocio}" 
+                               styleClass="encabezadosPanelGrid">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+
+        </h:panelGrid>
+
+        <p:separator/>
+
+        <h:panelGrid columns="2" width="300">
+            <h:panelGrid columns="1">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Saldo}" styleClass="encabezadosPanelGrid"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1" style="text-align: center">
+                <h:outputText id="saldoLab" 
+                               value="#{informeTecnicoController.socioFlujoCaja.saldo}" 
+                               styleClass="encabezadosPanelGrid">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+            <h:panelGrid columns="1">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Cobertura}" styleClass="encabezadosPanelGrid"/>
+            </h:panelGrid>
+            <h:panelGrid columns="1" style="text-align: center">
+                <h:outputText id="coberturaLab" 
+                               value="#{informeTecnicoController.socioFlujoCaja.cobertura}" 
+                               styleClass="encabezadosPanelGrid">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+        </h:panelGrid>
+
+    </p:panel>
+
+</ui:composition>

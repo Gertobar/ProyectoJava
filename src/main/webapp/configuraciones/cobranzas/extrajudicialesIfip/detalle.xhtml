@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CobranzaExtrajudicialViewDetalleDlg" 
+                  widgetVar="CobranzaExtrajudicialViewDetalleDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.CobranzaExtrajudicial}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="CobranzaExtrajudicialViewDetalleForm">
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="1">
+                        <h:dataTable var="detalle" 
+                                     value="#{cobranzaExtrajudicialController.listaCobranzaExtrajudicialDetAdicionar}">
+                            <p:column>
+                                <f:facet name="header">#{propiedadesEtiquetaBL.Nombre}</f:facet>
+                                <h:outputText value="#{detalle.nombre}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">#{propiedadesEtiquetaBL.Dia} INICIAL</f:facet>
+                                <h:outputText value="#{detalle.numeroDiaInicial}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">#{propiedadesEtiquetaBL.Dia} FINAL</f:facet>
+                                <h:outputText value="#{detalle.numeroDiaFinal}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">#{propiedadesEtiquetaBL.Valor} MAXIMO</f:facet>
+                                <h:outputText value="$#{detalle.valorMaximo}" />
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">#{propiedadesEtiquetaBL.PorDiferencia}</f:facet>
+                                <h:selectOneMenu id="calculaPorDiferencia"
+                                                 value="#{detalle.calculaPorDiferencia}"
+                                                 disabled="true">                          
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />
+                                </h:selectOneMenu>
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">#{propiedadesEtiquetaBL.Servicio} #{propiedadesEtiquetaBL.Financiero}</f:facet>
+                                <h:selectOneMenu id="servicioFinancieroTipoCanal"
+                                                 value="#{detalle.codigoServicioFinancieroTipoCanal}"
+                                                 disabled="true">
+                                    <f:selectItems value="#{cobranzaExtrajudicialController.listaServicioFinancieroTipoCanal}"
+                                                   var="codigoServicioFinancieroTipoCanal"
+                                                   itemLabel="#{codigoServicioFinancieroTipoCanal.codigoServicioFinanciero.servicio}" 
+                                                   itemValue="#{codigoServicioFinancieroTipoCanal}"/>
+                                    <f:converter binding="#{servicioFinancieroTipoCanalConverter}"/>
+                                </h:selectOneMenu>
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">#{propiedadesEtiquetaBL.Eliminado}</f:facet>
+                                <h:selectOneMenu id="elimidadoDetalle" 
+                                                 disabled="true"
+                                                 value="#{detalle.eliminado}" >                          
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                                </h:selectOneMenu>
+                            </p:column>
+                        </h:dataTable>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

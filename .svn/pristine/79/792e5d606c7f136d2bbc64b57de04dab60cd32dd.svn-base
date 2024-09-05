@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="9">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.BuscarPor}"/>
+
+            <p:selectOneMenu id="buscarPor"                                  
+                             value="#{ventaBean.buscarPor}"
+                             required="true"                                  
+                             requiredMessage="#{ventaBean.buscarPor} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Cliente}" itemValue="C" />  
+            
+                <p:ajax event="change" listener="#{ventaBean.cambiaCriterio()}" update=":barraForm"/>
+            </p:selectOneMenu>   
+
+            <p:panel id="panelBusquedaCliente" visible="#{!ventaBean.visiblePanelFecha}"
+                     style="border: transparent">
+
+                <h:panelGrid columns="4">
+                    <p:inputText id="criterioTex" 
+                                 value="#{ventaBean.codigoCliente}"   
+                                 styleClass="campoValor"
+                                 size="15">
+                        <p:ajax event="blur" 
+                                listener="#{ventaBean.buscaVentas()}" 
+                                update="nombreCliente, :VentaListForm:datalist, :barraForm"/>
+
+                    </p:inputText>
+
+                    <p:inputText id="nombreCliente" 
+                                 readonly="true"   
+                                 value="#{ventaBean.nombreCliente}" 
+                                 onblur="value = value.toUpperCase()" 
+                                 size="50"/>
+                    <p:commandButton id="buscar" 
+                                     value="#{propiedadesEtiquetaBL.Buscar}"
+                                     icon="#{propiedadesObjetosBL.IcoVer}" 
+                                     onclick="procesandoDlg.show()"
+                                     update=":ListaClientesForm,:barraForm"
+                                     actionListener="#{ventaBean.preparListaValoresClienteBusqueda}"
+                                     oncomplete="procesandoDlg.hide();ListaClientesDialog.show();"
+                                     />
+                </h:panelGrid>
+            </p:panel>  
+
+            
+        </h:panelGrid>
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

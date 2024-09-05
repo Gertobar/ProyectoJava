@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ExpiracionContrasenaEditDlg"
+                  widgetVar="ExpiracionContrasenaEditDialog" 
+                  modal="true" 
+                  resizable="false"
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.ExpiracionContrasena}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="ExpiracionContrasenaEditForm">
+
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Usuario}" 
+                                       for="usuario"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="usuario" 
+                                         value="#{expiracionContrasenaController.usuarioSistemaSel.usuario}"                                  
+                                         required="true" 
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Usuario} - #{propiedadesMensajesBL.CampoRequerido}" >                                           
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="itemUsuarioExpCon"
+                                           itemValue="#{itemUsuarioExpCon}"
+                                           itemLabel="#{itemUsuarioExpCon.codigoPersona.nombreCompleto}"/>                                     />
+                            <f:converter binding="#{usuarioConverter}"/>  
+                        </p:selectOneMenu>                                                      
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.MotivoExpiraContrasena}" 
+                                       for="codigoMotivoExpira"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="codigoMotivoExpira"
+                                         value="#{expiracionContrasenaController.expiracionContrasena.codigoMotivoExpira}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.MotivoExpiraContrasena} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{motivoExpiraContrasenaController.items}"
+                                           var="codigoMotivoExpiraItem"
+                                           itemValue="#{codigoMotivoExpiraItem}"
+                                           itemLabel="#{codigoMotivoExpiraItem.nombre}"
+                                           />
+                            <f:converter binding="#{motivoExpiraContrasenaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                                       for="observaciones" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="observaciones" 
+                                     value="#{expiracionContrasenaController.expiracionContrasena.observaciones}"
+                                     title="#{propiedadesTituloBL.Observaciones}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Observaciones} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="100" maxlength="100"/>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="expiraContrasenaBot" 
+                                             value="#{propiedadesEtiquetaBL.Expirar}" 
+                                             update=":mensaje,:ExpiracionContrasenaEditForm,:ExpiracionContrasenaListForm:datalist"       
+                                             onclick="procesandoDlg.show();
+                                                     PF('ExpiracionContrasenaEditDlg').show();"
+                                             action="#{expiracionContrasenaController.expiraContrasena()}"
+                                             oncomplete="procesandoDlg.hide();"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

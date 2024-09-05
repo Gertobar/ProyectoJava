@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstadoSocioEditDlg"
+                  widgetVar="EstadoSocioEditDialog" 
+                  modal="true" resizable="false"
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.EstadoSocio}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <h:form id="EstadoSocioEditForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{estadoSocioController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" 
+                                       for="codigo"  styleClass="etiqueta"/>
+                        <h:outputText id="codigo" value="#{estadoSocioController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" for="nombre"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" value="#{estadoSocioController.selected.nombre}" 
+                                     title="#{propiedadesTituloBL.Nombre}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} : #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="30" maxlength="30"/>                      
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.IndicaActivo}" for="indicaActivo" styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="indicaActivo" 
+                                         value="#{estadoSocioController.selected.indicaActivo}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.IndicaActivo} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  >                                                    
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{estadoSocioController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                                   
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{estadoSocioController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:EstadoSocioListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,EstadoSocioEditDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

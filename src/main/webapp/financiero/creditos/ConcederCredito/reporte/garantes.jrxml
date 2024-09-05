@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="garantes" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="fa9be21e-f8d4-4824-a155-1a7b0b5e25df">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="numeroCredito" class="java.lang.Long"/>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[WITH 
+   conyuge  AS (SELECT pey.identificacion, pey.nombre_completo,
+                       pec.codigo_persona
+                FROM   mks_creditos.garante_credito      gac,
+                       mks_socios.persona                peg,
+                       mks_socios.persona_conyuge        pec,             
+                       mks_socios.persona                pey
+                WHERE  gac.numero_credito                = $P{numeroCredito}
+                AND    gac.codigo_ifip                   = $P{codigoIfip}
+                AND    gac.eliminado                     = 'N'
+                AND    pec.firma                         = 'S'
+                AND    pec.eliminado                     = 'N'
+                AND    pec.codigo_persona                = gac.codigo_persona 
+                AND    peg.codigo                        = pec.codigo_persona  
+                AND    pey.codigo                       = pec.codigo_persona_conyuge )
+SELECT (SELECT identificacion
+        FROM   mks_socios.persona
+        WHERE  codigo                   = gac.codigo_persona) "IDENTIFICACION",
+        (SELECT nombre_completo
+        FROM   mks_socios.persona
+        WHERE  codigo                   = gac.codigo_persona) "NOMBRE",
+        (SELECT identificacion
+         FROM conyuge
+         WHERE codigo_persona           = gac.codigo_persona)  "INDENTIFACION CONYUGE",
+         (SELECT nombre_completo
+         FROM conyuge
+         WHERE codigo_persona           = gac.codigo_persona)  "NOMBRE CONYUGE"
+FROM   mks_creditos.garante_credito      gac
+WHERE  numero_credito                    = $P{numeroCredito}
+AND    codigo_ifip                       = $P{codigoIfip}
+AND    eliminado                         = 'N'
+ORDER BY gac.codigo]]>
+	</queryString>
+	<field name="IDENTIFICACION" class="java.lang.String"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="INDENTIFACION CONYUGE" class="java.lang.String"/>
+	<field name="NOMBRE CONYUGE" class="java.lang.String"/>
+	<group name="IDENTIFICACION">
+		<groupExpression><![CDATA[$F{IDENTIFICACION}]]></groupExpression>
+	</group>
+	<group name="INDENTIFACION CONYUGE">
+		<groupExpression><![CDATA[$F{INDENTIFACION CONYUGE}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="130" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="60" y="99" width="211" height="15" uuid="1bf509e1-0514-4047-9803-53981e83c9a8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IDENTIFICACION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="60" y="71" width="211" height="28" uuid="4a71cdaa-6746-4987-9bb9-2571b8c56ff6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="337" y="99" width="211" height="15" uuid="7746d02e-d20a-4510-93db-0a12afa8b951"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INDENTIFACION CONYUGE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="337" y="71" width="211" height="28" uuid="fecb10b3-8e75-4e3e-a1eb-92ea8b0ea635"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE CONYUGE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="99" width="56" height="15" uuid="3cfbf8d1-bb4e-46e1-8e43-45c4b452711e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C.I]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="71" width="56" height="28" uuid="54e1ee9e-e682-4ed3-bf01-0dd0ac4a0339"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="283" y="71" width="54" height="28" uuid="ba738394-d7fa-466e-940c-e3f63de91d12"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="283" y="99" width="56" height="15" uuid="438b140b-ef7b-4482-b221-8e00eee418a8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C.I]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="57" width="256" height="14" uuid="7e8111d0-9836-465f-a4e4-d4468d69d7cc"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[..................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="283" y="57" width="255" height="14" uuid="ae26dd7e-74d9-4eef-a579-9076b999520f"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[..................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="114" width="100" height="15" uuid="7796b6f0-dc12-49f5-ae5e-850090bea9d7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GARANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="283" y="114" width="100" height="15" uuid="7d0ee411-5379-48ff-a9c7-1b5804a733e9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONYUGE]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

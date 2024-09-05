@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioGuiaDepositoEditDlg" 
+                  widgetVar="UsuarioGuiaDepositoEditDialog" 
+                  modal="true"
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.UsuarioGuiaDeposito}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="UsuarioGuiaDepositoEditForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{usuarioGuiaDepositoController.selected != null}">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Usuario}" 
+                                       for="usuario"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="usuario" value="#{usuarioGuiaDepositoController.selected.usuario}" 
+                                         required="true" 
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Usuario} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{usuarioGuiaDepositoController.itemsUsuario}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"
+                                           itemLabel="#{usuarioItem.username.toString()}  - #{usuarioItem.codigoPersona.nombreCompleto.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Agencia}" 
+                                       for="ifipAgencia" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="ifipAgencia" 
+                                         value="#{usuarioGuiaDepositoController.selected.ifipAgencia}" 
+                                         required="true"                          
+                                         requiredMessage="#{propiedadesEtiquetaBL.Agencia} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{usuarioGuiaDepositoController.itemsIfipAgencia}"
+                                           var="ifipAgenciaItem"
+                                           itemValue="#{ifipAgenciaItem}"
+                                           itemLabel="#{ifipAgenciaItem.nombre.toString()}"/>
+                            <f:converter binding="#{ifipAgenciaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.HabilitadoPor}" 
+                                       for="asignadoPor"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="asignadoPor" 
+                                         value="#{usuarioGuiaDepositoController.selected.habilitadoPor}"                                  
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.HabilitadoPor} - #{propiedadesMensajesBL.CampoRequerido}">                                                    
+                            <f:selectItem  itemValue="#{usuarioController.usuario}"
+                                           itemLabel="#{usuarioController.usuario.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>                    
+                        </p:selectOneMenu> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaHabilitacion}"
+                                       for="fechaHabilitacion"  styleClass="etiquetaRequerida"/>
+                        <p:calendar id="fechaHabilitacion" pattern="MM/dd/yyyy HH:mm:ss" 
+                                    value="#{usuarioGuiaDepositoController.selected.fechaHabilitacion}" 
+                                    title="#{propiedadesEtiquetaBL.FechaHabilitacion}" 
+                                    required="true" 
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaHabilitacion} - #{propiedadesMensajesBL.CampoRequerido}" 
+                                    showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{usuarioGuiaDepositoController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="NO" itemValue="N" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{usuarioGuiaDepositoController.editaUsuarioGuiaDeposito}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}" 
+                                             update="display,:UsuarioGuiaDepositoListForm:datalist,:mensaje"
+                                             oncomplete="handleSubmit(xhr,status,args,UsuarioGuiaDepositoEditDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

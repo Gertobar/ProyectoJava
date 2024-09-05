@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:dialog appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="imprimeReversoDlg"                  
+              modal="true"
+              closable="false"
+              closeOnEscape="false"
+              widgetVar="ImprimeReversoDialogo">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="impresionLabRev"
+                            value="#{propiedadesEtiquetaBL.Impresion}"
+                            styleClass="encabezadosDialog"/>
+        </f:facet>
+        
+        <h:form id="ReversoFor">
+            <h:panelGrid columns="1" style="text-align: center; size: 10px">
+                
+                <h:outputText styleClass="encabezadosPanelGrid" 
+                              value="#{propiedadesEtiquetaBL.ImprimirReverso}"/>
+                <h:panelGrid columns="2" style="text-align: center">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Aceptar}"
+                                     actionListener="#{impresionLibretaCuentaController.imprimirReverso}"
+                                     onclick="ImprimeReversoDialogo.hide();procesandoDlg.show()"
+                                      update=":mensaje,:EstadoCuentaFor"/>
+                </h:panelGrid>
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+</ui:composition>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OperadoraTelefonoCreateDlg" 
+                  widgetVar="OperadoraTelefonoCreateDialog" 
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                   closeOnEscape="true">
+             <f:facet name="header">
+                 <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.OperadoraTelefono}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>  
+
+            <h:form id="OperadoraTelefonoCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+    
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" for="nombre"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" value="#{operadoraTelefonoController.selected.nombre}" 
+                                     title="#{propiedadesEtiquetaBL.Nombre}" required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Codigo}" 
+                                     size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Siglas}"
+                                       for="siglas"
+                                       styleClass="etiquetaRequerida"
+                                         />
+                        <p:inputText id="siglas" value="#{operadoraTelefonoController.selected.siglas}" title="#{myBundle.CreateOperadoraTelefonoTitle_siglas}" required="true" requiredMessage="#{myBundle.CreateOperadoraTelefonoRequiredMessage_siglas}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado" 
+                                         styleClass="etiquetaRequerida"
+                                         />
+                       <p:selectOneMenu id="eliminado" 
+                                        value="#{operadoraTelefonoController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado}: #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="NO" itemValue="N" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{operadoraTelefonoController.saveNew}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:OperadoraTelefonoListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,OperadoraTelefonoCreateDialog);"/>  
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

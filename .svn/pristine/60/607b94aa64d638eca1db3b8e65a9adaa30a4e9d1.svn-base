@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="ComprobanteListForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{comprobanteController.itemsComprobante}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{comprobanteController.selected}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="6"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Comprobantes}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column sortBy="#{item.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}"/>
+            </p:column>
+
+            <p:column filterBy="#{item.numeroComprobante}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.NumeroComprobante}"/>
+                </f:facet>
+                <h:outputText value="#{item.numeroComprobante}"/>
+            </p:column>
+
+            <p:column filterBy="#{item.codigoTipoComprobante.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.TipoComprobante}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoTipoComprobante.nombre}"/>
+            </p:column>
+
+            <p:column filterBy="#{item.codigoEstado.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.EstadoComprobante}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoEstado.nombre}"/>
+            </p:column>
+
+            <p:column filterBy="#{item.glosa}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Glosa}"/>
+                
+                </f:facet>
+                
+                  <p:inputTextarea  value="#{item.glosa}" cols="40"
+                                    disabled="true"/>
+            </p:column>
+
+            <p:column filterBy="#{item.fechaSistema}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Fecha}"/>
+                </f:facet>
+                <h:outputText value="#{item.fecha}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+
+            <p:column filterBy="#{item.total}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                </f:facet>
+                <h:outputText value="#{item.total}" style="float:right">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

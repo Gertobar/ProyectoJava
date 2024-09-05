@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="movimientosCuenta" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f31d2bc3-3f9c-4809-af1e-04186a8a546a">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nombreIfip" class="java.lang.String"/>
+	<parameter name="codigoApertura" class="java.lang.Long"/>
+	<parameter name="fechaApertura" class="java.util.Date"/>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT moc.codigo                               "CODIGO MOVIMIENTO",
+       mca.fecha_sistema                        "FECHA Y HORA"  ,
+       mon.nombre                               "MONEDA",                    
+       tip.nombre                               "PRODUCTO",
+       per.nombre_completo                      "SOCIO",
+       cta.numero                               "CUENTA",
+       con.siglas                               "TRANSACCION",
+       mca.numero_comprobante                   "COMPROBANTE",
+       moc.total_movimiento                     "TOTAL"
+FROM   mks_cajas.apertura_caja_movimiento_cta   apc,
+       mks_ahorros.movimiento_cuenta            moc,
+       mks_ahorros.movimiento_cuenta_adicional  mca,
+       mks_ahorros.concepto_transaccion         con,
+       mks_ahorros.cuenta                       cta,
+       mks_ahorros.tipo_producto                tip,
+       mks_comunes.moneda                       mon,
+       mks_socios.socio                         soc,
+       mks_socios.persona                       per
+WHERE  codigo_apertura                          = $P{codigoApertura}
+AND    mca.codigo_ifip		       = $P{codigoIfip}
+AND    moc.codigo                               = apc.codigo_movimiento
+AND    mca.codigo_movimiento                    = moc.codigo
+AND    con.codigo                               = moc.codigo_concepto
+AND    tip.codigo                               = moc.codigo_tipo_producto
+AND    mon.codigo                               = moc.codigo_moneda
+AND    cta.codigo                               = moc.codigo_cuenta
+AND    soc.codigo                               = cta.codigo_socio
+AND    soc.codigo_ifip                          = cta.codigo_ifip
+AND    per.codigo                               = soc.codigo_persona
+ORDER BY moc.codigo]]>
+	</queryString>
+	<field name="CODIGO MOVIMIENTO" class="java.math.BigDecimal"/>
+	<field name="FECHA Y HORA" class="java.sql.Timestamp"/>
+	<field name="MONEDA" class="java.lang.String"/>
+	<field name="PRODUCTO" class="java.lang.String"/>
+	<field name="SOCIO" class="java.lang.String"/>
+	<field name="CUENTA" class="java.lang.String"/>
+	<field name="TRANSACCION" class="java.lang.String"/>
+	<field name="COMPROBANTE" class="java.lang.String"/>
+	<field name="TOTAL" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="87" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="20" uuid="89494f17-5518-4b41-96ce-03681dfd78af"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreIfip}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="39" width="117" height="15" uuid="16171feb-794a-4b12-9086-9abf86e31628"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{codigoApertura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy hh:MM:ss">
+				<reportElement x="435" y="54" width="117" height="15" uuid="97561642-c09a-4c7a-888d-098701dd4f1f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaApertura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy hh:MM:ss">
+				<reportElement x="435" y="69" width="117" height="15" uuid="4aa85abb-dbb3-4c4e-8712-c15dbcdf0b89"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="335" y="39" width="100" height="15" uuid="e153d5f1-6109-4759-8065-5e0431e48cd8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO APERTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="335" y="54" width="100" height="15" uuid="b7515c4d-af6b-4056-a12b-6825d7513416"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA APERTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="335" y="69" width="100" height="15" uuid="129e9cc7-fd6d-4614-8110-75027101e99f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA IMPRESION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="552" height="18" uuid="e9fa0c70-1f7a-400f-8b8b-6142f59685d3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE MOVMIENTOS DE CUENTA EN APERTURA DE CAJA]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="12" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="46" height="10" uuid="c35ea292-5108-4549-aa28-242ed6ac3a78"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="0" width="62" height="10" uuid="e37a4d69-3662-4aa9-9593-6bef35164d1e"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA Y HORA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="108" y="0" width="36" height="10" uuid="115d1f82-83f8-4fd4-a0fd-cc48a72a415d"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONEDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="144" y="0" width="77" height="10" uuid="b47e8d6c-29df-45d0-b828-034cc1d736b2"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRODUCTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="221" y="0" width="130" height="10" uuid="120bbf97-dba3-4e7b-a754-a6ae30cb124b"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOCIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="351" y="0" width="39" height="10" uuid="b1b53e2d-09cb-486a-b54a-3f59f2d50a3b"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUENTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="0" width="51" height="10" uuid="77d0e426-364e-4c18-b683-bb571757fb4d"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRX]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="0" width="61" height="10" uuid="854e17e0-68fa-49eb-80c0-a3cb7dbfb6b2"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPROBANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="0" width="50" height="10" uuid="857953b8-a765-4911-8825-34486150b947"/>
+				<textElement textAlignment="Right">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="46" height="10" uuid="648926f6-1a14-4187-8b25-cea60959dd3e"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CODIGO MOVIMIENTO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy hh:MM:ss">
+				<reportElement x="46" y="0" width="62" height="10" uuid="2caee029-de4c-4ac8-9e79-800d3fff769e"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA Y HORA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="108" y="0" width="36" height="10" uuid="febd4ecf-b4ab-4f10-9869-f7e95637b1b5"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONEDA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="0" width="77" height="10" uuid="c234338b-75e4-40f2-b414-7c59fe06fc31"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRODUCTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="221" y="0" width="130" height="10" uuid="3fd1ceb4-f98b-4860-aabb-3843acc5768f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOCIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="351" y="0" width="39" height="10" uuid="6873af61-c18c-4f68-8fcb-3619841115a2"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUENTA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="0" width="51" height="10" uuid="12c26457-f263-4c4c-b45b-a87bfd47c279"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TRANSACCION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="0" width="61" height="10" uuid="d162777b-aae2-4008-935a-82fc4ca156ed"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COMPROBANTE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###,##0.00;(#,###,##0.00)">
+				<reportElement x="502" y="0" width="50" height="10" uuid="8a1f1e41-9649-4c3a-bce1-36de9e07b68b"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="452" y="0" width="100" height="15" uuid="7e2d98ea-534a-416d-abcd-b54e4db319ae"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

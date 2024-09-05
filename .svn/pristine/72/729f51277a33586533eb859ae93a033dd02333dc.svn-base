@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EfectivizacionChequeFor"> 
+
+        <p:panel  id="EfectivizacionChequePan"   
+                  header="#{propiedadesEtiquetaBL.EfectivizacionCheque}"  style="width: 1050px"
+                  styleClass="encabezadosDialog">         
+            <p:focus context="EfectivizacionChequePan"/>      
+
+            <p:separator/>  
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+
+                <h:panelGrid columns="1">                     
+                    <h:panelGrid id="DatosEfectivizacionChequeGri" columns="3" 
+                                 columnClasses="label, value, validator" styleClass="grid">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Fecha}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="fechaEfectivizacion" />
+                        <p:calendar value="#{efectivizacionChequeController.fecha}" 
+                                    id="fechaEfectivizacion"
+                                    readonly="true"
+                                    disabled="true"
+                                    size="16"
+                                    pattern="dd/MM/yyyy"                                      
+                                    locale="es" 
+                                    required="true" />
+                        <h:message for="fechaEfectivizacion"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="codigoMoneda" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoMoneda" 
+                                         value="#{efectivizacionChequeController.ubicaMoneda}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{efectivizacionChequeController.listaMoneda}"
+                                           var="MonedaItem"
+                                           itemValue="#{MonedaItem}"
+                                           itemLabel="#{MonedaItem.nombre}"/> 
+                            <p:ajax event="change" 
+                                    listener="#{efectivizacionChequeController.cambiaMoneda()}" 
+                                    update="codigoMoneda,EfectivizacionChequeTbl,efectivizarBot"/>                                
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoMoneda" styleClass="invalido" />
+
+                    </h:panelGrid>                           
+
+                    <p:panel  id="EfectivizacionDetPan">
+                        <h:panelGrid  id="EfectivizacionGri" columns="1" style="font-size: 11px;">
+                            <p:dataTable id="EfectivizacionChequeTbl"  
+                                         value="#{efectivizacionChequeController.listaChequeEnGuia}"      
+                                         var="item"                                        
+                                         selection="#{efectivizacionChequeController.listaChequeDepositadoSel}"
+                                         rowKey="#{item.codigo}" 
+                                         scrollable="true"
+                                         scrollHeight="160"
+                                         style="width:1007px;margin-bottom:0;" 
+                                         emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.ChequeEmitidos}"
+                                                   styleClass="encabezadosDialog" style="width: 690px"/>
+                                </f:facet>
+
+                                <p:ajax event="rowSelectCheckbox" 
+                                        listener="#{efectivizacionChequeController.calculaTotalSeleccionados}" 
+                                        update=":EfectivizacionChequeFor:totalEfectivizacion" />
+
+                                <p:ajax event="rowUnselectCheckbox" 
+                                        listener="#{efectivizacionChequeController.calculaTotalNoSeleccionados}" 
+                                        update=":EfectivizacionChequeFor:totalEfectivizacion"/>
+
+                                <p:ajax event="toggleSelect" 
+                                        listener="#{efectivizacionChequeController.calculaTotalSeleccionTodas}" 
+                                        update=":EfectivizacionChequeFor:totalEfectivizacion" />
+
+                                <p:column selectionMode="multiple"  style="text-align:center" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Efectivizar}"
+                                                      />
+                                    </f:facet>                                     
+                                </p:column>
+
+                                <p:column  style="text-align:center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.EntidadFinanciera}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.entidadFinanciera.codigoTipoEntidad.siglas} - #{item.entidadFinanciera.nombre}">                           
+                                    </h:outputText>
+                                </p:column> 
+
+                                <p:column  style="text-align:center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.NumeroCheque}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.numeroCheque}">                            
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column  style="text-align:center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.NumeroCuenta}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.numeroCuenta}">                           
+                                    </h:outputText>
+                                </p:column>                                 
+
+                                <p:column  style="text-align:center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.movimientoCuenta.codigoCuenta.socio.codigoPersona.nombreCompleto}">                           
+                                    </h:outputText>
+                                </p:column> 
+
+                                <p:column  style="text-align:center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.FechaDeposito}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.transferenciaChequeDesgloce.guiaDepositoChequeDes.guiaDepositoChequeDet.guiaDepositoCheque.fecha}">                           
+                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"  locale="es" />
+                                    </h:outputText>
+                                </p:column>    
+
+                                <p:column  style="text-align:center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.FechaEfectivizacion}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.transferenciaChequeDesgloce.guiaDepositoChequeDes.fechaEfectivizacion}">                           
+                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"  locale="es" />
+                                    </h:outputText>
+                                </p:column>    
+
+                                <p:column  style="text-align:center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.valor}">     
+                                           <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                    </h:outputText>
+                                </p:column>                             
+                            </p:dataTable>
+
+                            <h:panelGrid columns="2" width="1000px" style="text-align:right">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.TotalEfectivizacion}"
+                                               styleClass="encabezadosPanelGrid"/>                                              
+                                <h:outputText id="totalEfectivizacion" 
+                                              value="#{efectivizacionChequeController.totalEfectivizacion}" 
+                                              styleClass="encabezadosPanelGrid">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                       
+                                </h:outputText>
+                            </h:panelGrid>
+
+
+                            <f:facet name="footer">
+                                <p:commandButton process="EfectivizacionChequeTbl" 
+                                                 update=":EfectivizacionChequeFor:multiDetail" 
+                                                 icon="ui-icon-search" 
+                                                 value="Ver" 
+                                                 oncomplete="PF('multiDialog').show()" />
+                            </f:facet>
+                        </h:panelGrid>                    
+                    </p:panel>
+                </h:panelGrid>
+
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+                </p:confirmDialog>
+
+            </h:panelGroup>
+
+            <h:panelGrid>
+                <f:facet name="footer">
+                    <p:commandButton id="efectivizarBot"
+                                     actionListener="#{efectivizacionChequeController.emiteEfectivizacion}"
+                                     disabled="#{efectivizacionChequeController.deshabilitaBotonEfectifizar}"
+                                     value="#{propiedadesEtiquetaBL.Efectivizar}"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     update=":mensaje,:EfectivizacionChequeFor,EfectivizacionChequeTbl,:ComprobanteFor,:impresionLab">                    
+                        <p:confirm message="#{propiedadesMensajesBL.SeguroEfectivizarCheque}" 
+                                   icon="ui-icon-info"
+                                   class="encabezadosDialog"                                     
+                                   header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                    </p:commandButton>
+                </f:facet>            
+            </h:panelGrid>  
+        </p:panel>
+
+        <p:dialog widgetVar="multiDialog" 
+                  modal="true" 
+                  showEffect="fade" 
+                  hideEffect="fade" 
+                  resizable="false" 
+                  width="230"
+                  appendToBody="true" >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Cheques} #{propiedadesEtiquetaBL.A} #{propiedadesEtiquetaBL.Efectivizar}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+            <h:panelGroup id="displ" style="font-size: 11px; margin-top: 0px;">
+                <p:outputPanel id="multiDetail" style="width: 220px; text-align:left">
+                    <ui:repeat value="#{efectivizacionChequeController.listaChequeDepositadoSel}" 
+                               var="chequesSel">
+                        <h:outputText value=" #{chequesSel.entidadFinanciera.nombre} - #{chequesSel.numeroCheque} - #{chequesSel.valor}"
+                                      style="displ:block">
+                                         <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                        </h:outputText>                       
+                    </ui:repeat>                 
+                </p:outputPanel>
+            </h:panelGroup>
+        </p:dialog>
+    </h:form>
+</ui:composition>
+
+

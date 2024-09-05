@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="BloqueoDesbloqueoCuentaFor" >
+        <p:panel id="BloqueoDesbloqueoCuentaPan">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.BloqueoDesbloqueoCuentas}"/>
+            </f:facet>
+
+            <p:focus context="BloqueoDesbloqueoCuentaPan"/>   
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+                <h:panelGrid columns="2">
+                    <h:panelGrid id="BloqueoDesbloqueoCuentaGri"  style="font-size: 10px;" columns="3">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="moneda" 
+                                         value="#{bloqueoDesbloqueoCuentaBean.moneda}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{bloqueoDesbloqueoCuentaBean.itemsMoneda}"
+                                           var="codigoMonedaItem"
+                                           itemValue="#{codigoMonedaItem}"
+                                           itemLabel="#{codigoMonedaItem.nombre}"
+                                           />    
+                            <p:ajax event="change" listener="#{bloqueoDesbloqueoCuentaBean.cambiaMoneda()}" update="producto,cuenta,socio,guardarBot"/>
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="moneda"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                       for="producto"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="producto" 
+                                         value="#{bloqueoDesbloqueoCuentaBean.productoIfip}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="contains" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{bloqueoDesbloqueoCuentaBean.itemsProductoIfip}"
+                                           var="codigoProductoIfipItem"
+                                           itemValue="#{codigoProductoIfipItem}"
+                                           itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.codigo} #{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                           />                    
+                            <p:ajax event="change" listener="#{bloqueoDesbloqueoCuentaBean.cambiaProductoIfip()}" update="cuenta,socio,valor,guardarBot"/>
+                            <f:converter binding="#{productoIfipConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="producto"  styleClass="invalido"/>                        
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta} *"
+                                       styleClass="etiquetaRequerida"
+                                       for="cuenta" />
+                        <p:inputText id="cuenta" 
+                                     value="#{bloqueoDesbloqueoCuentaBean.numeroCuenta}"
+                                     size="20"
+                                     >
+                            <p:ajax event="blur" listener="#{bloqueoDesbloqueoCuentaBean.buscaCuenta()}" 
+                                    update="socio,guardarBot,saldoBloqueado,saldoDisponible,saldoTotal,:mensaje"/>
+                        </p:inputText>
+                        <p:commandButton id="cuentaBot"
+                                         value="#{propiedadesEtiquetaBL.Buscar}"
+                                         update=":listaCuentaForm,:encabezadoListaCuentasLab"
+                                         actionListener="#{bloqueoDesbloqueoCuentaBean.preparaBusquedaCuentas}"
+                                         onclick="procesandoDlg.show()"                                         
+                                         oncomplete="procesandoDlg.hide();cuentaDialog.show();"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}"
+                                       styleClass="etiquetaRequerida"
+                                       for="socio" />
+                        <p:inputText id="socio" 
+                                     value="#{bloqueoDesbloqueoCuentaBean.cuenta.socio.codigoPersona.nombreCompleto}"
+                                     size="50"
+                                     readonly="true"
+                                     />                        
+                        <h:message for="cuenta"  styleClass="invalido"/>    
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.SaldoBloqueado}" 
+                                       for="saldoBloqueado"
+                                       styleClass="etiqueta"/>
+                        <p:outputLabel id="saldoBloqueado"                                                                                                          
+                                       value="#{bloqueoDesbloqueoCuentaBean.cuenta.saldoBloqueado}"  
+                                       >    
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:outputLabel>
+                        <h:message for="saldoBloqueado"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.SaldoDisponible}" 
+                                       for="saldoDisponible"
+                                       styleClass="etiqueta"/>
+                        <p:outputLabel id="saldoDisponible"                                                                                                          
+                                       value="#{bloqueoDesbloqueoCuentaBean.cuenta.saldoDisponible}"  
+                                       >    
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:outputLabel>
+                        <h:message for="saldoDisponible"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.SaldoTotal}" 
+                                       for="saldoTotal"
+                                       styleClass="etiqueta"/>
+                        <p:outputLabel id="saldoTotal"                                                                                                          
+                                       value="#{bloqueoDesbloqueoCuentaBean.cuenta.saldoTotal}"  
+                                       >    
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:outputLabel>
+                        <h:message for="saldoTotal"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                                       for="tipo"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneRadio id="tipo" 
+                                          value="#{bloqueoDesbloqueoCuentaBean.tipo}"
+                                          requiredMessage="#{propiedadesEtiquetaBL.Tipo} - #{propiedadesMensajesBL.CampoRequerido}"
+                                          >
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Bloqueo}" itemValue="B" itemDisabled="#{bloqueoDesbloqueoCuentaBean.deshabilitaBtnBloquear}"/>
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Desbloqueo}" itemValue="D" itemDisabled="#{bloqueoDesbloqueoCuentaBean.deshabilitaBtnDesbloquear}"/>
+                        </p:selectOneRadio>
+                        <h:panelGrid id="BtnGri"  style="font-size: 10px;" columns="2">
+                            <p:commandButton id="desgloseBloqBot"
+                                             value="#{propiedadesEtiquetaBL.Desgloce}"
+                                         update=":desgloseBloqueosFor"
+                                         actionListener="#{bloqueoDesbloqueoCuentaBean.desgloseBloqueos}"
+                                         onclick="procesandoDlg.show()"                                         
+                                         oncomplete="procesandoDlg.hide();DesgloseBloqueosDialogo.show();"/>
+                            <h:message for="tipo"  styleClass="invalido"/> 
+                        </h:panelGrid>
+                           
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoBloqueoCuenta}" 
+                                       for="tipoBloqueoCuenta"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="tipoBloqueoCuenta" 
+                                         value="#{bloqueoDesbloqueoCuentaBean.tipoBloqueoCuenta}" 
+                                         
+                                         requiredMessage="#{propiedadesEtiquetaBL.Tipo} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{bloqueoDesbloqueoCuentaBean.itemsTipoBloqueoCuenta}"
+                                           var="tipoBLoqueoCuentaItem"
+                                           itemValue="#{tipoBLoqueoCuentaItem}"
+                                           itemLabel="#{tipoBLoqueoCuentaItem.nombre}"
+                                           />    
+                            <f:converter binding="#{tipoBloqueoCuentaConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="tipoBloqueoCuenta"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Valor}" 
+                                       for="valor"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="valor"                                                                                                          
+                                     value="#{bloqueoDesbloqueoCuentaBean.valor}"  
+                                     styleClass="campoRequeridoValor" 
+                                     
+                                     size="20">                            
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            
+                            <p:ajax event="blur" update="valor,guardarBot" />
+                        </p:inputText>
+                        <h:message for="valor"  styleClass="invalido"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                                       for="observaciones"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="observaciones"
+                                     value="#{bloqueoDesbloqueoCuentaBean.observaciones}"                                     
+                                     size="50"
+                                     maxlength="80"
+                                     onblur="value = value.toUpperCase()">
+                            
+                        </p:inputText>
+                        <h:message for="observaciones" styleClass="invalido" />
+
+                    </h:panelGrid>
+
+                </h:panelGrid>
+
+                <p:commandButton id="guardarBot"     
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                 action="#{bloqueoDesbloqueoCuentaBean.guardar()}"
+                                 disabled="#{bloqueoDesbloqueoCuentaBean.deshabilitarBtnGuardar}"
+                                 oncomplete="DesgloseBloqueosDialogo.hide();"
+                                 update="display,:BloqueoDesbloqueoCuentaFor,:mensaje,:desgloseBloqueosFor" />
+            </h:panelGroup>
+
+        </p:panel>  
+    </h:form>
+
+</ui:composition>

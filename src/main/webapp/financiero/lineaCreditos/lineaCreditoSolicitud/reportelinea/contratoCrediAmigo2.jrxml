@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contratoCrediAmigo_subreport2_subreport1" language="groovy" pageWidth="595" pageHeight="802" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0953cbc5-461a-4bdf-94f7-4fd594374301">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoLineaCredito" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="contratoCrediAmigo1" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+(
+SELECT UPPER( i.razon_social ) ||' '||
+       'CONTRATO DE LINEA DE CREDITO '||UPPER( lc.nombre ) titulo2
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_ifips.ifip i
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo_ifip = i.codigo
+AND    lcs.codigo = $P{codigoLineaCredito}
+)contenido0,
+
+'OCTAVA. – GARANTÍA: 
+Para afianzar, garantizar y caucionar todas las obligaciones contraídas o que en el futuro se contrajeren por esta línea de crédito '||UPPER( lc.nombre )||', EL DEUDOR constituye a favor de MASCOOP una garantía sobre firmas con los garantías arriba descritos.
+
+NOVENA. – RENOVACIÓN Y DECLARACIÓN:
+En caso de renovación de esta línea de crédito las partes continúan sometidas a las condiciones referidas en este contrato, así como las modificaciones futuras que la COOPERATIVA haga conocer de cualquier forma al SOCIO, cuya aceptación se entenderá aceptada por el uso de la línea de crédito '||UPPER( lc.nombre )||'. 
+
+El SOCIO declara que en la solicitud de la línea de crédito '||UPPER( lc.nombre )||', más todos y cada uno de los documentos adicionales suscritos por él, forman parte integrante de este contrato; cuya suscripción implica el condicionamiento y aceptación de los términos y condiciones de las normas internas de crédito que rigen para el otorgamiento y uso de la línea de crédito '||UPPER( lc.nombre )||', cuyas clausulas también son incorporadas al presente instrumento y que EL SOCIO declara conocer.
+
+DÉCIMA. - RESERVA:
+LA COOPERATIVA podrá modificar las condiciones y términos del presente instrumento por aplicación de la Ley y/o por resoluciones legalmente emitidas por los organismos de control y reguladores del sistema monetario y financiero.
+
+En todo lo que no se encuentre estipulado en el presente contrato las partes convienen en que sean aplicadas las disposiciones pertinentes señaladas en el Código Orgánico Monetario y Financiero y sus modificaciones; así como, en las disposiciones y regulaciones de la Superintendencia de Economía Popular y Solidaria, el Banco Central del Ecuador, la Junta de Política y Regulación Monetaria y Financiera y de otros Órganos Competentes.
+
+DÉCIMA PRIMERA. - COSTOS:
+EL SOCIO declara que ha sido debidamente informado sobre todos los costos, cargos por mora, tasa de interés vigente, seguros, entre otros cargos generados por el otorgamiento de esta línea de crédito y que están debidamente autorizados por los organismos de control y regulación.
+
+' contenido1,
+'DÉCIMA SEGUNDA. - DECLARACIÓN DE ORIGEN LICITO DE RECURSOS:
+Declaración Juramentada: El SOCIO en virtud al presente convenio y de todas las operaciones y/o transacciones que realice de manera libre y voluntaria, de forma personal declara que:
+"todos los valores que entregue o reciba de la COOPERATIVA tienen y tendrán un origen y destino que de ninguna manera están o estarán relacionadas con el cultivo, producción, fabricación, almacenamiento, transporte o tráfico ilícito de sustancias estupefacientes o psicotrópicas o con el lavado de dinero proveniente de narcotráfico o de cualquier otra actividad ilícita".
+
+DÉCIMA TERCERA. - BURO DE CRÉDITO:
+EL SOCIO declara que conoce la información de riesgos crediticios que pudiere ser transferida a los Burós de Crédito legalmente autorizados y que constará en las bases de datos de dichas entidades por el plazo señalado en las leyes vigentes y servirá que para terceros puedan evaluar su riesgo crediticio. Declara además que conoce de la Ley de Burós de información crediticia, así como los derechos que ella me ampara.
+De la misma manera EL SOCIO AUTORIZA expresamente a LA COOPERATIVA, para que con sus datos personales consulte en el buró (s) de crédito, y obtenga el o los reportes sobre su historial crediticio durante el tiempo que esté vigente esta Línea de Crédito; deslindando por consiguiente de toda responsabilidad a la Institución antes mencionada.
+
+DÉCIMA CUARTA. - JURISDICCIÓN:
+Las partes para todos los efectos previstos en el presente documento, renuncian a domicilio y se someterán a los jueces competentes de la ciudad de Cuenca y al trámite del juicio ejecutivo o vigente, a la elección del demandante, aceptando de manera expresa, someterse a la jurisdicción del último cesionario del préstamo e incluso a la coactiva en caso de que este tuviese.
+ 
+DÉCIMA QUINTA. - RATIFICACIÓN:
+Para constancia y ratificación de las cláusulas constantes en el presente instrumento, las partes suscriben en unidad de acto, en la ciudad de '||UPPER( ug.nombre )||', a los '||TO_NUMBER( TO_CHAR( SYSDATE,'DD' ) )||' días del mes de '||CASE TO_NUMBER( TO_CHAR( SYSDATE,'MM' ) )
+                                                                                                                                                                                                                                             WHEN 1 THEN 'ENERO'
+                                                                                                                                                                                                                                             WHEN 2 THEN 'FEBRERO'
+                                                                                                                                                                                                                                             WHEN 3 THEN 'MARZO'
+                                                                                                                                                                                                                                             WHEN 4 THEN 'ABRIL'
+                                                                                                                                                                                                                                             WHEN 5 THEN 'MAYO'
+                                                                                                                                                                                                                                             WHEN 6 THEN 'JUNIO'
+                                                                                                                                                                                                                                             WHEN 7 THEN 'JULIO'
+                                                                                                                                                                                                                                             WHEN 8 THEN 'AGOSTO'
+                                                                                                                                                                                                                                             WHEN 9 THEN 'SEPTIEMBRE'
+                                                                                                                                                                                                                                             WHEN 10 THEN 'OCTUBRE'
+                                                                                                                                                                                                                                             WHEN 11 THEN 'NOVIEMBRE'
+                                                                                                                                                                                                                                             WHEN 12 THEN 'DICIEMBRE'
+                                                                                                                                                                                                                                           END||' del '||TO_CHAR( SYSDATE,'YYYY' )||'.' contenido2
+FROM  mks_creditos.linea_credito_solicitud lcs,
+      mks_creditos.linea_credito lc,
+      mks_ifips.ifip_agencia a,
+      mks_comunes.ubicacion_geografica ug
+WHERE lcs.codigo_linea_credito = lc.codigo
+AND   lcs.codigo_ifip_agencia = a.codigo
+AND   a.codigo_ubi_geo_ciudad = ug.codigo
+AND   lcs.codigo = $P{codigoLineaCredito}]]>
+	</queryString>
+	<field name="CONTENIDO0" class="java.lang.String"/>
+	<field name="CONTENIDO1" class="java.lang.String"/>
+	<field name="CONTENIDO2" class="java.lang.String"/>
+	<pageHeader>
+		<band height="754" splitType="Stretch">
+			<textField>
+				<reportElement x="28" y="20" width="538" height="366" uuid="09edfd62-1cd2-445a-9fa3-c3b879f1a714"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="388" width="538" height="353" uuid="522249be-4133-4c08-b27b-c9930ff63c07"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="42" uuid="4a3a6eb2-59a7-4fb3-86fb-9eb6379b4538"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="contratoCrediAmigo1">
+					<subreportParameterExpression><![CDATA[$P{contratoCrediAmigo1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1} + "contratoCrediAmigoFirmas.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fondeoCaja" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="37"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DesgloceEfectivoFondeo" uuid="ee622ecb-b4f4-4460-8455-85bcfe610dd9">
+		<parameter name="codFon" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[SELECT   DECODE(tfm.denominacion,'B','BILLETE','MONEDA')    "DENOMINACION",
+         des.valor                                          "VALOR",
+         des.cantidad                                       "CANTIDAD",
+         des.total                                          "TOTAL"
+FROM     mks_cajas.fondeo_caja_desgloce_efectivo            des,
+         mks_cajas.fraccion_moneda                          frm,
+         mks_cajas.tipo_fraccion_moneda                     tfm         
+WHERE    des.codigo_fondeo                                  = $P{codFon}
+AND      des.codigo_moneda                                  = 1
+AND      frm.codigo_tipo_fraccion                           = tfm.codigo
+AND      des.codigo_moneda                                  = frm.codigo_moneda
+AND      des.codigo_tipo_fraccion                           = tfm.codigo
+ORDER BY  frm.orden]]>
+		</queryString>
+		<field name="DENOMINACION" class="java.lang.String"/>
+		<field name="VALOR" class="java.math.BigDecimal"/>
+		<field name="CANTIDAD" class="java.math.BigDecimal"/>
+		<field name="TOTAL" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="codigoFondeo" class="java.lang.Long"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  tti.nombre||' '||ifi.nombre           "IFIP",
+        ifa.nombre                            "AGENCIA",
+        foc.fecha_fondeo                      "FECHA FONDEO",
+        TO_CHAR(foc.fecha_sistema,
+                   'DD/MM/YYYY HH24:MI:SS')   "FECHA SISTEMA",
+        bov.nombre                            "BOVEDA",
+        puc.nombre_completo                   "CAJERO/A",
+        pur.nombre_completo                   "RESPONSABLE FONDEO",
+        ifi.path_imagen                       "IMAGEN",
+        mon.nombre                            "MONEDA",
+        fcd.total_fondeo                      "TOTAL FONDEO",
+        foc.codigo                             "CODIGO FONDEO"
+
+FROM    mks_cajas.fondeo_caja                  foc,
+        mks_cajas.fondeo_caja_detalle          fcd,
+        mks_ifips.boveda                       bov,
+        mks_seguridades.usuario                usc,
+        mks_seguridades.usuario                usr,
+        mks_socios.persona                     puc,
+        mks_socios.persona                     pur,
+        mks_ifips.ifip                         ifi,
+        mks_ifips.ifip_agencia                 ifa,
+        mks_ifips.tipo_ifip                    tti,
+        mks_comunes.moneda                     mon        
+WHERE   foc.codigo                             = $P{codigoFondeo}
+AND     fcd.codigo_moneda                      = 1
+AND     bov.codigo                             = foc.codigo_boveda
+AND     foc.codigo                             = fcd.codigo_fondeo
+AND     usc.codigo                             = foc.codigo_usuario_caja
+AND     usr.codigo                             = foc.codigo_usuario_fondeo
+AND     puc.codigo                             = usc.codigo_persona
+AND     pur.codigo                             = usr.codigo_persona
+AND     ifa.codigo                             = foc.codigo_ifip_agencia
+AND     ifi.codigo                             = ifa.codigo_ifip
+AND     tti.codigo                             = ifi.codigo_tipo_ifip
+AND     mon.codigo                             = fcd.codigo_moneda]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="AGENCIA" class="java.lang.String"/>
+	<field name="FECHA FONDEO" class="java.sql.Timestamp"/>
+	<field name="FECHA SISTEMA" class="java.lang.String"/>
+	<field name="BOVEDA" class="java.lang.String"/>
+	<field name="CAJERO/A" class="java.lang.String"/>
+	<field name="RESPONSABLE FONDEO" class="java.lang.String"/>
+	<field name="IMAGEN" class="java.lang.String"/>
+	<field name="MONEDA" class="java.lang.String"/>
+	<field name="TOTAL FONDEO" class="java.math.BigDecimal"/>
+	<field name="CODIGO FONDEO" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="5" y="25" width="550" height="30" uuid="28018225-171b-471e-a66f-838ed0428d25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="0" width="57" height="25" uuid="7f644b82-cc9c-4ce2-bf2a-f72fecf0b70b"/>
+				<imageExpression><![CDATA[$F{IMAGEN}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="427" splitType="Immediate">
+			<staticText>
+				<reportElement x="5" y="0" width="544" height="20" uuid="07bdd9f4-ab48-4af9-90e3-8a11fadaf09b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FONDEO DE CAJA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="326" y="25" width="100" height="20" uuid="ca9afc96-8e9f-4c86-9a1c-beab492ab107"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO FONDEO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="430" y="25" width="100" height="20" uuid="03d84193-2546-4f1d-862e-f7493f15113f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CODIGO FONDEO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="55" y="58" width="100" height="20" uuid="8d2cd899-5cd5-47f7-9eee-b8818b3f9328"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AGENCIA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="155" y="58" width="345" height="20" uuid="69efa379-d9be-48ee-be47-65da5e79fc6e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGENCIA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="55" y="96" width="100" height="20" uuid="7ce1d86a-a8bd-4df5-bf75-3a105a2e3504"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA FONDEO]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="155" y="96" width="345" height="20" uuid="f1c2f90f-fecd-4d56-8a1b-adb4bab5942c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA FONDEO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="55" y="115" width="100" height="20" uuid="beccddac-f097-46ff-aaa8-2897d5edb894"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA SISTEMA]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement x="155" y="115" width="345" height="20" uuid="fb8bc785-9392-4964-8c31-b997d145eba8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA SISTEMA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="351" width="230" height="20" uuid="b43ca69c-e14f-448d-97bd-27f3b4c2ee3e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESPONSABLE FONDEO]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="30" y="371" width="230" height="20" uuid="4866b7b6-74e2-48a8-aa1b-f8e644c01759"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RESPONSABLE FONDEO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="302" y="351" width="230" height="20" uuid="597f32cd-83ae-4577-b187-6641f8bef7cc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CAJERO/A]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="302" y="370" width="230" height="20" uuid="63a8d5da-9bcc-4129-8a97-890f32c52840"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CAJERO/A}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="55" y="77" width="100" height="20" uuid="b6ac9a70-a9c2-48b6-8b73-660e4e48b0e0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BOVEDA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="155" y="77" width="345" height="20" uuid="1246a124-0bf1-4510-8026-1b6d82e81d9d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BOVEDA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="332" width="230" height="20" uuid="ddeae7dd-3d2a-461b-b7f7-7ac9dec3dba8"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[..........................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="302" y="332" width="230" height="20" uuid="6084c7f8-8933-4873-9c5f-7d5118d58e4b"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[..........................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="134" width="100" height="20" uuid="fccc0d15-2987-4f67-aa95-e94c86ac49f5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONEDA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="155" y="134" width="155" height="20" uuid="91a31817-95df-4943-82fd-ba89ec817bb2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONEDA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="55" y="153" width="100" height="20" uuid="20db1071-af6c-4780-8512-78d9bb815831"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL FONDEO]]></text>
+			</staticText>
+			<textField pattern="###0.00;(###0.00)">
+				<reportElement x="155" y="153" width="155" height="20" uuid="0716fd63-7e64-4bf9-8410-1680652b4925"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL FONDEO}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" positionType="Float" x="62" y="210" width="438" height="50" uuid="a53ff0a2-a878-4179-92eb-436dcc64ab7a"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DesgloceEfectivoFondeo" uuid="082ad442-9100-4997-ad0e-865e4d95e8a2">
+						<datasetParameter name="codFon">
+							<datasetParameterExpression><![CDATA[$P{codigoFondeo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="1af4f3c6-16ff-4e2e-b0e4-722052182365">
+						<jr:columnHeader style="table 2_CH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="90" height="19" forecolor="#FFFFFF" backcolor="#333333" uuid="437543c5-401e-430b-833f-2520f61b0808"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[DENOMINACION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="11" y="0" width="79" height="20" uuid="90f7d73a-5bf8-46e4-bc0c-7f1a691bfef3"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{DENOMINACION}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="f3905c21-0a1d-4bcc-b509-4de202805928">
+						<jr:columnHeader style="table 2_CH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="90" height="19" forecolor="#FFFFFF" backcolor="#333333" uuid="7acda89b-c60a-46e5-acb2-6ed7c5b6dea3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[VALOR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField pattern="###0.00;(###0.00)">
+								<reportElement x="0" y="0" width="74" height="20" uuid="66ffb6b3-54ab-4227-b7ab-5d8a79c9511f"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{VALOR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="838b0485-8517-4aba-b9de-658eb62ad136">
+						<jr:columnHeader style="table 2_CH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="90" height="19" forecolor="#FFFFFF" backcolor="#333333" uuid="f17b8a4b-88b5-4a1d-a5aa-6120e70e014e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[CANTIDAD]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="5bc32094-7bf5-449f-8971-c890ac19fd50"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{CANTIDAD}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="e37296fa-e12a-4cae-b10f-b1644accc73a">
+						<jr:columnHeader style="table 2_CH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="90" height="19" forecolor="#FFFFFF" backcolor="#333333" uuid="87114c4e-de0b-41b4-8f80-68f3500b46ab"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField pattern="###0.00;(###0.00)">
+								<reportElement x="0" y="0" width="79" height="20" uuid="e3a13340-e965-48d1-94c3-20638d654cac"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="55" y="181" width="190" height="20" uuid="f48cdf04-7aab-469a-9dee-b37f2267309b"/>
+				<textElement>
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[DESGLOCE EFECTIVO FONDEO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="32" y="401" width="143" height="20" uuid="e94ffd36-8ad9-4a67-91a3-8c5617b3333f"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA IMPRESION]]></text>
+			</staticText>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss">
+				<reportElement positionType="Float" x="175" y="401" width="197" height="20" uuid="a75ac576-3326-4015-880d-b63dcba01c60"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="0" width="89" height="20" uuid="f82145e8-194a-467d-95f6-0f8cd46d0df7"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoRubroListForm">
+
+        <p:panel header="#{myBundle.ListTipoRubroTitle}">
+            <p:contextMenu id="TipoRubroDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('TipoRubroListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('TipoRubroListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('TipoRubroListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('TipoRubroListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.TipoRubroMenuItem_tipoRubroProCreMonIfiCollection}" icon="ui-icon-search"  action="#{tipoRubroController.navigateTipoRubroProCreMonIfiCollection}" disabled="#{empty tipoRubroController.selected.tipoRubroProCreMonIfiCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoRubroController.items}"
+                         var="item"
+                         rowKey="#{item.codio}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{tipoRubroController.selected}">
+
+                <p:ajax event="rowSelect"   update=":TipoRubroListForm:createButton :TipoRubroListForm:viewButton :TipoRubroListForm:editButton :TipoRubroListForm:deleteButton :TipoRubroListForm:TipoRubroDataTableContextMenu" listener="#{tipoRubroController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":TipoRubroListForm:createButton :TipoRubroListForm:viewButton :TipoRubroListForm:editButton :TipoRubroListForm:deleteButton :TipoRubroListForm:TipoRubroDataTableContextMenu" listener="#{tipoRubroController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoRubroListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.codio}" filterBy="#{item.codio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoRubroTitle_codio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoRubroTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.siglas}" filterBy="#{item.siglas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoRubroTitle_siglas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.siglas}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoRubroTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoRubroTitle_eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{tipoRubroController.prepareCreate}" update=":TipoRubroCreateForm" oncomplete="TipoRubroCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":TipoRubroViewForm" oncomplete="TipoRubroViewDialog.show()" disabled="#{empty tipoRubroController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":TipoRubroEditForm" oncomplete="TipoRubroEditDialog.show()" disabled="#{empty tipoRubroController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{tipoRubroController.delete}" update=":growl,datalist" disabled="#{empty tipoRubroController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

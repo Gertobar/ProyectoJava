@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContratoDpfCreateDlg" 
+                  widgetVar="ContratoDpfCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  style="height: 500px; width: 700px"
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel  value="#{propiedadesEtiquetaBL.Contrato} #{propiedadesEtiquetaBL.Dpf}"
+                                styleClass="encabezadosDialog"/>       
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+            <h:form id="ContratoDpfCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px;">
+                    <h:panelGrid columns="5">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}" 
+                                       for="nombrePersona"  
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:inputText   id="nombrePersona"
+                                       value="#{contratoDpfController.nombreSocioContrato}"
+                                       readonly="true"   
+                                       style="font-size: 12px; font-weight:bold;"
+                                       size="50">                        
+                        </p:inputText>
+
+                        <p:commandButton id="listadoSociosBot" 
+                                         style="font-size: 10px;"
+                                         actionListener="#{contratoDpfController.preparaBusquedaSociosContrato}"                             
+                                         value="#{propiedadesEtiquetaBL.Buscar}"
+                                         icon="#{propiedadesObjetosBL.IcoVer}"   
+                                         update=":ListaSociosForm"
+                                         onclick="procesandoDlg.show();"                 
+                                         oncomplete="ListaSociosDialog.show();procesandoDlg.hide();"
+                                         /> 
+                        <h:message for="nombrePersona" styleClass="invalido"/>
+                    </h:panelGrid>                    
+
+
+                    <h:panelGrid columns="7">                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EsSocioBeneficiario}" 
+                                       for="esSocioBeneficiario"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="esSocioBeneficiario" 
+                                         value="#{contratoDpfController.esSocioBeneficiario}" 
+                                         required="false"                                          
+                                         requiredMessage="#{propiedadesEtiquetaBL.EsSocioBeneficiario} - #{propiedadesMensajesBL.CampoRequerido}">                            
+                            <f:selectItem itemValue="S" itemLabel="SI"/>                            
+                            <f:selectItem itemValue="N" itemLabel="NO"/>
+                            <p:ajax event="change"
+                                    update=":ContratoDpfCreateForm, :mensaje, botonBeneficiario"  
+                                    listener="#{contratoDpfController.cambiaSocioBeneficiario()}" /> 
+                        </p:selectOneMenu>                          
+
+                        <p:outputLabel id="beneficiarioLab"
+                                       value="#{propiedadesEtiquetaBL.Identificacion}" 
+                                       for="beneficiarioLab"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="beneficiario"
+                                     value="#{contratoDpfController.identificacionPersonaBeneficiario}"
+                                     size="10"
+                                     disabled="#{contratoDpfController.deshabilidaCodigoPersonaBeneficiario}"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Beneficiario} #{propiedadesMensajesBL.CampoRequerido}"
+                                     required="true">
+                            <p:ajax event="blur" 
+                                    listener="#{contratoDpfController.buscaPersonaBeneficiario()}"
+                                    update=":ContratoDpfCreateForm" /> 
+                        </p:inputText>
+                        <p:inputText id="nombrebeneficiario"
+                                     value="#{contratoDpfController.personaBeneficiario.nombreCompleto}"
+                                     size="30"
+                                     readonly="true"
+                                     required="false"/>
+                        <p:commandButton id="botonBeneficiario"
+                                         value="#{propiedadesEtiquetaBL.Buscar}" 
+                                         icon="#{propiedadesObjetosBL.IcoVer}"
+                                         disabled="#{contratoDpfController.deshabilidaCodigoPersonaBeneficiario}"
+                                         actionListener="#{contratoDpfController.preparaBusquedaPersonaLista}"
+                                         update=":ListaPersonasForm"
+                                         oncomplete="ListaPersonasDialog.show()"
+                                         />
+                        <h:message for="beneficiario" styleClass="invalido" />
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="9">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="moneda" 
+                                         value="#{contratoDpfController.moneda}" 
+                                         required="false"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{contratoDpfController.itemsMoneda}"
+                                           var="codigoMonedaItem"
+                                           itemValue="#{codigoMonedaItem}"
+                                           itemLabel="#{codigoMonedaItem.nombre}"
+                                           />    
+                            <p:ajax event="change" update=":ContratoDpfCreateForm" listener="#{contratoDpfController.obtieneCuentasSocio()}"/>
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="moneda"  styleClass="invalido"/>                        
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Documento}" 
+                                       for="documento"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="documento" 
+                                     value="#{contratoDpfController.numeroDocumento}" 
+                                     readonly="true"/>                      
+                        <h:message for="documento"  styleClass="invalido"/>
+
+                        <p:outputLabel value="" 
+                                       for="documento"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:outputLabel  value="" />                      
+                        <h:message for="documento"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" 
+                                       for="periodicidad"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="periodicidad" 
+                                         value="#{contratoDpfController.periodicidad}" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Periodicidad} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{contratoDpfController.itemsPeriodicidad}"
+                                           var="periodicidadItem"
+                                           itemValue="#{periodicidadItem}"
+                                           itemLabel="#{periodicidadItem.nombre}"
+                                           />   
+                            <p:ajax event="change" update=":ContratoDpfCreateForm,:mensaje" 
+                                    listener="#{contratoDpfController.periodicidadDpf()}"/>
+                            <f:converter binding="#{periodicidadConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="periodicidad"  styleClass="invalido"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Plazo}" 
+                                       for="plazo"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="plazo" 
+                                     styleClass="campoValor"
+                                     value="#{contratoDpfController.plazo}"
+                                     size="10"
+                                     required="false"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Plazo} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <p:ajax event="blur" 
+                                    update=":ContratoDpfCreateForm,:mensaje,diasPlazo" 
+                                    listener="#{contratoDpfController.calculaPlazoDpf()}"/>
+                        </p:inputText>
+                        <h:message for="plazo"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Dias} #{propiedadesEtiquetaBL.Plazo}" 
+                                       for="diasPlazo"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="diasPlazo" 
+                                     styleClass="campoValor"
+                                     size="15"
+                                     readonly="false"                                     
+                                     value="#{contratoDpfController.plazoDias}">          
+                            <p:ajax event="blur" 
+                                    update=":ContratoDpfCreateForm,:mensaje" 
+                                    listener="#{contratoDpfController.calculaPlazoDiasDpf()}"/>
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="0" />
+                        </p:inputText>                                
+                        <h:message for="diasPlazo"  styleClass="invalido"/>
+
+                    </h:panelGrid>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.ControladaOc}" 
+                                   for="controladaPorOc"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="controladaPorOc" 
+                                     disabled="#{contratoDpfController.deshabilitaControladaPorOc}"
+                                     value="#{contratoDpfController.controladaPorOc}">    
+                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                        <p:ajax event="change" 
+                                update=":ContratoDpfCreateForm,:mensaje" 
+                                listener="#{contratoDpfController.calculaTotalesDpf()}"/>
+                    </p:selectOneMenu>
+                    <h:message for="controladaPorOc"  styleClass="invalido"/>
+
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Capital}" 
+                                       for="capital"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="capital" 
+                                     value="#{contratoDpfController.capital}"
+                                     size="15"
+                                     styleClass="campoValor">
+                            <p:ajax event="blur" 
+                                    update=":ContratoDpfCreateForm,:mensaje,ntasa,tasa,esAprobado" 
+                                    process="@this"
+                                    listener="#{contratoDpfController.calculaTotalesDpf()}"/>
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="capital"  styleClass="invalido"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" 
+                                       for="tasa"
+                                       styleClass="etiquetaRequerida"/>                        
+                        <h:panelGrid columns="7" >
+                            <!--Inicio Aprobacion de una nueva tasa-->
+                            <!--*****************************************************-->
+                            <!--*****************************************************-->
+                            <!--max=#contratoDpfController.tasaInteresMaxima-->
+                            
+                            <p:spinner id="tasa" size="5" value="#{contratoDpfController.tasaInteres}"
+                                       stepFactor="0.25"                                       
+                                       min="1"                                       
+                                       >
+                             <p:ajax event="change" update=":ContratoDpfCreateForm,:mensaje" process="@this"  listener="#{contratoDpfController.actualizarAprobacionMontoMinimo()}" />
+                             <p:ajax event="keyup" update=":ContratoDpfCreateForm,:mensaje" process="@this"  listener="#{contratoDpfController.actualizarAprobacionMontoMinimo()}" />
+                            </p:spinner>
+                            <p:outputLabel value="Nueva Tasa " 
+                                           for="ntasa"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:inputText id="ntasa"
+                                         value="#{contratoDpfController.valorNuevaTasa}"
+                                         size="5"
+                                         readonly="#{contratoDpfController.deshabilitaTasa}"
+                                         disabled="true"
+                                         styleClass="campoValor"/>
+                            <p:outputLabel value="Esta aprobado"
+                                           for="esAprobado"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectBooleanCheckbox id="esAprobado" value="#{contratoDpfController.tasaAprobada}" disabled="true"/>
+                            <p:commandButton id="aprobar"                                             
+                                             actionListener="#{contratoDpfController.actualizarAprobacionMontoMinimo()}"
+                                             update=":ContratoDpfCreateForm,:mensaje"
+                                             icon="#{propiedadesObjetosBL.IcoActualizar}"
+                                             />
+                            <!--*****************************************************-->
+                            <!--*****************************************************-->
+                            <!--Fin Aprobacion de una nueva tasa-->
+                        </h:panelGrid>
+                        <h:message for="tasa"  styleClass="invalido"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Interes}" 
+                                       for="interes"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="interes" 
+                                     value="#{contratoDpfController.interes}"
+                                     size="15"
+                                     readonly="true"
+                                     styleClass="campoValor">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="interes"  styleClass="invalido"/>                       
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.PorcentajeRetencion}" 
+                                       for="porcentajeRetencion"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="porcentajeRetencion" 
+                                     value="#{contratoDpfController.porcentajeRetencion}"
+                                     readonly="true"
+                                     size="15"
+                                     styleClass="campoValor">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="porcentajeRetencion"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Retencion}" 
+                                       for="retencion"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="retencion" 
+                                     value="#{contratoDpfController.retencion}"                                    
+                                     size="15"
+                                     readonly="true"
+                                     styleClass="campoValor">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="retencion"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Total}" 
+                                       for="total"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="total" 
+                                     value="#{contratoDpfController.total}"
+                                     size="15"
+                                     readonly="true"
+                                     styleClass="campoValor">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="total"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaVencimiento}" 
+                                       for="fechaVencimiento"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:outputLabel id="fechaVencimiento" 
+                                       value="#{contratoDpfController.fechaVencimiento}">
+                            <f:convertDateTime pattern="EEEEE dd/MM/yyyy" locale="es"/>
+                        </p:outputLabel>
+                        <h:message for="fechaVencimiento"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.AcreditaMensual}" 
+                                       for="acreditacionMensual"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="acreditacionMensual" 
+                                         value="#{contratoDpfController.acreditacionMensual}">    
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                            <p:ajax event="change"
+                                    listener="#{contratoDpfController.cambiaAcreditacionMensual()}"
+                                    update="conInteres,renovacionAutomatica"/>
+                        </p:selectOneMenu>
+                        <h:message for="acreditacionMensual"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RenovacionAutomatica}" 
+                                       for="renovacionAutomatica"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="renovacionAutomatica" 
+                                         disabled="true"
+                                         value="#{contratoDpfController.renovacionAutomatica}">    
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            
+
+                        </p:selectOneMenu>
+                        <h:message for="renovacionAutomatica"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ConInteres}" 
+                                       for="conInteres"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="conInteres" 
+                                         disabled="#{contratoDpfController.deshabilitaConInteres}"
+                                         value="#{contratoDpfController.conInteres}">    
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                        </p:selectOneMenu>
+                        <h:message for="conInteres"  styleClass="invalido"/>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid id="agregarCuentasDpf" columns="5">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Cuentas} #{propiedadesEtiquetaBL.Contrato} #{propiedadesEtiquetaBL.Dpf}"/>
+                            <p:separator/>
+                        </f:facet>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                                       for="tipoItem"
+                                       styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="tipoItem" 
+                                         value="#{contratoDpfController.tipoCuentaSel}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Debito}" itemValue="D" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Credito}" itemValue="C" />    
+                            <p:ajax event="change" 
+                                    listener="#{contratoDpfController.verificaSeleccionCuenta()}" />
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}"
+                                       styleClass="etiquetaRequerida"
+                                       for="cuenta"/>
+                        <p:selectOneMenu id="cuenta" 
+                                         value="#{contratoDpfController.cuentaCombo}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{contratoDpfController.itemsCuentaSocio}"
+                                           var="CuentaItem"
+                                           itemValue="#{CuentaItem}"
+                                           itemLabel="#{CuentaItem.numero} : #{propiedadesEtiquetaBL.SaldoDisponible} : #{CuentaItem.saldoDisponible} "
+                                           />
+                            <p:ajax event="change" 
+                                    listener="#{contratoDpfController.verificaSeleccionCuenta()}" />
+                            <f:converter binding="#{cuentaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:commandButton id="agregarCuentaBot" 
+                                         value="#{propiedadesEtiquetaBL.Agregar}"
+                                         update=":ContratoDpfCreateForm"
+                                         action="#{contratoDpfController.agregaCuentaDpf()}">
+                        </p:commandButton>
+
+
+                    </h:panelGrid>
+
+                    <p:dataTable id="cuentasTbl" 
+                                 value="#{contratoDpfController.itemsCuentaContraDpf}"
+                                 var="item"                                                          
+                                 rowKey="#{item.cuentaContratoDpfPK}"
+                                 paginator="true"
+                                 rows="1"
+                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                                                 
+                                 widgetVar="cuentasTabla">
+
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Cuentas} #{propiedadesEtiquetaBL.Dpf}"/>
+                        </f:facet>
+
+
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaCredito.productoIfip.producto.tipoProducto.nombre}"/>
+                        </p:column>
+
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Credito}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaCredito.numero}"/>
+                        </p:column>
+
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Debito}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaDebito.numero}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:commandButton id="guardarBot" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     disabled="#{contratoDpfController.desactivaBotonGuardar}"
+                                     onclick="procesandoDlg.show();"
+                                     update=":ComprobanteFor, :componenteBoletoForm"
+				     oncomplete="procesandoDlg.hide(),PF('boletosDialog').show();"
+                                     actionListener="#{contratoDpfController.guardar}"
+                                     >
+                        <!-- 
+                        Se debe incluir estas lineas en toda la programacion para que aparezcan 
+                        <ui:include src="boleto.xhtml"/>
+ 
+ oncomplete="procesandoDlg.hide();PF('boletosDialog').show();"
+ 
+ update=":ComprobanteFor,:componenteBoletoForm"
+                        
+                        <p:confirm message="#{propiedadesMensajesBL.SeguroRealizarContrato}" 
+                                    icon="ui-icon-info"
+                                    class="encabezadosDialog"                                      
+                                    header="#{propiedadesEtiquetaBL.Confirmacion}"/>-->
+                    </p:commandButton>
+
+                </h:panelGroup>
+
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+                </p:confirmDialog>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

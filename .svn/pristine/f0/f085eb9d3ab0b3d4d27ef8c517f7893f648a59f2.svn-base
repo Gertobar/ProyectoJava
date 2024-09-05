@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaCuentaEntFinEditDlg" widgetVar="IfipAgenciaCuentaEntFinEditDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinTitle}" closeOnEscape="true">
+
+            <h:form id="IfipAgenciaCuentaEntFinEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{ifipAgenciaCuentaEntFinController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{ifipAgenciaCuentaEntFinController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinLabel_codigoTipCue}" for="codigoTipCue" />
+                        <p:inputText id="codigoTipCue" value="#{ifipAgenciaCuentaEntFinController.selected.codigoTipCue}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinTitle_codigoTipCue}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinRequiredMessage_codigoTipCue}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinLabel_numeroCuenta}" for="numeroCuenta" />
+                        <p:inputText id="numeroCuenta" value="#{ifipAgenciaCuentaEntFinController.selected.numeroCuenta}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinTitle_numeroCuenta}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinRequiredMessage_numeroCuenta}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinLabel_nombreCuenta}" for="nombreCuenta" />
+                        <p:inputText id="nombreCuenta" value="#{ifipAgenciaCuentaEntFinController.selected.nombreCuenta}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinTitle_nombreCuenta}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinRequiredMessage_nombreCuenta}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinLabel_observaciones}" for="observaciones" />
+                        <p:inputText id="observaciones" value="#{ifipAgenciaCuentaEntFinController.selected.observaciones}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinTitle_observaciones}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinRequiredMessage_observaciones}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{ifipAgenciaCuentaEntFinController.selected.eliminado}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinTitle_eliminado}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinLabel_entidadFinancieraIfiAge}" for="entidadFinancieraIfiAge" />
+                        <p:selectOneMenu id="entidadFinancieraIfiAge" value="#{ifipAgenciaCuentaEntFinController.selected.entidadFinancieraIfiAge}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaCuentaEntFinRequiredMessage_entidadFinancieraIfiAge}">
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.SelectOneMessage}"/>
+                            <f:selectItems value="#{entidadFinancieraIfiAgeController.items}"
+                                           var="entidadFinancieraIfiAgeItem"
+                                           itemValue="#{entidadFinancieraIfiAgeItem}"
+                                           itemLabel="#{entidadFinancieraIfiAgeItem.entidadFinancieraIfiAgePK.toString()}"
+                                           />
+                            <f:converter binding="#{entidadFinancieraIfiAgeConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ifipAgenciaCuentaEntFinController.save}" value="#{propiedadesEtiquetaBL.Save}" update="display,:IfipAgenciaCuentaEntFinListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IfipAgenciaCuentaEntFinEditDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancel}" onclick="IfipAgenciaCuentaEntFinEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

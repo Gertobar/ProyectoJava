@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PlanDeCuentaCreateDlg" 
+                  widgetVar="PlanDeCuentaCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.PlanCuenta}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <p:messages id="mensajeCrea" showDetail="true"  showSummary="false" autoUpdate="true" closable="true" /> 
+            <h:form id="PlanDeCuentaCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroCuenta} "  
+                                       for="numeroCuenta" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="numeroCuenta" 
+                                     value="#{planDeCuentaController.selected.planDeCuentaPK.cuentaContable}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.NumeroCuenta} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoPlan} "   
+                                       for="tipoPlan" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="tipoPlan" 
+                                         value="#{planDeCuentaController.selected.tipoPlanDeCuenta}" 
+                                         required="false" >
+                            <p:ajax event="change" 
+                                    listener="#{planDeCuentaController.actualizarPadres}" 
+                                    update=":PlanDeCuentaCreateForm:cuentaPadre"/>
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{planDeCuentaController.itemsTipoPlanCuenta}"
+                                           var="tipoPlanCuentaItem"
+                                           itemValue="#{tipoPlanCuentaItem}"
+                                           itemLabel="#{tipoPlanCuentaItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{tipoPlanDeCuentaConverter}"/>
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Grupo} "    
+                                       for="grupoPlan"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:selectOneMenu id="grupoPlan" 
+                                         value="#{planDeCuentaController.selected.codigoGrupo}" 
+                                         required="false">
+                            <p:ajax event="change" 
+                                    listener="#{planDeCuentaController.actualizarPadres}" 
+                                    update=":PlanDeCuentaCreateForm:cuentaPadre"/>
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{planDeCuentaController.itemsGrupoPlanCuenta}"
+                                           var="grupoPlanCuentaItem"
+                                           itemValue="#{grupoPlanCuentaItem}"
+                                           itemLabel="#{grupoPlanCuentaItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{grupoCuentaContableConverter}"/>
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre} "   
+                                       for="nombre" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" 
+                                     value="#{planDeCuentaController.selected.nombre}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EsDeMovimiento} " 
+                                       for="esDeMovimiento"  
+                                       styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="esDeMovimiento" 
+                                         value="#{planDeCuentaController.selected.esDeMovimiento}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.EsDeMovimiento} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" /> 
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.PorDefecto} " 
+                                       for="porDefecto"  
+                                       styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="porDefecto" 
+                                         value="#{planDeCuentaController.selected.porDefecto}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.PorDefecto} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaPadre} "    
+                                       for="cuentaPadre"
+                                       styleClass="etiqueta"/>
+                        <p:selectOneMenu id="cuentaPadre"
+                                         filter="true" 
+                                         filterMatchMode="startsWith" 
+                                         value="#{planDeCuentaController.cuentaPadre}" 
+                                         required="false" 
+                                         style="width: 300px;" >
+                            <p:ajax event="change"
+                                    listener="#{planDeCuentaController.obtenerCodigoPadre}" 
+                                    update=":PlanDeCuentaCreateForm:cuentaPadre"/>
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{planDeCuentaController.itemsPlanCuentaPadre}"
+                                           var="PlanCuentaItem"
+                                           itemValue="#{PlanCuentaItem}"
+                                           itemLabel="#{PlanCuentaItem.planDeCuentaPK.cuentaContable} : #{PlanCuentaItem.nombre}"
+                                           />
+                            <f:converter binding="#{planDeCuentaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nivel} " 
+                                       for="nivel"  
+                                       styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="nivel" 
+                                         converter="javax.faces.Short"
+                                         value="#{planDeCuentaController.selected.nivel}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Nivel} : #{propiedadesMensajesBL.CampoRequerido}">                             
+                            <f:selectItem itemLabel="1" itemValue="1" />  
+                            <f:selectItem itemLabel="2" itemValue="2" />  
+                            <f:selectItem itemLabel="3" itemValue="3" />  
+                            <f:selectItem itemLabel="4" itemValue="4" />  
+                            <f:selectItem itemLabel="5" itemValue="5" /> 
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado} " 
+                                       for="eliminado"  
+                                       styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{planDeCuentaController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                                              
+                        </p:selectOneMenu>
+                    </p:panelGrid> 
+                    <p:commandButton actionListener="#{planDeCuentaController.guardar(event)}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     disabled="#{planDeCuentaController.deshabilitarGuardar}"
+                                     update="display,:PlanDeCuentaListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,PlanDeCuentaCreateDialog);"/> 
+                </h:panelGroup>
+
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

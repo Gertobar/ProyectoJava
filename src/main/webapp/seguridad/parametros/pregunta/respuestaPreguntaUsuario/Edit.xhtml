@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RespuestaPreguntaUsuarioEditDlg" widgetVar="RespuestaPreguntaUsuarioEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditRespuestaPreguntaUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="RespuestaPreguntaUsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{respuestaPreguntaUsuarioController.selected != null}">
+
+                        <p:outputLabel value="#{myBundle.EditRespuestaPreguntaUsuarioLabel_respuesta}" for="respuesta" />
+                        <p:inputText id="respuesta" value="#{respuestaPreguntaUsuarioController.selected.respuesta}" title="#{myBundle.EditRespuestaPreguntaUsuarioTitle_respuesta}" required="true" requiredMessage="#{myBundle.EditRespuestaPreguntaUsuarioRequiredMessage_respuesta}" size="50" maxlength="50"/>
+
+                        <h:outputLabel value="#{myBundle.EditRespuestaPreguntaUsuarioLabel_usuario}" for="usuario" />
+                        <h:outputText id="usuario" value="#{respuestaPreguntaUsuarioController.selected.usuario}" />
+
+                        <h:outputLabel value="#{myBundle.EditRespuestaPreguntaUsuarioLabel_bancoPreguntaSesion}" for="bancoPreguntaSesion" />
+                        <h:outputText id="bancoPreguntaSesion" value="#{respuestaPreguntaUsuarioController.selected.bancoPreguntaSesion}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{respuestaPreguntaUsuarioController.save}" value="#{myBundle.Save}" update="display,:RespuestaPreguntaUsuarioListForm:datalist,:mensaje" oncomplete="handleSubmit(xhr,status,args,RespuestaPreguntaUsuarioEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="RespuestaPreguntaUsuarioEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

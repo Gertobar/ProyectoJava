@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RolIngresoEgresoIfipCreateForm"> 
+
+        <p:panel  id="RolIngresoEgresoIfipPan" >         
+            <p:focus context="RolIngresoEgresoIfipPan"/> 
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.RolIngresoEgresoIfip} "
+                               styleClass="encabezadosDialog"/>
+            </f:facet>            
+
+            <h:panelGrid id="RolIngresoEgresoIfipGri" columns="4" 
+                         columnClasses="label, value, validator" styleClass="grid">
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                               for="codigoMoneda" styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="codigoMoneda" 
+                                 value="#{rolIngresoEgresoIfipController.ubicaMoneda}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{rolIngresoEgresoIfipController.listaMoneda}"
+                                   var="MonedaItem"
+                                   itemValue="#{MonedaItem}"
+                                   itemLabel="#{MonedaItem.nombre.toString()}"/>     
+                    <f:converter binding="#{monedaConverter}"/>
+                    <p:ajax event="change"                    
+                            listener="#{rolIngresoEgresoIfipController.cambia()}" 
+                            update="codigoMoneda,rolIngreEgreIfipPick">
+                    </p:ajax>
+                </p:selectOneMenu>
+                <h:message for="codigoMoneda" styleClass="invalido" />
+                <p:outputLabel value="" />                 
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                               for="codigoIngresoEgreso"  styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="codigoIngresoEgreso" 
+                                 value="#{rolIngresoEgresoIfipController.ubicaEsIngreso}"
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Tipo} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItem  itemLabel="#{propiedadesEtiquetaBL.Ingreso}" itemValue="S" /> 
+                    <f:selectItem  itemLabel="#{propiedadesEtiquetaBL.Egreso}" itemValue="N" />  
+                    <p:ajax event="change"                    
+                            listener="#{rolIngresoEgresoIfipController.cambia()}" 
+                            update="codigoIngresoEgreso,rolIngreEgreIfipPick">
+                    </p:ajax>    
+
+                </p:selectOneMenu>
+                <h:message for="codigoIngresoEgreso" styleClass="invalido" />
+               <p:outputLabel value="" />
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Rol}" 
+                               for="codigoRol" styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="codigoRol" 
+                                 value="#{rolIngresoEgresoIfipController.ubicaRol}" 
+                                 required="true"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Rol} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{rolIngresoEgresoIfipController.listaRol}"
+                                   var="RolItem"
+                                   itemValue="#{RolItem}"
+                                   itemLabel="#{RolItem.descripcion.toString()}"
+                                   />                      
+                    <f:converter binding="#{rolConverter}"/>
+                    <p:ajax event="change"                    
+                            listener="#{rolIngresoEgresoIfipController.cambia()}" 
+                            update="codigoRol,rolIngreEgreIfipPick">
+                    </p:ajax>
+                </p:selectOneMenu>                                      
+                <h:message for="codigoRol"  styleClass="invalido"/>
+            <p:outputLabel value="" />
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.IngresoEgreso}" 
+                               for="rolIngreEgreIfipPick" styleClass="etiquetaRequerida" />              
+                <p:pickList id="rolIngreEgreIfipPick" 
+                            value="#{rolIngresoEgresoIfipController.itemsIngresoEgresoMoneda}" 
+                            var="ingresoEgresoMonedaItem" 
+                            itemValue="#{ingresoEgresoMonedaItem}" 
+                            itemLabel="#{ingresoEgresoMonedaItem.ingresoEgreso.nombre.toString()}"
+                            showCheckbox="true"
+                            showSourceFilter="true" 
+                            showTargetFilter="true" 
+                            filterMatchMode="contains"> 
+                    <f:converter binding="#{ingresoEgresoMonedaConverter}"/>
+                    <f:facet name="sourceCaption">Faltantes</f:facet>
+                    <f:facet name="targetCaption">Existentes</f:facet>           
+                </p:pickList>
+
+
+                <f:facet name="footer">
+                    <p:commandButton id="operacionMenuBot" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update=":mensaje,:RolIngresoEgresoIfipCreateForm:RolIngresoEgresoIfipPan"                                         
+                                     onclick="procesandoDlg.show();"
+                                     action="#{rolIngresoEgresoIfipController.guardarolIngresoEgresoIfip()}"
+                                     oncomplete="procesandoDlg.hide()">                   
+                    </p:commandButton>
+                </f:facet>
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+</ui:composition>
+

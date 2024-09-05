@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioSistemaCreateDlg" widgetVar="UsuarioSistemaCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateUsuarioSistemaTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioSistemaCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioSistemaLabel_contrasena}" for="contrasena" />
+                        <p:inputText id="contrasena" value="#{usuarioSistemaController.selected.contrasena}" title="#{myBundle.CreateUsuarioSistemaTitle_contrasena}" required="true" requiredMessage="#{myBundle.CreateUsuarioSistemaRequiredMessage_contrasena}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioSistemaLabel_fechaAsignacion}" for="fechaAsignacion" />
+                        <p:calendar id="fechaAsignacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioSistemaController.selected.fechaAsignacion}" title="#{myBundle.EditUsuarioSistemaTitle_fechaAsignacion}" required="true" requiredMessage="#{myBundle.EditUsuarioSistemaRequiredMessage_fechaAsignacion}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioSistemaLabel_fechaExpiraContrasena}" for="fechaExpiraContrasena" />
+                        <p:calendar id="fechaExpiraContrasena" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioSistemaController.selected.fechaExpiraContrasena}" title="#{myBundle.EditUsuarioSistemaTitle_fechaExpiraContrasena}" required="true" requiredMessage="#{myBundle.EditUsuarioSistemaRequiredMessage_fechaExpiraContrasena}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioSistemaLabel_mesesVigencia}" for="mesesVigencia" />
+                        <p:inputText id="mesesVigencia" value="#{usuarioSistemaController.selected.mesesVigencia}" title="#{myBundle.CreateUsuarioSistemaTitle_mesesVigencia}" required="true" requiredMessage="#{myBundle.CreateUsuarioSistemaRequiredMessage_mesesVigencia}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioSistemaLabel_diasGracia}" for="diasGracia" />
+                        <p:inputText id="diasGracia" value="#{usuarioSistemaController.selected.diasGracia}" title="#{myBundle.CreateUsuarioSistemaTitle_diasGracia}" required="true" requiredMessage="#{myBundle.CreateUsuarioSistemaRequiredMessage_diasGracia}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioSistemaLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{usuarioSistemaController.selected.estado}" title="#{myBundle.CreateUsuarioSistemaTitle_estado}" required="true" requiredMessage="#{myBundle.CreateUsuarioSistemaRequiredMessage_estado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioSistemaLabel_asignadoPor}" for="asignadoPor" />
+                        <p:selectOneMenu id="asignadoPor" value="#{usuarioSistemaController.selected.asignadoPor}" required="true" requiredMessage="#{myBundle.EditUsuarioSistemaRequiredMessage_asignadoPor}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="asignadoPorItem"
+                                           itemValue="#{asignadoPorItem}"
+                                           itemLabel="#{asignadoPorItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioSistemaLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{usuarioSistemaController.selected.usuario}" required="true" requiredMessage="#{myBundle.EditUsuarioSistemaRequiredMessage_usuario}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"
+                                           itemLabel="#{usuarioItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioSistemaLabel_sistema}" for="sistema" />
+                        <p:selectOneMenu id="sistema" value="#{usuarioSistemaController.selected.sistema}" required="true" requiredMessage="#{myBundle.EditUsuarioSistemaRequiredMessage_sistema}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sistemaController.items}"
+                                           var="sistemaItem"
+                                           itemValue="#{sistemaItem}"
+                                           itemLabel="#{sistemaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{sistemaConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioSistemaController.saveNew}" value="#{myBundle.Save}" update="display,:UsuarioSistemaListForm:datalist,:mensaje" oncomplete="handleSubmit(xhr,status,args,UsuarioSistemaCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="UsuarioSistemaCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

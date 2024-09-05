@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductoIfipCreateDlg" widgetVar="ProductoIfipCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateProductoIfipTitle}" closeOnEscape="true">
+
+            <h:form id="ProductoIfipCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateProductoIfipLabel_productoIfipPK_codigoIfip}" for="productoIfipPK_codigoIfip" />
+                        <p:inputText id="productoIfipPK_codigoIfip" value="#{productoIfipController.selected.productoIfipPK.codigoIfip}" title="#{myBundle.CreateProductoIfipTitle_productoIfipPK_codigoIfip}" required="true" requiredMessage="#{myBundle.CreateProductoIfipRequiredMessage_productoIfipPK_codigoIfip}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoIfipLabel_codigoPerCal}" for="codigoPerCal" />
+                        <p:inputText id="codigoPerCal" value="#{productoIfipController.selected.codigoPerCal}" title="#{myBundle.CreateProductoIfipTitle_codigoPerCal}" required="true" requiredMessage="#{myBundle.CreateProductoIfipRequiredMessage_codigoPerCal}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoIfipLabel_codigoPerCap}" for="codigoPerCap" />
+                        <p:inputText id="codigoPerCap" value="#{productoIfipController.selected.codigoPerCap}" title="#{myBundle.CreateProductoIfipTitle_codigoPerCap}" required="true" requiredMessage="#{myBundle.CreateProductoIfipRequiredMessage_codigoPerCap}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoIfipLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{productoIfipController.selected.registradoPor}" title="#{myBundle.CreateProductoIfipTitle_registradoPor}" required="true" requiredMessage="#{myBundle.CreateProductoIfipRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoIfipLabel_siglasLibreta}" for="siglasLibreta" />
+                        <p:inputText id="siglasLibreta" value="#{productoIfipController.selected.siglasLibreta}" title="#{myBundle.CreateProductoIfipTitle_siglasLibreta}" required="true" requiredMessage="#{myBundle.CreateProductoIfipRequiredMessage_siglasLibreta}" size="5" maxlength="5"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoIfipLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{productoIfipController.selected.fechaRegistro}" title="#{myBundle.EditProductoIfipTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.EditProductoIfipRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoIfipLabel_interesCalculadoSobre}" for="interesCalculadoSobre" />
+                        <p:inputText id="interesCalculadoSobre" value="#{productoIfipController.selected.interesCalculadoSobre}" title="#{myBundle.CreateProductoIfipTitle_interesCalculadoSobre}" required="true" requiredMessage="#{myBundle.CreateProductoIfipRequiredMessage_interesCalculadoSobre}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoIfipLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{productoIfipController.selected.eliminado}" title="#{myBundle.CreateProductoIfipTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateProductoIfipRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductoIfipLabel_producto}" for="producto" />
+                        <p:selectOneMenu id="producto" value="#{productoIfipController.selected.producto}" required="true" requiredMessage="#{myBundle.EditProductoIfipRequiredMessage_producto}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productoController.items}"
+                                           var="productoItem"
+                                           itemValue="#{productoItem}"
+                                           itemLabel="#{productoItem.productoPK.toString()}"
+                                           />
+                            <f:converter binding="#{productoConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{productoIfipController.saveNew}" value="#{myBundle.Save}" update="display,:ProductoIfipListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ProductoIfipCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="ProductoIfipCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

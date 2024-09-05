@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipCuentaEntidadFinancieraCreateDlg" widgetVar="IfipCuentaEntidadFinancieraCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateIfipCuentaEntidadFinancieraTitle}" closeOnEscape="true">
+
+            <h:form id="IfipCuentaEntidadFinancieraCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateIfipCuentaEntidadFinancieraLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{ifipCuentaEntidadFinancieraController.selected.codigo}" title="#{myBundle.CreateIfipCuentaEntidadFinancieraTitle_codigo}" required="true" requiredMessage="#{myBundle.CreateIfipCuentaEntidadFinancieraRequiredMessage_codigo}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipCuentaEntidadFinancieraLabel_codigoEntidadFinanciera}" for="codigoEntidadFinanciera" />
+                        <p:inputText id="codigoEntidadFinanciera" value="#{ifipCuentaEntidadFinancieraController.selected.codigoEntidadFinanciera}" title="#{myBundle.CreateIfipCuentaEntidadFinancieraTitle_codigoEntidadFinanciera}" required="true" requiredMessage="#{myBundle.CreateIfipCuentaEntidadFinancieraRequiredMessage_codigoEntidadFinanciera}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipCuentaEntidadFinancieraLabel_codigoTipoCuenta}" for="codigoTipoCuenta" />
+                        <p:inputText id="codigoTipoCuenta" value="#{ifipCuentaEntidadFinancieraController.selected.codigoTipoCuenta}" title="#{myBundle.CreateIfipCuentaEntidadFinancieraTitle_codigoTipoCuenta}" required="true" requiredMessage="#{myBundle.CreateIfipCuentaEntidadFinancieraRequiredMessage_codigoTipoCuenta}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipCuentaEntidadFinancieraLabel_numeroCuenta}" for="numeroCuenta" />
+                        <p:inputText id="numeroCuenta" value="#{ifipCuentaEntidadFinancieraController.selected.numeroCuenta}" title="#{myBundle.CreateIfipCuentaEntidadFinancieraTitle_numeroCuenta}" required="true" requiredMessage="#{myBundle.CreateIfipCuentaEntidadFinancieraRequiredMessage_numeroCuenta}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipCuentaEntidadFinancieraLabel_observaciones}" for="observaciones" />
+                        <p:inputText id="observaciones" value="#{ifipCuentaEntidadFinancieraController.selected.observaciones}" title="#{myBundle.CreateIfipCuentaEntidadFinancieraTitle_observaciones}" required="true" requiredMessage="#{myBundle.CreateIfipCuentaEntidadFinancieraRequiredMessage_observaciones}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipCuentaEntidadFinancieraLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{ifipCuentaEntidadFinancieraController.selected.eliminado}" title="#{myBundle.CreateIfipCuentaEntidadFinancieraTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateIfipCuentaEntidadFinancieraRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIfipCuentaEntidadFinancieraLabel_codigoIfip}" for="codigoIfip" />
+                        <p:selectOneMenu id="codigoIfip" value="#{ifipCuentaEntidadFinancieraController.selected.codigoIfip}" required="true" requiredMessage="#{myBundle.EditIfipCuentaEntidadFinancieraRequiredMessage_codigoIfip}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ifipController.items}"
+                                           var="codigoIfipItem"
+                                           itemValue="#{codigoIfipItem}"
+                                           itemLabel="#{codigoIfipItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{ifipConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ifipCuentaEntidadFinancieraController.saveNew}" value="#{myBundle.Save}" update="display,:IfipCuentaEntidadFinancieraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IfipCuentaEntidadFinancieraCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="IfipCuentaEntidadFinancieraCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

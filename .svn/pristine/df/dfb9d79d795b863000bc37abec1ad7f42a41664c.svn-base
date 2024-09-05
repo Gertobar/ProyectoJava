@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CreaRetencionDlg" 
+                  widgetVar="CreaRetencionDilago" 
+                  modal="true" 
+                  closable="false"
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  style="height: 200px; width: 400px"
+                  closeOnEscape="false">
+
+            <f:facet name="header">
+                <h:outputLabel  value="#{propiedadesEtiquetaBL.Retencion} #{propiedadesEtiquetaBL.Contrato} #{propiedadesEtiquetaBL.Dpf}"
+                                styleClass="encabezadosDialog"/>       
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+            <h:form id="CreaRetencionFor">
+
+                <h:panelGroup id="display" style="font-size: 10px;">
+                    <h:panelGrid  columns="2">
+
+                        <p:outputLabel styleClass="etiqueta" value="#{propiedadesEtiquetaBL.BaseImponible}"/>
+                        <p:outputLabel value="#{retencionDpfBean.interesPagado}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:outputLabel>
+
+
+
+                        <p:outputLabel styleClass="etiqueta" value="#{propiedadesEtiquetaBL.PorcentajeRetencion}"/>
+                        <p:outputLabel value="#{retencionDpfBean.contratoDpfSel.porcentajeRetencion}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:outputLabel>
+
+
+                        <p:outputLabel styleClass="etiqueta" value="#{propiedadesEtiquetaBL.Retencion}"/>
+                        <p:outputLabel value="#{retencionDpfBean.retencion}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:outputLabel>
+                    </h:panelGrid>
+
+                    <p:separator/>
+
+                    <h:panelGrid  columns="1">
+                        <h:panelGrid columns="3">
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroRetencion}" 
+                                           />
+
+                            <p:inputText id="serieRentencion"    
+                                         value="#{retencionDpfBean.serieRetencion}"
+                                         size="4"
+                                         readonly="#{retencionDpfBean.deshabilitaImpresionRetencion}"  
+                                         style="text-align:  right">
+                                <p:ajax event="blur" listener="#{retencionDpfBean.obtieneDocumento()}" update="numeroRentencion,:mensaje,:growl" />
+                            </p:inputText>
+
+                            <p:inputText id="numeroRentencion"  
+                                         value="#{retencionDpfBean.numeroRetencion}"
+                                         size="16"
+                                         readonly="#{retencionDpfBean.deshabilitaImpresionRetencion}"  
+                                         style="text-align:  right">
+                                <p:ajax event="blur" listener="#{retencionDpfBean.obtieneDocumento()}" update="numeroRentencion,:mensaje,:growl" />
+                            </p:inputText>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRetencion}" 
+                                           for="fechaRetencion"
+                                           styleClass="etiquetaRequerida" />
+                            <p:calendar id="fechaRetencion"
+                                        pattern="dd/MM/yyyy"
+                                        value="#{retencionDpfBean.fechaRetencion}"
+                                        showOn="button"     
+                                        size="7"                                    
+                                        locale="es"
+                                        disabled="#{retencionDpfBean.deshabilitaImpresionRetencion}"
+                                        mindate="#{retencionDpfBean.fechaMimina}"
+                                        maxdate="#{retencionDpfBean.fechaMaxima}"
+                                        requiredMessage="#{propiedadesEtiquetaBL.FechaInicio} : #{propiedadesMensajesBL.CampoRequerido}"/>
+                        </h:panelGrid>
+
+                        <f:facet name="footer">
+                            <h:panelGrid columns="3">                            
+                                <p:commandButton id="guardaBot" 
+                                                 value="#{propiedadesEtiquetaBL.Guardar}"                                                 
+                                                 icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                                 actionListener="#{retencionDpfBean.guardar}"
+                                                 disabled="#{retencionDpfBean.deshabilitaImpresionRetencion}"
+                                                 update=":CreaRetencionFor, :mensaje,:RetencionDpfListForm"
+                                                 
+                                                 />
+                                <p:commandButton value="#{propiedadesEtiquetaBL.Imprimir}"
+                                                 actionListener="#{retencionDpfBean.imprimir}"
+                                                 disabled="#{!retencionDpfBean.deshabilitaImpresionRetencion}"
+                                                 icon="#{propiedadesObjetosBL.IcoImprimir}"
+                                                 id="imprimirBot"
+                                                 ajax="false"/>
+                                
+                                <p:commandButton id="cerrarBot" 
+                                                 value="#{propiedadesEtiquetaBL.Cerrar}" 
+                                                 onclick="RetencionDlg.hide()"
+                                                 icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                                 action="#{retencionDpfBean.obtieneContratoDpf()}"
+                                                 update=":RetencionDpfListForm"
+                                                 />
+
+                            </h:panelGrid>
+                        </f:facet>
+                    </h:panelGrid>
+
+                </h:panelGroup>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

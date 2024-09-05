@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ItemFlujoCajaCreateDlg" 
+                  widgetVar="ItemFlujoCajaCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.ItemFlujoCaja}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="ItemFlujoCajaCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre" styleClass="etiquetaRequerida" />
+                        <p:inputText id="nombre" value="#{itemFlujoCajaController.selected.nombre}"
+                                     title="#{propiedadesTituloBL.Nombre}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} : #{propiedadesMensajesBL.CampoRequerido}" 
+                                     size="50" 
+                                     maxlength="50"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Indice}"
+                                       for="indice" styleClass="etiquetaRequerida" />
+                        <p:inputText id="indice" value="#{itemFlujoCajaController.selected.indice}"
+                                     title="#{propiedadesTituloBL.Indice}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Indice} : #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" 
+                                     maxlength="10"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                                       for="tipo"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="tipo" 
+                                         value="#{itemFlujoCajaController.selected.tipo}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Tipo} : #{propiedadesMensajesBL.CampoRequerido}">                                             
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Ingreso}" itemValue="I" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Egreso}" itemValue="E" />  
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}"
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{itemFlujoCajaController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                                              
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{itemFlujoCajaController.saveNew}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:ItemFlujoCajaListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,ItemFlujoCajaCreateDialog);"/>      
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:componentes ="http://java.sun.com/jsf/composite/ezcomp"
+                >
+    <h:form id="mostrarDialogoForm">
+        <componentes:componenteBuscarPersona
+            soloPersonaNatural="true"
+            id="componenteBusca"
+            widgetVar="listaSociosDialog"
+            onHide="seleccionaDatosSocio()"            
+            >
+        </componentes:componenteBuscarPersona>   
+        <p:remoteCommand name="seleccionaDatosSocio"
+                         action="#{carteraAsignadaController.seleccionaPersona()}"
+                         update=":CarteraAsignadaEditForm:nombresSocio" 
+                         />
+    </h:form>
+
+
+    <p:dialog id="CarteraAsignadaEditDlg" widgetVar="CarteraAsignadaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle}">
+        <h:form id="CarteraAsignadaEditForm">
+            <h:panelGroup id="display">
+                <p:panelGrid columns="2" rendered="#{carteraAsignadaController.selected != null}">                                                
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_fechaRegistro}" for="fechaRegistro" />
+                    <p:calendar disabled="true" id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{carteraAsignadaController.selected.fechaRegistro}" title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_fechaRegistro}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_fechaRegistro}" showOn="button"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_capitalPendiente}" for="capitalPendiente" />
+                    <p:inputText disabled="true" id="capitalPendiente" value="#{carteraAsignadaController.selected.capitalPendiente}" title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_capitalPendiente}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_capitalPendiente}"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_interesPendiente}" for="interesPendiente" />
+                    <p:inputText disabled="true" id="interesPendiente" value="#{carteraAsignadaController.selected.interesPendiente}" title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_interesPendiente}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_interesPendiente}"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_moraPendiente}" for="moraPendiente" />
+                    <p:inputText disabled="true" id="moraPendiente" value="#{carteraAsignadaController.selected.moraPendiente}" title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_moraPendiente}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_moraPendiente}"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_rubroPendiente}" for="rubroPendiente" />
+                    <p:inputText disabled="true" id="rubroPendiente" value="#{carteraAsignadaController.selected.rubroPendiente}" title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_rubroPendiente}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_rubroPendiente}"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_valorNotificacion}" for="valorNotificacion" />
+                    <p:inputText disabled="true" id="valorNotificacion" value="#{carteraAsignadaController.selected.valorNotificacion}" title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_valorNotificacion}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_valorNotificacion}"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_valorJudicial}" for="valorJudicial" />
+                    <p:inputText disabled="true" id="valorJudicial" value="#{carteraAsignadaController.selected.valorJudicial}" title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_valorJudicial}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_valorJudicial}"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_diasMora}" for="diasMora" />
+                    <p:inputText disabled="true" id="diasMora" value="#{carteraAsignadaController.selected.diasMora}" title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_diasMora}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_diasMora}"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_vigente}" for="vigente" />
+                    <p:inputText disabled="true" id="vigente" value="#{carteraAsignadaController.selected.vigente}" title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_vigente}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_vigente}"/>
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_codigoRecuperador}" for="codigoRecuperador" />
+                    <h:panelGrid columns="2" id="codigoRecuperador">
+                        <p:inputText id="nombresSocio" 
+                                     value="#{carteraAsignadaController.personaRecuperador.nombreCompleto}"
+                                     title="#{propiedadesTituloBL.CodigoIfip}"
+                                     required="true"
+                                     requiredMessage="#{propiedadesMensajesBL.CampoRequerido}"
+                                     size="30" maxlength="50"
+                                     disabled="true"/>
+                        <p:commandButton id="listaSocios"
+                                         value="#{propiedadesEtiquetaBL.Buscar} #{propiedadesEtiquetaBL.Socio}"
+                                         icon="#{propiedadesObjetosBL.IcoVer}"                                 
+                                         onclick="PF('listaSociosDialog').show();"
+                                         update="nombresSocio" 
+                                         disabled="true"
+                                         type="button"/>
+                    </h:panelGrid>                                                           
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.EditCarteraAsignadaLabel_solicitud}" for="solicitud" />
+                    <p:inputText id="solicitud" value="#{carteraAsignadaController.selected.solicitud}" 
+                                 title="#{propiedadesEtiquetaBL.EditCarteraAsignadaTitle_vigente}" 
+                                 required="true"                                  
+                                 converter="#{solicitudConverter}"
+                                 disabled="true"
+                                 requiredMessage="#{propiedadesEtiquetaBL.EditCarteraAsignadaRequiredMessage_vigente}"/>
+                </p:panelGrid>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</ui:composition>

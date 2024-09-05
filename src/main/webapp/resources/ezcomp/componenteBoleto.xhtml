@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:cc="http://java.sun.com/jsf/composite"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <cc:interface componentType="boletoComponente">
+        <cc:attribute name="onHide" type="java.lang.String" required="true"/>
+        <cc:attribute name="widgetVar" type="java.lang.String" required="true"/>
+        <cc:attribute name="codigoServicioBoleto" type="java.lang.Long" required="true"/>
+        <cc:attribute name="codigoServicio" type="java.lang.Long" required="true"/>
+    </cc:interface>
+
+    <cc:implementation>
+        <p:dialog closable="true"
+                  closeOnEscape="true"
+                  maximizable="false"
+                  resizable="false"
+                  modal="true"
+                  style="width: 100% !important;display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;"
+                  widgetVar="#{cc.attrs.widgetVar}"
+                  onShow="abrirDialogo()"
+                  onHide="#{cc.attrs.onHide}">
+            <p:remoteCommand name="abrirDialogo"
+                             process="@form"
+                             action="#{boletoComponenteController.abrirDialogo(cc.attrs.codigoServicioBoleto, cc.attrs.codigoServicio, cc.attrs.widgetVar)}"
+                             update="boletoComponenteForm:panelPrincipal,boletoComponenteForm:mensaje"/>
+            <f:facet name="header">
+                <h:outputLabel  id="encabezadoBoletosLabel"
+                                value="#{propiedadesEtiquetaBL.GeneraBoleto}"
+                                styleClass="encabezadosDialog"/>
+            </f:facet>
+            <h:form id="boletoComponenteForm">    
+                <h:panelGrid id="panelPrincipal" columns="1" style="width: 100% !important;display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;text-align: center !important;">
+                    <img src="../../../resources/images/boleto.png" style="#{boletoComponenteController.styleComponente}"/>
+                    <p:panel style="border: black solid 1px !important;">
+                        <h:outputLabel id="mensaje"
+                                       value="#{boletoComponenteController.mensaje}" 
+                                       style="#{boletoComponenteController.styleComponente};width: 170px !important;height: 70px !important;font-size: 12px !important; font-weight: bold !important;"/>
+                    </p:panel>
+                    <p:commandButton id="btnAceptar"
+                                     value="#{propiedadesEtiquetaBL.Aceptar}"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     onclick="#{cc.attrs.widgetVar}.hide()"
+                                     style="#{boletoComponenteController.styleComponente};font-size: 10px !important;"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </cc:implementation>
+</ui:composition>

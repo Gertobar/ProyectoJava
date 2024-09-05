@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comprobante" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Detalle" uuid="3d80251e-0e4e-4b18-aa7d-aba9eb50b3e9">
+		<parameter name="codIfip" class="java.lang.Long"/>
+		<parameter name="fecCorte" class="java.util.Date"/>
+		<queryString>
+			<![CDATA[SELECT  orden_rango orden,
+        rango banda,
+        SUM(capital) saldo
+FROM    (SELECT d.capital, 
+                 CASE WHEN trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte})
+                           BETWEEN 0 AND 30 THEN '1-30'
+                      WHEN trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte})
+                           BETWEEN 31 AND 90 THEN '31-90'
+                      WHEN trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte})
+                           BETWEEN 91 AND 180 THEN '91-180'
+                      WHEN trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte})
+                           BETWEEN 181 AND 360 THEN '181-360'
+                      WHEN trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte})
+                           > 360 THEN '+360' END rango,
+                CASE WHEN trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte})
+                           BETWEEN 0 AND 30 THEN 1
+                      WHEN trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte})
+                           BETWEEN 31 AND 90 THEN 2
+                      WHEN trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte})
+                           BETWEEN 91 AND 180 THEN 3
+                      WHEN trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte})
+                           BETWEEN 181 AND 360 THEN 4
+                      WHEN trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte})
+                           > 360 THEN 5 END orden_rango,
+                 d.codigo_ifip,
+                 trunc(d.fecha_vencimiento) - TRUNC($P{fecCorte}) diasvence
+
+          FROM   mks_historicos.saldo_dpf d
+          WHERE  codigo_ifip                  = $P{codIfip}
+          AND    trunc(d.fecha)       	     = TRUNC($P{fecCorte})
+          AND    TRUNC(d.fecha_contrato)     <= TRUNC($P{fecCorte}) 
+          AND    TRUNC(d.fecha_vencimiento)  > TRUNC($P{fecCorte}) 
+          AND    d.estado                    = 'V'
+          )
+GROUP BY orden_rango, rango
+ORDER BY orden_rango, rango]]>
+		</queryString>
+		<field name="ORDEN" class="java.math.BigDecimal"/>
+		<field name="BANDA" class="java.lang.String"/>
+		<field name="SALDO" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<parameter name="fechaCorte" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT  tti.nombre||' '||ifi.nombre           "IFIP",
+        ifi.path_imagen                       "IMAGEN"
+
+FROM    mks_ifips.ifip                         ifi,
+        mks_ifips.tipo_ifip                    tti
+WHERE   ifi.codigo                             = $P{codigoIfip}
+AND     tti.codigo                             = ifi.codigo_tipo_ifip]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="IMAGEN" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="69" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" mode="Transparent" x="5" y="26" width="544" height="20" uuid="28018225-171b-471e-a66f-838ed0428d25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="0" width="57" height="25" uuid="7f644b82-cc9c-4ce2-bf2a-f72fecf0b70b"/>
+				<imageExpression><![CDATA[$F{IMAGEN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="47" width="544" height="20" uuid="07bdd9f4-ab48-4af9-90e3-8a11fadaf09b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECLASIFICACION DPFS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="102" splitType="Immediate">
+			<staticText>
+				<reportElement positionType="Float" x="8" y="23" width="97" height="17" uuid="e94ffd36-8ad9-4a67-91a3-8c5617b3333f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA IMPRESION]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement positionType="Float" x="105" y="23" width="197" height="17" uuid="a75ac576-3326-4015-880d-b63dcba01c60"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table 6" style="table 6" positionType="Float" mode="Opaque" x="8" y="40" width="540" height="58" forecolor="#000000" backcolor="#FFFFFF" uuid="0adbfd50-b06b-4b34-b981-f36b8ba6b41e"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Detalle" uuid="7c0ccf58-ade6-4a7b-8772-670871623596">
+						<datasetParameter name="codIfip">
+							<datasetParameterExpression><![CDATA[$P{codigoIfip}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fecCorte">
+							<datasetParameterExpression><![CDATA[$P{fechaCorte}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="132" uuid="b71c5a26-f1c1-458b-8aef-547ac267e6b5">
+						<jr:columnHeader style="table 6_CH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="132" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="e7434bb3-6e1d-4fc4-8deb-9c37d5f35664"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[BANDA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 6_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="132" height="20" uuid="e8af6cb7-f932-4fd3-a247-c38cff83d64a"/>
+								<box leftPadding="5"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{BANDA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="178" uuid="c9fb4dda-51b0-4bd8-98a1-1beeff8df1f8">
+						<jr:columnHeader style="table 6_CH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="178" height="20" forecolor="#FFFFFF" backcolor="#333333" uuid="8b963e7c-3fa7-46a8-801c-fa84077750b3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[SALDO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 6_TD" height="20" rowSpan="1">
+							<textField pattern="###,###,##0.00;-###,###,##0.00" isBlankWhenNull="true">
+								<reportElement x="2" y="0" width="176" height="20" uuid="05d52284-07e6-403e-a207-29a2a08b89d9"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{SALDO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="Float" x="105" y="5" width="197" height="17" uuid="eec9dd28-32ce-4155-8c5b-092c658a9d5d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaCorte}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="8" y="5" width="97" height="17" uuid="0ad597c7-1a30-4ce5-a29f-ff295d06c75c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA DE CORTE]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

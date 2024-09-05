@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BovedaDineroEditDlg" widgetVar="BovedaDineroEditDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.EditBovedaDineroTitle}" closeOnEscape="true">
+
+            <h:form id="BovedaDineroEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{bovedaDineroController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.EditBovedaDineroLabel_bovedaDineroPK_codigoMoneda}" for="bovedaDineroPK_codigoMoneda" />
+                        <h:outputText id="bovedaDineroPK_codigoMoneda" value="#{bovedaDineroController.selected.bovedaDineroPK.codigoMoneda}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditBovedaDineroLabel_valorEfectivo}" for="valorEfectivo" />
+                        <p:inputText id="valorEfectivo" value="#{bovedaDineroController.selected.valorEfectivo}" title="#{propiedadesEtiquetaBL.EditBovedaDineroTitle_valorEfectivo}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditBovedaDineroRequiredMessage_valorEfectivo}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditBovedaDineroLabel_totalDinero}" for="totalDinero" />
+                        <p:inputText id="totalDinero" value="#{bovedaDineroController.selected.totalDinero}" title="#{propiedadesEtiquetaBL.EditBovedaDineroTitle_totalDinero}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditBovedaDineroRequiredMessage_totalDinero}"/>
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.EditBovedaDineroLabel_boveda}" for="boveda" />
+                        <h:outputText id="boveda" value="#{bovedaDineroController.selected.boveda}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bovedaDineroController.save}" value="#{propiedadesEtiquetaBL.Save}" update="display,:BovedaDineroListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,BovedaDineroEditDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancel}" onclick="BovedaDineroEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

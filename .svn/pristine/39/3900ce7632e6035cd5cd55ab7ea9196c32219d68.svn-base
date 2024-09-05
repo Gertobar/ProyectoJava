@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:dialog appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="reimpresionLibretaDlg"                  
+              modal="true"
+              closable="true"
+              closeOnEscape="true"
+              widgetVar="reimpresionLibretaDialogo">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="reiimpresionLabRev"
+                            value="#{propiedadesEtiquetaBL.ReimprirLibreta}"
+                            styleClass="encabezadosDialog"/>
+        </f:facet>
+
+        <h:form id="ReimpresionLibretaFor">
+
+
+            <h:panelGrid columns="2" style="text-align: center; font-size:  10px">
+                <f:facet  name="header">
+                    <h:outputLabel id="mensajeLab" styleClass="invalido" value="#{impresionLibretaCuentaController.msg}"/>
+                    <p:separator/>
+                </f:facet>
+                <h:outputText styleClass="etiquetaRequerida" 
+                              value="#{propiedadesEtiquetaBL.NumeroLibreta} #{impresionLibretaCuentaController.productoIfip.siglasLibreta}"/>
+                <p:inputText value="#{impresionLibretaCuentaController.numeroLibretaNueva}"
+                             size="30"
+                             id="txtNuevaLibreta"
+                             >
+                    <p:ajax event="blur" 
+                            update=":ReimpresionLibretaFor" 
+                            listener="#{impresionLibretaCuentaController.buscaNumeroLibreta()}" />
+                </p:inputText>
+                <f:facet name="footer">
+                    <p:commandButton id="reimprimeBot"
+                                     value="#{propiedadesEtiquetaBL.Reimprimir}"
+                                     actionListener="#{impresionLibretaCuentaController.reimprimirLibreta}"                                         
+                                     onclick="procesandoDlg.show()"
+                                     disabled="#{impresionLibretaCuentaController.deshabilitaBotonReimprimir}"
+                                     oncomplete="procesandoDlg.hide();reimpresionLibretaDialogo.hide();"
+                                     update=":mensaje,:EstadoCuentaFor, :barraForm"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancelar}"
+                                     onclick="reimpresionLibretaDialogo.hide();"
+                                     update=":mensaje,:EstadoCuentaFor"/>
+                </f:facet>
+
+            </h:panelGrid>
+
+
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+</ui:composition>

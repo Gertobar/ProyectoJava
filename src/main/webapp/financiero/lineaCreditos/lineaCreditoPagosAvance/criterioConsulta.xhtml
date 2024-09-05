@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:componentes ="http://java.sun.com/jsf/composite/ezcomp">
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:form id="criterioForm">
+        <h:panelGrid columns="1" >
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+                <p:separator/>
+            </f:facet>
+            <h:panelGrid columns="3">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Numero}"/>
+                <p:inputText id="nombreSocio"
+                             readonly="true"
+                             value="#{lineaCreditoPagoAvanceController.nombreCompletoSocio}"
+                             onblur="value = value.toUpperCase()"
+                             size="50"/>
+                <p:commandButton id="buscar"
+                                 value="#{propiedadesEtiquetaBL.Buscar} #{propiedadesEtiquetaBL.Socio}"
+                                 icon="#{propiedadesObjetosBL.IcoVer}"
+                                 onclick="PF('listaSociosDialog').show();"
+                                 type="button"/>
+            </h:panelGrid>
+        </h:panelGrid>
+    </h:form>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+</ui:composition>

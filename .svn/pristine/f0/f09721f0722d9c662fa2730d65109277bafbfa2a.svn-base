@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OperacionViewDlg" widgetVar="OperacionViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewOperacionTitle}" closeOnEscape="true">
+
+            <h:form id="OperacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{operacionController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewOperacionLabel_codigo}"/>
+                        <h:outputText value="#{operacionController.selected.codigo}" title="#{myBundle.ViewOperacionTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewOperacionLabel_nombre}"/>
+                        <h:outputText value="#{operacionController.selected.nombre}" title="#{myBundle.ViewOperacionTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewOperacionLabel_eliminado}"/>
+                        <h:outputText value="#{operacionController.selected.eliminado}" title="#{myBundle.ViewOperacionTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewOperacionLabel_codigoTipoOperacion}"/>
+                        <h:outputText value="#{operacionController.selected.codigoTipoOperacion.codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewOperacionLabel_codigoMenu}"/>
+                        <h:outputText value="#{operacionController.selected.codigoMenu.codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="OperacionViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

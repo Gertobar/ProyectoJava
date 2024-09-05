@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BovedaDineroCreateDlg" widgetVar="BovedaDineroCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.CreateBovedaDineroTitle}" closeOnEscape="true">
+
+            <h:form id="BovedaDineroCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateBovedaDineroLabel_bovedaDineroPK_codigoMoneda}" for="bovedaDineroPK_codigoMoneda" />
+                        <p:inputText id="bovedaDineroPK_codigoMoneda" value="#{bovedaDineroController.selected.bovedaDineroPK.codigoMoneda}" title="#{propiedadesEtiquetaBL.CreateBovedaDineroTitle_bovedaDineroPK_codigoMoneda}" required="true" requiredMessage="#{propiedadesEtiquetaBL.CreateBovedaDineroRequiredMessage_bovedaDineroPK_codigoMoneda}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateBovedaDineroLabel_valorEfectivo}" for="valorEfectivo" />
+                        <p:inputText id="valorEfectivo" value="#{bovedaDineroController.selected.valorEfectivo}" title="#{propiedadesEtiquetaBL.CreateBovedaDineroTitle_valorEfectivo}" required="true" requiredMessage="#{propiedadesEtiquetaBL.CreateBovedaDineroRequiredMessage_valorEfectivo}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateBovedaDineroLabel_totalDinero}" for="totalDinero" />
+                        <p:inputText id="totalDinero" value="#{bovedaDineroController.selected.totalDinero}" title="#{propiedadesEtiquetaBL.CreateBovedaDineroTitle_totalDinero}" required="true" requiredMessage="#{propiedadesEtiquetaBL.CreateBovedaDineroRequiredMessage_totalDinero}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateBovedaDineroLabel_boveda}" for="boveda" />
+                        <p:selectOneMenu id="boveda" value="#{bovedaDineroController.selected.boveda}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditBovedaDineroRequiredMessage_boveda}">
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.SelectOneMessage}"/>
+                            <f:selectItems value="#{bovedaController.items}"
+                                           var="bovedaItem"
+                                           itemValue="#{bovedaItem}"
+                                           itemLabel="#{bovedaItem.descripcion.toString()}"
+                                           />
+                            <f:converter binding="#{bovedaConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bovedaDineroController.saveNew}" value="#{propiedadesEtiquetaBL.Save}" update="display,:BovedaDineroListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,BovedaDineroCreateDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancel}" onclick="BovedaDineroCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

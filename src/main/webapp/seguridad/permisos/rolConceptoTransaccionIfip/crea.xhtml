@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RolConceptoTransaccionIfipCreateForm"> 
+
+        <p:panel  id="RolConceptoTransaccionIfipPan" styleClass="encabezadosDialog">         
+            <p:focus context="RolConceptoTransaccionIfipPan"/> 
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.RolConceptoTransaccionIfip} "
+                               styleClass="encabezadosDialog"/>
+            </f:facet>            
+
+            <h:panelGrid id="RolConceptoTransaccionIfipGri" columns="4" 
+                         columnClasses="label, value, validator" styleClass="grid">
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                               for="codigoMoneda" styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="codigoMoneda" 
+                                 value="#{rolConceptoTransaccionIfipController.ubicaMoneda}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{rolConceptoTransaccionIfipController.itemsMoneda}"
+                                   var="MonedaItem"
+                                   itemValue="#{MonedaItem}"
+                                   itemLabel="#{MonedaItem.nombre.toString()}"/> 
+                    <p:ajax event="change" 
+                            listener="#{rolConceptoTransaccionIfipController.cambiaMoneda()}" 
+                            update="codigoProducto,codigoTransaccion,rolConTranIfipPick"/>                                
+                    <f:converter binding="#{monedaConverter}"/>
+                </p:selectOneMenu>
+                <h:message for="codigoMoneda" styleClass="invalido" />
+                <h:outputLabel value=""/>
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                               for="codigoProducto" styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="codigoProducto" 
+                                 value="#{rolConceptoTransaccionIfipController.ubicaProductoIfip}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{rolConceptoTransaccionIfipController.itemsProductoIfip}"
+                                   var="ProductoItem"
+                                   itemValue="#{ProductoItem}"
+                                   itemLabel="#{ProductoItem.producto.tipoProducto.nombre.toString()}"/>  
+                    <p:ajax event="change" 
+                            listener="#{rolConceptoTransaccionIfipController.cambiaProductoIfip()}"
+                            update="codigoTransaccion,rolConTranIfipPick"/>
+                    <f:converter binding="#{productoIfipConverter}"/>
+                </p:selectOneMenu>
+                
+                <h:message for="codigoProducto" styleClass="invalido" />
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Transaccion}" 
+                               for="codigoTransaccion" styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="codigoTransaccion" 
+                                 value="#{rolConceptoTransaccionIfipController.ubicaTransaccion}" 
+                                 required="true"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Transaccion} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{rolConceptoTransaccionIfipController.itemsTransaccion}"
+                                   var="TransaccionItem"
+                                   itemValue="#{TransaccionItem}"
+                                   itemLabel="#{TransaccionItem.nombre.toString()}"
+                                   />                    
+                    <p:ajax event="change"                    
+                            listener="#{rolConceptoTransaccionIfipController.cambiaRol()}" 
+                            update="rolConTranIfipPick">
+                    </p:ajax>
+                    <f:converter binding="#{transaccionConverter}"/>
+                </p:selectOneMenu>                                      
+                <h:message for="codigoTransaccion"  styleClass="invalido"/>
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Rol}" 
+                               for="codigoRol" styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="codigoRol" 
+                                 value="#{rolConceptoTransaccionIfipController.ubicaRol}" 
+                                 required="true"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Rol} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{rolConceptoTransaccionIfipController.itemsRol}"
+                                   var="RolItem"
+                                   itemValue="#{RolItem}"
+                                   itemLabel="#{RolItem.descripcion.toString()}"/>                    
+                    <p:ajax event="change"            
+                            listener="#{rolConceptoTransaccionIfipController.cambiaRol()}"
+                            update="rolConTranIfipPick"/>
+                    <f:converter binding="#{rolConverter}"/>
+                </p:selectOneMenu>                                      
+                <h:message for="codigoRol"  styleClass="invalido"/>
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.ConceptoTransaccionPro}" 
+                               for="rolConTranIfipPick" styleClass="etiquetaRequerida" />              
+                <p:pickList id="rolConTranIfipPick" 
+                            value="#{rolConceptoTransaccionIfipController.itemsConceptoTransaccionPro}" 
+                            var="ConceptoTransaccionProIfi"   
+                            itemValue="#{ConceptoTransaccionProIfi}" 
+                            itemLabel="#{ConceptoTransaccionProIfi.conceptoTransaccion.nombre.toString()}"                        
+                            showCheckbox="true"
+                            showSourceFilter="true" 
+                            showTargetFilter="true" 
+                            filterMatchMode="contains">
+                    <f:converter binding="#{conceptoTransaccionProConverter}"/>
+                    <f:facet name="sourceCaption">Faltantes</f:facet>
+                    <f:facet name="targetCaption">Existentes</f:facet>           
+                </p:pickList>
+
+           
+            </h:panelGrid>
+     <f:facet name="footer">
+                    <p:commandButton id="operacionMenuBot" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update=":mensaje,:RolConceptoTransaccionIfipCreateForm:RolConceptoTransaccionIfipPan"                                         
+                                     onclick="procesandoDlg.show();"
+                                     action="#{rolConceptoTransaccionIfipController.guardaRolConceptoTransaccionIfip()}"
+                                     oncomplete="procesandoDlg.hide()">                   
+                    </p:commandButton>
+                </f:facet>
+            <h:panelGrid id="tipoOperacionGri" columns="4" 
+                         columnClasses="label, value, validator" styleClass="grid">
+            </h:panelGrid>
+
+        </p:panel>
+    </h:form>
+</ui:composition>

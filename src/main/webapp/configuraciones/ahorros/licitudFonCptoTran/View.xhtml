@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LicitudFonCptoTranViewDlg" widgetVar="LicitudFonCptoTranViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewLicitudFonCptoTranTitle}" closeOnEscape="true">
+
+            <h:form id="LicitudFonCptoTranViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{licitudFonCptoTranController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonCptoTranLabel_codigo}"/>
+                        <h:outputText value="#{licitudFonCptoTranController.selected.codigo}" title="#{myBundle.ViewLicitudFonCptoTranTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonCptoTranLabel_codigoIfip}"/>
+                        <h:outputText value="#{licitudFonCptoTranController.selected.codigoIfip}" title="#{myBundle.ViewLicitudFonCptoTranTitle_codigoIfip}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonCptoTranLabel_acumulado}"/>
+                        <h:outputText value="#{licitudFonCptoTranController.selected.acumulado}" title="#{myBundle.ViewLicitudFonCptoTranTitle_acumulado}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonCptoTranLabel_compensacion}"/>
+                        <h:outputText value="#{licitudFonCptoTranController.selected.compensacion}" title="#{myBundle.ViewLicitudFonCptoTranTitle_compensacion}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonCptoTranLabel_esIndividual}"/>
+                        <h:outputText value="#{licitudFonCptoTranController.selected.esIndividual}" title="#{myBundle.ViewLicitudFonCptoTranTitle_esIndividual}"/>
+
+                        <h:outputText value="#{myBundle.ViewLicitudFonCptoTranLabel_conceptoTransaccionPro}"/>
+                        <h:outputText value="#{licitudFonCptoTranController.selected.conceptoTransaccionPro.conceptoTransaccionProPK}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="LicitudFonCptoTranViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

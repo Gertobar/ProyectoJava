@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EdicionTrabajoDlg" 
+                  widgetVar="EdicionTrabajoDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="false"
+                  closable="false">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.Trabajos}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            
+
+            <h:form id="EdicionPersonaTrabajoFor">
+                <!-- Panel para Personas Naturales --> 
+
+                <!-- PanelGrid para Trabajos de la Acrividad Economica --> 
+                <h:panelGrid id="edicionPersonaActEcoTraGri" 
+                             columns="3" 
+                             style="font-size:  10px;"
+                             columnClasses="label, value, validator" 
+                             styleClass="grid">
+                    <p:focus context="edicionPersonaActEcoTraGri"/>   
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.ActividadEconomica}" 
+                                   for="actividadEconomicaTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="actividadEconomicaTraEdi" 
+                                     value="#{situacionEconomicaBean.personaTrabajoActEcoSel.personaActividadEconomica}" 
+                                     disabled="#{situacionEconomicaBean.deshabilitaTrabajo}"
+                                     filter="true" 
+                                     filterMatchMode="contains"
+                                     rendered="true"
+                                     immediate="true"
+                                     required="false">
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{situacionEconomicaBean.itemsPersonaActEco}"
+                                       var="actividadEconomicaItem"
+                                       itemValue="#{actividadEconomicaItem}"
+                                       itemLabel="#{actividadEconomicaItem.actividadEconomica.nombre}"
+                                       />
+                        <p:ajax event="change" listener="#{situacionEconomicaBean.seleccionaActEcoTra()}"/>
+                        <f:converter binding="#{personaActividadEconomicaConverter}"/>
+                    </p:selectOneMenu>            
+                    <h:message for="actividadEconomicaTraEdi"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Empresa}" 
+                                   for="empresaTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="empresaTraEdi" 
+                                     value="#{situacionEconomicaBean.personaTrabajoActEcoSel.empresa}" 
+                                     required="false" 
+                                     filter="true" 
+                                     disabled="#{situacionEconomicaBean.deshabilitaTrabajo}"
+                                     filterMatchMode="contains"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Empresa} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{situacionEconomicaBean.itemsEmpresa}"
+                                       var="itemEmpresa"
+                                       itemValue="#{itemEmpresa}"
+                                       itemLabel="#{itemEmpresa.nombre}"
+                                       />
+                        <f:converter binding="#{empresaConverter}"/>
+                    </p:selectOneMenu>
+                    <h:message for="empresaTraEdi"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Cargo}" 
+                                   for="cargoTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="cargoTraEdi" 
+                                     value="#{situacionEconomicaBean.personaTrabajoActEcoSel.cargo}"
+                                     required="false" 
+                                     filter="true" 
+                                     filterMatchMode="contains"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Cargo} : #{propiedadesMensajesBL.CampoRequerido}">   
+                        <f:selectItems value="#{situacionEconomicaBean.itemsCargo}"
+                                       var="cargoItem"
+                                       itemValue="#{cargoItem}"
+                                       itemLabel="#{cargoItem.nombre}"
+                                       />
+                        <f:converter binding="#{cargoConverter}"/>                                 
+                    </p:selectOneMenu>
+                    <h:message for="cargoTraEdi"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.TipoRelacion}" 
+                                   for="tipoRelacionTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="tipoRelacionTraEdi" 
+                                     value="#{situacionEconomicaBean.personaTrabajoActEcoSel.tipoRelacion}"
+                                     required="false" 
+                                     filter="true" 
+                                     filterMatchMode="contains"
+                                     requiredMessage="#{propiedadesEtiquetaBL.TipoRelacion} : #{propiedadesMensajesBL.CampoRequerido}">     
+                        <f:selectItems value="#{situacionEconomicaBean.itemsTipoRelacion}"
+                                       var="itemTipoRelacion"
+                                       itemValue="#{itemTipoRelacion}"
+                                       itemLabel="#{itemTipoRelacion.nombre}"
+                                       />
+                        <f:converter binding="#{tipoRelacionConverter}"/>                                 
+                    </p:selectOneMenu>
+                    <h:message for="tipoRelacionTraEdi"  styleClass="invalido"/>
+
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" 
+                                   for="periodicidadTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="periodicidadTraEdi" 
+                                     value="#{situacionEconomicaBean.personaTrabajoActEcoSel.periodicidad}" 
+                                     required="false" 
+                                     filter="true" 
+                                     filterMatchMode="contains"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Periodicidad} - #{propiedadesMensajesBL.CampoRequerido}">        
+                        <f:selectItems value="#{situacionEconomicaBean.itemsPeriodicidad}"
+                                       var="PeriodicidadItem"
+                                       itemValue="#{PeriodicidadItem}"
+                                       itemLabel="#{PeriodicidadItem.nombre}"
+                                       />
+                        <f:converter binding="#{periodicidadConverter}"/>
+                    </p:selectOneMenu>
+                    <h:message for="periodicidadTraEdi"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Tiempo}" 
+                                   for="tiempoTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:inputText value="#{situacionEconomicaBean.personaTrabajoActEcoSel.tiempo}"
+                                 id="tiempoTraEdi"
+                                 size="4"
+                                 required="false"                         
+                                 requiredMessage="#{propiedadesEtiquetaBL.Tiempo} - #{propiedadesMensajesBL.CampoRequerido}">
+                        <f:convertNumber integerOnly="true"/>
+                        <f:validateLongRange minimum="1"/>
+                    </p:inputText>
+                    <h:message for="tiempoTraEdi"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.FechaIngreso}" 
+                                   for="fechaIngresoTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:calendar  value="#{situacionEconomicaBean.personaTrabajoActEcoSel.fechaIngreso}"
+                                 pattern="dd/MM/yyyy"
+                                 id="fechaIngresoTraEdi" 
+                                 locale="es"                         
+                                 required="false" 
+                                 size="12"
+                                 requiredMessage="#{propiedadesEtiquetaBL.FechaIngreso} - #{propiedadesMensajesBL.CampoRequerido}"                                                  
+                                 maxdate="#{situacionEconomicaBean.fechaActual}"
+                                 />
+                    <h:message for="fechaIngresoTraEdi"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.FechaSalida}" 
+                                   for="fechaSalidaTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:calendar  value="#{situacionEconomicaBean.personaTrabajoActEcoSel.fechaSalida}"
+                                 pattern="dd/MM/yyyy"
+                                 id="fechaSalidaTraEdi" 
+                                 locale="es"                         
+                                 required="false" 
+                                 size="12"
+                                 requiredMessage="#{propiedadesEtiquetaBL.FechaSalida} - #{propiedadesMensajesBL.CampoRequerido}"                                                  
+                                 maxdate="#{situacionEconomicaBean.fechaActual}"
+                                 />
+                    <h:message for="fechaSalidaTraEdi"  styleClass="invalido"/> 
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.TipoTelefono}" 
+                                   for="tipoTelefonoTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="tipoTelefonoTraEdi" 
+                                     value="#{situacionEconomicaBean.personaTrabajoActEcoSel.tipoTelefono}" 
+                                     disabled="false"
+                                     required="false">   
+                        <f:selectItems value="#{situacionEconomicaBean.itemsTipoTelefono}"
+                                       var="tipoTelefonoTraEdiItem"
+                                       itemValue="#{tipoTelefonoTraEdiItem}"
+                                       itemLabel="#{tipoTelefonoTraEdiItem.nombre}"
+                                       />
+                        <f:converter binding="#{tipoTelefonoConverter}"/>
+                    </p:selectOneMenu> 
+                    <h:message for="tipoTelefonoTraEdi"  styleClass="invalido"/> 
+
+                    <h:outputLabel for="telefonoPersonaTraEdi" value="#{propiedadesEtiquetaBL.Numero}" styleClass="etiquetaRequerida"/>                
+                    <p:inputText id="telefonoPersonaTraEdi" size="13" value="#{situacionEconomicaBean.personaTrabajoActEcoSel.numeroTelefonico}">                
+
+                    </p:inputText>
+                    <h:message for="telefonoPersonaTraEdi"  styleClass="invalido"/> 
+
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.PaisTrabajo}" 
+                                   for="codigoUbiGeoPaiTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="codigoUbiGeoPaiTraEdi" 
+                                     value="#{situacionEconomicaBean.ubiGeoPaiTra}" 
+                                     required="false" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.PaisTrabajo} - #{propiedadesMensajesBL.CampoRequerido}">      
+                        <f:selectItems value="#{situacionEconomicaBean.itemsUbiGeoPaiTra}"
+                                       var="UbiGeoPaiTraItem"
+                                       itemValue="#{UbiGeoPaiTraItem}"
+                                       itemLabel="#{UbiGeoPaiTraItem.nombre}"
+                                       />
+                        <p:ajax update="codigoUbiGeoProTraEdi,codigoUbiGeoCiuTraEdi,codigoUbiGeoParTraEdi"  
+                                listener="#{situacionEconomicaBean.cambiaUbiGeoPaiTra()}" />  
+                        <f:converter binding="#{ubicacionGeograficaConverter}"/>
+                    </p:selectOneMenu>     
+                    <h:message for="codigoUbiGeoPaiTraEdi"  styleClass="invalido"/> 
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.ProviniciaTrabajo}" 
+                                   for="codigoUbiGeoProTraEdi"
+                                   styleClass="etiqueta"/>
+                    <p:selectOneMenu id="codigoUbiGeoProTraEdi" 
+                                     value="#{situacionEconomicaBean.ubiGeoProTra}" 
+                                     required="false" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.ProviniciaTrabajo} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{situacionEconomicaBean.itemsUbiGeoProTra}"
+                                       var="UbiGeoProTraItem"
+                                       itemValue="#{UbiGeoProTraItem}"
+                                       itemLabel="#{UbiGeoProTraItem.nombre}"
+                                       />
+                        <p:ajax update="codigoUbiGeoCiuTraEdi,codigoUbiGeoParTraEdi"  
+                                listener="#{situacionEconomicaBean.cambiaUbiGeoProTra()}" />  
+                        <f:converter binding="#{ubicacionGeograficaConverter}"/>
+                    </p:selectOneMenu>
+                    <h:message for="codigoUbiGeoProTraEdi"  styleClass="invalido"/> 
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.CiudadTrabajo}" 
+                                   for="codigoUbiGeoCiuTraEdi"
+                                   styleClass="etiqueta"/>
+                    <p:selectOneMenu id="codigoUbiGeoCiuTraEdi" 
+                                     value="#{situacionEconomicaBean.ubiGeoCiuTra}"
+                                     filter="true" 
+                                     filterMatchMode="contains"                             
+                                     required="false" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CiudadTrabajo} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{situacionEconomicaBean.itemsUbiGeoCiuTra}"
+                                       var="UbiGeoCiuTraItem"
+                                       itemValue="#{UbiGeoCiuTraItem}"
+                                       itemLabel="#{UbiGeoCiuTraItem.nombre}"
+                                       />
+                        <p:ajax update="codigoUbiGeoParTraEdi"  
+                                listener="#{situacionEconomicaBean.cambiaUbiGeoCiuTra()}" />  
+                        <f:converter binding="#{ubicacionGeograficaConverter}"/>
+                    </p:selectOneMenu>  
+                    <h:message for="codigoUbiGeoCiuTraEdi"  styleClass="invalido"/> 
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.ParroquiaTrabajo}" 
+                                   for="codigoUbiGeoParTraEdi"
+                                   styleClass="etiqueta"/>
+                    <p:selectOneMenu id="codigoUbiGeoParTraEdi" 
+                                     value="#{situacionEconomicaBean.ubiGeoParTra}" 
+                                     required="false" 
+                                     filter="true" 
+                                     filterMatchMode="contains"
+                                     requiredMessage="#{propiedadesEtiquetaBL.ParroquiaTrabajo} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{situacionEconomicaBean.itemsUbiGeoParTra}"
+                                       var="UbiGeoParTraItem"
+                                       itemValue="#{UbiGeoParTraItem}"
+                                       itemLabel="#{UbiGeoParTraItem.nombre}"
+                                       />
+                        <f:converter binding="#{ubicacionGeograficaConverter}"/>
+                    </p:selectOneMenu>             
+                    <h:message for="codigoUbiGeoParTraEdi"  styleClass="invalido"/> 
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Sector}" 
+                                   for="sectorTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="sectorTraEdi" 
+                                     value="#{situacionEconomicaBean.personaTrabajoActEcoSel.sector}" 
+                                     required="false" 
+                                     filter="true" 
+                                     filterMatchMode="contains"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Sector} - #{propiedadesMensajesBL.CampoRequerido}">    
+                        <f:selectItems value="#{situacionEconomicaBean.itemsSector}"
+                                       var="SectorItem"
+                                       itemValue="#{SectorItem}"
+                                       itemLabel="#{SectorItem.nombre}"
+                                       />
+                        <f:converter binding="#{sectorConverter}"/>
+                    </p:selectOneMenu>
+                    <h:message for="sectorTraEdi"  styleClass="invalido"/> 
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Barrio}" 
+                                   for="barrioTra"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:inputText value="#{situacionEconomicaBean.personaTrabajoActEcoSel.barrio}"
+                                 id="barrioTra"
+                                 required="false" 
+                                 size="50"
+                                 onblur="value = value.toUpperCase()"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Barrio} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                    <h:message for="barrioTra"  styleClass="invalido"/> 
+
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Direccion}" 
+                                   for="direccionTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:inputText value="#{situacionEconomicaBean.personaTrabajoActEcoSel.direccion}"
+                                 id="direccionTraEdi"
+                                 required="false" 
+                                 size="50"
+                                 onblur="value = value.toUpperCase()"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Direccion} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                    <h:message for="direccionTraEdi"  styleClass="invalido"/> 
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Referencia}" 
+                                   for="referenciaTraEdi"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:inputText value="#{situacionEconomicaBean.personaTrabajoActEcoSel.referencia}"
+                                 id="referenciaTraEdi"
+                                 required="false" 
+                                 size="50"
+                                 onblur="value = value.toUpperCase()"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Referencia} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                    <h:message for="referenciaTraEdi"  styleClass="invalido"/> 
+
+                    <f:facet name="footer">
+
+                        <p:commandButton id="editaPerTraActEco"
+                                         value="#{propiedadesEtiquetaBL.Editar}"
+                                         icon="#{propiedadesObjetosBL.IcoEditar}"
+                                         update=":EdicionPersonaTrabajoFor"
+                                         action="#{situacionEconomicaBean.editaTrabajo()}"/>
+
+                        <p:commandButton id="cancelaPerTraActEco"
+                                         value="#{propiedadesEtiquetaBL.Cancelar}"
+                                         icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                         action="#{situacionEconomicaBean.cancelaTrabajo()}"
+                                         onclick="EdicionTrabajoDialog.hide();"/>
+
+                    </f:facet>
+
+
+                </h:panelGrid>
+
+
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>
+

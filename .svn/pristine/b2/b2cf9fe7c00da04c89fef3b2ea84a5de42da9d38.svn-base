@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RolOperacionEditDlg" widgetVar="RolOperacionEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditRolOperacionTitle}" closeOnEscape="true">
+
+            <h:form id="RolOperacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{rolOperacionController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditRolOperacionLabel_rolOperacionPK_codigoIfip}" for="rolOperacionPK_codigoIfip" />
+                        <h:outputText id="rolOperacionPK_codigoIfip" value="#{rolOperacionController.selected.rolOperacionPK.codigoIfip}" />
+
+                        <p:outputLabel value="#{myBundle.EditRolOperacionLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{rolOperacionController.selected.eliminado}" title="#{myBundle.EditRolOperacionTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditRolOperacionRequiredMessage_eliminado}"/>
+
+                        <h:outputLabel value="#{myBundle.EditRolOperacionLabel_rol}" for="rol" />
+                        <h:outputText id="rol" value="#{rolOperacionController.selected.rol}" />
+
+                        <h:outputLabel value="#{myBundle.EditRolOperacionLabel_operacion}" for="operacion" />
+                        <h:outputText id="operacion" value="#{rolOperacionController.selected.operacion}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rolOperacionController.save}" value="#{myBundle.Save}" update="display,:RolOperacionListForm:datalist,:mensaje" oncomplete="handleSubmit(xhr,status,args,RolOperacionEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="RolOperacionEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

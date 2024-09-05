@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="ParametrosBancoCentralEditDlg" 
+                  widgetVar="ParametrosBancoCentralEditDialog" 
+                  modal="true" 
+                  resizable="true" 
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  maximizable="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.ParametrosBancoCentral}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+            <h:form id="ParametrosBancoCentralEditForm">
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.ParametrosBancoCentral}"/>
+                        </f:facet>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                       for="codigoIfip"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoIfip" 
+                                     value="#{parametrosBancoCentralIfipController.ifip.nombre}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10"
+                                     disabled="true"/>   
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoCategoria}" 
+                                       for="categoria"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="categoria" 
+                                         disabled="true"
+                                         value="#{parametrosBancoCentralIfipController.selected.codigoTipoParBanCen}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.CodigoCategoria} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{parametrosBancoCentralIfipController.listaTipoParametroBancoCentral}"
+                                           var="listaTipoParametroBancoCentral"
+                                           itemValue="#{listaTipoParametroBancoCentral}"
+                                           itemLabel="#{listaTipoParametroBancoCentral.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{tipoParametroBancoCentralConverter}"/>
+                        </p:selectOneMenu> 
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombreParametro" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombreParametro" 
+                                     value="#{parametrosBancoCentralIfipController.selected.nombre}"
+                                     title="#{propiedadesEtiquetaBL.Nombre}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" 
+                                     maxlength="50">
+                            <f:validateLength minimum="4" maximum="50"/>
+                        </p:inputText>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Descripcion}" 
+                                       for="descripcionParametro" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="descripcionParametro" 
+                                     value="#{parametrosBancoCentralIfipController.selected.descripcion}"
+                                     title="#{propiedadesEtiquetaBL.Descripcion}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Descripcion} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="20" 
+                                     maxlength="100">
+                            <f:validateLength minimum="5" maximum="100"/>
+                        </p:inputText>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ValorTexto}" 
+                                       for="valorTextoParametro" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="valorTextoParametro" 
+                                     value="#{parametrosBancoCentralIfipController.selected.valorTexto}"
+                                     title="#{propiedadesEtiquetaBL.ValorTexto}" 
+                                     size="10" 
+                                     maxlength="10">
+                        </p:inputText>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ValorNumerico}" 
+                                       for="valorNumericoParametro" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="valorNumericoParametro" 
+                                     value="#{parametrosBancoCentralIfipController.selected.valorNumerico}"
+                                     title="#{propiedadesEtiquetaBL.ValorNumerico}" 
+                                     size="10" 
+                                     maxlength="18">
+                        </p:inputText>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ValorFecha}"
+                                       for="valorFechaParametro"  styleClass="etiquetaRequerida" />
+                        <p:calendar id="valorFechaParametro"
+                                    pattern="dd/MM/yyyy HH:mm:ss"
+                                    value="#{parametrosBancoCentralIfipController.selected.valorFecha}"
+                                    title="#{propiedadesEtiquetaBL.ValorFecha}"
+                                    showOn="button"
+                                    disabled="false"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{parametrosBancoCentralIfipController.selected.eliminado}"
+                                         required="true" 
+                                         disabled="false"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton id="guardarBot"
+                                     actionListener="#{parametrosBancoCentralIfipController.guardar}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     onclick="procesandoDlg.show();"
+                                     update="display,:ParametrosBancoCentralListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,ParametrosBancoCentralEditDialog);procesandoDlg.hide();"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

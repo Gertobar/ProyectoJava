@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EnviaComisionForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{solicitudBean.itemsSolicitud}" 
+                     var="item"                    
+                     selection="#{solicitudBean.itemsSolicitudSel}"
+                     rowKey="#{item.solicitudPK.numero}"
+                     scrollHeight="160"                                          
+                     editMode="cell"                                                                               
+                     rows="8"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.EnviarComision}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelectCheckbox" 
+                    listener="#{solicitudBean.solicitudSeleccionada}"
+                    update=":barraForm:EnviarComisionBot"/>
+
+            <p:ajax event="rowUnselectCheckbox" 
+                    listener="#{solicitudBean.solicitudNoSeleccionada}"
+                    update=":barraForm:EnviarComisionBot"/>
+
+            <p:ajax event="toggleSelect"  
+                    listener="#{solicitudBean.solicitudesSeleccionadas}"
+                    update=":barraForm:EnviarComisionBot"/>
+
+            <p:column selectionMode="multiple"  style="text-align:center" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.SeleccionaCredito}"
+                                  />
+                </f:facet>                                     
+            </p:column>
+
+            <p:column sortBy="#{item.solicitudPK.numero}" style="width:  10px" filterBy="#{item.solicitudPK.numero}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Numero}"/>
+                </f:facet>
+                <h:outputText value="#{item.solicitudPK.numero}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.socio.codigoPersona.nombreCompleto}" style="width:  10px" 
+                      filterBy="#{item.socio.codigoPersona.nombreCompleto}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                </f:facet>
+                <h:outputText value="#{item.socio.codigoPersona.nombreCompleto}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}" 
+                      filterBy="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                </f:facet>
+                <h:outputText value="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.montoCredito}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Monto}"/>
+                </f:facet>
+                <h:outputText value="#{item.montoCredito}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.fechaSolicitud}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaSolicitud}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaSolicitud}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.estadoCredito.nombre}"
+                      filterBy="#{item.estadoCredito.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <p:selectOneMenu value="#{item.estadoCredito}" 
+                                 disabled="true"
+                                 required="false" >                                    
+
+                    <f:selectItems value="#{solicitudBean.itemsEstadoCreditoLista}"
+                                   var="EstadoCreditoItem"
+                                   itemValue="#{EstadoCreditoItem}"
+                                   itemLabel="#{EstadoCreditoItem.nombre}"
+                                   />
+                    <f:converter binding="#{estadoCreditoConverter}"/>
+                </p:selectOneMenu>
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>

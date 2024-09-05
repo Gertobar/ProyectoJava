@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TasaInteresProDpfMonListForm">
+
+        <p:panel header="#{myBundle.ListTasaInteresProDpfMonTitle}">
+            <p:contextMenu id="TasaInteresProDpfMonDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('TasaInteresProDpfMonListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('TasaInteresProDpfMonListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('TasaInteresProDpfMonListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('TasaInteresProDpfMonListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.TasaInteresProDpfMonMenuItem_codigoTasa}" icon="ui-icon-search"  actionListener="#{tasaInteresProDpfMonController.prepareCodigoTasa}" update=":TasaInteresDpfIfipViewForm" oncomplete="TasaInteresDpfIfipViewDialog.show()" disabled="#{empty tasaInteresProDpfMonController.selected.codigoTasa}"/>  
+                <p:menuitem value="#{myBundle.TasaInteresProDpfMonMenuItem_codigoRango}" icon="ui-icon-search"  actionListener="#{tasaInteresProDpfMonController.prepareCodigoRango}" update=":RangoDiasDpfViewForm" oncomplete="RangoDiasDpfViewDialog.show()" disabled="#{empty tasaInteresProDpfMonController.selected.codigoRango}"/>  
+                <p:menuitem value="#{myBundle.TasaInteresProDpfMonMenuItem_renovacionContratoDpfCollection}" icon="ui-icon-search"  action="#{tasaInteresProDpfMonController.navigateRenovacionContratoDpfCollection}" disabled="#{empty tasaInteresProDpfMonController.selected.renovacionContratoDpfCollection}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.TasaInteresProDpfMonMenuItem_contratoDpfCollection}" icon="ui-icon-search"  action="#{tasaInteresProDpfMonController.navigateContratoDpfCollection}" disabled="#{empty tasaInteresProDpfMonController.selected.contratoDpfCollection}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.TasaInteresProDpfMonMenuItem_moneda}" icon="ui-icon-search"  actionListener="#{tasaInteresProDpfMonController.prepareMoneda}" update=":MonedaViewForm" oncomplete="MonedaViewDialog.show()" disabled="#{empty tasaInteresProDpfMonController.selected.moneda}"/>  
+                <p:menuitem value="#{myBundle.TasaInteresProDpfMonMenuItem_usuarioRealizadoPor}" icon="ui-icon-search"  actionListener="#{tasaInteresProDpfMonController.prepareUsuarioRealizadoPor}" update=":UsuarioViewForm" oncomplete="UsuarioViewDialog.show()" disabled="#{empty tasaInteresProDpfMonController.selected.usuarioRealizadoPor}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tasaInteresProDpfMonController.items}"
+                         var="item"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{tasaInteresProDpfMonController.selected}">
+
+                <p:ajax event="rowSelect"   update=":TasaInteresProDpfMonListForm:createButton :TasaInteresProDpfMonListForm:viewButton :TasaInteresProDpfMonListForm:editButton :TasaInteresProDpfMonListForm:deleteButton :TasaInteresProDpfMonListForm:TasaInteresProDpfMonDataTableContextMenu" listener="#{tasaInteresProDpfMonController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":TasaInteresProDpfMonListForm:createButton :TasaInteresProDpfMonListForm:viewButton :TasaInteresProDpfMonListForm:editButton :TasaInteresProDpfMonListForm:deleteButton :TasaInteresProDpfMonListForm:TasaInteresProDpfMonDataTableContextMenu" listener="#{tasaInteresProDpfMonController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TasaInteresProDpfMonListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_codigo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.codigoMoneda}" filterBy="#{item.codigoMoneda}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_codigoMoneda}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoMoneda}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.codigoIfip}" filterBy="#{item.codigoIfip}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_codigoIfip}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoIfip}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.montoInicial}" filterBy="#{item.montoInicial}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_montoInicial}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoInicial}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.montoFinal}" filterBy="#{item.montoFinal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_montoFinal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoFinal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.registradoPor}" filterBy="#{item.registradoPor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_registradoPor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.registradoPor}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_fechaRegistro}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fechaRegistro}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_eliminado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.eliminado}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.codigoTasa.codigo}" filterBy="#{item.codigoTasa.codigo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_codigoTasa}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.codigoTasa.codigo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.codigoRango.codigo}" filterBy="#{item.codigoRango.codigo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_codigoRango}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.codigoRango.codigo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.moneda.codigo}" filterBy="#{item.moneda.codigo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_moneda}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.moneda.codigo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.usuarioRealizadoPor.username}" filterBy="#{item.usuarioRealizadoPor.username}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{myBundle.ListTasaInteresProDpfMonTitle_usuarioRealizadoPor}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.usuarioRealizadoPor.username}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{tasaInteresProDpfMonController.prepareCreate}" update=":TasaInteresProDpfMonCreateForm" oncomplete="TasaInteresProDpfMonCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":TasaInteresProDpfMonViewForm" oncomplete="TasaInteresProDpfMonViewDialog.show()" disabled="#{empty tasaInteresProDpfMonController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":TasaInteresProDpfMonEditForm" oncomplete="TasaInteresProDpfMonEditDialog.show()" disabled="#{empty tasaInteresProDpfMonController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{tasaInteresProDpfMonController.delete}" update=":growl,datalist" disabled="#{empty tasaInteresProDpfMonController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

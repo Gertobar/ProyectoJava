@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TalonarioDocumentoDpfCreateDlg" 
+                  widgetVar="TalonarioDocumentoDpfCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.TalonarioDpf}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="TalonarioDocumentoDpfCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="3">
+                       
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="codigoMoneda"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoMoneda" 
+                                         value="#{talonarioDocumentoDpfController.selected.moneda}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{talonarioDocumentoDpfController.itemsMoneda}"
+                                           var="varListaIfipMoneda"
+                                           itemValue="#{varListaIfipMoneda}"
+                                           itemLabel="#{varListaIfipMoneda.nombre.toString()}"
+                                           />
+                            <p:ajax event="change" 
+                                    listener="#{talonarioDocumentoDpfController.moneda()}" 
+                                    update="codigoMoneda"/>
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu> 
+                        <h:message for="codigoMoneda"  styleClass="invalido"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Computador}" 
+                                       for="computador"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="computador" 
+                                         value="#{talonarioDocumentoDpfController.selected.computador}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Computador} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{talonarioDocumentoDpfController.itemsComputador}"
+                                           var="itemComputador"
+                                           itemValue="#{itemComputador}"
+                                           itemLabel="#{itemComputador.nombre}"
+                                           />
+                            <f:converter binding="#{computadorConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="computador"  styleClass="invalido"/>
+
+                         <p:outputLabel value="#{propiedadesEtiquetaBL.InicioSerie}" 
+                                       for="codigoInicioSerie"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoInicioSerie" 
+                                     value="#{talonarioDocumentoDpfController.selected.inicioSerie}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.InicioSerie}- #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10">
+                            <p:ajax event="blur" listener="#{talonarioDocumentoDpfController.validaSerie()}"/>
+                        </p:inputText>
+                        <h:message for="codigoInicioSerie"  styleClass="invalido"/>
+                       
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FinSerie}" 
+                                       for="codigoFinSerie"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoFinSerie" 
+                                     value="#{talonarioDocumentoDpfController.selected.finSerie}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.FinSerie} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10">
+                            <p:ajax event="blur" listener="#{talonarioDocumentoDpfController.validaSerie()}"/>
+                        </p:inputText>
+                        <h:message for="codigoFinSerie"  styleClass="invalido"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Digitos}" 
+                                       for="codigoDigitos"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoDigitos" 
+                                     value="#{talonarioDocumentoDpfController.selected.digitos}" 
+                                     title="#{propiedadesEtiquetaBL.Digitos}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Digitos} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10"/>
+                        <h:message for="codigoDigitos"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{talonarioDocumentoDpfController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                        <h:message for="eliminado"  styleClass="invalido"/>
+
+                    </p:panelGrid>
+                    <p:commandButton id="guardarBot"
+                                     actionListener="#{talonarioDocumentoDpfController.guardar}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"   
+                                     onclick="procesandoDlg.show();"                                     
+                                     update="display,:TalonarioDocumentoDpfListForm:datalist,:mensaje" 
+                                     oncomplete="procesandoDlg.hide();handleSubmit(xhr,status,args,TalonarioDocumentoDpfCreateDialog);"/>        
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

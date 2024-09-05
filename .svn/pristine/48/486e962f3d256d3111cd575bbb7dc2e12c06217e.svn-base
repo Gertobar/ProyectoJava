@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="ListaConyugesGarDlg"                  
+              modal="true" style="height: 500px"
+              widgetVar="ListaConyugesGarDialog">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="encabezadoListaConyugeGarLab"
+                            value="#{propiedadesEtiquetaBL.Busqueda} #{propiedadesEtiquetaBL.Conyuge}"
+                            styleClass="encabezadosDialog"/>               
+
+
+        </f:facet>
+        <h:form id="ListaConyugesGarForm">
+            <h:panelGrid id="ConyugeGarGri" columns="1" style="font-size: 10px; height: 400px" >
+                <f:facet name="header">                                    
+                    <h:outputLabel value="#{propiedadesMensajesBL.SeleccionePersona}"/> <br/>
+                    <h:outputLabel id="mensajeCriterioConyugeGar" 
+                                   value="#{solicitudController.mensajeCriterio}" 
+                                   styleClass="invalido"/>
+                </f:facet>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombres}" styleClass="etiqueta"/>
+                    <p:inputText id="nombresConyugeBusquedaGar"
+                                 value="#{solicitudController.nombreConyugeBusqueda}"
+                                 size="50">
+                        <p:ajax event="keyup" 
+                                listener="#{solicitudController.obtieneConyuge()}" 
+                                update=":ListaConyugesGarForm:datalistConyugeGar,:ListaConyugesGarForm:mensajeCriterioConyugeGar"/>
+                    </p:inputText>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Buscar}"
+                                     icon="#{propiedadesObjetosBL.IcoEjecutarConsulta}"
+                                     action="#{solicitudController.obtieneConyuge()}"
+                                     update=":ListaConyugesForm:datalistConyuge,:ListaConyugesGarForm:mensajeCriterioConyugeGar"/>
+
+                </h:panelGrid>
+                <p:dataTable id="datalistConyugeGar" 
+                             value="#{solicitudController.itemsPersonaNatural}" 
+                             var="item"
+                             selectionMode="single" 
+                             selection="#{solicitudController.personaConyugeGarante.personaNatural}"
+                             rowKey="#{item.codigoPersona}"
+                             paginator="true"
+                             emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                             rows="10"
+                             >
+                    <p:ajax event="rowSelect" 
+                            listener="#{solicitudController.revisaEstadoCivilConGar()}" 
+                            update=":ListaConyugesGarForm:mensajeCriterioConyugeGar"/>
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Conyuge}"/>
+                    </f:facet>
+                    <p:column>                    
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.persona.identificacion}"/>
+                    </p:column>
+
+                    <p:column>                    
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.persona.nombreCompleto}"/>
+                    </p:column>
+
+                    <p:column>                    
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.EstadoCivil}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codigoEstadoCivil.nombre}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:commandButton id="aceptarConyugeGarBot"
+                                 value="#{propiedadesEtiquetaBL.Aceptar}"                                    
+                                 update=":barraForm,:SolicitudNuevaFor"
+                                 action="#{solicitudController.seleccionaConyugeGar}"
+                                 />
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+</ui:composition>

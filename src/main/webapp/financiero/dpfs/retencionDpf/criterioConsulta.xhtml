@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+
+        <h:panelGrid columns="7">
+
+            <!--<h:outputLabel value="#{propiedadesEtiquetaBL.FormaPago}" styleClass="etiquetaRequerida"/>            
+            <p:selectOneMenu id="formaPagoInteres"  
+                             value="#{retencionDpfBean.formaPago}"  
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.FormaPago} : #{propiedadesMensajesBL.CampoRequerido}">                                                                                                                           
+                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>                       
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Vencidas}" itemValue="V"/>
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.AcreditaMensual}" itemValue="A"/>
+                <p:ajax event="change" listener="#{retencionDpfBean.obtieneContratoDpf()}" update="formaPagoInteres,:RetencionDpfListForm"/>
+            </p:selectOneMenu>-->
+
+            <h:outputLabel value="#{propiedadesEtiquetaBL.BuscarPor}" styleClass="etiquetaRequerida"/>            
+            <p:selectOneMenu id="buscarPor"  >                                                                                                                           
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.CodigoSocio}"/>                       
+            </p:selectOneMenu>                
+            <p:inputText id="crieterioTex" 
+                         value="#{retencionDpfBean.codigoSocio}"
+                         style="text-align:  right"
+                         onblur="value = value.toUpperCase()"
+                         size="10">  
+                <p:ajax event="blur"
+                        listener="#{retencionDpfBean.obtieneNombreSocioBusqueda()}"                     
+                        update="nombreSocio,:RetencionDpfListForm"/> 
+            </p:inputText>
+            <p:inputText id="nombreSocio" 
+                         readonly="true" 
+                         value="#{retencionDpfBean.nombreSocio}"                                
+                         onblur="value = value.toUpperCase()"
+                         size="50">
+            </p:inputText> 
+            <p:commandButton id="listadoSociosBot" 
+                             style="font-size: 10px;"
+                             actionListener="#{retencionDpfBean.preparaBusqueaSociosLista}"                             
+                             value="#{propiedadesEtiquetaBL.Buscar}"
+                             icon="#{propiedadesObjetosBL.IcoVer}"  
+                             update="crieterioTex,nombreSocio,:mensaje,:ListaSociosForm,:RetencionDpfListForm:datalist"       
+                             onclick="procesandoDlg.show();"                 
+                             oncomplete="ListaSociosDialog.show();procesandoDlg.hide();"
+                             /> 
+        </h:panelGrid> 
+
+
+    </h:panelGrid>
+
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

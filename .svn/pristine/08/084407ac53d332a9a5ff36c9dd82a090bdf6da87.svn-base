@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="ProdcutoIfitListForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{tasaInteresProCreMonIfiController.items}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{tasaInteresProCreMonIfiController.selected}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="8"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Tasa}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column sortBy="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                </f:facet>
+                <h:outputText value="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}"/>
+            </p:column>
+            <p:column sortBy="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                </f:facet>
+                <h:outputText value="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.nombre}"/>
+            </p:column>
+            <p:column sortBy="#{item.codigoTasa.valor}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Tasa}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoTasa.valor.doubleValue()}" style="float: right">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText>
+            </p:column>
+            <p:column sortBy="#{item.montoInicial}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Monto} INICIAL"/>
+                </f:facet>
+                <h:outputText value="#{item.montoInicial.doubleValue()}" style="float: right">
+                   <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText>
+            </p:column>
+            <p:column sortBy="#{item.montoFinal}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Monto} FINAL" />
+                </f:facet>
+                <h:outputText value="#{item.montoFinal.doubleValue()}" style="float: right">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                </f:facet>
+                <h:outputText value="#{item.usuarioRegistradoPor.username}"/>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>
+                </f:facet>
+                <h:inputText value="#{item.fechaRegistro}" disabled="true">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                </h:inputText>
+            </p:column>
+
+            <p:column sortBy="#{item.eliminado}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                         
+                </p:selectOneMenu>
+            </p:column>
+
+
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

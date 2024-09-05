@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="IfipAgenciaListForm">
+
+
+
+        <p:dataTable id="datalist" value="#{ifipAgenciaController.itemsIfipAgencia}" var="item"
+                     selectionMode="single" selection="#{ifipAgenciaController.selected}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="10"
+                     rowsPerPageTemplate="10,20,30"
+                     >
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot "/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+          
+            <p:column sortBy="#{item.codigoUbiGeoPais}" filterBy="#{item.codigoUbiGeoPais}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CodigoUbiGeoPais}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoUbiGeoPais.nombre.toString()}"/>
+            </p:column>
+            <p:column sortBy="#{item.codigoUbiGeoProvincia}" filterBy="#{item.codigoUbiGeoProvincia}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CodigoUbiGeoProvincia}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoUbiGeoProvincia.nombre.toString()}"/>
+            </p:column>
+            <p:column sortBy="#{item.codigoUbiGeoCiudad}" filterBy="#{item.codigoUbiGeoCiudad}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CodigoUbiGeoCiudad}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoUbiGeoCiudad.nombre.toString()}"/>
+            </p:column>
+            <p:column sortBy="#{item.codigoUbiGeoParroquia}" filterBy="#{item.codigoUbiGeoParroquia}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CodigoUbiGeoParroquia}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoUbiGeoParroquia.nombre.toString()}"/>
+            </p:column>
+            <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                </f:facet>
+                <h:outputText value="#{item.nombre}"/>
+            </p:column>
+            <p:column sortBy="#{item.autorizacionSri}" filterBy="#{item.autorizacionSri}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.AutorizacionSri}"/>
+                </f:facet>
+                <h:outputText value="#{item.autorizacionSri}"/>
+            </p:column>
+            <p:column sortBy="#{item.direccion}" filterBy="#{item.direccion}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Direccion}"/>
+                </f:facet>
+                <h:outputText value="#{item.direccion}"/>
+            </p:column>
+            <p:column sortBy="#{item.email}" filterBy="#{item.email}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Email}"/>
+                </f:facet>
+                <h:outputText value="#{item.email}"/>
+            </p:column>
+            <p:column sortBy="#{item.esVentanilla}" filterBy="#{item.esVentanilla}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.EsVentanilla}"/>
+                </f:facet>
+                 <p:selectOneMenu id="esVentanilla" 
+                                 disabled="true"
+                                 value="#{item.esVentanilla}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" /> 
+                 </p:selectOneMenu>
+            </p:column>
+            <p:column sortBy="#{item.matriz}" filterBy="#{item.matriz}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Matriz}"/>
+                </f:facet>
+                <p:selectOneMenu id="matriz" 
+                                 disabled="true"
+                                 value="#{item.matriz}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" /> 
+                </p:selectOneMenu>
+            </p:column>
+
+            <p:column sortBy="#{item.codigoIfipAgenciaPadre.codigo}"
+                      filterBy="#{item.codigoIfipAgenciaPadre.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CodigoIfipAgenciaPadre}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoIfipAgenciaPadre.nombre.toString()}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.codigoIfip.codigo}" filterBy="#{item.codigoIfip.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CodigoIfip}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoIfip.nombre.toString()}"/>
+            </p:column>
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+
+                </p:selectOneMenu>
+            </p:column>  
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

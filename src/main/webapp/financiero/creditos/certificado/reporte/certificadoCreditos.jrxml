@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="solicitudSocios" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="270"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="detalle" uuid="f0a03d36-07f0-427d-90a0-6fc11a40f5a5">
+		<parameter name="codSoc" class="java.lang.Long"/>
+		<parameter name="codIfi" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[select sol.monto_credito MONTO_CONCEDIDO, 
+       det.saldo_capital SALDO,
+       (select min (tab.fecha_inicio) from mks_creditos.tabla_amortizacion tab where tab.numero_credito=sol.numero ) FECHA_INICIO,
+       (select max (tab.fecha_pago) from mks_creditos.tabla_amortizacion tab where tab.numero_credito=sol.numero) FECHA_FIN,       
+       mks_creditos.f_obtiene_calificacion_credito((select max(c.dias_mora) from mks_creditos.calculo_cuota_pagar c, mks_creditos.tabla_amortizacion t 
+where t.numero_credito=c.numero_credito
+      and t.cuota=c.cuota
+      and t.codigo_ifip=c.codigo_ifip 
+      and t.estado='P'
+      and c.numero_credito=sol.numero),pro.codigo_tipo_cartera)  calificacion,
+       sol.numero					 numero
+from                     mks_creditos.solicitud sol,
+                         mks_creditos.solicitud_detalle det,
+                         mks_creditos.producto_credito pro
+where sol.numero=det.numero_credito 
+      and pro.codigo=sol.codigo_producto
+      and sol.codigo_estado=6
+      and sol.codigo_socio=$P{codSoc}
+      and sol.codigo_ifip=$P{codIfi}]]>
+		</queryString>
+		<field name="MONTO_CONCEDIDO" class="java.math.BigDecimal"/>
+		<field name="SALDO" class="java.math.BigDecimal"/>
+		<field name="FECHA_INICIO" class="java.sql.Timestamp"/>
+		<field name="FECHA_FIN" class="java.sql.Timestamp"/>
+		<field name="CALIFICACION" class="java.lang.String"/>
+		<field name="NUMERO" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="codigoSocio" class="java.lang.Long"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select tti.nombre||' '||ifi.nombre           "IFIP",
+       soc.codigo               "CODIGO",
+       per.identificacion       "INDENTIFICACION",
+       per.nombre_completo      "NOMBRE",
+       replace((SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 12
+                AND     codigo_fragmento                   = 9),'$COAC',tti.nombre||' '||ifi.nombre)      "PARRAFO1",
+       replace((SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 12
+                AND     codigo_fragmento                   = 10),'$COAC',tti.nombre||' '||ifi.nombre)      "PARRAFO2"
+from   mks_socios.socio soc, 
+       mks_socios.persona per,
+       mks_ifips.ifip ifi,
+       mks_ifips.tipo_ifip tti
+where  soc.codigo_persona=per.codigo and
+       soc.codigo_ifip=ifi.codigo and
+       ifi.codigo_tipo_ifip=tti.codigo and
+       soc.codigo=$P{codigoSocio} and
+       ifi.codigo=$P{codigoIfip}]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="CODIGO" class="java.math.BigDecimal"/>
+	<field name="INDENTIFICACION" class="java.lang.String"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="PARRAFO1" class="java.lang.String"/>
+	<field name="PARRAFO2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="469" splitType="Immediate">
+			<staticText>
+				<reportElement mode="Transparent" x="40" y="156" width="132" height="16" uuid="286ead78-caf6-43f9-ac3c-584edb17d751"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO SOCIO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="172" y="156" width="100" height="16" uuid="a122a389-58e0-471d-a2f1-9aab83973e8a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CODIGO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="40" y="171" width="132" height="16" uuid="06fbe12b-749b-4b5d-9c2e-5268b670c80b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IDENTIFICACION]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="172" y="171" width="100" height="16" uuid="f8c2856c-d9e9-4608-92fc-f4b4408cda42"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INDENTIFICACION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="40" y="186" width="132" height="16" uuid="7dc2032a-bc6f-43d9-b3f2-5e221b379aea"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="172" y="186" width="353" height="16" uuid="c88c8264-7694-4aa4-a217-f4f2b8f2dd55"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="" style="table" positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="35" y="204" width="490" height="50" uuid="50d9e98f-b000-4732-a2f7-b7714c9d3ddc"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="detalle" uuid="3b0d7c05-e6e3-45f1-ba69-d386e07da778">
+						<datasetParameter name="codSoc">
+							<datasetParameterExpression><![CDATA[$P{codigoSocio}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="codIfi">
+							<datasetParameterExpression><![CDATA[$P{codigoIfip}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="85" uuid="dc082b77-2b3b-43d2-ac30-8182195fec02">
+						<jr:columnHeader style="table 5_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="85" height="30" forecolor="#000000" backcolor="#CCCCCC" uuid="60771e7a-5609-430b-8437-b026ea193b22"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NÚMERO CREDITO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="85" height="30" uuid="d0cbc978-4e53-48a3-98f7-c62788eb2b4d"/>
+								<box leftPadding="5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NUMERO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="21b00244-5f80-46f6-9366-759243216cef">
+						<jr:columnHeader style="table 5_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="85" height="29" forecolor="#000000" backcolor="#CCCCCC" uuid="2f2a68c0-9465-4bc1-9128-71b56ef10f5d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[MONTO CONCEDIDO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="30" rowSpan="1">
+							<textField pattern="#,###,###,##0.00;-#,###,###,##0.00">
+								<reportElement x="0" y="0" width="85" height="30" uuid="e44fb057-45b0-4abf-81fe-caf7845777ea"/>
+								<box leftPadding="0" rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{MONTO_CONCEDIDO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="ae057d0c-e253-4e55-b0b7-5e9dc6430b03">
+						<jr:columnHeader style="table 5_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="85" height="29" forecolor="#000000" backcolor="#CCCCCC" uuid="a1ab3940-047a-405c-9f51-434a9615d118"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[SALDO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="30" rowSpan="1">
+							<textField pattern="#,###,###,##0.00;-#,###,###,##0.00">
+								<reportElement x="0" y="0" width="85" height="30" uuid="7275a863-4fe3-4987-88a2-31cad0f22da2"/>
+								<box leftPadding="0" rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SALDO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="3a9205fa-a9e3-49f0-bd76-65e280873298">
+						<jr:columnHeader style="table 5_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="85" height="29" forecolor="#000000" backcolor="#CCCCCC" uuid="df8b8894-2d65-4292-8260-d7d96a24c1a7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FECHA CONCECION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="30" rowSpan="1">
+							<textField pattern="dd/MM/yyyy ">
+								<reportElement x="0" y="0" width="85" height="30" uuid="e2f99e5a-b045-4041-b593-0795ee987e49"/>
+								<box leftPadding="5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FECHA_INICIO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="85d7500d-e61a-4ae6-8609-7bfaba6f0bf8">
+						<jr:columnHeader style="table 5_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="85" height="30" forecolor="#000000" backcolor="#CCCCCC" uuid="c6591f00-1189-4d52-b743-4c3b847f95eb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FECHA FIN]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="30" rowSpan="1">
+							<textField pattern="dd/MM/yyyy ">
+								<reportElement x="0" y="0" width="85" height="30" uuid="57b8a850-db0c-4bb3-bd4b-1ad8f1733a2f"/>
+								<box leftPadding="5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FECHA_FIN}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="d069cea6-03e0-4f41-aa36-8a7a3b0d87c9">
+						<jr:columnHeader style="table 5_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="30" forecolor="#000000" backcolor="#CCCCCC" uuid="2cade6aa-1f46-4222-b4ea-16ff6697cf9f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[CALIFICACION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="30" uuid="9e716bc3-3483-47e4-97e8-35dc71649f7f"/>
+								<box leftPadding="5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CALIFICACION}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField>
+				<reportElement positionType="Float" x="35" y="89" width="490" height="57" uuid="8c385b1d-a87d-4f10-a01a-4d7048ec0a6f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PARRAFO1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="35" y="258" width="490" height="82" uuid="9707cf03-aab6-4534-8d1e-4b8a3931b051"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PARRAFO2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="35" y="410" width="490" height="20" uuid="fe1887fa-454c-4b04-ac3b-74c3c2ef7798"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atentamente,]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="35" y="432" width="490" height="16" uuid="ef3e3b5c-e60b-4285-b76a-a7cda66833a4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30">
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="7" y="6" width="100" height="20" uuid="28796094-4834-4442-a04b-57a9cba52402"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA IMPRESION]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="107" y="6" width="197" height="20" uuid="ed841f86-35f4-4ad6-9e76-d5c96d3babe9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

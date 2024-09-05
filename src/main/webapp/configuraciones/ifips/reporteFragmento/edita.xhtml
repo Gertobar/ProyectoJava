@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FragmentoReporteEditDlg" 
+                  widgetVar="FragmentoReporteEditDialog" 
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true">
+            <f:facet name="header">
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Editar} #{propiedadesEtiquetaBL.FragmentoReportes}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="FragmentoReporteEditForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{fragmentoReporteController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{fragmentoReporteController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" for="nombre"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" value="#{fragmentoReporteController.selected.nombre}" title="#{propiedadesEtiquetaBL.EditFragmentoReporteTitle_nombre}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditFragmentoReporteRequiredMessage_nombre}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Descripcion}"
+                                       for="descripcion"
+                                       styleClass="etiquetaRequerida"
+                                       />
+                        <p:inputText id="descripcion" value="#{fragmentoReporteController.selected.descripcion}" title="#{propiedadesEtiquetaBL.EditFragmentoReporteTitle_descripcion}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditFragmentoReporteRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado" 
+                                       styleClass="etiquetaRequerida"
+                                       />
+
+                        <p:selectOneMenu id="eliminado" value="#{fragmentoReporteController.selected.eliminado}" 
+                                         required="true" >
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N"/>
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S"/>
+
+                        </p:selectOneMenu>
+
+                         <f:facet name="footer">
+                            <p:commandButton actionListener="#{fragmentoReporteController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:FragmentoReporteListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,FragmentoReporteEditDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                  
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

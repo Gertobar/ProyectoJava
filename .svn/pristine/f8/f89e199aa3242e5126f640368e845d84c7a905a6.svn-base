@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProveedorViewDlg" widgetVar="ProveedorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewProveedorTitle}" closeOnEscape="true">
+
+            <h:form id="ProveedorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{proveedorController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewProveedorLabel_codigo}"/>
+                        <h:outputText value="#{proveedorController.selected.codigo}" title="#{myBundle.ViewProveedorTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewProveedorLabel_codigoPersona}"/>
+                        <h:outputText value="#{proveedorController.selected.codigoPersona}" title="#{myBundle.ViewProveedorTitle_codigoPersona}"/>
+
+                        <h:outputText value="#{myBundle.ViewProveedorLabel_codigoIfip}"/>
+                        <h:outputText value="#{proveedorController.selected.codigoIfip}" title="#{myBundle.ViewProveedorTitle_codigoIfip}"/>
+
+                        <h:outputText value="#{myBundle.ViewProveedorLabel_fechaIngreso}"/>
+                        <h:outputText value="#{proveedorController.selected.fechaIngreso}" title="#{myBundle.ViewProveedorTitle_fechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewProveedorLabel_eliminado}"/>
+                        <h:outputText value="#{proveedorController.selected.eliminado}" title="#{myBundle.ViewProveedorTitle_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="ProveedorViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

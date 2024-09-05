@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="DesgloceChequeDlg"                  
+              modal="true" style="height: 500px"
+              widgetVar="DesgloceChequeDialog">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="EncabezadoDesgloseChequeLab"
+                            style="font-size: 10px;"
+                            value="#{propiedadesEtiquetaBL.DesgloceCheques}"
+                            styleClass="encabezadosDialog"/>
+        </f:facet>
+        <h:form id="DesgloceChequeFor">
+            <h:panelGrid id="DesgloceChequeGri" columns="1" style="font-size: 10px; height: 400px"  cellspacing="0" cellpadding="0">
+                <f:facet name="header">
+                    <h:outputText id="mensajeDialogoDesChe" value="#{movimientoCuentaBean.mensajeDialogo}" styleClass="invalido"/>
+
+                </f:facet>
+                <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="6000" />
+                <h:panelGrid columns="9">
+                    <h:outputText  value="#{propiedadesEtiquetaBL.EntidadFinanciera} *" styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="entidadFinanciera" 
+                                     value="#{movimientoCuentaBean.entidadFinanciera}" 
+                                     style="width:  150px"                                     
+                                     filter="true" 
+                                     filterMatchMode="contains" >
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{movimientoCuentaBean.itemsEntidadFinanciera}"
+                                       var="codigoEntidadFinancieraItem"
+                                       itemValue="#{codigoEntidadFinancieraItem}"
+                                       itemLabel="#{codigoEntidadFinancieraItem.codigoTipoEntidad.siglas} #{codigoEntidadFinancieraItem.nombre}"
+                                       />                                                
+                        <f:converter binding="#{entidadFinancieraConverter}"/>
+                    </p:selectOneMenu>                                
+
+                    <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} *" styleClass="etiquetaRequerida"/>
+                    <p:inputText id="cuentaCheque"  
+                                 value="#{movimientoCuentaBean.numeroCuentaCheque}"
+                                 size="10"/>
+
+                    <h:outputText value="#{propiedadesEtiquetaBL.NumeroCheque} *" styleClass="etiquetaRequerida"/>
+                    <p:inputText id="numeroCheque"  
+                                 value="#{movimientoCuentaBean.numeroCheque}"
+                                 size="10"/>
+
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Valor} *" 
+                                   styleClass="etiquetaRequerida"/>
+                    <p:inputText id="valorCheque"
+                                 value="#{movimientoCuentaBean.valorCheque}"                                     
+                                 size="8">                            
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" /> 
+                        <p:ajax event="blur" update="valorCheque" />
+                    </p:inputText>
+
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Agregar}" 
+                                     action="#{movimientoCuentaBean.agregaCheque()}"
+                                     update="valorCheque,numeroCheque,cuentaCheque,entidadFinanciera,:DesgloceChequeFor:mensajeDialogoDesChe,:DesgloceChequeFor:DesgloceChequesTbl,:DesgloceChequeFor:totalChequesDesChe,:MovimientoCuentaFor:totalCheques,:MovimientoCuentaFor:totalMovimiento"
+                                     />
+                </h:panelGrid>
+
+                <p:contextMenu for="DesgloceChequesTbl" widgetVar="cDesgloceChequesTbl">     
+                    <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}"  
+                                icon="ui-icon-trash" 
+                                action="#{movimientoCuentaBean.quitaCheque()}" 
+                                update="DesgloceChequesTbl,:DesgloceChequeFor:mensajeDialogoDesChe,:DesgloceChequeFor:DesgloceChequesTbl,:DesgloceChequeFor:totalChequesDesChe,:MovimientoCuentaFor:totalCheques,:MovimientoCuentaFor:totalMovimiento"/>
+                </p:contextMenu>  
+                <p:dataTable id="DesgloceChequesTbl" 
+                             value="#{movimientoCuentaBean.itemsChequeDepositado}" 
+                             var="item"
+                             rowKey="#{item.codigo}"
+                             paginator="true"
+                             rows="8"
+                             emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                             editable="true"
+                             editMode="cell"                             
+                             selectionMode="single"
+                             selection="#{movimientoCuentaBean.chequeDepositadoSel}"
+                             widgetVar="DesgloceChequesTabla"
+                             >
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Cheques}"/>
+                    </f:facet>
+                    <p:column>                    
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.EntidadFinanciera}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.entidadFinanciera.codigoTipoEntidad.siglas} #{item.entidadFinanciera.nombre}"/>
+                    </p:column>
+                    <p:column>                    
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.NumeroCuenta}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroCuenta}"/>
+                    </p:column>
+                    <p:column>                    
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.NumeroCheque}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroCheque}"/>
+                    </p:column>
+                    <p:column style="text-align:  right">                    
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Valor}"/>
+                        </f:facet>
+
+                        <p:cellEditor>  
+                            <f:facet name="output">
+                                <h:outputText value="#{item.valor}" style="text-align:  right">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />   
+                                </h:outputText>
+                            </f:facet>
+                            <f:facet name="input" >
+                                <p:inputText   id="valorChequesInp"                                        
+                                               value="#{item.valor}"
+                                               style="text-align: right">
+                                    <p:ajax event="keyup"
+                                            listener="#{movimientoCuentaBean.calculaTotal()}"
+                                            update=":DesgloceChequeFor:totalChequesDesChe,:MovimientoCuentaFor:totalCheques,:MovimientoCuentaFor:totalMovimiento"
+                                            />
+                                    <f:validateLongRange minimum="1"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                </p:dataTable>
+                <f:facet name="footer">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="#{propiedadesEtiquetaBL.TotalCheques}"/>
+                        <h:outputText id="totalChequesDesChe" value="#{movimientoCuentaBean.totalCheques}" styleClass="encabezadosDialog">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />   
+                        </h:outputText>
+                    </h:panelGrid>
+                </f:facet>
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+
+</ui:composition>

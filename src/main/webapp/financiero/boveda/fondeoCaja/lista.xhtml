@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="FondeoCajaListForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{fondeoCajaController.itemsFondeoCaja}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{fondeoCajaController.fondeoCajaSel}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="5"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.FondeoCaja}"/>
+            </f:facet>
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column sortBy="#{item.boveda.nombre}"                       
+                      filterBy="#{item.boveda.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Boveda}"/>
+                </f:facet>
+                <h:outputText value="#{item.boveda.nombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.usuarioCaja.codigoPersona.nombreCompleto}" 
+                      filterBy="#{item.usuarioCaja.codigoPersona.nombreCompleto}"
+                      >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Cajero}"/>
+                </f:facet>
+                <h:outputText value="#{item.usuarioCaja.codigoPersona.nombreCompleto}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.computadorCaja.nombre}" 
+                      filterBy="#{item.computadorCaja.nombre}"
+                      >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Computador} #{propiedadesEtiquetaBL.Cajero}"/>
+                </f:facet>
+                <h:outputText value="#{item.computadorCaja.nombre}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.usuarioFondeo.codigoPersona.nombreCompleto}" 
+                      filterBy="#{item.usuarioFondeo.codigoPersona.nombreCompleto}"
+                      >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Responsable}"/>
+                </f:facet>
+                <h:outputText value="#{item.usuarioCaja.codigoPersona.nombreCompleto}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.fechaFondeo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaFondeo}"/>
+                </f:facet>
+                <p:calendar value="#{item.fechaFondeo}" 
+                            readonly="true"
+                            disabled="true"
+                            size="12"
+                            pattern="dd/MM/yyyy"                                      
+                            locale="es" 
+                            required="true" />
+            </p:column>
+
+            <p:column sortBy="#{item.fechaSistema}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaSistema}"/>
+                </f:facet>
+                <p:calendar value="#{item.fechaSistema}" 
+                            readonly="true"
+                            disabled="true"
+                            size="17"
+                            pattern="dd/MM/yyyy hh:mm:ss a"                                      
+                            locale="es" 
+                            required="true" />
+            </p:column>
+
+            <p:column sortBy="#{item.estado}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <p:selectOneMenu value="#{item.estado}"                                              
+                                 disabled="true">
+                    <f:selectItem itemValue="P" itemLabel="#{propiedadesEtiquetaBL.Pendiente}"/>
+                    <f:selectItem itemValue="N" itemLabel="#{propiedadesEtiquetaBL.Anulado}"/>
+                    <f:selectItem itemValue="E" itemLabel="#{propiedadesEtiquetaBL.Entegrado}"/>
+                    <f:selectItem itemValue="C" itemLabel="#{propiedadesEtiquetaBL.CajaCerrada}"/>
+                    <f:selectItem itemValue="A" itemLabel="#{propiedadesEtiquetaBL.CajaAperturada}"/>
+                </p:selectOneMenu> 
+            </p:column>
+
+           
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

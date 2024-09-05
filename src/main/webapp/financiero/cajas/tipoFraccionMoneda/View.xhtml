@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoFraccionMonedaViewDlg" widgetVar="TipoFraccionMonedaViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewTipoFraccionMonedaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoFraccionMonedaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tipoFraccionMonedaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTipoFraccionMonedaLabel_codigo}"/>
+                        <h:outputText value="#{tipoFraccionMonedaController.selected.codigo}" title="#{myBundle.ViewTipoFraccionMonedaTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoFraccionMonedaLabel_denominacion}"/>
+                        <h:outputText value="#{tipoFraccionMonedaController.selected.denominacion}" title="#{myBundle.ViewTipoFraccionMonedaTitle_denominacion}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoFraccionMonedaLabel_nombre}"/>
+                        <h:outputText value="#{tipoFraccionMonedaController.selected.nombre}" title="#{myBundle.ViewTipoFraccionMonedaTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoFraccionMonedaLabel_valor}"/>
+                        <h:outputText value="#{tipoFraccionMonedaController.selected.valor}" title="#{myBundle.ViewTipoFraccionMonedaTitle_valor}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoFraccionMonedaLabel_eliminado}"/>
+                        <h:outputText value="#{tipoFraccionMonedaController.selected.eliminado}" title="#{myBundle.ViewTipoFraccionMonedaTitle_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="TipoFraccionMonedaViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

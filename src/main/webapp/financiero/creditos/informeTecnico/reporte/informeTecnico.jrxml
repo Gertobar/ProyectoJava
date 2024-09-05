@@ -1,0 +1,1242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InformeTecnico" pageWidth="595" pageHeight="842" columnWidth="545" leftMargin="25" rightMargin="25" topMargin="35" bottomMargin="35" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="rubros" uuid="afee9ca4-7b2c-419b-a16d-4eabf82a0ee6">
+		<parameter name="codIfip" class="java.lang.Long"/>
+		<parameter name="numCre" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[SELECT    tir.nombre                              rubro,
+          DECODE(tic.calculado_sobre,
+                  'M','MONTO','SALDO CAPITAL')    calculado_sobre,
+          DECODE(tic.cobrado_en,
+                  'C','AL CONCEDER CREDITO',
+                  'D','DISTRIBUIDO EN TABLA',
+                  'F','CANCELAR EL CREDITO')      cobrado_en,
+          DECODE(tic.tipo,'P',TO_CHAR(tic.valor,'999,999,990.00')||'%',
+                              TO_CHAR(tic.valor,'999,999,990.00')) valor,
+          tic.total_rubro_grabado                 total_grabado                                    
+FROM      mks_creditos.solicitud            sol,
+          mks_creditos.tipo_rubro_credito   tic,
+          mks_creditos.tipo_rubro           tir
+WHERE     sol.numero                        = $P{numCre}
+AND       sol.codigo_ifip                   = $P{codIfip}
+AND       sol.numero                        = tic.numero_credito
+AND       sol.codigo_ifip                   = tic.codigo_ifip
+AND       tir.codigo                        = tic.codigo_tipo_rubro]]>
+		</queryString>
+		<field name="RUBRO" class="java.lang.String"/>
+		<field name="CALCULADO_SOBRE" class="java.lang.String"/>
+		<field name="COBRADO_EN" class="java.lang.String"/>
+		<field name="VALOR" class="java.lang.String"/>
+		<field name="TOTAL_GRABADO" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="cuentas" uuid="81a12e59-49b3-4802-96da-a158a155734e">
+		<parameter name="codSoc" class="java.math.BigDecimal"/>
+		<parameter name="codIfi" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[SELECT  mon.nombre                  moneda,
+        tip.nombre                  producto,
+        cue.numero                  numero,
+        cue.saldo_total             saldo
+        
+FROM    mks_ahorros.cuenta            cue,
+        mks_ahorros.tipo_producto     tip,
+        mks_comunes.moneda            mon,
+        mks_ahorros.estado_cuenta     est
+WHERE   codigo_socio                  = $P{codSoc}
+AND     codigo_ifip                   = $P{codIfi}
+AND     est.puede_reactivar           = 'S'
+AND     est.codigo                    = cue.codigo_estado
+AND     tip.codigo                    = cue.codigo_tipo_producto
+AND     mon.codigo                    = cue.codigo_moneda
+ORDER BY tip.codigo, cue.numero]]>
+		</queryString>
+		<field name="MONEDA" class="java.lang.String"/>
+		<field name="PRODUCTO" class="java.lang.String"/>
+		<field name="NUMERO" class="java.lang.String"/>
+		<field name="SALDO" class="java.math.BigDecimal"/>
+		<variable name="total" class="java.lang.String" calculation="Sum">
+			<variableExpression><![CDATA[$F{SALDO}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="creditos" uuid="295b11f9-16fc-4d9c-8f89-af475556f552">
+		<parameter name="codSoc" class="java.math.BigDecimal"/>
+		<parameter name="codIfi" class="java.lang.Long"/>
+		<parameter name="numCre" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT   sol.numero                                         numero_credito,
+         sol.fecha_solicitud                                fecha_solicitud,
+         sol.monto_credito                                  monto_solicitado,
+         sol.tasa                                           tasa,
+         ped.nombre                                         periodicidad,
+         CASE esc.codigo
+         WHEN 6 THEN esc.nombre ||' ('||(select nvl(max(t.cuota),0) from mks_creditos.tabla_amortizacion t where t.numero_credito=sol.numero and t.estado='C')||' de '||sol.numero_cuotas||' cuotas canceladas)'
+         ELSE        esc.nombre
+         END                                         estado,
+         (SELECT round(avg(h.dias_mora),2) 
+         FROM mks_historicos.tablas_creditos h 
+         WHERE h.numero_credito=sol.numero)          promedio_mora                                            
+FROM     mks_creditos.solicitud                             sol,
+         mks_creditos.estado_credito                        esc,
+         mks_comunes.periodicidad                           ped,
+         mks_creditos.producto_credito                      pro,
+         mks_creditos.tipo_cartera                          tic,
+         mks_creditos.solicitud_detalle                     det                    
+WHERE    sol.codigo_socio                                   = $P{codSoc}
+AND      sol.codigo_ifip                                    = $P{codIfi}
+AND      sol.codigo_estado                                  = esc.codigo
+AND      sol.codigo_periodicidad                            = ped.codigo
+AND      pro.codigo                                         = sol.codigo_producto
+AND      tic.codigo                                         = pro.codigo_tipo_cartera
+AND      det.codigo_ifip                                    = sol.codigo_ifip
+AND      det.numero_credito                                 = sol.numero
+AND      sol.numero				         <> $P{numCre}
+AND      esc.codigo                                         IN (6,7)]]>
+		</queryString>
+		<field name="NUMERO_CREDITO" class="java.math.BigDecimal"/>
+		<field name="FECHA_SOLICITUD" class="java.sql.Timestamp"/>
+		<field name="MONTO_SOLICITADO" class="java.math.BigDecimal"/>
+		<field name="TASA" class="java.math.BigDecimal"/>
+		<field name="PERIODICIDAD" class="java.lang.String"/>
+		<field name="ESTADO" class="java.lang.String"/>
+		<field name="PROMEDIO_MORA" class="java.math.BigDecimal"/>
+		<variable name="total" class="java.lang.String" calculation="Sum">
+			<variableExpression><![CDATA[$F{MONTO_SOLICITADO}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="numeroCredito" class="java.lang.Long"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<parameter name="subReporteTablaAmortizacion" class="java.lang.Object"/>
+	<parameter name="subReporteListadoGarantes" class="java.lang.Object"/>
+	<queryString>
+		<![CDATA[SELECT  sol.numero                                                     "SOLICITUD N°",
+        soc.codigo                                                     "SOCIO No:",
+        per.nombre_completo                                            "NOMBRES COMPLETOS",
+        per.identificacion                                             "IDENTIFICACION",
+        tii.nombre||' '||ifi.nombre                                    "IFIP",
+        sol.numero                                                     "CREDITO No:" , 
+        tic.nombre                                                     "TIPO CARTERA",
+        pro.nombre                                                     "PRODUCITO",
+        mon.nombre                                                     "MONEDA",
+        sol.monto_credito                                              "MONTO CREDITO",
+        act.nombre                                                     "DESTINO CREDITO",
+        NVL((SELECT de.nombre 
+             FROM mks_creditos.destino_especifico de 
+             WHERE sol.codigo_destino_especifico = de.codigo), sol.observaciones) "DESTINO ESPECIFICO",
+        sol.numero_cuotas                                              "NUMERO DE CUOTAS",
+        prd.nombre                                                     "PERIODICIDAD",
+        sol.observaciones                                              "OBSERVACIONES",
+        prd.equivalencia_meses*sol.numero_cuotas                       "PLAZO EN MESES",
+        sol.tasa/100                                              "TASA CREDITO",         
+        pro.codigo_tipo_cartera                                        ,
+        ubg.nombre                                                     "CIUDAD",       
+        sod.monto_acreditado                                           "MONTO ACREDITADO",
+        PEU.Nombre_Completo                                            "OFICIAL DE CREDITO",
+        DECODE(inf.factible,'S','SI','N0')                              "FACIBLE",
+        inf.detalle                                                     "DETALLE INFORME",
+        (SELECT COUNT(*) 
+         FROM   mks_creditos.solicitud
+         WHERE  codigo_socio             = soc.codigo
+         AND    codigo_ifip              = soc.codigo_ifip)               "NUMERO CREDITOS SOCIO",
+        REPLACE(REPLACE(REPLACE(REPLACE((SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 7
+                AND     codigo_fragmento                   = 1)
+                ,'$COAC',tii.nombre||' '||ifi.nombre)
+                ,'$SOCIO',per.nombre_completo)
+                ,'$CODSOC',soc.codigo)
+                ,'$OFICIAL ',peu.nombre_completo
+                )                                                       "NOTA",
+        CASE sol.tipo_tabla
+             WHEN 'C' THEN 'CAPITAL FIJO (METODO ALEMAN). VALOR PRIMERA CUOTA: '||(SELECT t.total FROM mks_creditos.tabla_amortizacion t WHERE t.numero_credito=sol.numero and t.cuota=1)
+             WHEN 'P' THEN 'CUOTA FIJA (METODO FRANCES). VALOR CUOTA: '||(SELECT t.total FROM mks_creditos.tabla_amortizacion t WHERE t.numero_credito=sol.numero and t.cuota=1)
+        END                                                            "TIPO TABLA"
+                                                                            
+FROM    mks_creditos.solicitud                                         sol,
+        mks_creditos.solicitud_detalle                                 sod,
+        mks_creditos.producto_credito                                  pro,
+        mks_creditos.producto_credito_moneda                           prm,
+        mks_creditos.producto_credito_moneda_ifip                      pri,
+        mks_socios.actividad_economica                                 act,
+        mks_socios.socio                                               soc,
+        mks_socios.persona                                             per,
+        mks_socios.persona_act_eco_pri                                 atp,
+        mks_socios.actividad_economica                                 aep,
+        mks_comunes.periodicidad                                       prd,
+        mks_ifips.ifip                                                 ifi,
+        mks_ifips.tipo_ifip                                            tii,
+        mks_ifips.ifip_agencia                                         ifa,
+        mks_comunes.ubicacion_geografica                               ubg,
+        mks_comunes.moneda                                             mon,
+        mks_creditos.tipo_cartera                                      tic,
+        mks_seguridades.usuario                                        usu,
+        mks_socios.persona                                             peu,
+        mks_creditos.informe_tecnico                                   inf
+WHERE   sol.numero                                                     = $P{numeroCredito}
+AND     sol.codigo_ifip                                                = $P{codigoIfip}
+AND     pro.codigo                                                     = sol.codigo_producto
+AND     prm.codigo_producto                                            = sol.codigo_producto
+AND     prm.codigo_moneda                                              = sol.codigo_moneda
+AND     pri.codigo_producto                                            = sol.codigo_producto
+AND     pri.codigo_moneda                                              = sol.codigo_moneda
+AND     pri.codigo_ifip                                                = sol.codigo_ifip
+AND     act.codigo                                                     = sol.codigo_act_eco
+AND     soc.codigo                                                     = sol.codigo_socio
+AND     soc.codigo_ifip                                                = sol.codigo_ifip
+AND     soc.codigo_persona                                             = per.codigo
+AND     per.codigo                                                     = atp.codigo_persona
+AND     aep.codigo                                                     = atp.codigo_actividad_economica
+AND     sol.codigo_periodicidad                                        = prd.codigo
+AND     ifi.codigo                                                     = sol.codigo_ifip
+AND     ifa.codigo                                                     = sol.codigo_ifip_agencia
+AND     tii.codigo                                                     = ifi.codigo_tipo_ifip
+AND     sol.codigo_moneda                                              = mon.codigo
+AND     ubg.codigo                                                     = ifa.codigo_ubi_geo_ciudad
+AND     pro.codigo_tipo_cartera                                        = tic.codigo
+AND     inf.registrado_por                                             = usu.codigo
+AND     usu.codigo_persona                                             = peu.codigo
+
+AND     inf.numero_solicitud                                           = sol.numero
+AND     inf.codigo_ifip                                                = sol.codigo_ifip
+AND     sod.numero_credito                                             = sol.numero
+AND     sod.codigo_ifip                                                = sol.codigo_ifip]]>
+	</queryString>
+	<field name="SOLICITUD N°" class="java.math.BigDecimal"/>
+	<field name="SOCIO No:" class="java.math.BigDecimal"/>
+	<field name="NOMBRES COMPLETOS" class="java.lang.String"/>
+	<field name="IDENTIFICACION" class="java.lang.String"/>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="CREDITO No:" class="java.math.BigDecimal"/>
+	<field name="TIPO CARTERA" class="java.lang.String"/>
+	<field name="PRODUCITO" class="java.lang.String"/>
+	<field name="MONEDA" class="java.lang.String"/>
+	<field name="MONTO CREDITO" class="java.math.BigDecimal"/>
+	<field name="DESTINO CREDITO" class="java.lang.String"/>
+	<field name="DESTINO ESPECIFICO" class="java.lang.String"/>
+	<field name="NUMERO DE CUOTAS" class="java.math.BigDecimal"/>
+	<field name="PERIODICIDAD" class="java.lang.String"/>
+	<field name="OBSERVACIONES" class="java.lang.String"/>
+	<field name="PLAZO EN MESES" class="java.math.BigDecimal"/>
+	<field name="TASA CREDITO" class="java.math.BigDecimal"/>
+	<field name="CODIGO_TIPO_CARTERA" class="java.math.BigDecimal"/>
+	<field name="CIUDAD" class="java.lang.String"/>
+	<field name="MONTO ACREDITADO" class="java.math.BigDecimal"/>
+	<field name="OFICIAL DE CREDITO" class="java.lang.String"/>
+	<field name="FACIBLE" class="java.lang.String"/>
+	<field name="DETALLE INFORME" class="java.lang.String"/>
+	<field name="NUMERO CREDITOS SOCIO" class="java.math.BigDecimal"/>
+	<field name="NOTA" class="java.lang.String"/>
+	<field name="TIPO TABLA" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="743">
+			<textField>
+				<reportElement x="4" y="1" width="537" height="20" uuid="36036748-283f-46bf-9cb2-70994ed4463f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="81" width="120" height="17" uuid="8fcf2b4b-c6a5-43a6-968b-316b2598fdd9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOCIO No:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="137" y="81" width="100" height="17" uuid="ff149f8a-60a0-4060-bcd8-25f05e24b0a0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOCIO No:}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="208" width="120" height="17" uuid="288ac855-bb05-4e76-8b6a-3ccac092a5b2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO CREDITO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="187" width="154" height="20" uuid="98fba2a8-67b1-4d82-9016-5e012a1a91dc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[DATOS DEL CREDITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="225" width="120" height="17" uuid="ca73e746-a877-4b47-b8c1-0e7d2cb57b2f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD SOLICITADA:]]></text>
+			</staticText>
+			<textField pattern="#,###,##0.00;(#,###,##0.00)">
+				<reportElement positionType="Float" x="137" y="225" width="100" height="17" uuid="c95a5ff9-e73b-43e8-bcea-f0731fcfc709"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONTO CREDITO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="373" y="208" width="49" height="17" uuid="46d5196b-055f-43c0-af0f-c9f132d4803c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONEDA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="423" y="208" width="89" height="17" uuid="7fb832d5-556e-4ec3-9db1-93a209e33ce2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONEDA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="242" width="120" height="17" uuid="5beb0bc7-88c9-4083-b234-ef5b3104ff5d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERIODICIDAD:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="137" y="242" width="100" height="17" uuid="e1457ef4-2742-432f-af67-1f4081a3a5a5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIODICIDAD}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="281" y="242" width="120" height="17" uuid="dfb0e150-4425-444d-b4a4-534698a55a89"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO DE CUOTAS:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="412" y="242" width="100" height="17" uuid="5479618e-f0c8-475e-bb4a-7726e60ae67d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUMERO DE CUOTAS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="98" width="120" height="17" uuid="8ec16e63-dd92-4eef-86c0-0f3b53aef203"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESTINO CREDITO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="137" y="100" width="389" height="20" uuid="b6aad297-9494-41f1-89a0-ab52fbe04052"/>
+				<textElement verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESTINO CREDITO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="140" width="120" height="17" uuid="baf73e2b-3630-4a6a-92f3-3a60c1706114"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBSERVACIONES]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="137" y="140" width="389" height="28" uuid="2eb77696-6446-42d2-ac7b-47219be1fdde"/>
+				<textElement verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OBSERVACIONES}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="2" y="43" width="154" height="20" uuid="8742593e-8b71-40aa-b5e9-2b9cd339ac74"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[DATOS GENERALES]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="4" y="207" width="538" height="1" uuid="8314994b-3530-4255-b4c0-00f18365b014"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="2" y="63" width="538" height="1" uuid="e471ef1b-bf64-426c-9c3e-6f61d2386279"/>
+			</line>
+			<textField>
+				<reportElement positionType="Float" x="240" y="81" width="292" height="17" uuid="0d8864da-b835-43d1-9e47-d0b6d5e18871"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRES COMPLETOS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="21" width="537" height="20" uuid="71210153-1f42-43c6-aec1-c05f9acaa76a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORME TECNICO]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="137" y="64" width="100" height="17" uuid="dedeb30f-d260-4730-8bd8-b3279aef93b4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SOLICITUD N°}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="64" width="120" height="17" uuid="a0b30e84-9e99-4165-a072-11d6f99d1752"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CREDITO N°:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="138" y="259" width="100" height="17" uuid="0b8004ee-2d46-4fbb-a6cb-85157318ec12"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PLAZO EN MESES}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="259" width="120" height="17" uuid="47649571-6a30-4afb-83cd-302437484703"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLAZO EN MESES]]></text>
+			</staticText>
+			<textField pattern="###0.00 %;(###0.00)">
+				<reportElement positionType="Float" x="412" y="259" width="100" height="17" uuid="6f010bd4-78e3-4ed0-b926-e324837daf91"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TASA CREDITO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="281" y="259" width="120" height="17" uuid="81f987d8-84e6-47ac-875e-05975396cf0a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TASA CREDITO ]]></text>
+			</staticText>
+			<textField pattern="#,###,##0.00;(#,###,##0.00)" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="412" y="225" width="100" height="17" uuid="1b417dc3-bc35-4ca4-8743-07eddc8eb181"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONTO ACREDITADO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="281" y="225" width="120" height="17" uuid="99bbf821-c048-432c-95eb-b1c98b85c5f8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO ACREDITADO:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 9" style="table 9" positionType="Float" x="22" y="315" width="521" height="50" uuid="110450e1-85d3-4b7d-bb6c-eb59b46598ec"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="rubros" uuid="99151a1e-df57-45e0-bbc2-79c57410656e">
+						<datasetParameter name="codIfip">
+							<datasetParameterExpression><![CDATA[$P{codigoIfip}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="numCre">
+							<datasetParameterExpression><![CDATA[$P{numeroCredito}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="122" uuid="508d85dd-9cea-492c-a803-a6ce19cb02e7">
+						<jr:columnHeader style="table 9_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="122" height="18" forecolor="#000000" backcolor="#CCCCCC" uuid="eb573b9b-82c2-471f-bfa2-cf2a1520e605"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[RUBRO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 9_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="122" height="20" uuid="3708ac59-b006-4813-9ddd-0f7f97586e89"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{RUBRO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="99" uuid="b834669b-184e-4a41-95a7-c7d7e0644f04">
+						<jr:columnHeader style="table 9_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="99" height="18" forecolor="#000000" backcolor="#CCCCCC" uuid="2b0a741b-f0c2-4ba9-954a-94446e01027d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[CALCULO SOBRE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 9_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="99" height="20" uuid="904d1786-f8f7-4508-a484-ab37e6e4099b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CALCULADO_SOBRE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="133" uuid="6ae1ea5a-c7a7-4472-9223-d806ad729d5c">
+						<jr:columnHeader style="table 9_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="133" height="18" forecolor="#000000" backcolor="#CCCCCC" uuid="cb96e787-1804-4610-9a8b-3d3050c1dc4b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[COBRADO EN]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 9_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="133" height="20" uuid="9b92ae97-1480-4429-8174-5598795bd969"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COBRADO_EN}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="87939cbe-ec03-4fcc-a3b1-dd6ce7c30ec7">
+						<jr:columnHeader style="table 9_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="18" forecolor="#000000" backcolor="#CCCCCC" uuid="86b137a0-26a2-4d91-8277-08adf8090689"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[VALOR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 9_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="59" height="20" uuid="63da4e30-cdae-47c6-8e44-61e9d95545a1"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{VALOR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="69" uuid="a8179f25-db2c-418f-a622-2ff3dc56843f">
+						<jr:columnHeader style="table 9_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="69" height="18" forecolor="#000000" backcolor="#CCCCCC" uuid="a3bd40df-5c8c-4507-a461-f6f9586d1266"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 9_TD" height="20" rowSpan="1">
+							<textField pattern="#,###,##0.00;(#,###,##0.00)" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="59" height="20" uuid="de075093-f061-4745-84c1-2df41726024f"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TOTAL_GRABADO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement positionType="Float" x="22" y="295" width="154" height="20" uuid="f0a40ea5-f9d9-4cbd-b268-d7bb0a2c898b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[RUBROS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="168" width="233" height="17" uuid="c8e2869e-36da-41d0-ab78-9c605f074aae"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO DE CREDITOS CONCEDIDOS AL SOCIO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="245" y="168" width="100" height="17" uuid="48729d7e-48f6-4d55-9f10-79a0bde03cb1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUMERO CREDITOS SOCIO}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table 10" style="table 10" positionType="Float" x="23" y="410" width="514" height="50" uuid="3830b22a-2338-4405-9e5c-3cd5704179c4"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="cuentas" uuid="40965600-5f9d-4ce7-96aa-b92a3ce864e6">
+						<datasetParameter name="codSoc">
+							<datasetParameterExpression><![CDATA[$F{SOCIO No:}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="codIfi">
+							<datasetParameterExpression><![CDATA[$P{codigoIfip}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="3a2985ad-e1f2-4699-87bd-801d24b9cd5b">
+						<jr:columnHeader style="table 10_CH" height="16" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="16" forecolor="#000000" backcolor="#CCCCCC" uuid="c2ed3c91-69ff-4e3e-ba35-1ff10bc4045a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[MONEDA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="1c2eab12-eb4a-425b-90ad-d15e9122c507"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{MONEDA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="192" uuid="09afe760-15f7-4626-af00-0afeeb8447bb">
+						<jr:columnHeader style="table 10_CH" height="16" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="192" height="16" forecolor="#000000" backcolor="#CCCCCC" uuid="795b26c5-c997-43cd-8aa4-43f7f44453f9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PRODUCTO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="192" height="20" uuid="8db77e51-2082-49ec-a22a-b35752021248"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PRODUCTO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="529ad30f-4cbb-4563-a626-23033d562eee">
+						<jr:columnHeader style="table 10_CH" height="16" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="16" forecolor="#000000" backcolor="#CCCCCC" uuid="28a7be98-1cc1-4127-8158-2e80fef27b85"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NUMERO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="ac142cdd-ae32-4ecd-990f-9111791a228d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NUMERO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="138" uuid="a9b42c41-3029-4978-b126-789fc462fa77">
+						<jr:columnHeader style="table 10_CH" height="16" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="138" height="16" forecolor="#000000" backcolor="#CCCCCC" uuid="8538f0e8-c994-4639-8e45-0372dbbf2f9e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[SALDO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="21" rowSpan="1">
+							<textField pattern="#,###,##0.00;(#,###,##0.00)">
+								<reportElement x="0" y="0" width="123" height="20" uuid="e3b4e453-598c-4b25-ba27-f24fecd48326"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SALDO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement positionType="Float" x="3" y="369" width="154" height="20" uuid="addba649-ac12-4bb3-b01b-4b8670bf9467"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[BASE DEL CREDITO]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="3" y="389" width="538" height="1" uuid="b4047470-f669-4c49-90b0-a13cf8947054"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="23" y="390" width="154" height="20" uuid="35cfebc7-1b32-404d-96ed-498f0b8fa2c7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[CUENTAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="24" y="460" width="218" height="20" uuid="7e9bc84b-270a-4bdd-9e84-afddf9d36603"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[CREDITOS DADOS AL SOCIO ANTERIORIMENTE]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 10" style="table 10" positionType="Float" x="24" y="479" width="513" height="50" uuid="0e0c004a-f33d-46ae-910f-4e4aa48ae15f"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="creditos" uuid="2c47fc38-89be-464f-b720-1bfe80e00e77">
+						<datasetParameter name="codSoc">
+							<datasetParameterExpression><![CDATA[$F{SOCIO No:}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="codIfi">
+							<datasetParameterExpression><![CDATA[$P{codigoIfip}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="numCre">
+							<datasetParameterExpression><![CDATA[$P{numeroCredito}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="40" uuid="6c4d8eae-432a-43df-a58b-7518e9f402ea">
+						<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="40" height="30" forecolor="#000000" backcolor="#CCCCCC" uuid="43ed3570-c3e9-4121-bf08-9d21c217a7cf"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NUMERO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="40" height="20" uuid="70ef8c61-679b-4ed0-a301-3b17c2f7f6ec"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NUMERO_CREDITO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="0ac6aea7-80de-40cb-9ed6-51d87bf8229f">
+						<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="65" height="30" forecolor="#000000" backcolor="#CCCCCC" uuid="3b1c37c7-7534-4756-9711-d079f61c06dc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FECHA SOLICITUD]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="20" rowSpan="1">
+							<textField pattern="MM/dd/yyyy">
+								<reportElement x="0" y="0" width="65" height="20" uuid="6fcf6d95-9294-44be-b5c6-b5df65d4910a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FECHA_SOLICITUD}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="68b58ceb-b6e6-4d68-bf21-5fdcd5541c6a">
+						<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="30" forecolor="#000000" backcolor="#CCCCCC" uuid="db4ddee0-16ac-4241-a347-411949283c89"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[MONTO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="20" rowSpan="1">
+							<textField pattern="#,###,##0.00;(#,###,##0.00)">
+								<reportElement x="0" y="0" width="50" height="20" uuid="1cfd275c-6ffa-4de9-be49-c86bdc720ed7"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{MONTO_SOLICITADO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="f545774f-b222-4345-b90f-79f0c4c6086c">
+						<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="30" forecolor="#000000" backcolor="#CCCCCC" uuid="da3807c6-dd9f-4b1f-8cd1-506ab16868cd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TASA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="20" rowSpan="1">
+							<textField pattern="###0.00;-###0.00">
+								<reportElement x="0" y="0" width="50" height="20" uuid="5a473bcb-af39-4dbc-939c-90a36b0ab7d4"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TASA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="75" uuid="fb7d7ea7-3cdf-4e18-894e-6e99326fbbd1">
+						<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="75" height="30" forecolor="#000000" backcolor="#CCCCCC" uuid="a75faa53-850c-4520-a76f-93358dd7db05"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PERIODICIDAD]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="20" rowSpan="1">
+							<textField pattern="#,###,##0.00;(#,###,##0.00)">
+								<reportElement x="0" y="0" width="75" height="20" uuid="e2bea2dd-5c78-4970-a5c6-fba443b4b171"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PERIODICIDAD}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="172" uuid="64e1b26a-f5cd-4bf0-8ef4-14da242acece">
+						<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="172" height="30" forecolor="#000000" backcolor="#CCCCCC" uuid="7ea3c831-30d7-48c9-9677-785925a07b92"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ESTADO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="172" height="20" uuid="9e7b95b6-bf0d-478d-afe9-53af4b709322"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ESTADO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="63a3defb-1da9-4e3e-870e-f5e82a84a0b7">
+						<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="30" forecolor="#000000" backcolor="#CCCCCC" uuid="085e149f-5373-402c-8d88-f834071cfa2b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[DIAS MORA PROMEDIO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 10_TD" height="20" rowSpan="1">
+							<textField pattern="###0.00;-###0.00">
+								<reportElement x="0" y="0" width="60" height="20" uuid="e049174d-5323-4e29-989a-ed1402683ee0"/>
+								<box rightPadding="5"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PROMEDIO_MORA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement positionType="Float" x="12" y="541" width="154" height="20" uuid="68cb95c4-f264-42f4-8cc4-997c1fa450a3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[GARANTIAS]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="12" y="561" width="528" height="1" uuid="5b769525-827d-4dc9-adfa-6ee28eec4089"/>
+			</line>
+			<subreport>
+				<reportElement positionType="Float" x="14" y="562" width="527" height="50" uuid="b0331074-93d8-4cdb-9070-15adfad8f47f"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codigoIfip">
+					<subreportParameterExpression><![CDATA[$P{codigoIfip}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="numeroCredito">
+					<subreportParameterExpression><![CDATA[$P{numeroCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{subReporteListadoGarantes}]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement positionType="Float" x="135" y="208" width="220" height="17" uuid="2006a434-b8ce-4199-a287-75a26f7ed360"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TIPO CARTERA}+" - "+$F{PRODUCITO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="276" width="100" height="17" uuid="ab008693-f575-48fb-bcb0-2361b42f3d3a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO TABLA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="138" y="276" width="364" height="17" uuid="2d8f46e8-e23e-4946-906c-d63aa4ec0738"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TIPO TABLA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="10" y="616" width="530" height="65" uuid="97a6d39d-9253-4458-a6d1-d3d33208e0c1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOTA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="137" y="120" width="389" height="20" uuid="927f1425-b7fe-43f9-9fc3-50093c84694d"/>
+				<textElement verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESTINO ESPECIFICO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="120" width="120" height="17" uuid="4062c9bd-3fa0-4445-be60-b1738a61f7c4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESTINO ESPECIFICO:]]></text>
+			</staticText>
+		</band>
+		<band height="561">
+			<staticText>
+				<reportElement positionType="Float" x="166" y="164" width="217" height="17" uuid="9f5a5cb6-8bde-4210-9544-9f404555fb27"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OFICIAL DE CREDITO]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="166" y="181" width="217" height="20" uuid="b7dce585-b59d-4029-b58e-4605fe1f07ce"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OFICIAL DE CREDITO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="166" y="144" width="217" height="20" uuid="02d48817-841e-4462-8805-2b26a3689e53"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[---------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="4" width="100" height="20" uuid="f37ce169-5183-460f-8b1a-03108e5a4975"/>
+				<textElement>
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[DETALLE INFORME]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="10" y="24" width="516" height="53" uuid="9614bcd4-c31d-4462-97d2-ca24c3e44d3d"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DETALLE INFORME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="225" width="525" height="132" uuid="7d8c0aae-6c82-46bd-89f1-6fc87d7cce82"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIVEL DE APROBACIÓN_ _ _ _ _ _ _ _ _ _ _ _
+
+ACTA No_ _ _ _ _ _ _ _ _ _ FECHA_ _ _ _ _ _ _ _ _ _  APROBADO( )   NEGADO( )  SUSPENSO (  )
+
+VALOR_ _ _ _ _ PLAZO_ _ _ _ _ PERIODICIDAD_ _ _ _ _ TASA DE INTERES _ _ _ _
+
+OBSERVACIONES_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="53" y="454" width="174" height="20" uuid="1a3910d0-d298-4756-a077-210dbc2fbb24"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[---------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="308" y="454" width="173" height="20" uuid="a009832f-b5c2-45d0-bac6-99b5795c64ae"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[---------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="54" y="535" width="173" height="20" uuid="10905467-0147-4db6-87e4-5734c12e3884"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[---------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="177" y="361" width="172" height="20" uuid="7a39e006-5fc1-46e1-b1f2-1998b18c2809"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIRMAS AUTORIZADAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="308" y="534" width="173" height="20" uuid="ba371100-b93b-4e08-a944-b1a6a719a9a3"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[---------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="12" y="205" width="217" height="20" uuid="54e3f889-468d-4cd1-b77e-d9716855f53d"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RESOLUCION DE LA SOLICITUD N° "+$P{numeroCredito}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

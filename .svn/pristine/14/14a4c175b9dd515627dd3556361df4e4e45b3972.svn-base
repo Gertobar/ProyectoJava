@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConceptoTransaccionCreateDlg" 
+                  widgetVar="ProductoIfitCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Productos}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="ProductoIfitCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoTipoProducto}" 
+                                       for="codigoProducto"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoProducto" 
+                                         value="#{productoController.selected.tipoProducto}" 
+                                         validator="#{productoController.validateUnico}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.CodigoTipoProducto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{productoController.listaTipoProducto}"
+                                           var="productoControllerListaTipoProducto"
+                                           itemValue="#{productoControllerListaTipoProducto}"
+                                           itemLabel="#{productoControllerListaTipoProducto.nombre}"
+                                           />
+                            <f:converter binding="#{tipoProductoConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoMoneda}" 
+                                       for="codigoMoneda"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoMoneda" 
+                                         value="#{productoController.selected.moneda}" 
+                                         validator="#{productoController.validateUnico}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.CodigoMoneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{productoController.listaMoneda}"
+                                           var="productoControllerListaMoneda"
+                                           itemValue="#{productoControllerListaMoneda}"
+                                           itemLabel="#{productoControllerListaMoneda.nombre}"
+                                           />
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" 
+                                       for="asignadoPor"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="asignadoPor" 
+                                         value="#{productoController.selected.registradoPorUsuario}"                                  
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.RegistradaPor} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         disabled="true">                                                    
+                            <f:selectItem  itemValue="#{usuarioController.usuario}"
+                                           itemLabel="#{usuarioController.usuario.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>                    
+                        </p:selectOneMenu>  
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}"
+                                       for="fechaRegistro"  styleClass="etiquetaRequerida" />
+                        <p:calendar id="fechaRegistro"
+                                    pattern="dd/MM/yyyy HH:mm:ss"
+                                    value="#{productoController.selected.fechaRegistro}"
+                                    title="#{propiedadesTituloBL.FechaRegistro}" 
+                                    required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}  -  #{propiedadesMensajesBL.CampoRequerido}" 
+                                    showOn="button"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{productoController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{productoController.saveNew}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:ProdcutoIfitListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,ProductoIfitCreateDialog);"/>        
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

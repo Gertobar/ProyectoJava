@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IngresoEgresoCreateDlg" 
+                  widgetVar="IngresoEgresoCreateDialog"
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                 closeOnEscape="true">
+              <f:facet name="header">
+                  <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.IngresoEgreso}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="IngresoEgresoCreateForm">
+
+                <h:panelGroup  id="display" style="font-size: 10px; margin-top: 0px;" rendered="#{ingresoEgresoController.selected != null}">
+                    <p:panelGrid columns="2" >
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{ingresoEgresoController.selected.nombre}"
+                                     title="#{propiedadesEtiquetaBL.Nombre}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Siglas}" for="siglas" />
+                        
+                        <p:inputText id="siglas" value="#{ingresoEgresoController.selected.siglas}"
+                                     title="#{propiedadesEtiquetaBL.Siglas}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Siglas}"
+                                     size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion"
+                                     value="#{ingresoEgresoController.selected.descripcion}"
+                                     title="#{propiedadesEtiquetaBL.Descripcion}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Descripcion}" 
+                                     size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.AfectaCaja}" for="afectaCaja" />
+                        <p:inputText id="afectaCaja" value="#{ingresoEgresoController.selected.afectaCaja}" 
+                                     title="#{propiedadesEtiquetaBL.AfectaCaja}"
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.AfectaCaja}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Contabiliza}" for="contabiliza" />
+                        <p:inputText id="contabiliza" value="#{ingresoEgresoController.selected.contabiliza}" 
+                                     title="#{propiedadesEtiquetaBL.Contabiliza}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Contabiliza}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{ingresoEgresoController.selected.eliminado}" 
+                                     title="#{propiedadesEtiquetaBL.Eliminado}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Eliminado}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.esIngreso}" for="esIngreso" />
+                        <!--<p:inputText id="esIngreso" value="#{ingresoEgresoController.selected.esIngreso}"
+                                     title="#{propiedadesEtiquetaBL.esIngreso}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.esIngreso}"/>-->
+                        
+                        <p:selectOneMenu id="esIngreso" value="#{ingresoEgresoController.selected.esIngreso}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.esIngreso}: #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                                                              
+                        </p:selectOneMenu>
+                        
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{conceptoTransaccionController.saveNew}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:IngresoEgresoListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,IngresoEgresoCreateDialog);"/>     
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

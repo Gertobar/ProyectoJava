@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="guiaDepositoCheques" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DesgloceGuiaDeposito" uuid="ee622ecb-b4f4-4460-8455-85bcfe610dd9">
+		<parameter name="codGuia" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT  tef.siglas||' '||efi.nombre         "ENTIDAD FINANCIERA",
+        cde.numero_cuenta                     "NUMERO CUENTA",
+        cde.numero_cheque                     "NUMERO CHEQUE",
+        cde.valor                             "VALOR CHEQUE",
+        gdcds.fecha_efectivizacion           "FECHA EFECTIVIZACION"
+                              
+FROM    mks_cajas.guia_deposito_cheque           gdc,
+        mks_cajas.guia_deposito_cheque_des       gdcds,
+        mks_comunes.moneda                       mon,
+        mks_cajas.cheque_depositado              cde,
+        mks_comunes.entidad_financiera           efi,
+        mks_comunes.tipo_entidad_financiera      tef     
+WHERE   gdc.codigo                             = $P{codGuia}
+AND     gdc.codigo                             = gdcds.codigo_guia_deposito
+AND     mon.codigo                             = gdcds.codigo_moneda
+AND     cde.codigo                             = gdcds.codigo_cheque 
+AND     efi.codigo                             = cde.codigo_entidad_financiera
+AND     tef.codigo                             = efi.codigo_tipo_entidad]]>
+		</queryString>
+		<field name="ENTIDAD FINANCIERA" class="java.lang.String"/>
+		<field name="NUMERO CUENTA" class="java.lang.String"/>
+		<field name="NUMERO CHEQUE" class="java.lang.String"/>
+		<field name="VALOR CHEQUE" class="java.math.BigDecimal"/>
+		<field name="FECHA EFECTIVIZACION" class="java.sql.Timestamp"/>
+		<variable name="totalCheques" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{VALOR CHEQUE}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoGuiaDeposito" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  tif.nombre||' '||ifi.nombre           "IFIP",
+        ifa.nombre                            "AGENCIA",
+        tefi.siglas|| ' ' ||efi.nombre        "ENTIDAD_FINANCIERA",
+        iacef.numero_cuenta                   "NUMERO_CUENTA",   
+        gdc.fecha                             "FECHA EMISION",
+        TO_CHAR(gdc.fecha_sistema,
+                   'DD/MM/YYYY HH24:MI:SS')   "FECHA SISTEMA",
+        per.nombre_completo                   "RESPONSABLE EMISION CHEQUES",
+        ifi.path_imagen                       "IMAGEN",
+        com.nombre                            "COMPUTADOR",
+        gdc.codigo                            "CODIGO GUIA DE DEPOSITO",
+        mon.nombre                            "MONEDA",
+        gdcd.numero_cheques                   "NUMERO CHEQUES",
+        gdcd.total_cheques                    "TOTAL CHEQUES"
+        
+FROM    mks_cajas.guia_deposito_cheque             gdc,
+        mks_cajas.guia_deposito_cheque_det         gdcd,
+        mks_ifips.ifip_cuenta_entidad_financiera      iacef,
+        mks_ifips.entidad_financiera_ifi_age       efia,    
+        mks_comunes.entidad_financiera             efi,
+        mks_comunes.tipo_entidad_financiera        tefi,
+        mks_ifips.ifip_agencia                     ifa,
+        mks_ifips.ifip                             ifi,   
+        mks_ifips.tipo_ifip                        tif,      
+        mks_seguridades.usuario                    usr,
+        mks_socios.persona                         per,               
+        mks_ifips.computador                       com,    
+        mks_comunes.moneda                         mon
+                                                       
+WHERE   gdc.codigo                             = $P{codigoGuiaDeposito}
+AND     ifa.codigo                             = gdc.codigo_ifip_agencia
+AND     usr.codigo                             = gdc.codigo_usuario
+AND     com.codigo                             = gdc.codigo_computador
+AND     iacef.codigo                           = gdc.codigo_cuenta_ent_fin
+AND     gdc.codigo                             = gdcd.codigo_guia_deposito
+AND     mon.codigo                             = gdcd.codigo_moneda
+AND     efia.codigo_entidad_financiera         = iacef.codigo_entidad_financiera
+AND     ifi.codigo                             = ifa.codigo_ifip
+AND     tif.codigo                             = ifi.codigo_tipo_ifip
+AND     efi.codigo                             = efia.codigo_entidad_financiera
+AND     tefi.codigo                            = efi.codigo_tipo_entidad                                              
+AND     per.codigo                             = usr.codigo_persona
+AND     gdc.codigo_ifip_agencia                = efia.codigo_ifip_agencia]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="AGENCIA" class="java.lang.String"/>
+	<field name="ENTIDAD_FINANCIERA" class="java.lang.String"/>
+	<field name="NUMERO_CUENTA" class="java.lang.String"/>
+	<field name="FECHA EMISION" class="java.sql.Timestamp"/>
+	<field name="FECHA SISTEMA" class="java.lang.String"/>
+	<field name="RESPONSABLE EMISION CHEQUES" class="java.lang.String"/>
+	<field name="IMAGEN" class="java.lang.String"/>
+	<field name="COMPUTADOR" class="java.lang.String"/>
+	<field name="CODIGO GUIA DE DEPOSITO" class="java.math.BigDecimal"/>
+	<field name="MONEDA" class="java.lang.String"/>
+	<field name="NUMERO CHEQUES" class="java.math.BigDecimal"/>
+	<field name="TOTAL CHEQUES" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="5" y="25" width="550" height="30" uuid="28018225-171b-471e-a66f-838ed0428d25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="0" width="57" height="25" uuid="7f644b82-cc9c-4ce2-bf2a-f72fecf0b70b"/>
+				<imageExpression><![CDATA[$F{IMAGEN}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="141">
+			<staticText>
+				<reportElement x="0" y="0" width="544" height="20" uuid="07bdd9f4-ab48-4af9-90e3-8a11fadaf09b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GUIA DE DEPOSITO DE CHEQUES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="39" width="143" height="15" uuid="8d2cd899-5cd5-47f7-9eee-b8818b3f9328"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AGENCIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="25" width="143" height="15" uuid="c5275690-0c74-45ac-815e-653657d447d2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO GUIA DE DEPOSITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="109" width="143" height="15" uuid="2feef4e3-342c-42a0-a00f-9132d63940ee"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA EMISION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="123" width="143" height="15" uuid="b5a726ae-104c-49a0-bd29-339d626fdcb8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA IMPRESION]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy hh:mm:ss">
+				<reportElement x="154" y="123" width="302" height="15" uuid="9b840df7-46b3-4e38-838b-95a5bee7b156"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="81" width="143" height="15" uuid="2eee370a-25c5-4afa-b6fb-513757b99990"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONEDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="95" width="143" height="15" uuid="c4c82ed8-5f3b-42b0-bcde-9de089543cae"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO CHEQUES]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="153" y="39" width="302" height="15" uuid="45b367f1-0c67-4a61-8a08-d89b6691eba2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGENCIA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="81" width="302" height="15" uuid="3fb4d5a9-87e8-4663-b952-55bdeedea728"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONEDA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="95" width="302" height="15" uuid="b46172b4-d295-4797-8d66-1f90ab886d59"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUMERO CHEQUES}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="153" y="109" width="302" height="15" uuid="59194531-d8b4-4b7e-992a-4ae8bc40cfd8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA EMISION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="25" width="302" height="15" uuid="a7338e37-b841-4e05-a472-90b1e74707a4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CODIGO GUIA DE DEPOSITO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="53" width="143" height="15" uuid="405b9b42-802d-4a8e-b271-e28463cb1609"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENTIDAD_FINANCIERA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="67" width="143" height="15" uuid="bfaafb85-2041-4512-9920-7742e40e6fd2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO_CUENTA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="153" y="53" width="302" height="15" uuid="7b317db3-ec9c-47b5-b6f6-5068cf0a6257"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ENTIDAD_FINANCIERA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="67" width="302" height="15" uuid="89b8648d-64db-4ca1-9b68-464de9032166"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUMERO_CUENTA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="160" splitType="Immediate">
+			<staticText>
+				<reportElement positionType="Float" x="154" y="101" width="230" height="20" uuid="ddeae7dd-3d2a-461b-b7f7-7ac9dec3dba8"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[............................................................................]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 4" style="table 4" positionType="Float" x="11" y="20" width="534" height="50" uuid="245d8749-f568-4488-bc24-afcd8f052e33"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DesgloceGuiaDeposito" uuid="fd4a4a56-798b-440b-aa5d-3e5c054914a0">
+						<datasetParameter name="codGuia">
+							<datasetParameterExpression><![CDATA[$P{codigoGuiaDeposito}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="225" uuid="90c7ee22-1b06-4543-b11e-7a2a7d68863f">
+						<jr:columnHeader style="table 4_CH" height="16" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="225" height="16" forecolor="#FFFFFF" backcolor="#333333" uuid="b1d9f5d5-4edb-4708-a34e-a2ea967e1077"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ENTIDAD FINANCIERA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="225" height="20" uuid="8d9c222c-9ef6-40d8-ab17-01dd09ebbe56"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ENTIDAD FINANCIERA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="c3d14f3a-a89b-4729-9c35-c5e08d573fad">
+						<jr:columnHeader style="table 4_CH" height="16" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="100" height="16" forecolor="#FFFFFF" backcolor="#333333" uuid="389cb0eb-f59b-4f3a-a096-4d6d136bd230"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NUMERO CUENTA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="20" uuid="414ceee3-82eb-4606-9fe0-f1802f5d0df2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NUMERO CUENTA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="d5eedd4e-9fe1-4911-93b2-587b9b840ec0">
+						<jr:columnHeader style="table 4_CH" height="16" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="100" height="16" forecolor="#FFFFFF" backcolor="#333333" uuid="12ff979d-8bb4-4d82-9982-c9a36ff396b4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NUMERO CHEQUE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="100" height="20" uuid="f98d0eed-0356-4a7f-9ef0-b6c01a97453a"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</jr:columnFooter>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="20" uuid="03b2b93d-9658-4ab6-9415-19f5b9081d2c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NUMERO CHEQUE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="93" uuid="569056ff-6f31-4996-aed3-4e2036666bf1">
+						<jr:columnHeader style="table 4_CH" height="16" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="93" height="16" forecolor="#FFFFFF" backcolor="#333333" uuid="392fc0a4-84e3-4aa1-8cf8-cef22b022b5c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[VALOR CHEQUE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="20" rowSpan="1">
+							<textField pattern="###,###,##0.00;-###,###,##0.00">
+								<reportElement x="0" y="0" width="93" height="20" uuid="3c8f9c39-30dd-4c11-b95e-1a8159e7a563"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalCheques}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField pattern="###,###,##0.00;-###,###,##0.00">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="93" height="20" uuid="d23b0c5a-a7c2-4861-a4df-6c7cd8686105"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{VALOR CHEQUE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement positionType="Float" x="155" y="120" width="228" height="20" uuid="37feeb65-074c-4e00-84f5-7c135c51145e"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESPONSABLE EMISION CHEQUES]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="155" y="140" width="228" height="20" uuid="6385e686-fc40-4344-a4de-ce65ac07dd7b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{RESPONSABLE EMISION CHEQUES}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="0" width="123" height="20" uuid="1aeb76d3-757e-45e9-afe9-5c79a9f57ca6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[DETALLE EMISION GUIA]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="0" width="89" height="20" uuid="f82145e8-194a-467d-95f6-0f8cd46d0df7"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

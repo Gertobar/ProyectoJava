@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GrupoInstitucionAgeDetViewDlg" widgetVar="GrupoInstitucionAgeDetViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewGrupoInstitucionAgeDetTitle}" closeOnEscape="true">
+
+            <h:form id="GrupoInstitucionAgeDetViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{grupoInstitucionAgeDetController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionAgeDetLabel_valorAporte}"/>
+                        <h:outputText value="#{grupoInstitucionAgeDetController.selected.valorAporte}" title="#{myBundle.ViewGrupoInstitucionAgeDetTitle_valorAporte}"/>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionAgeDetLabel_registradoPor}"/>
+                        <h:outputText value="#{grupoInstitucionAgeDetController.selected.registradoPor}" title="#{myBundle.ViewGrupoInstitucionAgeDetTitle_registradoPor}"/>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionAgeDetLabel_fechaRegistro}"/>
+                        <h:outputText value="#{grupoInstitucionAgeDetController.selected.fechaRegistro}" title="#{myBundle.ViewGrupoInstitucionAgeDetTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionAgeDetLabel_eliminado}"/>
+                        <h:outputText value="#{grupoInstitucionAgeDetController.selected.eliminado}" title="#{myBundle.ViewGrupoInstitucionAgeDetTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionAgeDetLabel_socio}"/>
+                        <h:outputText value="#{grupoInstitucionAgeDetController.selected.socio.socioPK}"/>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionAgeDetLabel_grupoInstitucionIfipAgencia}"/>
+                        <h:outputText value="#{grupoInstitucionAgeDetController.selected.grupoInstitucionIfipAgencia.grupoInstitucionIfipAgenciaPK}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="GrupoInstitucionAgeDetViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

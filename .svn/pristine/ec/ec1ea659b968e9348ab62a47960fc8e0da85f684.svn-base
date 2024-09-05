@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContratoSegCreateDlg" 
+                  widgetVar="ContratoSegCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  position="center">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Seguro}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+            <h:form id="ContratoSegCreateForm">
+                <h:panelGrid id="SeguroGri" columns="1" style="font-size: 10px;" >
+
+                    <h:panelGrid columns="4">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.ContratoSeguro}"/>
+                            <p:separator/>
+                        </f:facet>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoSocio}" 
+                                       for="codigoSocio"
+                                       styleClass="etiquetaRequerida"/>
+                        <h:inputText id="codigoSocio" 
+                                     style="text-align:  right"
+                                     disabled="#{contratoSeguroBean.editaContrato}"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Socio} #{propiedadesMensajesBL.CampoRequerido}"
+                                     value="#{contratoSeguroBean.codigoSocio}">
+                            <p:ajax event="blur" 
+                                    listener="#{contratoSeguroBean.buscaSocioContrato()}"
+                                    update="nombreSocio,valorMensual,cuentasContrato"/>
+                        </h:inputText> 
+                        <p:inputText  id="nombreSocio"
+                                      size="60"
+                                      readonly="true"
+                                      value="#{contratoSeguroBean.contrato.socio.codigoPersona.nombreCompleto}"/>
+
+                        <p:commandButton id="buscarSocioSolicitud" 
+                                         value="#{propiedadesEtiquetaBL.Buscar}"
+                                         icon="#{propiedadesObjetosBL.IcoVer}" 
+                                         disabled="#{contratoSeguroBean.editaContrato}"
+                                         onclick="procesandoDlg.show()"
+                                         update=":ListaSociosForm"
+                                         actionListener="#{contratoSeguroBean.preparaBusquedaSocioSolicitud}"
+                                         oncomplete="procesandoDlg.hide();ListaSociosDialog.show();"
+                                         />
+                    </h:panelGrid>
+                    <h:panelGrid columns="4">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaContrato}" 
+                                       for="fechaContrato"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:calendar  value="#{contratoSeguroBean.contrato.fechaContrato}"
+                                     pattern="dd/MM/yyyy"
+                                     id="fechaContrato" 
+                                     locale="es"                         
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.FechaNacimiento} - #{propiedadesMensajesBL.CampoRequerido}"                         
+                                     disabled="true"
+                                     > 
+                        </p:calendar>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaCaducidad}" 
+                                       for="fechaCaducidad"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:calendar  value="#{contratoSeguroBean.contrato.fechaVencimiento}"
+                                     pattern="dd/MM/yyyy"
+                                     id="fechaCaducidad" 
+                                     locale="es"                         
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.FechaNacimiento} - #{propiedadesMensajesBL.CampoRequerido}"                         
+                                     disabled="true"
+                                     > 
+                        </p:calendar>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Valor} #{propiedadesEtiquetaBL.Mensual}" 
+                                       for="valorMensual" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText  id="valorMensual"
+                                      readonly="true"
+                                      value="#{contratoSeguroBean.contrato.codigoValor.valor}"/>
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}"
+                                       styleClass="etiquetaRequerida"
+                                       rendered="#{!contratoSeguroBean.contratoPorCredito}"
+                                       for="cuentasContrato"/>
+                        <p:selectOneMenu id="cuentasContrato" 
+                                         value="#{contratoSeguroBean.contrato.cuenta}"
+                                         disabled="#{contratoSeguroBean.editaContrato}"
+                                         required ="true"
+                                         rendered="#{!contratoSeguroBean.contratoPorCredito}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Cuenta} - #{propiedadesMensajesBL.CampoRequerido}" >
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{contratoSeguroBean.itemsCuentasAhorrosVista}"
+                                           var="CuentaItem"
+                                           itemValue="#{CuentaItem}"
+                                           itemLabel="#{CuentaItem.numero}"
+                                           />
+                            <f:converter binding="#{cuentaConverter}"/>
+                        </p:selectOneMenu>
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Credito}"
+                                       styleClass="etiquetaRequerida"
+                                       rendered="#{contratoSeguroBean.contratoPorCredito}"
+                                       for="creditoContrato"/>
+                        <h:outputLabel id="creditoContrato"
+                                       rendered="#{contratoSeguroBean.contratoPorCredito}"
+                                       value="#{contratoSeguroBean.contrato.numeroCredito}"/>
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.RenovacionAutomatica}"
+                                       styleClass="etiquetaRequerida"
+                                       for="renovacionAutomatica"/>
+                        <p:selectBooleanCheckbox id="renovacionAutomatica" 
+                                                 disabled="true"
+                                                 value="#{contratoSeguroBean.renovacionAutomatica}" />
+                    </h:panelGrid>
+                    <h:panelGrid columns="4">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Dependientes}"/>
+                            <p:separator/>
+                        </f:facet>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                                       for="identificacionPersonaDependiente" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="identificacionPersonaDependiente"                                                                         
+                                     value="#{contratoSeguroBean.personaDependiente.identificacion}"                                       
+                                     size="10">    
+                            <p:ajax event="blur" 
+                                    listener="#{contratoSeguroBean.buscaPersonaDependiente()}"
+                                    update="identificacionPersonaDependiente,nombrePersonaDependiente,fechaNacimiento"/>
+                        </p:inputText>
+                        <p:watermark for="nombrePersonaDependiente" 
+                                     value="Apellidos Nombres" 
+                                     id="wmkDependiente" />
+                        <p:inputText id="nombrePersonaDependiente"                                                                         
+                                     value="#{contratoSeguroBean.nombreDependiente}" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     required="false"   
+                                     onblur="value=value.toUpperCase()"                                      
+                                     size="60">                               
+                        </p:inputText>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaNacimiento}" 
+                                       for="fechaNacimiento"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:calendar  value="#{contratoSeguroBean.fechaNacimientoDependiente}"
+                                     pattern="dd/MM/yyyy"
+                                     id="fechaNacimiento" 
+                                     yearRange="c-100:c"
+                                     locale="es"                         
+                                     required="false" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.FechaNacimiento} - #{propiedadesMensajesBL.CampoRequerido}"                         
+                                     navigator="true"> 
+                        </p:calendar>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoRelacion}" 
+                                       for="tipoRelacionDep"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="tipoRelacionDep" 
+                                         value="#{contratoSeguroBean.tipoRelacionDependiente}" 
+                                         panelStyle="width:200px"
+                                         effect="fade" 
+                                         var="t" 
+                                         style="width:100px" 
+                                         filter="true" 
+                                         filterMatchMode="contains">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{contratoSeguroBean.itemsTipoRelacionDependiente}"
+                                           var="ItemRelacion"
+                                           itemValue="#{ItemRelacion}"
+                                           itemLabel="#{ItemRelacion.nombre}"                                           />                    
+                            <p:column>
+                                <h:outputText value="#{t.nombre}" />
+                            </p:column>
+                            <f:converter binding="#{tipoRelacionConverter}"/>
+                        </p:selectOneMenu>
+                        <p:commandButton id="agregarBnt" 
+                                         value="#{propiedadesEtiquetaBL.Agregar}"
+                                         onclick="procesandoDlg.show()"
+                                         update="dependientesTbl,identificacionPersonaDependiente,nombrePersonaDependiente,tipoRelacionDep,fechaNacimiento"
+                                         actionListener="#{contratoSeguroBean.agregarDependiente}"
+                                         oncomplete="procesandoDlg.hide()"
+                                         />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1" style="font-size: 10px;">
+                        <p:contextMenu for="dependientesTbl">     
+                            <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                                        icon="ui-icon-trash" 
+                                        action="#{contratoSeguroBean.quitaDependienteLista()}" 
+                                        update="dependientesTbl"/>            
+                        </p:contextMenu> 
+                        <p:dataTable id="dependientesTbl" 
+                                     value="#{contratoSeguroBean.itemsDependientes}"
+                                     var="itemDependienteTabla"                                                          
+                                     rowKey="#{itemDependienteTabla.nombreCompleto}"
+                                     paginator="true"
+                                     rows="4"
+                                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                                     editable="true"
+                                     editMode="cell"
+                                     selectionMode="single"
+                                     selection="#{contratoSeguroBean.dependienteSeleccionado}"                     
+                                     style="width: 600px;"
+                                     widgetVar="depedienteTabla">
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Listado} #{propiedadesEtiquetaBL.Dependientes}"/>
+                            </f:facet>
+<!--
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDependienteTabla.dependiente}"/>
+                            </p:column>-->
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDependienteTabla.nombreCompleto}"/>                                    
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.FechaNacimiento}"/>
+                                </f:facet>
+                                <h:outputText  value="#{itemDependienteTabla.fechaNacimiento}">
+                                    <f:convertDateTime  pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.TipoRelacion}"/>
+                                </f:facet>
+                                <p:cellEditor> 
+
+                                    <f:facet name="output">  
+                                        <h:outputText  value="#{itemDependienteTabla.tipoRelacion.nombre}" />  
+                                    </f:facet>
+
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{itemDependienteTabla.tipoRelacion}" 
+                                                         panelStyle="width:150px"
+                                                         effect="fade" 
+                                                         var="t" 
+                                                         filter="true" 
+                                                         filterMatchMode="contains">
+                                            <f:selectItems value="#{contratoSeguroBean.itemsTipoRelacionDependiente}"
+                                                           var="ItemRelacion"
+                                                           itemValue="#{ItemRelacion}"
+                                                           itemLabel="#{ItemRelacion.nombre}"                                           />                    
+                                            <p:column>
+                                                <h:outputText value="#{t.nombre}" />
+                                            </p:column>
+                                            <f:converter binding="#{tipoRelacionConverter}"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+
+                                </p:cellEditor>       
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+
+
+                    <h:panelGrid columns="4">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Beneficiarios}"/>
+                            <p:separator/>
+                        </f:facet>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                                       for="identificacionPersonaBeneficiario" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="identificacionPersonaBeneficiario"                                                                         
+                                     value="#{contratoSeguroBean.personaBeneficiario.identificacion}"                                       
+                                     size="10">    
+                            <p:ajax event="blur" 
+                                    listener="#{contratoSeguroBean.buscaPersonaBeneficiario()}"
+                                    update="identificacionPersonaBeneficiario,nombrePersonaBeneficiario"/>
+                        </p:inputText>
+                        <p:inputText id="nombrePersonaBeneficiario"                                                                         
+                                     value="#{contratoSeguroBean.personaBeneficiario.nombreCompleto}" 
+                                     readonly="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     required="true"                                         
+                                     size="60">                               
+                        </p:inputText>
+                        <p:commandButton id="buscarPersonaBeneficiario" 
+                                         value="#{propiedadesEtiquetaBL.Buscar}"
+                                         icon="#{propiedadesObjetosBL.IcoVer}" 
+                                         onclick="procesandoDlg.show()"
+                                         update=":ListaPersonasForm"
+                                         actionListener="#{contratoSeguroBean.preparaBusquedaBeneficiario}"
+                                         oncomplete="procesandoDlg.hide();ListaPersonasDialog.show();"
+                                         />
+                    </h:panelGrid>
+                    <h:panelGrid columns="4">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoRelacion}" 
+                                       for="tipoRelacionBeneficiario"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="tipoRelacionBeneficiario" 
+                                         value="#{contratoSeguroBean.tipoRelacionBeneficiario}" 
+                                         panelStyle="width:200px"
+                                         effect="fade" 
+                                         var="t" 
+                                         style="width:100px" 
+                                         filter="true" 
+                                         filterMatchMode="contains">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{contratoSeguroBean.itemsTipoRelacionBeneficiario}"
+                                           var="ItemRelacion"
+                                           itemValue="#{ItemRelacion}"
+                                           itemLabel="#{ItemRelacion.nombre}"                                           />                    
+                            <p:column>
+                                <h:outputText value="#{t.nombre}" />
+                            </p:column>
+                            <f:converter binding="#{tipoRelacionConverter}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Porcentaje}" 
+                                       for="porcentaje"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="porcentaje"
+                                     value="#{contratoSeguroBean.porcentajeBeneficio}"> 
+                        </p:inputText>
+
+                        <p:commandButton id="agregarBeneficiarioBnt" 
+                                         value="#{propiedadesEtiquetaBL.Agregar}"
+                                         onclick="procesandoDlg.show()"
+                                         update="beneficiarioTbl,identificacionPersonaBeneficiario,nombrePersonaBeneficiario,tipoRelacionBeneficiario,porcentaje"
+                                         actionListener="#{contratoSeguroBean.agregarBeneficiario}"
+                                         oncomplete="procesandoDlg.hide()"
+                                         />
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" style="font-size: 10px;">
+                        <p:contextMenu for="beneficiarioTbl">     
+                            <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                                        icon="ui-icon-trash" 
+                                        action="#{contratoSeguroBean.quitaBeneficiarioLista()}" 
+                                        update="beneficiarioTbl"/>            
+                        </p:contextMenu> 
+                        <p:dataTable id="beneficiarioTbl" 
+                                     value="#{contratoSeguroBean.itemsBeneficiarios}"
+                                     var="itemBeneficiarioTabla"                                                          
+                                     rowKey="#{itemBeneficiarioTabla.beneficiario.codigo}"
+                                     paginator="true"
+                                     rows="4"
+                                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                                     editable="true"
+                                     editMode="cell"
+                                     selectionMode="single"
+                                     selection="#{contratoSeguroBean.beneficiarioSeleccionado}"                     
+                                     style="width: 600px;"
+                                     widgetVar="beneficiarioTabla">
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Listado} #{propiedadesEtiquetaBL.Beneficiarios}"/>
+                            </f:facet>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemBeneficiarioTabla.beneficiario.identificacion}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemBeneficiarioTabla.beneficiario.nombreCompleto}"/>                                    
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.TipoRelacion}"/>
+                                </f:facet>
+                                <p:cellEditor> 
+
+                                    <f:facet name="output">  
+                                        <h:outputText  value="#{itemBeneficiarioTabla.tipoRelacion.nombre}" />  
+                                    </f:facet>
+
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{itemBeneficiarioTabla.tipoRelacion}" 
+                                                         panelStyle="width:150px"
+                                                         effect="fade" 
+                                                         var="t" 
+                                                         filter="true" 
+                                                         filterMatchMode="contains">
+                                            <f:selectItems value="#{contratoSeguroBean.itemsTipoRelacionBeneficiario}"
+                                                           var="ItemRelacion"
+                                                           itemValue="#{ItemRelacion}"
+                                                           itemLabel="#{ItemRelacion.nombre}"                                           />                    
+                                            <p:column>
+                                                <h:outputText value="#{t.nombre}" />
+                                            </p:column>
+                                            <f:converter binding="#{tipoRelacionConverter}"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>       
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Porcentaje}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemBeneficiarioTabla.porcentaje}"/>  
+                                
+
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                    <p:commandButton id="guardaContratoBot" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     onclick="procesandoDlg.show()"
+                                     update=":ContratoSegListForm,:componenteBoletoForm"
+                                     actionListener="#{contratoSeguroBean.guardaContrato}"
+                                     oncomplete="#{contratoSeguroBean.editaContrato ? 'procesandoDlg.hide();' : 'procesandoDlg.hide();PF(\'boletosDialog\').show();' }"/>
+                </h:panelGrid>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

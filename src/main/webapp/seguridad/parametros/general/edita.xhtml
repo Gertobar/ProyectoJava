@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ParametroGeneralSegIfiEditDlg"
+                  widgetVar="ParametroGeneralSegIfiEditDialog"
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.ParametroGeneralSeguridad}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>    
+
+            <h:form id="ParametroGeneralSegIfiEditForm">
+
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{parametroGeneralSegIfiController.selected != null}">
+
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" 
+                                       for="codigo" styleClass="etiqueta"/>
+                        <h:outputText id="codigo" 
+                                      value="#{parametroGeneralSegIfiController.selected.parametroGeneralSeguridad.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Ifip}" 
+                                       for="codigoIfip" 
+                                       styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="codigoIfip" 
+                                         value="#{parametroGeneralSegIfiController.selected.parametroGeneralSegIfiPK.codigoIfip}"                                         
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Ifip} : #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem  itemValue="#{usuarioIfipAgenciaController.ifipAgencia.codigoIfip}"
+                                           itemLabel="#{usuarioIfipAgenciaController.ifipAgencia.codigoIfip.nombre}"/>
+                            <f:converter binding="#{ifipConverter}"/>
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ValorNumerico}" 
+                                       for="valorNumerico" 
+                                       styleClass="etiqueta"/>
+                        <p:inputText id="valorNumerico" 
+                                     value="#{parametroGeneralSegIfiController.selected.valorNumerico}" 
+                                     title="#{propiedadesTituloBL.ValorNumerico}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ValorTexto}" 
+                                       for="valorTexto" 
+                                       styleClass="etiqueta"/>
+                        <p:inputText id="valorTexto" 
+                                     value="#{parametroGeneralSegIfiController.selected.valorTexto}" 
+                                     title="#{propiedadesTituloBL.ValorTexto}" 
+                                     size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ValorFechaUno}"
+                                       for="valorFechaUno"
+                                       styleClass="etiqueta"/>
+                        <p:calendar id="valorFechaUno" 
+                                    pattern="MM/dd/yyyy HH:mm:ss"
+                                    value="#{parametroGeneralSegIfiController.selected.valorFechaUno}" 
+                                    title="#{propiedadesTituloBL.ValorFechaUno}"  
+                                    showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ValorFechaDos}" 
+                                       for="valorFechaDos" 
+                                       styleClass="etiqueta"/>
+                        <p:calendar id="valorFechaDos" 
+                                    pattern="MM/dd/yyyy HH:mm:ss" 
+                                    value="#{parametroGeneralSegIfiController.selected.valorFechaDos}"
+                                    title="#{propiedadesTituloBL.ValorFechaDos}" 
+                                    showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}"
+                                       for="eliminado" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{parametroGeneralSegIfiController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />    
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{parametroGeneralSegIfiController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:ParametroGeneralSegIfiListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,ParametroGeneralSegIfiEditDialog);">
+                            </p:commandButton>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

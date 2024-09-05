@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+    <p:panel  id="criterioConsulta" styleClass="encabezadosDialog">         
+        <p:focus context="criterioConsulta"/> 
+
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.GenerarCreditosContratados}   "
+                           styleClass="encabezadosDialog"/>
+        </f:facet>            
+                   
+        <h:panelGroup>
+            <h:panelGrid id="diarioGeneralGri" columns="2" style="width: 500px;"
+                         columnClasses="label, value, validator" styleClass="grid">  
+
+               
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaInicio} " 
+                               for="fechaInicio"
+                               styleClass="etiquetaRequerida" 
+                               />
+                <p:calendar id="fechaInicio"
+                            pattern="dd/MM/yyyy"
+                            value="#{reporteCreditosContratadosBean.fechaInicio}"
+                            title="#{propiedadesEtiquetaBL.FechaInicio}"
+                            showOn="button"
+                            required="true" 
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaInicio}  #{propiedadesMensajesBL.CampoRequerido}">                    
+                </p:calendar>
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaFin} " 
+                               for="fechaFin"
+                               styleClass="etiquetaRequerida" 
+                               />
+                <p:calendar id="fechaFin"
+                            pattern="dd/MM/yyyy"
+                            value="#{reporteCreditosContratadosBean.fechaFin}"
+                            title="#{propiedadesEtiquetaBL.FechaFin}"
+                            showOn="button"
+                            required="true" 
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaFin}  #{propiedadesMensajesBL.CampoRequerido}">                    
+                </p:calendar>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Estado}" 
+                               for="estado"
+                               styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="estado" 
+                                 value="#{reporteCreditosContratadosBean.estadoCredito}"
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Estado} #{propiedadesMensajesBL.CampoRequerido}">                          
+
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{reporteCreditosContratadosBean.itemsEstadoCredito}"
+                                   var="estadoCreditoItem"
+                                   itemValue="#{estadoCreditoItem}"
+                                   itemLabel="#{estadoCreditoItem.nombre}"
+                                   />  
+                    <f:converter binding="#{estadoCreditoConverter}"/>
+                </p:selectOneMenu> 
+
+            </h:panelGrid>      
+        </h:panelGroup>
+    </p:panel>
+
+</ui:composition>

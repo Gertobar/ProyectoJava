@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <p:dialog id="FondeoCajaCreateDlg" 
+              widgetVar="FondeoCajaCreateDialog" 
+              modal="true" 
+              resizable="false" 
+              appendTo="@(body)"
+              closeOnEscape="true">
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.FondeoCaja}"
+                           styleClass="encabezadosDialog"/>
+        </f:facet>
+        <p:focus context="FondeoCajaCreateDlg"/>   
+        <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+
+        <h:form id="FondeoCajaCreateForm">
+            <h:panelGroup id="display" style="font-size: 10px;">
+
+                <p:panelGrid columns="3" style="font-size: 10px;">
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Boveda}"
+                                   styleClass="etiquetaRequerida"
+                                   for="codigoBoveda" />
+                    <p:selectOneMenu id="codigoBoveda" 
+                                     value="#{fondeoCajaController.fondeoCajaSel.boveda}" 
+                                     disabled="false"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Boveda} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     required="true">
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{fondeoCajaController.itemsBoveda}"
+                                       var="bovedaItem"
+                                       itemValue="#{bovedaItem}"
+                                       itemLabel="#{bovedaItem.nombre}"
+                                       />
+                        <p:ajax event="change" listener="#{fondeoCajaController.buscaBovedaDineroCaja()}" update="guardarBot,:mensaje,dineroBoveda"/>
+                        <f:converter binding="#{bovedaConverter}"/>
+                    </p:selectOneMenu>
+                    <h:message for="codigoBoveda"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.DineroBoveda}"
+                                   styleClass="etiquetaRequerida"
+                                   for="dineroBoveda" />
+                    <h:outputText id="dineroBoveda" 
+                                  value="#{fondeoCajaController.bovedaDinero.valorEfectivo}">
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                    </h:outputText>
+                    <h:message for="dineroBoveda"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.IfipAgencia}" 
+                                   styleClass="etiquetaRequerida"
+                                   for="codigoIfipAgencia" />
+                    <p:inputText    id="codigoIfipAgencia" 
+                                    value="#{fondeoCajaController.fondeoCajaSel.ifipAgencia.nombre}"
+                                    size="30"
+                                    readonly="true"
+                                    required="true" />
+                    <h:message for="codigoIfipAgencia"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Cajero}" 
+                                   styleClass="etiquetaRequerida"
+                                   for="codigoUsuarioCaja" />
+                    <p:selectOneMenu id="codigoUsuarioCaja" 
+                                     value="#{fondeoCajaController.usuarioCajero}" 
+                                     disabled="false"
+                                     filter="true" 
+                                     filterMatchMode="startsWith" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Boveda} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     required="true">
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{fondeoCajaController.itemsUsuario}"
+                                       var="usuarioItem"
+                                       itemValue="#{usuarioItem}"
+                                       itemLabel="#{usuarioItem.codigoPersona.nombreCompleto}"
+                                       />
+                        <p:ajax event="change" listener="#{fondeoCajaController.buscaFondeoCajaCajeroVigente()}" update="guardarBot,:mensaje,codigoUsuarioCaja"/>
+                        <f:converter binding="#{usuarioConverter}"/>
+                    </p:selectOneMenu>
+                    <h:message for="codigoUsuarioCaja"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Computador}" 
+                                   styleClass="etiquetaRequerida"
+                                   for="codigoComputadorCaja" />
+                    <p:selectOneMenu id="codigoComputadorCaja" 
+                                     value="#{fondeoCajaController.computadorCaja}" 
+                                     disabled="false"
+                                     filter="true" 
+                                     filterMatchMode="startsWith"                                          
+                                     requiredMessage="#{propiedadesEtiquetaBL.Computador} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     required="true">
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{fondeoCajaController.itemsComputador}"
+                                       var="computadorItem"
+                                       itemValue="#{computadorItem}"
+                                       itemLabel="#{computadorItem.nombre}"
+                                       />
+                        <p:ajax event="change" listener="#{fondeoCajaController.buscaFondeoComputadorCajaVigente()}" update="guardarBot,codigoComputadorCaja,:mensaje"/>
+                        <f:converter binding="#{computadorConverter}"/>
+                    </p:selectOneMenu> 
+                    <h:message for="codigoComputadorCaja"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.FechaFondeo}" 
+                                   styleClass="etiquetaRequerida"
+                                   for="fechaFondeo" />
+                    <p:calendar value="#{fondeoCajaController.fondeoCajaSel.fechaFondeo}" 
+                                id="fechaFondeo"
+                                readonly="true"
+                                disabled="true"
+                                size="20"
+                                pattern="dd/MM/yyyy"                                      
+                                locale="es" 
+                                required="true" />
+                    <h:message for="fechaFondeo"  styleClass="invalido"/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.FechaSistema}" 
+                                   styleClass="etiquetaRequerida"
+                                   for="fechaSistema" />
+                    <p:calendar value="#{fondeoCajaController.fondeoCajaSel.fechaSistema}" 
+                                id="fechaSistema"
+                                readonly="true"
+                                disabled="true"
+                                size="35"
+                                pattern="dd/MM/yyyy hh:mm:ss a"                                      
+                                locale="es" 
+                                required="true" />
+                    <h:message for="fechaSistema"  styleClass="invalido"/>
+
+                </p:panelGrid>
+
+                <p:separator/>
+                <h:panelGrid  id="desgloceEfectivoGri"  columns="1">
+                    <p:dataTable id="desgloseEfectivoTbl"  
+                                 value="#{fondeoCajaController.itemFondeoCajaDesgloceEfectivo}"
+                                 widgetVar="desgloseEfectivoTabla"
+                                 var="itemDesgloce"
+                                 rowKey="#{itemDesgloce.fondeoCajaDesgloceEfectivoPK}"    
+                                 scrollable="true" 
+                                 scrollHeight="150" 
+                                 editable="true" 
+                                 editMode="cell" 
+                                 style="width: 700px"
+                                 >
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.DesgloceEfectivo}"/>                
+                        </f:facet>                     
+
+
+                        <p:column style="width: 100px">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Denominacion}"/>
+                            </f:facet>
+                            <p:selectOneMenu id="denominacion" 
+                                             value="#{itemDesgloce.fraccionMoneda.tipoFraccionMoneda.denominacion}"                                              
+                                             disabled="true">
+                                <f:selectItem itemValue="B" itemLabel="#{propiedadesEtiquetaBL.Billete}"/>
+                                <f:selectItem itemValue="M" itemLabel="#{propiedadesEtiquetaBL.Moneda}"/>
+                            </p:selectOneMenu> 
+                        </p:column>
+
+                        <p:column  style="width: 100px; text-align: right">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemDesgloce.fraccionMoneda.tipoFraccionMoneda.valor}"> 
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column id="cantidadCol" style="width: 100px; text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cantidad}"/>
+                            </f:facet>
+                            <p:cellEditor>  
+                                <f:facet name="output">
+                                    <h:outputText value="#{itemDesgloce.cantidad}" />
+                                </f:facet>
+                                <f:facet name="input" >
+                                    <p:inputText   id="cantidadInp"                                        
+                                                   value="#{itemDesgloce.cantidad}"
+                                                   style="text-align: center">
+                                        <p:ajax event="keyup"
+                                                listener="#{fondeoCajaController.cantidadModificada()}"
+                                                update="totalOut,:FondeoCajaCreateForm:totalEfectivo,:FondeoCajaCreateForm:guardarBot"
+                                                />
+                                        <f:validateLongRange minimum="0"/>
+                                    </p:inputText>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column id="totalCol" 
+                                  style="width: 100px; text-align: center"  
+                                  rendered="true"                                       
+                                  >
+                            <f:facet name="header"> 
+                                <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                            </f:facet>
+                            <h:outputText id="totalOut" value="#{itemDesgloce.total}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+
+                <h:panelGrid columns="2" width="600px">
+                    <h:panelGrid columns="1" width="500px" style="text-align:  right">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Totales}" styleClass="encabezadosPanelGrid"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" width="140px" style="text-align: center">
+                        <h:outputText id="totalEfectivo" 
+                                      value="#{fondeoCajaController.fondeoCajaDetalle.valorEfectivo}" 
+                                      styleClass="encabezadosPanelGrid">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </h:panelGrid>
+
+                </h:panelGrid>
+
+                <p:commandButton id="guardarBot"
+                                 actionListener="#{fondeoCajaController.guardaFondeo}"
+                                 disabled="#{fondeoCajaController.deshabilitaBotonGuardar}"
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 onclick="procesandoDlg.show();"
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                 update="display,:FondeoCajaListForm:datalist,:mensaje" >                    
+                    <p:confirm message="#{propiedadesMensajesBL.SeguroRealizarFondeo}" 
+                               icon="ui-icon-info"
+                               class="encabezadosDialog"                               
+                               header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                </p:commandButton>
+            </h:panelGroup>
+
+            <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+                <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+            </p:confirmDialog>
+
+            <p:dialog closable="true"
+                      appendTo="@(body)"
+                      maximizable="false" 
+                      resizable="false"                
+                      id="imprimeFondeoDlg"
+                      modal="true"
+                      widgetVar="imprimeFondeoDialog">     
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Impresion}"
+                                   styleClass="encabezadosDialog"/>
+                </f:facet>
+                <h:commandLink id="imprimeSolicitudBot" 
+                               value="#{propiedadesMensajesBL.ImprimirFondeoCaja}" 
+                               actionListener="#{fondeoCajaController.imprimeFondeo}"
+                               onclick="imprimeFondeoDialog.hide();"/>
+            </p:dialog> 
+
+        </h:form>
+    </p:dialog>
+
+
+
+</ui:composition>

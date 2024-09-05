@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BloqueoCuentaCreateDlg" widgetVar="BloqueoCuentaCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateBloqueoCuentaTitle}" closeOnEscape="true">
+
+            <h:form id="BloqueoCuentaCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{bloqueoCuentaController.selected.valor}" title="#{myBundle.CreateBloqueoCuentaTitle_valor}" required="true" requiredMessage="#{myBundle.CreateBloqueoCuentaRequiredMessage_valor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaLabel_fechaInicio}" for="fechaInicio" />
+                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy HH:mm:ss" value="#{bloqueoCuentaController.selected.fechaInicio}" title="#{myBundle.EditBloqueoCuentaTitle_fechaInicio}" required="true" requiredMessage="#{myBundle.EditBloqueoCuentaRequiredMessage_fechaInicio}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaLabel_fechaFin}" for="fechaFin" />
+                        <p:calendar id="fechaFin" pattern="MM/dd/yyyy HH:mm:ss" value="#{bloqueoCuentaController.selected.fechaFin}" title="#{myBundle.EditBloqueoCuentaTitle_fechaFin}" required="true" requiredMessage="#{myBundle.EditBloqueoCuentaRequiredMessage_fechaFin}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaLabel_vigente}" for="vigente" />
+                        <p:inputText id="vigente" value="#{bloqueoCuentaController.selected.vigente}" title="#{myBundle.CreateBloqueoCuentaTitle_vigente}" required="true" requiredMessage="#{myBundle.CreateBloqueoCuentaRequiredMessage_vigente}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaLabel_tipoBloqueoCuenta}" for="tipoBloqueoCuenta" />
+                        <p:selectOneMenu id="tipoBloqueoCuenta" value="#{bloqueoCuentaController.selected.tipoBloqueoCuenta}" required="true" requiredMessage="#{myBundle.EditBloqueoCuentaRequiredMessage_tipoBloqueoCuenta}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoBloqueoCuentaController.items}"
+                                           var="tipoBloqueoCuentaItem"
+                                           itemValue="#{tipoBloqueoCuentaItem}"
+                                           itemLabel="#{tipoBloqueoCuentaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{tipoBloqueoCuentaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateBloqueoCuentaLabel_cuenta}" for="cuenta" />
+                        <p:selectOneMenu id="cuenta" value="#{bloqueoCuentaController.selected.cuenta}" required="true" requiredMessage="#{myBundle.EditBloqueoCuentaRequiredMessage_cuenta}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cuentaController.items}"
+                                           var="cuentaItem"
+                                           itemValue="#{cuentaItem}"
+                                           itemLabel="#{cuentaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{cuentaConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bloqueoCuentaController.saveNew}" value="#{myBundle.Save}" update="display,:BloqueoCuentaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,BloqueoCuentaCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="BloqueoCuentaCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

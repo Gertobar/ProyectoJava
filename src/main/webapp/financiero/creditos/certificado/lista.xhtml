@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CuentaListForm">
+        <h:outputText value="#{propiedadesEtiquetaBL.SeleccionSocio}"
+                      styleClass="encabezadosPanelGrid"/>
+        
+        <p:dataTable id="datalistSocios"
+                     value="#{certifiacdoCreditosSocioBean.itemsSocios}" 
+                     var="itemsSocios"
+                     selectionMode="single" 
+                     selection="#{certifiacdoCreditosSocioBean.socioSel}"
+                     rowKey="#{itemsSocios.socioPK}"
+                     paginator="true"
+                     rows="4"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}">
+            
+            <p:ajax event="rowSelect"  listener="#{certifiacdoCreditosSocioBean.obtieneCuentasSocios()}" update=":CuentaListForm:datalist,:barraForm:nuevoBot,:barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>            
+            <p:ajax event="rowUnselect"  listener="#{certifiacdoCreditosSocioBean.obtieneCuentasSocios()}" update=":CuentaListForm:datalist,:barraForm:nuevoBot,:barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                </f:facet>
+                <h:outputText value="#{itemsSocios.codigoPersona.identificacion}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombres}"/>
+                </f:facet>
+                <h:outputText value="#{itemsSocios.codigoPersona.nombreCompleto}"/>
+            </p:column>
+        </p:dataTable>
+        
+        <p:separator/>        
+        
+        <p:dataTable id="datalist" 
+                     value="#{certifiacdoCreditosSocioBean.itemsSolicitudSocio}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{certifiacdoCreditosSocioBean.cuentaSel}"
+                     rowKey="#{item.solicitudPK}"
+                     paginator="true"
+                     rows="2"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                     >
+            <f:facet  name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Solicitudes} #{propiedadesEtiquetaBL.Del} #{propiedadesEtiquetaBL.Socio} #{certifiacdoCreditosSocioBean.socioSel.codigoPersona.nombreCompleto}"
+                              styleClass="encabezadosPanelGrid"/>               
+                
+            </f:facet>
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column sortBy="#{item.solicitudPK.numero}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Numero}"/>
+                </f:facet>
+                <h:outputText value="#{item.solicitudPK.numero}"/>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                </f:facet>
+                <h:outputText value="#{item.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}"/>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Monto}"/>
+                </f:facet>
+                <h:outputText value="#{item.montoCredito}"/>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Fecha} "/>
+                </f:facet>
+                <h:outputText value="#{item.fechaEstado}">                
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                </f:facet>
+                <h:outputText value="#{item.periodicidadProMonIfi.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.nombre}"/>
+            </p:column>
+
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

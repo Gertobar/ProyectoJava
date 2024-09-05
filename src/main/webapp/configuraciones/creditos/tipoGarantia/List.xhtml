@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoGarantiaListForm">
+
+        <p:panel header="#{myBundle.ListTipoGarantiaTitle}">
+            <p:contextMenu id="TipoGarantiaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('TipoGarantiaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('TipoGarantiaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('TipoGarantiaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('TipoGarantiaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.TipoGarantiaMenuItem_tipoGarantiaProCreMonIfiCollection}" icon="ui-icon-search"  action="#{tipoGarantiaController.navigateTipoGarantiaProCreMonIfiCollection}" disabled="#{empty tipoGarantiaController.selected.tipoGarantiaProCreMonIfiCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoGarantiaController.items}"
+                         var="item"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{tipoGarantiaController.selected}">
+
+                <p:ajax event="rowSelect"   update=":TipoGarantiaListForm:createButton :TipoGarantiaListForm:viewButton :TipoGarantiaListForm:editButton :TipoGarantiaListForm:deleteButton :TipoGarantiaListForm:TipoGarantiaDataTableContextMenu" listener="#{tipoGarantiaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":TipoGarantiaListForm:createButton :TipoGarantiaListForm:viewButton :TipoGarantiaListForm:editButton :TipoGarantiaListForm:deleteButton :TipoGarantiaListForm:TipoGarantiaDataTableContextMenu" listener="#{tipoGarantiaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoGarantiaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoGarantiaTitle_codigo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoGarantiaTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoGarantiaTitle_eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{tipoGarantiaController.prepareCreate}" update=":TipoGarantiaCreateForm" oncomplete="TipoGarantiaCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":TipoGarantiaViewForm" oncomplete="TipoGarantiaViewDialog.show()" disabled="#{empty tipoGarantiaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":TipoGarantiaEditForm" oncomplete="TipoGarantiaEditDialog.show()" disabled="#{empty tipoGarantiaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{tipoGarantiaController.delete}" update=":growl,datalist" disabled="#{empty tipoGarantiaController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

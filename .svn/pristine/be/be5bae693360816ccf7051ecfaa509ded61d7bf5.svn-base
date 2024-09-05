@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="listaNotificacionesDlg"
+                  widgetVar="listaNotificacionesDialog" 
+                  modal="true" 
+                  resizable="false"
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel id="etiRecibirLab" 
+                               value="#{notificacionCreditoController.ubicaEtiquetaRecibir}"
+                               styleClass="encabezadosDialog"/>                                                                                        
+            </f:facet>
+
+            <f:facet name="header" >
+                <h:outputLabel id="etiAnularLab" 
+                               value="#{notificacionCreditoController.ubicaEtiquetaAnular}"
+                               styleClass="encabezadosDialog"/>                                                                                        
+            </f:facet>
+
+            <p:growl id="growlNotificaciones" autoUpdate="true" showSummary="false" showDetail="true" life="4000" /> 
+
+            <h:form id="listaNotificacionesForm">
+
+                <p:panelGrid columns="1">
+
+                    <p:panel id="datosNotiPan" header="#{propiedadesEtiquetaBL.SeleccioneNotificacion}" style="border: transparent; font-size: 9px;border: #FFFFFF">
+
+                        <p:dataTable id="listaNotificacionesTbl" 
+                                     value="#{notificacionCreditoController.itemsNotificacionCredito}"
+                                     var="item"   
+                                     selectionMode="single" 
+                                     selection="#{notificacionCreditoController.notificacionCreditoSel}"
+                                     rowKey="#{item.codigo}"
+                                     paginator="true"
+                                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                     rows="10"
+                                     >
+
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.NotificacionesDeCredito}"/>
+                            </f:facet>
+
+                            <p:ajax event="rowSelect"   update=":listaNotificacionesForm:recibirNotificacionBot :listaNotificacionesForm:anularNotificacionBot"/>
+                            <p:ajax event="rowUnselect" update=":listaNotificacionesForm:recibirNotificacionBot :listaNotificacionesForm:anularNotificacionBot"/>
+
+                            <p:column sortBy="#{item.codigo}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.codigo}"/>
+                            </p:column>
+                            
+                            <p:column sortBy="#{item.cuota}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Cuota}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cuota}"/>
+                            </p:column>
+
+                            <p:column sortBy="#{item.tipoNotificacionIfip.tipoNotificacion.nombre}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.TipoNotificacion}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipoNotificacionIfip.tipoNotificacion.nombre}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                                </f:facet>
+                                <p:selectOneMenu value="#{item.estado}" 
+                                                 disabled="true">                              
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Emitido}" itemValue="E" />  
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Recibido}" itemValue="R" />                           
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Anulado}" itemValue="A" />                           
+                                </p:selectOneMenu>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.EsParaGarante}"/>
+                                </f:facet>
+                                <p:selectOneMenu value="#{item.esParaGarante}" 
+                                                 disabled="true">                              
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                           
+                                </p:selectOneMenu>
+                            </p:column>
+
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Abono}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.abono}"/>
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.valor}"/>
+                            </p:column>
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Saldo}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.saldo}"/>
+                            </p:column>
+
+                        </p:dataTable>  
+
+                    </p:panel>
+
+
+                    <p:panelGrid columns="2" style="font-size: 10px; background: #FFFFFF;border: transparent">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                                        for="observaciones" 
+                                        styleClass="etiquetaRequerida"/>
+                         <p:inputText id="observaciones" 
+                                      value="#{notificacionCreditoController.observaciones}"
+                                      required="true"
+                                      style="width: 350px !important; height: 30px !important"
+                                      maxlength="300"/>
+
+                        <p:panel id="recibirPan" style="background: #FFFFFF; border: transparent" visible="#{notificacionCreditoController.visibleRecibirPan}">                       
+                            <p:commandButton id="recibirNotificacionBot" 
+                                             value="#{propiedadesEtiquetaBL.RecibirNotificacion}"   
+                                             actionListener="#{notificacionCreditoController.recibirNotificacion()}"                                
+                                             disabled="#{(!empty notificacionCreditoController.notificacionCreditoSel) ? false : true}"
+                                             onclick="procesandoDlg.show()"
+                                             update=":mensaje,:listaNotificacionesForm,:listaNotificacionesForm:listaNotificacionesTbl"
+                                             oncomplete="procesandoDlg.hide()"/>                       
+                        </p:panel> 
+
+                        <p:panel id="anularPan"  style="background: #FFFFFF; border: transparent" visible="#{notificacionCreditoController.visibleAnularPan}">
+                            <p:commandButton id="anularNotificacionBot"
+                                             value="#{propiedadesEtiquetaBL.AnularNotificacion}"   
+                                             actionListener="#{notificacionCreditoController.guardaAnulaNotificacion()}"                                
+                                             disabled="#{(!empty notificacionCreditoController.notificacionCreditoSel) ? false : true}"
+                                             onclick="procesandoDlg.show()"
+                                             update=":mensaje,:listaNotificacionesForm,:listaNotificacionesForm:listaNotificacionesTbl"
+                                             oncomplete="procesandoDlg.hide()"/>
+
+                        </p:panel>
+                    </p:panelGrid>  
+
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

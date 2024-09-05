@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ReporteViewDlg" widgetVar="ReporteViewDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.ViewReporteTitle}" closeOnEscape="true">
+
+            <h:form id="ReporteViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{reporteController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewReporteLabel_codigo}"/>
+                        <h:outputText value="#{reporteController.selected.codigo}" title="#{propiedadesEtiquetaBL.ViewReporteTitle_codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewReporteLabel_nombre}"/>
+                        <h:outputText value="#{reporteController.selected.nombre}" title="#{propiedadesEtiquetaBL.ViewReporteTitle_nombre}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewReporteLabel_descripcion}"/>
+                        <h:outputText value="#{reporteController.selected.descripcion}" title="#{propiedadesEtiquetaBL.ViewReporteTitle_descripcion}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.ViewReporteLabel_eliminado}"/>
+                        <h:outputText value="#{reporteController.selected.eliminado}" title="#{propiedadesEtiquetaBL.ViewReporteTitle_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Close}" onclick="ReporteViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

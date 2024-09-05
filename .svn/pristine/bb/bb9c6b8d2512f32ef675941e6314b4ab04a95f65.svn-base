@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:dialog closable="true"
+              closeOnEscape="false"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="confirmacionProvisionDlg"                  
+              modal="true"
+              widgetVar="confirmacionProvisionDialog">     
+
+        <f:facet name="header">
+                <h:outputLabel id="confirmacionProvisionLab"
+                               value="#{propiedadesEtiquetaBL.ConfirmacionExisteProvision}"
+                               styleClass="encabezadosDialog"/>
+        </f:facet>
+        <h:form id="confirmacionProvisionFor" style="margin:0 auto; width:25%">
+            <h:panelGrid columns="2" style="text-align: center; size: 10px;">
+                <p:commandButton value="#{propiedadesEtiquetaBL.Aceptar}"
+                                 actionListener="#{provisionActivosRiesgoController.guardarProvision}"
+                                 oncomplete="confirmacionProvisionDialog.hide()"
+                                 update=":barraForm:datalist,:barraForm:datalistContables,:barraForm:totalPanel"/>
+                <p:commandButton value="#{propiedadesEtiquetaBL.Cancelar}"
+                                 onclick="confirmacionProvisionDialog.hide()"/>
+            </h:panelGrid>
+        </h:form>
+    </p:dialog> 
+    
+</ui:composition>

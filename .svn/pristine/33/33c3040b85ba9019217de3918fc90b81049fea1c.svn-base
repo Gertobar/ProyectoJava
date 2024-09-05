@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ComputadorListForm">
+
+        
+
+        <p:dataTable id="datalist" value="#{computadorController.itemsComputador}" var="item"
+                         selectionMode="single" 
+                         selection="#{computadorController.selected}"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+                
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Computador}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+
+         
+            <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+                <p:column sortBy="#{item.rutaImpresora}" filterBy="#{item.rutaImpresora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.RutaImpresora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rutaImpresora}"/>
+                </p:column>
+                <p:column sortBy="#{item.direccionIp}" filterBy="#{item.direccionIp}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.DireccionIp}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.direccionIp}"/>
+                </p:column>
+                <p:column sortBy="#{item.direccionMac}" filterBy="#{item.direccionMac}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.DireccionMac}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.direccionMac}"/>
+                </p:column>
+              
+               
+                <p:column sortBy="#{item.codigoIfipAgenciaPertenece.codigo}" 
+                          filterBy="#{item.codigoIfipAgenciaPertenece.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoIfipAgenciaPertenece}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoIfipAgenciaPertenece.nombre.toString()}"/>
+                </p:column>
+                <p:column sortBy="#{item.codigoIfip.codigo}" filterBy="#{item.codigoIfip.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoIfip}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoIfip.nombre.toString()}"/>
+                </p:column>
+                <p:column sortBy="#{item.codigoDestinoComputador.codigo}" filterBy="#{item.codigoDestinoComputador.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoDestinoComputador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoDestinoComputador.nombre.toString()}"/>
+                </p:column>
+               <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}"> 
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                      
+                </p:selectOneMenu>
+            </p:column>
+              
+
+            </p:dataTable>
+
+        
+
+    </h:form>
+
+</ui:composition>

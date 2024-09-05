@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProveedorNuevoDlg" 
+                  widgetVar="ProveedorNuevoDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true" 
+                  style="height: 500px; width: 700px"
+                  onShow="personaWizer.loadStep(personaWizer.cfg.steps[0], true)">
+                  
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Proveedor}" styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+
+            <h:form id="ProveedorNuevoFor">
+
+                <p:wizard id="personaWiz"  
+                          widgetVar="personaWizer" 
+                          flowListener="#{proveedorBean.sigueProcesoProveedor}"
+                          style="font-size: 10px; margin-top: 0px;" 
+                          showStepStatus="true"   
+                          showNavBar="true"
+                          backLabel="#{propiedadesEtiquetaBL.Atras}"
+                          nextLabel="#{propiedadesEtiquetaBL.Siguinte}"
+                          >  
+
+                    <p:tab id="datosPersonaTab" 
+                           title="#{propiedadesEtiquetaBL.Datos}" 
+                           titleStyle="font-size: 10px">                         
+                        <ui:include src="datosPersona.xhtml"/> 
+                    </p:tab> 
+ 
+                    <p:tab id="datosProveedorTab" 
+                           title="#{propiedadesEtiquetaBL.Proveedor}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="datosProveedor.xhtml"/> 
+                    </p:tab>
+
+                    <p:tab id="documentosProveedorTab" 
+                           title="#{propiedadesEtiquetaBL.DocumentosProveedor}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="datosProveedorDocumentos.xhtml"/> 
+                    </p:tab>
+
+                    <p:tab id="pruebaCuentaFinTab" 
+                           title="#{propiedadesEtiquetaBL.datosProveedorCuentaEntFin}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="datosProveedorCuentaEntFin.xhtml"/> 
+                    </p:tab>
+                    
+                    <p:tab id="confirmacionTab" 
+                           title="#{propiedadesEtiquetaBL.Confirmacion}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="confirmacion.xhtml"/> 
+                    </p:tab> 
+                </p:wizard>  
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+

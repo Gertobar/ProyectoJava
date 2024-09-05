@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog id="PagoAvanceLineaCreditoTotalDlg"
+                  widgetVar="PagoAvanceLineaCreditoTotalDialog"
+                  modal="true"
+                  resizable="false"
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.PagoAvanceLineaCreditoTotal}" style="font-size: 15px"/>
+            </f:facet>
+            <h:form id="PagoLineaCreditoTotalForm">
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+                    <h:panelGrid columns="1">
+                        <p:panel>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.FormaPago}"/>
+                            </f:facet>
+                            <p:panel>
+                                <h:panelGrid  columns="2"
+                                              columnClasses="label, value" styleClass="grid" style="text-align: left">
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{propiedadesEtiquetaBL.Socio}: "
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText value="#{lineaCreditoPagoAvanceController.lineaCreditoSolicitud.socio.codigoPersona.nombreCompleto}"
+                                                      style="font-weight: normal" />
+                                        <br/>
+                                        <h:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}: "
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText value="#{lineaCreditoPagoAvanceController.lineaCreditoSolicitud.cuentaDebito.numero}"
+                                                      style="font-weight: normal"/>
+                                        <br/>
+                                        <h:outputLabel value="#{propiedadesEtiquetaBL.SaldoDisponible}: "
+                                                       styleClass="etiqueta"/>
+                                        <h:outputText value="#{lineaCreditoPagoAvanceController.lineaCreditoSolicitud.cuentaDebito.saldoDisponible}"
+                                                      style="font-weight: normal">
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                        </h:outputText>
+                                    </f:facet>
+                                </h:panelGrid>
+                            </p:panel>
+                            <p:separator/>
+                            <h:panelGrid columns="2"
+                                         styleClass="grid"> 
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Avance}"
+                                               for="avance"
+                                               styleClass="etiquetaRequerida"/>
+                                <p:selectOneMenu id="avance"
+                                                value="#{lineaCreditoPagoAvanceController.avanceLineaCredito}"
+                                                requiredMessage="#{propiedadesEtiquetaBL.Avance} - #{propiedadesMensajesBL.CampoRequerido}"
+                                                style="width: 145px"
+                                                widgetVar="sol">
+                                   <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                   <f:selectItems value="#{lineaCreditoPagoAvanceController.listaAvanceLineaCredito}"
+                                                  var="avanceItem"
+                                                  itemValue="#{avanceItem}"
+                                                  itemLabel="#{avanceItem.codigo} - #{avanceItem.fechaConcecion} - #{avanceItem.monto}" />
+                                   <f:converter binding="#{avanceLineaCreditoConverter}"/>
+                                   <p:ajax event="change" 
+                                           listener="#{lineaCreditoPagoAvanceController.cambiaAvanceLineaCredito}"
+                                           update="@this,valorPago,pago,capital,interes,total,pagoAvanceLineaCreditoTotalBot"/>s
+                               </p:selectOneMenu>
+                                <p:outputLabel id="etiquetaValor"
+                                               value="#{propiedadesEtiquetaBL.Valor}"
+                                               for="valorPago"
+                                               styleClass="etiquetaRequerida"/>
+                                <p:inputText id="valorPago"
+                                             value="#{lineaCreditoPagoAvanceController.valorPago}"
+                                             title="#{propiedadesEtiquetaBL.Valor}"
+                                             validator="validaSoloValor">
+                                    <p:ajax event="blur"
+                                            listener="#{lineaCreditoPagoAvanceController.cambiaValorTipoPagoAvanceTotal}"
+                                            update="@this,pago,capital,interes,total,pagoAvanceLineaCreditoTotalBot" />
+                                </p:inputText>
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.FormaPago}"
+                                               for="pago"
+                                               styleClass="etiquetaRequerida"/>
+                                <p:selectOneMenu id="pago"
+                                                 value="#{lineaCreditoPagoAvanceController.formaPago}"
+                                                 required="true"
+                                                 requiredMessage="#{propiedadesEtiquetaBL.FormaPago} - #{propiedadesMensajesBL.CampoRequerido}">
+                                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}" itemValue="S"/>
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.IngresoCaja}" itemValue="I"/>
+                                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.DebitoCuenta}" itemValue="D"/>
+                                    <p:ajax event="change"
+                                            listener="#{lineaCreditoPagoAvanceController.cambiaFormaPagoAvanceTotal}"
+                                            update="@this,capital,interes,total,pagoAvanceLineaCreditoTotalBot"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:separator/>
+                        <p:panel>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.DetallePagoLinea}"/>
+                            </f:facet>
+                            <h:panelGrid columns="2"
+                                         styleClass="grid"
+                                         style="font-size: 10px">
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Capital}"
+                                               for="capital"
+                                               styleClass="etiquetaRequerida"/>
+                                <p:inputText id="capital"
+                                             value="#{lineaCreditoPagoAvanceController.pagoAvanceLineaCredito.capital}"
+                                             title="#{propiedadesTituloBL.Capital}"
+                                             readonly="true"/>
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Interes}"
+                                               for="interes"
+                                               styleClass="etiquetaRequerida"/>
+                                <p:inputText id="interes"
+                                             value="#{lineaCreditoPagoAvanceController.pagoAvanceLineaCredito.interes}"
+                                             title="#{propiedadesTituloBL.Interes}"
+                                             readonly="true"/>
+                                <p:outputLabel value="#{propiedadesEtiquetaBL.Total}"
+                                               for="total"
+                                               styleClass="etiquetaRequerida"/>
+                                <p:inputText id="total"
+                                             value="#{lineaCreditoPagoAvanceController.pagoAvanceLineaCredito.total}"
+                                             title="#{propiedadesTituloBL.Total}"
+                                             readonly="true"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:panelGrid>
+                    <p:separator/>
+                    <h:panelGrid columns="2">
+                        <p:commandButton id="pagoAvanceLineaCreditoTotalBot"
+                                         actionListener="#{lineaCreditoPagoAvanceController.realizaPagoAvanceLineaCreditoTotal}"
+                                         disabled="#{!lineaCreditoPagoAvanceController.habilitaBotonPagoAvanceTotal}"
+                                         value="#{propiedadesEtiquetaBL.Guardar}"
+                                         icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                         onclick="procesandoDlg.show();"
+                                         oncomplete="procesandoDlg.hide();"
+                                         update=":lineaCreditoSolicitudListForm:listaLineas,:criterioForm:nombreSocio">
+                            <p:confirm message="#{propiedadesMensajesBL.SeguroAvanceRealizarPagoTotalLineaCredito}"
+                                       icon="ui-icon-info"
+                                       header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                        </p:commandButton>
+                    </h:panelGrid>
+                </h:panelGroup>
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Si}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.No}" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

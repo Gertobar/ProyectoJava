@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Personas Naturales --> 
+    <p:panel id="personaNatPan"  
+             widgetVar="personaNatPanWidgetVar"
+             header="#{propiedadesEtiquetaBL.PersonaNatural}" 
+             style="border: 0; height: 500px; width: 700px">
+        <p:focus context="personaNatPan"/>   
+        <!-- PanelGrid para Personas Naturales --> 
+        <h:panelGrid id="personaNatGri" columns="3" columnClasses="label, value, validator" styleClass="grid">
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoPersona}" 
+                           for="codigoTipoPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoTipoPerNat" 
+                             value="#{personaGeneralBean.persona.codigoTipoPersona}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.TipoPersona} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsTipoPersona}"
+                               var="codigoTipoPerNatItem"
+                               itemValue="#{codigoTipoPerNatItem}"
+                               itemLabel="#{codigoTipoPerNatItem.nombre}"
+                               />
+                <p:ajax update="codigoTipoIdePerNat,identificacionPerNat"  
+                        listener="#{personaGeneralBean.cambiaTipoPersona()}" />  
+
+                <f:converter binding="#{tipoPersonaConverter}"/>
+
+            </p:selectOneMenu>  
+            <h:message for="codigoTipoPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoIdentificacion}" 
+                           for="codigoTipoIdePerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoTipoIdePerNat" 
+                             value="#{personaGeneralBean.persona.codigoTipoIdentificacion}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.TipoIdentificacion} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsTipoIdentificacion}"
+                               var="codigoTipoIdePerNatItem"
+                               itemValue="#{codigoTipoIdePerNatItem}"
+                               itemLabel="#{codigoTipoIdePerNatItem.nombre}"
+                               />
+                <p:ajax update="identificacionPerNat"
+                        listener="#{personaGeneralBean.cambiaTipoIdentificacion()}" />  
+
+                <f:converter binding="#{tipoIdentificacionConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoTipoIdePerNat" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                           for="identificacionPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{personaGeneralBean.persona.identificacion}"
+                         id="identificacionPerNat"
+                         required="true"
+                         size="40"
+                         requiredMessage="#{propiedadesEtiquetaBL.Identificacion} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:validator validatorId="identificacionSocioValidador"/>                    
+                <p:ajax event="blur"  
+                        update=":mensaje,identificacionPerNat,:tipoUAF"
+                        listener="#{personaGeneralBean.validaPersonaNaturalIngresada}" />    
+
+                <f:attribute name="siglasIdentificacion" 
+                             value="#{personaGeneralBean.siglasIdentificacion}" />                
+            </p:inputText>                 
+
+            <h:message for="identificacionPerNat" styleClass="invalido" />
+            <p:outputLabel value="#{propiedadesEtiquetaBL.PrimerApellido}" 
+                           for="primerApellidoPerNat"
+                           styleClass="etiquetaRequerida"/>
+
+            <p:inputText value="#{personaGeneralBean.personaNatural.primerApellido}"
+                         id="primerApellidoPerNat"
+                         size="40"
+                         onblur="value = value.toUpperCase()"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.PrimerApellido} - #{propiedadesMensajesBL.CampoRequerido}">
+                <p:ajax event="blur"
+                        update="@this"
+                        /> 
+            </p:inputText>
+
+            <h:message for="primerApellidoPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.SegundoApellido}" 
+                           for="segundoApellidoPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{personaGeneralBean.personaNatural.segundoApellido}"
+                         id="segundoApellidoPerNat"
+                         size="40"
+                         onblur="value = value.toUpperCase()">
+                <p:ajax event="blur"  
+                        update="@this"
+                        /> 
+            </p:inputText>
+            <h:message for="segundoApellidoPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Nombres}" 
+                           for="nombresPerNat"
+                           styleClass="etiquetaRequerida"/>
+
+
+            <p:inputText value="#{personaGeneralBean.personaNatural.nombres}"
+                         id="nombresPerNat"
+                         size="40"
+                         onblur="value = value.toUpperCase()"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.Nombres} - #{propiedadesMensajesBL.CampoRequerido}">
+                <p:ajax event="blur"
+                        update=":mensaje,nombresPerNat"
+                        listener="#{personaGeneralBean.validacionUAF}"
+                        />
+            </p:inputText>
+            <h:message for="nombresPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.PaisNacimiento}" 
+                           for="codigoUbiGeoPaiPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoUbiGeoPaiPerNat" 
+                             value="#{personaGeneralBean.ubiGeoPai}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.PaisNacimiento} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsUbiGeoPai}"
+                               var="UbiGeoPaiItemPerNat"
+                               itemValue="#{UbiGeoPaiItemPerNat}"
+                               itemLabel="#{UbiGeoPaiItemPerNat.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoProPerNat,codigoUbiGeoCiuPerNat,codigoUbiGeoParPerNat"  
+                        listener="#{personaGeneralBean.cambiaUbiGeoPai()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoUbiGeoPaiPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ProviniciaNacmiento}" 
+                           for="codigoUbiGeoProPerNat"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoProPerNat" 
+                             value="#{personaGeneralBean.ubiGeoPro}" 
+                             required="false" 
+                             requiredMessage="#{propiedadesEtiquetaBL.ProviniciaNacmiento} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsUbiGeoPro}"
+                               var="UbiGeoProItemPerNat"
+                               itemValue="#{UbiGeoProItemPerNat}"
+                               itemLabel="#{UbiGeoProItemPerNat.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoCiuPerNat,codigoUbiGeoParPerNat"  
+                        listener="#{personaGeneralBean.cambiaUbiGeoPro()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoUbiGeoProPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.CiudadNacimiento}" 
+                           for="codigoUbiGeoCiuPerNat"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoCiuPerNat" 
+                             value="#{personaGeneralBean.ubiGeoCiu}"
+                             filter="true" 
+                             filterMatchMode="startsWith"                             
+                             required="false" 
+                             requiredMessage="#{propiedadesEtiquetaBL.CiudadNacimiento} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsUbiGeoCiu}"
+                               var="UbiGeoCiuItemPerNat"
+                               itemValue="#{UbiGeoCiuItemPerNat}"
+                               itemLabel="#{UbiGeoCiuItemPerNat.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoParPerNat"  
+                        listener="#{personaGeneralBean.cambiaUbiGeoCiu()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>       
+            <h:message for="codigoUbiGeoCiuPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ParroquiaNacimiento}" 
+                           for="codigoUbiGeoParPerNat"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoParPerNat" 
+                             value="#{personaGeneralBean.ubiGeoPar}" 
+                             required="false" 
+                             filter="true" 
+                             filterMatchMode="startsWith"
+                             requiredMessage="#{propiedadesEtiquetaBL.ParroquiaNacimiento} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsUbiGeoPar}"
+                               var="UbiGeoParItemPerNat"
+                               itemValue="#{UbiGeoParItemPerNat}"
+                               itemLabel="#{UbiGeoParItemPerNat.nombre}"
+                               />
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoUbiGeoParPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaNacimiento}" 
+                           for="fechaNacimientoPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:calendar  value="#{personaGeneralBean.personaNatural.fechaNacimiento}"
+                         pattern="dd/MM/yyyy"
+                         id="fechaNacimientoPerNat" 
+                         locale="es"                         
+                         required="true" 
+                         maxdate="#{personaGeneralBean.fechaActual}"
+                         requiredMessage="#{propiedadesEtiquetaBL.FechaNacimiento} - #{propiedadesMensajesBL.CampoRequerido}"                         
+                         >   
+            </p:calendar>
+            <h:message for="fechaNacimientoPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Profesion}" 
+                           for="codigoProfesionPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoProfesionPerNat" 
+                             value="#{personaGeneralBean.personaNatural.codigoProfesion}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.Profesion} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsProfesion}"
+                               var="profesionItemPerNat"
+                               itemValue="#{profesionItemPerNat}"
+                               itemLabel="#{profesionItemPerNat.nombre}"
+                               />
+                <f:converter binding="#{profesionConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoProfesionPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Instruccion}" 
+                           for="codigoInstruccionPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoInstruccionPerNat" 
+                             value="#{personaGeneralBean.personaNatural.codigoInstruccion}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.Instruccion} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsInstruccion}"
+                               var="instruccionItemPerNat"
+                               itemValue="#{instruccionItemPerNat}"
+                               itemLabel="#{instruccionItemPerNat.nombre}"
+                               />
+                <f:converter binding="#{instruccionConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoInstruccionPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FuenteIngresos}" 
+                           for="codigoFuenteIngresosPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoFuenteIngresosPerNat" 
+                             value="#{personaGeneralBean.personaNatural.codigoFuenteIngresos}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.FuenteIngresos} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsFuenteIngresos}"
+                               var="fiuenteIngresosItemPerNat"
+                               itemValue="#{fiuenteIngresosItemPerNat}"
+                               itemLabel="#{fiuenteIngresosItemPerNat.nombre}"
+                               />
+                <f:converter binding="#{fuenteIngresosConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoFuenteIngresosPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Ingresos}" 
+                           for="ingresosPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{personaGeneralBean.personaNatural.ingresos}"
+                         id="ingresosPerNat"                         
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.Ingresos} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                <f:validateLongRange minimum="0"/>
+            </p:inputText>
+            <h:message for="ingresosPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.EstadoCivil}" 
+                           for="codigoEstadoCivilPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoEstadoCivilPerNat" 
+                             value="#{personaGeneralBean.personaNatural.codigoEstadoCivil}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.EstadoCivil} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{personaGeneralBean.itemsEstadoCivil}"
+                               var="estadoCivilItemPerNat"
+                               itemValue="#{estadoCivilItemPerNat}"
+                               itemLabel="#{estadoCivilItemPerNat.nombre}"
+                               />
+                <f:converter binding="#{estadoCivilConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoEstadoCivilPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.CargasFamiliares}" 
+                           for="cargasFamiliaresPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{personaGeneralBean.personaNatural.cargasFamiliares}"
+                         id="cargasFamiliaresPerNat"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.CargasFamiliares} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:convertNumber integerOnly="true"/>
+                <f:validateLongRange minimum="0"/>
+            </p:inputText>
+            <h:message for="cargasFamiliaresPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Sexo}" 
+                           for="sexoPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="sexoPerNat" 
+                             value="#{personaGeneralBean.personaNatural.sexo}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.Sexo} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Masculino}" itemValue="M"/>
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Femenino}" itemValue="F"/>
+            </p:selectOneMenu>
+            <h:message for="sexoPerNat"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ExoneradoSri}" 
+                           for="exoneradoSriPerNat"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="exoneradoSriPerNat" 
+                             value="#{personaGeneralBean.personaNatural.exoneradoSri}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.ExoneradoSri} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+            </p:selectOneMenu>
+            <h:message for="exoneradoSriPerNat"  styleClass="invalido"/>
+
+        </h:panelGrid>
+    </p:panel>
+
+</ui:composition>

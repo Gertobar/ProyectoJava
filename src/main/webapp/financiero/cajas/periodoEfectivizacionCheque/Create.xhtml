@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PeriodoEfectivizacionChequeCreateDlg" widgetVar="PeriodoEfectivizacionChequeCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreatePeriodoEfectivizacionChequeTitle}" closeOnEscape="true">
+
+            <h:form id="PeriodoEfectivizacionChequeCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreatePeriodoEfectivizacionChequeLabel_codigoPeriodicidad}" for="codigoPeriodicidad" />
+                        <p:inputText id="codigoPeriodicidad" value="#{periodoEfectivizacionChequeController.selected.codigoPeriodicidad}" title="#{myBundle.CreatePeriodoEfectivizacionChequeTitle_codigoPeriodicidad}" required="true" requiredMessage="#{myBundle.CreatePeriodoEfectivizacionChequeRequiredMessage_codigoPeriodicidad}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePeriodoEfectivizacionChequeLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{periodoEfectivizacionChequeController.selected.nombre}" title="#{myBundle.CreatePeriodoEfectivizacionChequeTitle_nombre}" required="true" requiredMessage="#{myBundle.CreatePeriodoEfectivizacionChequeRequiredMessage_nombre}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePeriodoEfectivizacionChequeLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{periodoEfectivizacionChequeController.selected.valor}" title="#{myBundle.CreatePeriodoEfectivizacionChequeTitle_valor}" required="true" requiredMessage="#{myBundle.CreatePeriodoEfectivizacionChequeRequiredMessage_valor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePeriodoEfectivizacionChequeLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{periodoEfectivizacionChequeController.selected.eliminado}" title="#{myBundle.CreatePeriodoEfectivizacionChequeTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreatePeriodoEfectivizacionChequeRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{periodoEfectivizacionChequeController.saveNew}" value="#{myBundle.Save}" update="display,:PeriodoEfectivizacionChequeListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PeriodoEfectivizacionChequeCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PeriodoEfectivizacionChequeCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

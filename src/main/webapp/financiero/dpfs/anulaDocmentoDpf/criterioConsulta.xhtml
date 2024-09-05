@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+
+        <h:panelGrid columns="6">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                           for="codigoMoneda"  styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoMoneda" 
+                             value="#{talonarioDocumentoDpfController.moneda}"
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                
+                <f:selectItems value="#{talonarioDocumentoDpfController.itemsMoneda}"
+                               var="varListaIfipMoneda"
+                               itemValue="#{varListaIfipMoneda}"
+                               itemLabel="#{varListaIfipMoneda.nombre.toString()}"
+                               />               
+                <f:converter binding="#{monedaConverter}"/>
+            </p:selectOneMenu>
+            <h:outputText value="#{propiedadesEtiquetaBL.InicioSerie}"
+                          styleClass="etiquetaRequerida"/>
+            <p:inputText id="inicioSerie"
+                         value="#{talonarioDocumentoDpfController.inicioSerie}"                         
+                         size="6"
+                         />
+            <h:outputText value="#{propiedadesEtiquetaBL.FinSerie}"
+                          styleClass="etiquetaRequerida"/>
+            <p:inputText id="finSerie"
+                         value="#{talonarioDocumentoDpfController.finSerie}"
+                         size="6"
+                         />
+        </h:panelGrid> 
+
+    </h:panelGrid>
+
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

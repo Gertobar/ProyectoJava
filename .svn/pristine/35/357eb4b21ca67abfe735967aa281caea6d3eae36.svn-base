@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConceptoTransaccionProViewDlg" widgetVar="ConceptoTransaccionProViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewConceptoTransaccionProTitle}" closeOnEscape="true">
+
+            <h:form id="ConceptoTransaccionProViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{conceptoTransaccionProController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewConceptoTransaccionProLabel_mostrar}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.mostrar}" title="#{myBundle.ViewConceptoTransaccionProTitle_mostrar}"/>
+
+                        <h:outputText value="#{myBundle.ViewConceptoTransaccionProLabel_registradoPor}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.registradoPor}" title="#{myBundle.ViewConceptoTransaccionProTitle_registradoPor}"/>
+
+                        <h:outputText value="#{myBundle.ViewConceptoTransaccionProLabel_fechaRegistro}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.fechaRegistro}" title="#{myBundle.ViewConceptoTransaccionProTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewConceptoTransaccionProLabel_eliminado}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.eliminado}" title="#{myBundle.ViewConceptoTransaccionProTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewConceptoTransaccionProLabel_producto}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.producto.productoPK}"/>
+
+                        <h:outputText value="#{myBundle.ViewConceptoTransaccionProLabel_conceptoTransaccion}"/>
+                        <h:outputText value="#{conceptoTransaccionProController.selected.conceptoTransaccion.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="ConceptoTransaccionProViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

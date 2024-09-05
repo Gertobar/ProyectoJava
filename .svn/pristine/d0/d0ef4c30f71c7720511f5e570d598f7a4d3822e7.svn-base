@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comprobante" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Detalle" uuid="3d80251e-0e4e-4b18-aa7d-aba9eb50b3e9">
+		<parameter name="codIfip" class="java.lang.Long"/>
+		<parameter name="fecCorte" class="java.util.Date"/>
+		<queryString>
+			<![CDATA[SELECT fecha,    
+       estado_cartera,
+       tipo_cartera,
+       maduracion,
+       orden_rango,
+       rango,
+       SUM(capital) capital/*,
+       SUM(interes) interes*/
+FROM   ( SELECT  t.fecha,
+                 i.nombre ifip,
+                 a.nombre agencia,
+                 DECODE( sie.estado_operacion,'N','NORMAL','V','NOVADA','E','REESTRUCTURADA','F','REFINANCIADA' ) estado_cartera,
+                 tc.nombre tipo_cartera,
+                 tm.nombre maduracion,
+                 CASE WHEN  t.codigo_tipo_cartera in (2,7) THEN
+                      CASE WHEN t.dias_maduracion <= 30 THEN '1-30'
+                          WHEN t.dias_maduracion BETWEEN 31 AND 90 THEN '31-90'
+                          WHEN t.dias_maduracion BETWEEN 91 AND 180 THEN '91-180'
+                          WHEN t.dias_maduracion BETWEEN 181 AND 270 AND t.codigo_tipo_maduracion = 'N'  THEN '181-270'
+                          WHEN t.dias_maduracion BETWEEN 181 AND 360 AND t.codigo_tipo_maduracion <> 'N'  THEN '181-360'
+                          WHEN t.dias_maduracion > 270 AND t.codigo_tipo_maduracion = 'N'  THEN '>270'
+                          WHEN t.dias_maduracion > 360 AND t.codigo_tipo_maduracion <> 'N'  THEN '>360' 
+                       END
+                  ELSE
+                      CASE WHEN t.dias_maduracion <= 30 THEN '1-30'
+                          WHEN t.dias_maduracion BETWEEN 31 AND 90 THEN '31-90'
+                          WHEN t.dias_maduracion BETWEEN 91 AND 180 THEN '91-180'
+                          WHEN t.dias_maduracion BETWEEN 181 AND 360 THEN '181-360'
+                          WHEN t.dias_maduracion > 360 THEN '>360' END
+                  END                    rango,
+                  CASE WHEN  t.codigo_tipo_cartera in (2,7) THEN
+                      CASE WHEN t.dias_maduracion <= 30 THEN 1
+                          WHEN t.dias_maduracion BETWEEN 31 AND 90 THEN 2
+                          WHEN t.dias_maduracion BETWEEN 91 AND 180 THEN 3
+                          WHEN t.dias_maduracion BETWEEN 181 AND 270 AND t.codigo_tipo_maduracion = 'N'  THEN 4
+                          WHEN t.dias_maduracion BETWEEN 181 AND 360 AND t.codigo_tipo_maduracion <> 'N'  THEN 4
+                          WHEN t.dias_maduracion > 270 AND t.codigo_tipo_maduracion = 'N'  THEN 5
+                          WHEN t.dias_maduracion > 360 AND t.codigo_tipo_maduracion <> 'N'  THEN 5
+                       END
+                  ELSE
+                      CASE WHEN t.dias_maduracion <= 30 THEN 1
+                          WHEN t.dias_maduracion BETWEEN 31 AND 90 THEN 2
+                          WHEN t.dias_maduracion BETWEEN 91 AND 180 THEN 3
+                          WHEN t.dias_maduracion BETWEEN 181 AND 360 THEN 4
+                          WHEN t.dias_maduracion > 360 THEN 5 END
+                  END                    orden_rango,  
+                 t.capital,
+                 t.interes
+          FROM   mks_historicos.tablas_creditos t,
+                 mks_ifips.ifip i,
+                 mks_ifips.ifip_agencia a,
+                 mks_creditos.tipo_cartera tc,
+                 mks_creditos.tipo_maduracion tm,
+                 mks_creditos.solicitud sol,
+                 mks_creditos.solicitud_informacion_extra sie
+          WHERE  TRUNC(t.fecha) = TRUNC($P{fecCorte})
+          AND    t.numero_credito = sol.numero
+          AND    t.codigo_ifip = sol.codigo_ifip
+          AND    sol.numero = sie.numero_credito
+          AND    sol.codigo_ifip = sie.codigo_ifip
+          AND    t.codigo_ifip = $P{codIfip}
+          AND    t.codigo_ifip = i.codigo
+          AND    t.codigo_ifip = a.codigo_ifip
+          AND    t.codigo_ifip_agencia = a.codigo
+          AND    t.codigo_tipo_cartera = tc.codigo
+          AND    t.codigo_tipo_maduracion = tm.codigo
+          AND    i.eliminado = 'N'
+          AND    a.eliminado = 'N'
+          --AND    tc.eliminado = 'N'
+          AND    tm.eliminado = 'N' )
+GROUP BY fecha, estado_cartera, tipo_cartera, maduracion, orden_rango, rango
+ORDER BY fecha, estado_cartera, tipo_cartera, CASE WHEN maduracion = 'VIGENTE' THEN 1 
+                                   WHEN maduracion = 'NO DEVENGA INTERES' THEN 2
+                                   ELSE 3 END , tipo_cartera, orden_rango , rango]]>
+		</queryString>
+		<field name="FECHA" class="java.sql.Timestamp"/>
+                <field name="ESTADO_CARTERA" class="java.lang.String"/>
+		<field name="TIPO_CARTERA" class="java.lang.String"/>
+		<field name="MADURACION" class="java.lang.String"/>
+		<field name="ORDEN_RANGO" class="java.math.BigDecimal"/>
+		<field name="RANGO" class="java.lang.String"/>
+		<field name="CAPITAL" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<parameter name="fechaCorte" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT  tti.nombre||' '||ifi.nombre           "IFIP",
+        ifi.path_imagen                       "IMAGEN"
+
+FROM    mks_ifips.ifip                         ifi,
+        mks_ifips.tipo_ifip                    tti
+WHERE   ifi.codigo                             = $P{codigoIfip}
+AND     tti.codigo                             = ifi.codigo_tipo_ifip]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="IMAGEN" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="69" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" mode="Transparent" x="5" y="26" width="544" height="20" uuid="28018225-171b-471e-a66f-838ed0428d25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="0" width="57" height="25" uuid="7f644b82-cc9c-4ce2-bf2a-f72fecf0b70b"/>
+				<imageExpression><![CDATA[$F{IMAGEN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="47" width="544" height="20" uuid="07bdd9f4-ab48-4af9-90e3-8a11fadaf09b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECLASIFICACION CARTERA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="96" splitType="Immediate">
+			<staticText>
+				<reportElement positionType="Float" x="8" y="23" width="97" height="17" uuid="e94ffd36-8ad9-4a67-91a3-8c5617b3333f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA IMPRESION]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement positionType="Float" x="105" y="23" width="197" height="17" uuid="a75ac576-3326-4015-880d-b63dcba01c60"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="Float" x="105" y="5" width="197" height="17" uuid="eec9dd28-32ce-4155-8c5b-092c658a9d5d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaCorte}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="8" y="5" width="97" height="17" uuid="0ad597c7-1a30-4ce5-a29f-ff295d06c75c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA DE CORTE]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 7" style="table 7" x="8" y="40" width="541" height="50" uuid="94c2c947-fb98-4773-b3c2-6c9cb9ec9b94"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Detalle" uuid="cfb86b57-fbf3-4768-ae6d-60449eb3bafc">
+						<datasetParameter name="codIfip">
+							<datasetParameterExpression><![CDATA[$P{codigoIfip}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fecCorte">
+							<datasetParameterExpression><![CDATA[$P{fechaCorte}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+                                        <jr:column width="75" uuid="2237ed8a-99c8-41a1-8de5-c8b8f6d85118">
+						<jr:columnHeader style="table 7_CH" height="17" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="125" height="17" forecolor="#FFFFFF" backcolor="#333333" uuid="9a889666-05c9-42c6-8b5b-db7a3f629824"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ESTADO_CARTERA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 7_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="125" height="20" uuid="4d1d1cce-6d4e-4611-a61b-bf82d3b8fd7c"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ESTADO_CARTERA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="2237ed8a-99c8-41a1-8de5-c8b8f6d85118">
+						<jr:columnHeader style="table 7_CH" height="17" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="125" height="17" forecolor="#FFFFFF" backcolor="#333333" uuid="9a889666-05c9-42c6-8b5b-db7a3f629824"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TIPO_CARTERA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 7_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="125" height="20" uuid="4d1d1cce-6d4e-4611-a61b-bf82d3b8fd7c"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TIPO_CARTERA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="120" uuid="0684c70d-bd79-45c9-8370-a6d22b0bb28b">
+						<jr:columnHeader style="table 7_CH" height="17" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="143" height="17" forecolor="#FFFFFF" backcolor="#333333" uuid="a8d6bd92-a628-46c0-bd64-7605f47fae2d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[MADURACION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 7_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="143" height="20" uuid="c4129c30-6983-417a-8a36-3d0e3fdf40b5"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{MADURACION}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="10" uuid="3722020d-3e91-4b45-8726-e1c3c3160122">
+						<jr:columnHeader style="table 7_CH" height="17" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="105" height="17" forecolor="#FFFFFF" backcolor="#333333" uuid="b46f1cae-103a-476b-bdea-c38bf1e6ad5e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[RANGO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 7_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="105" height="20" uuid="acefb71f-18d4-4e1d-9639-9f1512f5ad1c"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{RANGO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="7dfd2ce0-6db3-44cd-a6e7-401556cb9327">
+						<jr:columnHeader style="table 7_CH" height="17" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="124" height="17" forecolor="#FFFFFF" backcolor="#333333" uuid="3c3072d2-d5f3-44ae-ab9e-14855b919416"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[CAPITAL]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 7_TD" height="20" rowSpan="1">
+							<textField pattern="###,###,##0.00;-###,###,##0.00">
+								<reportElement x="0" y="0" width="124" height="20" uuid="72c187a5-8ba9-4384-b8e3-21e3ec9c0157"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CAPITAL}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

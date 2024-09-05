@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+    <p:panel  id="criterioConsulta" styleClass="encabezadosDialog">         
+        <p:focus context="criterioConsulta"/> 
+
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.GenerarSaldoDPFS}   "
+                           styleClass="encabezadosDialog"/>
+        </f:facet>            
+        <h:panelGroup>
+            <h:panelGrid id="saldosDPFSConGri" columns="2" style="width: 500px;"
+                         columnClasses="label, value, validator" styleClass="grid">  
+
+               
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Periodo} " 
+                               for="periodo"
+                               styleClass="etiquetaRequerida" 
+                               />
+                <p:selectOneMenu id="periodo" 
+                                 value="#{reclasificacionDPFSContableBean.periodoContable}"
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Periodo} #{propiedadesMensajesBL.CampoRequerido}">                          
+
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{reclasificacionDPFSContableBean.itemsPeriodoContable}"
+                                   var="periodoItem"
+                                   itemValue="#{periodoItem.codigo}"
+                                   itemLabel="#{periodoItem.codigo}"
+                                   />                     
+                </p:selectOneMenu>  
+                 
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaCorte} " 
+                               for="fechaFin"
+                               styleClass="etiquetaRequerida" />
+                <p:calendar id="fechaFin"
+                            pattern="dd/MM/yyyy"
+                            value="#{reclasificacionDPFSContableBean.fechaCorte}"
+                            title="#{propiedadesEtiquetaBL.FechaCorte}"
+                            showOn="button"
+                            required="true" 
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaCorte}  #{propiedadesMensajesBL.CampoRequerido}">                    
+                </p:calendar>
+                
+            </h:panelGrid>      
+        </h:panelGroup>
+    </p:panel>
+
+</ui:composition>

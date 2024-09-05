@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:dialog appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="DesgloseBloqueosDlg"                  
+              modal="false"
+              closable="true"
+              closeOnEscape="true"
+              widgetVar="DesgloseBloqueosDialogo">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="desgloseBloqueos"
+                            value="#{propiedadesEtiquetaBL.Desgloce} DE BLOQUEOS"
+                            styleClass="encabezadosDialog"/>
+        </f:facet>
+
+        <h:form id="desgloseBloqueosFor" >
+            <h:panelGrid columns="1" style="text-align: center; size: 10px">
+                <h:panelGrid columns="2" style="text-align: center">
+                    <p:dataTable id="desgloseBloqueosTbl" 
+                                 value="#{bloqueoDesbloqueoCuentaBean.itemsBloqueoCuenta}"
+                                 var="item"                                                          
+                                 rowKey="#{item.bloqueoCuentaPK}"
+                                 paginator="true"
+                                 rows="12"                                  
+                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}">
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.TipoBloqueoCuenta}" style="font-weight:bold"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipoBloqueoCuenta.nombre}" >
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column sortBy="#{item.valor}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.valor}" >
+                                <f:convertNumber type="number" groupingUsed="false"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />  
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>  
+                </h:panelGrid>
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+</ui:composition>

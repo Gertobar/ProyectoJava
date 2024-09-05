@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IngresoEgresoViewDlg" widgetVar="IngresoEgresoViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewIngresoEgresoTitle}" closeOnEscape="true">
+
+            <h:form id="IngresoEgresoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ingresoEgresoController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoLabel_codigo}"/>
+                        <h:outputText value="#{ingresoEgresoController.selected.codigo}" title="#{myBundle.ViewIngresoEgresoTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoLabel_nombre}"/>
+                        <h:outputText value="#{ingresoEgresoController.selected.nombre}" title="#{myBundle.ViewIngresoEgresoTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoLabel_siglas}"/>
+                        <h:outputText value="#{ingresoEgresoController.selected.siglas}" title="#{myBundle.ViewIngresoEgresoTitle_siglas}"/>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoLabel_descripcion}"/>
+                        <h:outputText value="#{ingresoEgresoController.selected.descripcion}" title="#{myBundle.ViewIngresoEgresoTitle_descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoLabel_afectaCaja}"/>
+                        <h:outputText value="#{ingresoEgresoController.selected.afectaCaja}" title="#{myBundle.ViewIngresoEgresoTitle_afectaCaja}"/>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoLabel_contabiliza}"/>
+                        <h:outputText value="#{ingresoEgresoController.selected.contabiliza}" title="#{myBundle.ViewIngresoEgresoTitle_contabiliza}"/>
+
+                        <h:outputText value="#{myBundle.ViewIngresoEgresoLabel_eliminado}"/>
+                        <h:outputText value="#{ingresoEgresoController.selected.eliminado}" title="#{myBundle.ViewIngresoEgresoTitle_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="IngresoEgresoViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

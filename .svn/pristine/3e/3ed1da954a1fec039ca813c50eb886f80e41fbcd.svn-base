@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ????**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <p:focus context="estadoCuentaGri"/>   
+        <h:panelGrid  columns="2">
+            <h:panelGrid id="estadoCuentaGri" columns="3" style="font-size:  10px">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                               for="moneda"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="moneda" 
+                                 value="#{estadoCuentaBean.moneda}" 
+                                 required="true"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{estadoCuentaBean.itemsMoneda}"
+                                   var="codigoMonedaItem"
+                                   itemValue="#{codigoMonedaItem}"
+                                   itemLabel="#{codigoMonedaItem.nombre}"
+                                   />    
+                    <p:ajax event="change" listener="#{estadoCuentaBean.cambiaMoneda()}" update="producto"/>
+                    <f:converter binding="#{monedaConverter}"/>
+                </p:selectOneMenu>                                      
+                <h:message for="moneda"  styleClass="invalido"/>
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                               for="producto"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="producto" 
+                                 value="#{estadoCuentaBean.productoIfip}" 
+                                 required="true"
+                                 filter="true" 
+                                 filterMatchMode="startsWith" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{estadoCuentaBean.itemsProductoIfip}"
+                                   var="codigoProductoIfipItem"
+                                   itemValue="#{codigoProductoIfipItem}"
+                                   itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                   />                   
+                    <p:ajax event="change" update="producto"/>
+                    <f:converter binding="#{productoIfipConverter}"/>
+                </p:selectOneMenu>                                      
+                <h:message for="producto"  styleClass="invalido"/>   
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta} *"
+                               styleClass="etiquetaRequerida"
+                               for="cuenta" />
+                <p:inputText id="cuenta" 
+                             value="#{estadoCuentaBean.numeroCuenta}"
+                             size="20"
+                             >
+                    <p:ajax event="blur" listener="#{estadoCuentaBean.buscaCuenta()}" update="datosCuentaPan,:EstadoCuentaFor:datalist"/>
+                </p:inputText>
+                <p:commandButton id="cuentaBot"
+                                 value="#{propiedadesEtiquetaBL.Buscar}"                                 
+                                 update=":EstadoCuentaFor:datalist,:BuscaCuentaFor,:encabezadoListaCuentasLab"
+                                 actionListener="#{estadoCuentaBean.preparaBusquedaCuentas}"
+                                 onclick="procesandoDlg.show()"                                         
+                                 oncomplete="procesandoDlg.hide();BuscaCuentaDialogo.show();"/>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.FechaInicio}" styleClass="etiquetaRequerida"/>
+                <p:calendar  value="#{estadoCuentaBean.fechaInicio}"
+                             pattern="dd/MM/yyyy"
+                             id="fechaInicio" 
+                             size="15"
+                             locale="es"                            
+                             maxdate="#{estadoCuentaBean.fechaActual}">                   
+                    <p:ajax event="dateSelect" listener="#{estadoCuentaBean.buscaEstadoCuentas()}"
+                            update=":EstadoCuentaFor:datalist"/>  
+                </p:calendar>
+                <h:message for="fechaInicio"  styleClass="invalido"/>  
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.FechaFin}" styleClass="etiquetaRequerida"/>
+                <p:calendar  value="#{estadoCuentaBean.fechaFin}"
+                             pattern="dd/MM/yyyy"
+                             id="fechaFin" 
+                             size="15"
+                             locale="es"                                      
+                             maxdate="#{estadoCuentaBean.fechaActual}">                  
+                    
+                    <p:ajax event="dateSelect" listener="#{estadoCuentaBean.buscaEstadoCuentas()}"
+                            update=":EstadoCuentaFor:datalist"/>  
+                </p:calendar>
+                <h:message for="fechaFin"  styleClass="invalido"/>  
+            </h:panelGrid>
+            <p:panel  id="datosCuentaPan">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Cuenta}"/>
+                </f:facet>
+                <h:panelGrid columns="2" style="font-size: 9px">
+                    <h:outputText  value="#{propiedadesEtiquetaBL.Codigo} #{propiedadesEtiquetaBL.Cuenta}"
+                                   styleClass="etiqueta"/>
+                    <h:outputText  value="#{estadoCuentaBean.cuenta.codigo}"/>
+
+                    <h:outputText  value="#{propiedadesEtiquetaBL.CodigoSocio}" 
+                                   styleClass="etiqueta"/>
+                    <h:outputText  value="#{estadoCuentaBean.cuenta.socio.socioPK.codigo}"/>
+                    
+                    <h:outputText  value="#{propiedadesEtiquetaBL.Socio}" 
+                                   styleClass="etiqueta"/>
+                    <h:outputText  value="#{estadoCuentaBean.cuenta.socio.codigoPersona.nombreCompleto}"/>
+
+                    <h:outputText  value="#{propiedadesEtiquetaBL.SaldoDisponible}" 
+                                   styleClass="etiqueta"/>
+                    <h:outputText value="#{estadoCuentaBean.cuenta.saldoDisponible}">    
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                    </h:outputText>
+
+                    <h:outputText  value="#{propiedadesEtiquetaBL.SaldoBloqueado}" 
+                                   styleClass="etiqueta"/>
+                    <h:outputText value="#{estadoCuentaBean.cuenta.saldoBloqueado}">    
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                    </h:outputText>
+
+                    <h:outputText  value="#{propiedadesEtiquetaBL.SaldoTotal}" 
+                                   styleClass="etiqueta"/>
+                    <h:outputText value="#{estadoCuentaBean.cuenta.saldoTotal}">    
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                    </h:outputText>
+                    
+                    <h:outputText  value="#{propiedadesEtiquetaBL.SaldoIncial}" 
+                                   styleClass="etiqueta"/>
+                    <h:outputText value="#{estadoCuentaBean.saldoInicial}">    
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                    </h:outputText>
+                </h:panelGrid>
+            </p:panel>
+        </h:panelGrid>
+
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ????************************************************************************** -->
+
+
+</ui:composition>

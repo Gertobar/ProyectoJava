@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ReporteCreateDlg" widgetVar="ReporteCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.CreateReporteTitle}" closeOnEscape="true">
+
+            <h:form id="ReporteCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateReporteLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{reporteController.selected.codigo}" title="#{propiedadesEtiquetaBL.CreateReporteTitle_codigo}" required="true" requiredMessage="#{propiedadesEtiquetaBL.CreateReporteRequiredMessage_codigo}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateReporteLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{reporteController.selected.nombre}" title="#{propiedadesEtiquetaBL.CreateReporteTitle_nombre}" required="true" requiredMessage="#{propiedadesEtiquetaBL.CreateReporteRequiredMessage_nombre}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateReporteLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{reporteController.selected.descripcion}" title="#{propiedadesEtiquetaBL.CreateReporteTitle_descripcion}" required="true" requiredMessage="#{propiedadesEtiquetaBL.CreateReporteRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateReporteLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{reporteController.selected.eliminado}" title="#{propiedadesEtiquetaBL.CreateReporteTitle_eliminado}" required="true" requiredMessage="#{propiedadesEtiquetaBL.CreateReporteRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{reporteController.saveNew}" value="#{propiedadesEtiquetaBL.Save}" update="display,:ReporteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ReporteCreateDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancel}" onclick="ReporteCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

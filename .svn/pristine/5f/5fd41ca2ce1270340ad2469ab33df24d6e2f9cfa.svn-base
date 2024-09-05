@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TasaInteresProDpfMonEditDlg" widgetVar="TasaInteresProDpfMonEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{myBundle.EditTasaInteresProDpfMonTitle}" closeOnEscape="true">
+
+            <h:form id="TasaInteresProDpfMonEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tasaInteresProDpfMonController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{tasaInteresProDpfMonController.selected.codigo}" />
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_codigoMoneda}" for="codigoMoneda" />
+                        <p:inputText id="codigoMoneda" value="#{tasaInteresProDpfMonController.selected.codigoMoneda}" title="#{myBundle.EditTasaInteresProDpfMonTitle_codigoMoneda}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_codigoMoneda}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_codigoIfip}" for="codigoIfip" />
+                        <p:inputText id="codigoIfip" value="#{tasaInteresProDpfMonController.selected.codigoIfip}" title="#{myBundle.EditTasaInteresProDpfMonTitle_codigoIfip}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_codigoIfip}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_montoInicial}" for="montoInicial" />
+                        <p:inputText id="montoInicial" value="#{tasaInteresProDpfMonController.selected.montoInicial}" title="#{myBundle.EditTasaInteresProDpfMonTitle_montoInicial}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_montoInicial}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_montoFinal}" for="montoFinal" />
+                        <p:inputText id="montoFinal" value="#{tasaInteresProDpfMonController.selected.montoFinal}" title="#{myBundle.EditTasaInteresProDpfMonTitle_montoFinal}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_montoFinal}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{tasaInteresProDpfMonController.selected.registradoPor}" title="#{myBundle.EditTasaInteresProDpfMonTitle_registradoPor}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{tasaInteresProDpfMonController.selected.fechaRegistro}" title="#{myBundle.EditTasaInteresProDpfMonTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tasaInteresProDpfMonController.selected.eliminado}" title="#{myBundle.EditTasaInteresProDpfMonTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_codigoTasa}" for="codigoTasa" />
+                        <p:selectOneMenu id="codigoTasa" value="#{tasaInteresProDpfMonController.selected.codigoTasa}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_codigoTasa}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tasaInteresDpfIfipController.items}"
+                                           var="codigoTasaItem"
+                                           itemValue="#{codigoTasaItem}"
+                                           itemLabel="#{codigoTasaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{tasaInteresDpfIfipConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_codigoRango}" for="codigoRango" />
+                        <p:selectOneMenu id="codigoRango" value="#{tasaInteresProDpfMonController.selected.codigoRango}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_codigoRango}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rangoDiasDpfController.items}"
+                                           var="codigoRangoItem"
+                                           itemValue="#{codigoRangoItem}"
+                                           itemLabel="#{codigoRangoItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{rangoDiasDpfConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_moneda}" for="moneda" />
+                        <p:selectOneMenu id="moneda" value="#{tasaInteresProDpfMonController.selected.moneda}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_moneda}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{monedaController.items}"
+                                           var="monedaItem"
+                                           itemValue="#{monedaItem}"
+                                           itemLabel="#{monedaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresProDpfMonLabel_usuarioRealizadoPor}" for="usuarioRealizadoPor" />
+                        <p:selectOneMenu id="usuarioRealizadoPor" value="#{tasaInteresProDpfMonController.selected.usuarioRealizadoPor}" required="true" requiredMessage="#{myBundle.EditTasaInteresProDpfMonRequiredMessage_usuarioRealizadoPor}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="usuarioRealizadoPorItem"
+                                           itemValue="#{usuarioRealizadoPorItem}"
+                                           itemLabel="#{usuarioRealizadoPorItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tasaInteresProDpfMonController.save}" value="#{myBundle.Save}" update="display,:TasaInteresProDpfMonListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TasaInteresProDpfMonEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TasaInteresProDpfMonEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

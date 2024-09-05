@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="ListaPagosCreditoDlg"                  
+              modal="true" 
+              style="height: 320px"
+              widgetVar="ListaPagosCreditoDialog">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="encabezadoListaPagosCreditoLab"
+                            value="#{propiedadesEtiquetaBL.Listado} #{propiedadesEtiquetaBL.PagoCredito}"
+                            styleClass="encabezadosDialog"/>               
+
+        </f:facet>
+        <h:form id="ListaPagosCreditoForm">
+
+
+            <h:panelGrid id="PagosCreditoGri" columns="1" style="font-size: 10px; height: 300px" >
+
+                <h:panelGrid  id="DatosGri" columns="2" 
+                              columnClasses="label, value" styleClass="grid" style="text-align: left; height: 10px">  
+                    <f:facet name="header">                  
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Agencia}:          "
+                                       styleClass="etiqueta"/>
+                        <h:outputText value="#{pagoCreditoController.solicitudSel.ifipAgencia.nombre.toString()}"
+                                      style="font-weight: normal" />       
+                        <br/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}:            "
+                                       styleClass="etiqueta"/>
+                        <h:outputText value="#{pagoCreditoController.solicitudSel.socio.codigoPersona.nombreCompleto.toString()}"
+                                      style="font-weight: normal" />       
+                        <br/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Solicitud}: " 
+                                       styleClass="etiqueta"/>
+                        <h:outputText value="#{pagoCreditoController.solicitudSel.solicitudPK.numero}"             
+                                      style="font-weight: normal" />     
+                    </f:facet>
+                </h:panelGrid>
+
+                <p:separator/>
+                <p:panel header="#{propiedadesEtiquetaBL.SeleccionePagoCredito}" style="font-size: 9px;border: #FFFFFF">
+
+                    <p:dataTable id="datalist" 
+                                 value="#{pagoCreditoController.itemsPagoCredito}" 
+                                 var="item"
+                                 selectionMode="single" 
+                                 selection="#{pagoCreditoController.pagoCreditoSel}"
+                                 rowKey="#{item.codigo}"
+                                 paginator="true"
+                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                 rows="10">
+
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.PagoCredito}"/>
+                        </f:facet>
+
+                        <p:ajax event="rowSelect"   update=":ListaPagosCreditoForm:verDetalleCuotaBot :ListaPagosCreditoForm:imprimePagoCreditoBot"/>
+                        <p:ajax event="rowUnselect" update=":ListaPagosCreditoForm:verDetalleCuotaBot :ListaPagosCreditoForm:imprimePagoCreditoBot"/>
+
+                        <p:columnGroup type="header">
+
+                            <p:row>
+                                <p:column headerText="#{propiedadesEtiquetaBL.FormaPago}" />
+                                <p:column headerText="#{propiedadesEtiquetaBL.FechaCobro}" />
+                                <p:column headerText="#{propiedadesEtiquetaBL.Cuotas}" />
+                                <p:column headerText="#{propiedadesEtiquetaBL.CuotaAPagar}" />
+                                <p:column headerText="#{propiedadesEtiquetaBL.Capital}" />
+                                <p:column headerText="#{propiedadesEtiquetaBL.CostosJudiciales}" />
+                                <p:column headerText="#{propiedadesEtiquetaBL.Rubros}" />
+                                <p:column headerText="#{propiedadesEtiquetaBL.Notificaciones}" />
+                                <p:column headerText="#{propiedadesEtiquetaBL.Interes}" />
+                                <p:column headerText="#{propiedadesEtiquetaBL.Mora}" />
+                                <p:column headerText="#{propiedadesEtiquetaBL.Total}" />
+
+                            </p:row>
+                        </p:columnGroup>
+
+                        <p:column>                          
+                            <p:selectOneMenu value="#{item.formaPago}" 
+                                             disabled="true">                              
+                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.IngresoCaja}" itemValue="I" />  
+                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.DebitoCuenta}" itemValue="D" />                           
+                            </p:selectOneMenu>
+                        </p:column>
+
+                        <p:column sortBy="#{item.fechaCobro}" >                          
+                            <h:outputText value="#{item.fechaCobro}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>                           
+                            <h:outputText value="#{item.cuotas}"/>
+                        </p:column>
+
+                        <p:column>                           
+                            <h:outputText value="#{item.cuotaAPagar}"/>
+                        </p:column>
+
+                        <p:column>                           
+                            <h:outputText value="#{item.capital}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>                            
+                            <h:outputText value="#{item.costosJudiciales}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>                            
+                            <h:outputText value="#{item.rubros}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>                          
+                            <h:outputText value="#{item.notificaciones}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>                          
+                            <h:outputText value="#{item.interes}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>                           
+                            <h:outputText value="#{item.mora}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <h:outputText value="#{item.total}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            </h:outputText>
+                        </p:column>
+
+                        <p:columnGroup type="footer">
+                            <p:row>
+
+                                <p:column colspan="4" style="text-align:right" footerText="#{propiedadesEtiquetaBL.Totales}" />                    
+                                <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{pagoCreditoController.totalCapital}" />
+                                <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{pagoCreditoController.totalCostosJudiciales}" />
+                                <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{pagoCreditoController.totalRubros}" />
+                                <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{pagoCreditoController.totalNotificaciones}" /> 
+                                <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{pagoCreditoController.totalInteres}" /> 
+                                <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{pagoCreditoController.totalMora}" /> 
+                                <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{pagoCreditoController.totalPago}" /> 
+
+                            </p:row>
+                        </p:columnGroup>
+                    </p:dataTable>
+                </p:panel>
+                <p:panel style="border: #FFFFFF">
+                    <p:panelGrid columns="2" >
+                        <f:facet name="footer">
+                            <p:commandButton id="verDetalleCuotaBot"
+                                             value="#{propiedadesEtiquetaBL.VerDetalleCuotas}"   
+                                             actionListener="#{pagoCreditoController.obtieneDetalleCuotas()}"                                
+                                             disabled="#{(!empty pagoCreditoController.pagoCreditoSel) ? false : true}"
+                                             update=":mensaje,:ListaDetalleCuotasForm,:ListaDetalleCuotasForm:datalist"                                  
+                                             oncomplete="ListaDetalleCuotasDialog.show();"/>
+
+                            <p:commandButton id="imprimePagoCreditoBot"
+                                             value="#{propiedadesEtiquetaBL.ImprimirPagoCredito}"   
+                                             actionListener="#{pagoCreditoController.imprimePagoCredito}"                                           
+                                             disabled="#{(!empty pagoCreditoController.pagoCreditoSel) ? false : true}"
+                                             update=":mensaje"                  
+                                             ajax="false"/>  
+
+
+                            <p:commandButton id="imprimeTodosPagoCreditoBot"
+                                             value="#{propiedadesEtiquetaBL.ImprimirListadoPagoCredito}"   
+                                             actionListener="#{pagoCreditoController.imprimirListadoPagosCreditos}"      
+                                             update=":mensaje"                  
+                                             ajax="false"/>  
+                        </f:facet>
+                    </p:panelGrid>
+                </p:panel>
+            </h:panelGrid>
+
+        </h:form>
+
+    </p:dialog> 
+
+</ui:composition>
+

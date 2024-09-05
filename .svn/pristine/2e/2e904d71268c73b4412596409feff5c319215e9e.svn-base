@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="licitudFondos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="telefonos" uuid="f0a03d36-07f0-427d-90a0-6fc11a40f5a5">
+		<parameter name="codPer" class="java.math.BigDecimal"/>
+		<queryString>
+			<![CDATA[SELECT  tip.nombre                      "TIPO TELEFONO",
+        opt.siglas                      "OPERADORA",
+        pet.numero                      "NUMERO"
+FROM	  mks_comunes.tipo_telefono 	     tip,
+        mks_comunes.operadora_telefono   opt,
+        mks_socios.persona_telefono      pet
+WHERE   pet.eliminado                    = 'N'
+AND     pet.codigo_persona               = $P{codPer}
+AND     tip.codigo                       = pet.codigo_tipo_telefono
+AND     opt.codigo                       = pet.codigo_operadora_telefono
+AND     rownum			<= 2
+ORDER BY tip.nombre, pet.numero]]>
+		</queryString>
+		<field name="TIPO TELEFONO" class="java.lang.String"/>
+		<field name="OPERADORA" class="java.lang.String"/>
+		<field name="NUMERO" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="codigoFormulario" class="java.lang.Long"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  tti.nombre||' '||ifi.nombre	                                    "IFIP",        
+        per.codigo                                                      CODIGO_PERSONA,
+        per.identificacion                                              "IDENTIFICACION",
+        (SELECT   pro.nombre
+         FROM     mks_socios.profesion        pro,
+                  mks_socios.persona_natural  pen
+         WHERE    pen.codigo_persona          = per.codigo
+         AND      pro.codigo                  = pen.codigo_profesion)   "PROFESION",
+        (SELECT   ace.nombre
+         FROM     mks_socios.persona_act_eco_pri   pap,
+                  mks_socios.actividad_economica   ace
+         WHERE    pap.codigo_persona          = per.codigo
+         AND      ace.codigo                  = pap.codigo_actividad_economica)   "ACTIVIDAD_ECONOMICA",
+        per.nombre_completo                                             "NOMBRE",
+        ifa.nombre                                                      "AGENCIA",
+        lia.numero_formulario                                           "NUMERO FORMULARIO",
+        pro.nombre                                                      "PROFESION",        
+        prs.direccion                                                   "DIRECCION",
+        mks_socios.fn_obtiene_lugar_jerarquico(prs.codigo_ubi_geo_res)  "PAPRCIPA",
+        ubg.nombre                                                      "CIUDAD",
+        lia.codigo_persona_firma                                        "CODIGO PER FIRM",
+        pef.identificacion                                              "IDENTICACION FIRMA",
+        pef.nombre_completo                                             "NOMBRE FIRMA",
+        peu.nombre_completo                                             "CREADO POR",
+        ifi.path_imagen                                                 "IMAGEN",
+        con.nombre                                                      "TRANSACCION",
+        lod.nombre                                                      "ORIGEN DESTINO",
+        lif.monto                                                       "MONTO",
+         REPLACE((SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 9
+                AND     codigo_fragmento                   = 5)
+                ,'$COAC',tti.nombre||' '||ifi.nombre)                  "PARAFO UNO",
+         REPLACE((SELECT  rfi.texto
+                 FROM    mks_ifips.reporte_fragmento_ifip rfi
+                 where   codigo_reporte                     = 9
+                 AND     codigo_fragmento                   = 6)
+                ,'$COAC',tti.nombre||' '||ifi.nombre)                  "PARAFO DOS",
+         REPLACE((SELECT  rfi.texto
+                 FROM    mks_ifips.reporte_fragmento_ifip rfi
+                 where   codigo_reporte                     = 9
+                 AND     codigo_fragmento                   = 7)
+                ,'$COAC',tti.nombre||' '||ifi.nombre)                  "PARAFO TRES"                
+        
+FROM    mks_ahorros.licitud_fondos_formulario                           lif,
+        mks_ahorros.licitud_fondos_formulario_adi                       lia,
+        mks_ahorros.licitud_fon_org_dest                                lod,
+        mks_ahorros.cuenta                                              cue,
+        mks_ahorros.tipo_producto                                       tip,                
+        mks_ahorros.movimiento_cuenta                                   mov, 
+        mks_ahorros.concepto_transaccion                                con,
+        mks_comunes.moneda                                              mon,
+        mks_socios.persona                                              per,
+        mks_socios.persona_natural                                      pen,
+        mks_socios.persona_residencia                                   prs,
+        mks_socios.profesion                                            pro,
+        mks_ifips.ifip                                                  ifi,
+        mks_ifips.ifip_agencia                                          ifa,
+        mks_ifips.tipo_ifip                                             tti,
+        mks_comunes.ubicacion_geografica                                ubg,
+        mks_socios.persona                                              peu,
+        mks_socios.persona                                              pef,
+        mks_seguridades.usuario                                         usu        
+                                
+WHERE   lif.codigo                                                      = $P{codigoFormulario}
+AND     lif.codigo                                                      = lia.codigo_formulario
+AND     lod.codigo                                                      = lia.codigo_origen_destino
+AND     lif.cuenta                                                      = cue.codigo
+AND     tip.codigo                                                      = cue.codigo_tipo_producto
+AND     mon.codigo                                                      = cue.codigo_moneda
+AND     mov.codigo                                                      = lif.codigo_movimiento
+AND     mov.codigo_concepto                                             = con.codigo
+AND     per.codigo                                                      = lif.codigo_persona
+AND     lia.codigo_persona_firma                                        = pef.codigo
+AND     per.codigo                                                      = pen.codigo_persona
+AND     pro.codigo                                                      = pen.codigo_profesion
+AND     per.codigo                                                      = prs.codigo_persona
+AND     tti.codigo                                                      = ifi.codigo_tipo_ifip
+AND     ubg.codigo                                                      = ifa.codigo_ubi_geo_ciudad
+AND     peu.codigo                                                      = usu.codigo_persona
+AND     usu.codigo                                                      = lia.registrado_por]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="CODIGO_PERSONA" class="java.math.BigDecimal"/>
+	<field name="IDENTIFICACION" class="java.lang.String"/>
+	<field name="PROFESION" class="java.lang.String"/>
+	<field name="ACTIVIDAD_ECONOMICA" class="java.lang.String"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="AGENCIA" class="java.lang.String"/>
+	<field name="NUMERO FORMULARIO" class="java.lang.String"/>
+	<field name="DIRECCION" class="java.lang.String"/>
+	<field name="PAPRCIPA" class="java.lang.String"/>
+	<field name="CIUDAD" class="java.lang.String"/>
+	<field name="CODIGO PER FIRM" class="java.math.BigDecimal"/>
+	<field name="IDENTICACION FIRMA" class="java.lang.String"/>
+	<field name="NOMBRE FIRMA" class="java.lang.String"/>
+	<field name="CREADO POR" class="java.lang.String"/>
+	<field name="IMAGEN" class="java.lang.String"/>
+	<field name="TRANSACCION" class="java.lang.String"/>
+	<field name="ORIGEN DESTINO" class="java.lang.String"/>
+	<field name="MONTO" class="java.math.BigDecimal"/>
+	<field name="PARAFO UNO" class="java.lang.String"/>
+	<field name="PARAFO DOS" class="java.lang.String"/>
+	<field name="PARAFO TRES" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="31" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="5" y="0" width="550" height="30" uuid="28018225-171b-471e-a66f-838ed0428d25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="763" splitType="Immediate">
+			<staticText>
+				<reportElement x="18" y="86" width="185" height="20" uuid="a7b5f1dc-7666-4476-9409-78258bed2982"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IDENTIFICACION]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="216" y="87" width="84" height="20" uuid="aba27f97-ad04-4d09-a243-f22ffe52a77d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IDENTIFICACION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="67" width="185" height="20" uuid="ba20ca94-51bd-4b14-b8a6-587c921610bc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="216" y="67" width="323" height="20" uuid="9d15b073-6725-4098-9bb8-23475a348f85"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="124" width="185" height="20" uuid="f2438302-f02a-4c48-b12f-6ce7963ccdbd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCION]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="216" y="126" width="333" height="20" uuid="b949c1cb-f63b-4249-9002-70c0d6fc8192"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIRECCION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="339" y="25" width="58" height="20" uuid="750ce920-a3ba-4fe9-955a-5c7dec4449e9">
+					<property name="net.sf.jasperreports.export.pdf.tag.h1" value="full"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO FORMULARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="0" width="544" height="20" uuid="07bdd9f4-ab48-4af9-90e3-8a11fadaf09b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORMULARIO DE DECLARACION DE LICITUD DE FONDOS Y TRANSACCIONES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="75" y="576" width="100" height="20" uuid="df3fd962-e8d4-4ef6-a323-b8ecd7094389"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LUGAR Y FECHA]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="175" y="576" width="129" height="20" uuid="3506fde4-f057-4c48-a2a3-bf74af2a25a9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIUDAD}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table" style="table" positionType="Float" stretchType="RelativeToTallestObject" x="26" y="191" width="443" height="50" uuid="50d9e98f-b000-4732-a2f7-b7714c9d3ddc"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="telefonos" uuid="58051a9c-7dfe-42e3-9c59-5131d5b68dee">
+						<datasetParameter name="codPer">
+							<datasetParameterExpression><![CDATA[$F{CODIGO_PERSONA}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="118" uuid="21b00244-5f80-46f6-9366-759243216cef">
+						<jr:columnHeader style="table_CH" height="19" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="118" height="18" forecolor="#FFFFFF" backcolor="#666666" uuid="2f2a68c0-9465-4bc1-9128-71b56ef10f5d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TIPO TELEFONO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="10" y="0" width="108" height="20" uuid="6f551d0b-214f-47d6-ac5b-1bc5984b974b"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TIPO TELEFONO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="126" uuid="ae057d0c-e253-4e55-b0b7-5e9dc6430b03">
+						<jr:columnHeader style="table_CH" height="19" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="126" height="18" forecolor="#FFFFFF" backcolor="#666666" uuid="a1ab3940-047a-405c-9f51-434a9615d118"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[OPERADORA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="12" y="0" width="114" height="20" uuid="c9eca3d9-dcb3-4915-81de-65df6c406826"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{OPERADORA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="138" uuid="3a9205fa-a9e3-49f0-bd76-65e280873298">
+						<jr:columnHeader style="table_CH" height="19" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="1" width="138" height="18" forecolor="#FFFFFF" backcolor="#666666" uuid="df8b8894-2d65-4292-8260-d7d96a24c1a7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NUMERO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="12" y="0" width="126" height="20" uuid="18478017-4706-422e-a426-bd39f4e0c8fb"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NUMERO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="22" y="168" width="145" height="20" uuid="8f150001-8ec0-4367-8baa-efbe51e0f140"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[TELEFONOS]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement positionType="Float" x="312" y="576" width="176" height="20" uuid="da021227-7b2f-4f37-bc36-105de44709b1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="305" y="576" width="10" height="20" uuid="b07f8131-8642-40cf-bf78-dc1845778389"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="317" y="664" width="228" height="12" uuid="651fc8cd-766e-474c-8691-b667b3836cd6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CREADO POR]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="317" y="653" width="228" height="12" uuid="755569bb-5935-47a9-a07a-08ccac7eaa0d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CREADO POR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="18" y="607" width="242" height="46" uuid="2730511f-2a9e-4d13-8e29-5891ee5505ca"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[----------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="317" y="607" width="227" height="46" uuid="3ac75d18-4537-4607-ad27-531462f10daa"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="45" width="100" height="20" uuid="41cc9612-1317-43d1-a33b-eaf1913b34e5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[1. DATOS DEL SOCIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="87" width="71" height="20" uuid="5a8ab658-30e7-4db3-8814-28b5af40c6e3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROFESION]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="87" width="178" height="20" uuid="57492440-32ad-439d-a48a-6eafab011935"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PROFESION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="105" width="185" height="20" uuid="2f3abeed-f4a7-4fff-be0b-d31fd38f437c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTIVIDAD_ECONOMICA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="216" y="107" width="333" height="20" uuid="2cdc273f-00f6-45e1-ac9c-aa1f33a7580b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACTIVIDAD_ECONOMICA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="143" width="185" height="20" uuid="ed56b718-703f-42ad-97fe-955c5722d45d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAIS/PROVINICIA/CIUDAD/PARROQUIA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="216" y="145" width="333" height="20" uuid="d4b85c3f-ccbf-4747-af2a-aec6d8d43a12"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAPRCIPA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="13" y="254" width="162" height="20" uuid="15b6e02d-9c72-4d17-a975-141e73b3eb4b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[2. DATOS DE LA TRANSACCION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="279" width="63" height="20" uuid="36bace34-9ca7-47a8-ae17-0b7f0054c3a7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO:]]></text>
+			</staticText>
+			<textField pattern="#,###,##0.00;(#,###,##0.00)">
+				<reportElement x="88" y="279" width="115" height="20" uuid="c13d27d6-de6d-45e7-995b-f34bcb81d1c2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="212" y="274" width="100" height="20" uuid="4b5c3e8e-9659-460f-ad5f-79afb87c23ea"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRANSACCION]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="312" y="274" width="237" height="20" uuid="9216f0fb-df43-4936-8400-5e674e87b665"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TRANSACCION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="13" y="312" width="324" height="20" uuid="e1e90691-20e6-4442-8209-90207ad09527"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[3. DECLARACION DE ORIGEN LICITO DE RECURSOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="26" y="336" width="119" height="20" uuid="63bcff68-cde7-4650-b49f-9189191099bc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ENTREGA DE FONDOS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="145" y="336" width="404" height="35" uuid="b3e30930-3d32-4d23-a1f7-324d020f2ea8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PARAFO UNO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="26" y="382" width="119" height="20" uuid="8fc92a98-69bf-432a-b0e9-269da59da378"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[RECEPCION DE FONDOS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="145" y="382" width="404" height="67" uuid="18de108b-4821-49f4-a95e-1e7ac5583ce9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PARAFO DOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="449" width="404" height="20" uuid="2b2e5a6a-4dd3-4dbe-8df7-de341a7e8ef4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ORIGEN DESTINO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="475" width="324" height="20" uuid="7b9a367d-6ce6-40fe-ad8e-43b014e014ce"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[4. AUTORIZACION]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="18" y="495" width="531" height="77" uuid="6ea543f7-233f-4425-9ce8-227105eeb759"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PARAFO TRES}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="169" y="745" width="228" height="12" uuid="3940bf99-7d56-40c2-b482-5bc80b9f44aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REVISADO POR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="170" y="701" width="227" height="46" uuid="54969d21-ff67-4f50-9bfe-2786db30786b"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[------------------------------------------------------]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="16" y="652" width="244" height="12" uuid="5910b882-9bdf-4c9e-9b36-e24d4324e5ac"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IDENTICACION FIRMA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="16" y="663" width="244" height="12" uuid="92cc2ad2-2a3a-4014-b221-3b1cbf86a10a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE FIRMA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="19" y="674" width="241" height="12" uuid="9b7c6424-a6e1-47d9-80f5-37e0e23013fb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIRMADO POR]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="397" y="25" width="100" height="20" uuid="186dc206-794e-4f63-a407-2de6165ef57e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUMERO FORMULARIO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

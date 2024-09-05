@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DiasEnvioNotificacionIfipViewDlg" widgetVar="DiasEnvioNotificacionIfipViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewDiasEnvioNotificacionIfipTitle}" closeOnEscape="true">
+
+            <h:form id="DiasEnvioNotificacionIfipViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{diasEnvioNotificacionIfipController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewDiasEnvioNotificacionIfipLabel_diasEnvioNotificacionIfipPK_codigoIfip}"/>
+                        <h:outputText value="#{diasEnvioNotificacionIfipController.selected.diasEnvioNotificacionIfipPK.codigoIfip}" title="#{myBundle.ViewDiasEnvioNotificacionIfipTitle_diasEnvioNotificacionIfipPK_codigoIfip}"/>
+
+                        <h:outputText value="#{myBundle.ViewDiasEnvioNotificacionIfipLabel_diasEnvioNotificacionIfipPK_codigoTipoNotificacion}"/>
+                        <h:outputText value="#{diasEnvioNotificacionIfipController.selected.diasEnvioNotificacionIfipPK.codigoTipoNotificacion}" title="#{myBundle.ViewDiasEnvioNotificacionIfipTitle_diasEnvioNotificacionIfipPK_codigoTipoNotificacion}"/>
+
+                        <h:outputText value="#{myBundle.ViewDiasEnvioNotificacionIfipLabel_diaInicial}"/>
+                        <h:outputText value="#{diasEnvioNotificacionIfipController.selected.diaInicial}" title="#{myBundle.ViewDiasEnvioNotificacionIfipTitle_diaInicial}"/>
+
+                        <h:outputText value="#{myBundle.ViewDiasEnvioNotificacionIfipLabel_diaFinal}"/>
+                        <h:outputText value="#{diasEnvioNotificacionIfipController.selected.diaFinal}" title="#{myBundle.ViewDiasEnvioNotificacionIfipTitle_diaFinal}"/>
+
+                        <h:outputText value="#{myBundle.ViewDiasEnvioNotificacionIfipLabel_registradoPor}"/>
+                        <h:outputText value="#{diasEnvioNotificacionIfipController.selected.registradoPor}" title="#{myBundle.ViewDiasEnvioNotificacionIfipTitle_registradoPor}"/>
+
+                        <h:outputText value="#{myBundle.ViewDiasEnvioNotificacionIfipLabel_fechaRegistro}"/>
+                        <h:outputText value="#{diasEnvioNotificacionIfipController.selected.fechaRegistro}" title="#{myBundle.ViewDiasEnvioNotificacionIfipTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="DiasEnvioNotificacionIfipViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

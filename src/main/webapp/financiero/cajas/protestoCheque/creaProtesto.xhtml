@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProtestoChequeFor"> 
+
+        <p:panel  id="ProtestoChequePan"   
+                  header="#{propiedadesEtiquetaBL.ProtestoCheque}"  style="width: 800px"
+                  styleClass="encabezadosDialog">         
+            <p:focus context="ProtestoChequePan"/>      
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+                <h:panelGrid columns="1">                    
+                    <h:panelGrid id="DatosGuiaDepositoGri" columns="5" 
+                                 columnClasses="label, value, validator" styleClass="grid">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Fecha}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="fecha" />
+                        <p:calendar value="#{protestoChequeController.fecha}" 
+                                    id="fecha"
+                                    readonly="true"
+                                    disabled="true"
+                                    size="16"
+                                    pattern="dd/MM/yyyy"                                      
+                                    locale="es" 
+                                    required="true" />
+                        <h:message for="fecha"  styleClass="invalido"/> 
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="codigoMoneda" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoMoneda" 
+                                         value="#{protestoChequeController.ubicaMoneda}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{protestoChequeController.listaMoneda}"
+                                           var="MonedaItem"
+                                           itemValue="#{MonedaItem}"
+                                           itemLabel="#{MonedaItem.nombre.toString()}"/>   
+                            <p:ajax event="change"  
+                                    listener="#{protestoChequeController.preparaProtesto()}"
+                                    update="codigoMoneda,codigoEntFin,codigoCheque,codigoTipoProtesto,totalEfectivo"/> 
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoMoneda" styleClass="invalido" />                     
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EntidadFinanciera}" 
+                                       for="codigoEntFin" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoEntFin" 
+                                         value="#{protestoChequeController.ubicaEntFin}" 
+                                         required="true" 
+                                         filter="true" 
+                                         filterMatchMode="startsWith" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.EntidadFinanciera} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{protestoChequeController.listaEntiFin}"
+                                           var="EntFinItem"
+                                           itemValue="#{EntFinItem}"
+                                           itemLabel="#{EntFinItem.codigoTipoEntidad.siglas.toString()}  #{EntFinItem.nombre.toString()}"/> 
+                            <p:ajax event="change"  
+                                    listener="#{protestoChequeController.cambiaEntFin()}"
+                                    update="codigoMoneda,codigoEntFin,codigoCheque,codigoTipoProtesto,totalEfectivo"/>  
+                            <f:converter binding="#{entidadFinancieraConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoEntFin" styleClass="invalido" />                                                
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.DatosCheque}" 
+                                       for="codigoCheque" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoCheque"                                       
+                                         value="#{protestoChequeController.ubicaCheque}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="startsWith" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.DatosCheque} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{protestoChequeController.listaChequesEnGuia}"
+                                           var="ChequeItem"
+                                           itemValue="#{ChequeItem}"
+                                           itemLabel="#{propiedadesEtiquetaBL.NumeroCuenta}: #{ChequeItem.numeroCuenta.toString()} - #{propiedadesEtiquetaBL.NumeroCheque}: #{ChequeItem.numeroCheque.toString()}"/>                                                                                 
+                            <p:ajax event="change" 
+                                    listener="#{protestoChequeController.preparaProtesto()}"
+                                    update="codigoMoneda,socio,cuenta,codigoEntFin,codigoCheque,codigoTipoProtesto,valorCheque"/>                                                              
+                            <f:converter binding="#{chequeDepositadoConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoCheque" styleClass="invalido" />                        
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Valor}#{propiedadesEtiquetaBL.Cheque}" 
+                                       for="valorCheque" styleClass="etiqueta"/>
+                        <p:inputText id="valorCheque" 
+                                     readonly="true"                                          
+                                     value="#{protestoChequeController.ubicaValorCheque}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                        </p:inputText> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}" 
+                                       for="socio" styleClass="etiqueta"/>
+                        <p:inputText id="socio"                                       
+                                     value="#{protestoChequeController.ubicaCheque.movimientoCuenta.codigoCuenta.socio.codigoPersona.nombreCompleto.toString()}"
+                                     readonly="true"
+                                     style="width: 300px">
+                        </p:inputText>                        
+                        <h:message for="socio" styleClass="invalido" />                         
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}" 
+                                       for="cuenta" styleClass="etiqueta"/>
+                        <p:inputText id="cuenta"                                       
+                                     value="#{protestoChequeController.ubicaCheque.movimientoCuenta.codigoCuenta.numero.toString()}"
+                                     readonly="true">
+                        </p:inputText>
+                        <h:message for="cuenta" styleClass="invalido" />     
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoProtestoCheque}" 
+                                       for="codigoTipoProtesto" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoTipoProtesto" 
+                                         value="#{protestoChequeController.ubicaTipoProtesto}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="startsWith" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.TipoProtestoCheque} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{protestoChequeController.listaTipoProtestoCheque}"
+                                           var="TipoProtestoItem"
+                                           itemValue="#{TipoProtestoItem}"
+                                           itemLabel="#{TipoProtestoItem.nombre.toString()}"/>
+                            <p:ajax event="change"  
+                                    listener="#{protestoChequeController.preparaProtesto()}"                                                                        
+                                    update="codigoMoneda,codigoEntFin,codigoCheque,codigoTipoProtesto,totalEfectivo"/>  
+                            <f:converter binding="#{tipoProtestoChequeConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoTipoProtesto" styleClass="invalido" />            
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.ValorProtesto}" 
+                                       for="totalEfectivo" styleClass="etiquetaRequerida"/>                  
+                        <p:inputText id="totalEfectivo" 
+                                     value="#{protestoChequeController.valorAProtestar}"
+                                     required="true"
+                                     disabled="#{protestoChequeController.deshabilitaValorProtesto}"
+                                     requiredMessage="#{propiedadesEtiquetaBL.ValorProtesto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                            <f:validateLongRange minimum="0"/>
+                            <p:ajax event="blur"  
+                                    listener="#{protestoChequeController.preparaProtesto()}"                                                                        
+                                    update="codigoMoneda,codigoEntFin,codigoCheque,codigoTipoProtesto,totalEfectivo,protestarBot"/>  
+                        </p:inputText>
+                        <h:message for="totalEfectivo" styleClass="invalido" />                      
+                        <p:outputLabel value=""/>
+                        <p:outputLabel value=""/>
+
+                    </h:panelGrid>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="protestarBot"
+                                         actionListener="#{protestoChequeController.realizarProtesto}"
+                                         disabled="#{protestoChequeController.deshabilitaBotonProtesto}"
+                                         value="#{propiedadesEtiquetaBL.ProtestarCheque}"
+                                         icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                         update=":ProtestoChequeFor,:mensaje,:ComprobanteFor,:impresionLab">                    
+                            <p:confirm message="#{propiedadesMensajesBL.SeguroRealizarProtestoCheque}" 
+                                       icon="ui-icon-info"
+                                       class="encabezadosDialog"                                     
+                                       header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                        </p:commandButton>
+                    </f:facet>
+                </h:panelGrid>
+
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+                </p:confirmDialog>
+
+            </h:panelGroup>
+        </p:panel>
+    </h:form>
+</ui:composition>

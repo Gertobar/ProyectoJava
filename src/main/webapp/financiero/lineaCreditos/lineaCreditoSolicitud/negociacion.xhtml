@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <p:panel  id="negociacionPanel" 
+              header="#{propiedadesEtiquetaBL.Negociacion}"
+              style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;">
+        <p:focus context="negociacionPanel"/>
+        <h:panelGrid id="productoPanel" columns="1" columnClasses="label, value, validator" style="font-size: 10px">
+            <h:panelGrid columns="6">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Seccion}"
+                               for="seccion"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="seccion"
+                                 value="#{lineaCreditoSolicitudController.actividadEconomicaN1}"
+                                 panelStyle="width:500px"
+                                 effect="fade"
+                                 var="t"
+                                 style="width:235px"
+                                 filter="true"
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaActividadEconomicaN1}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"/>
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" listener="#{lineaCreditoSolicitudController.cambiaActividadEconomicaN1}" update="division,grupo,clase,subclase,actividadEconomica"/>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Division}"
+                               for="division"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="division"
+                                 value="#{lineaCreditoSolicitudController.actividadEconomicaN2}"
+                                 panelStyle="width:500px"
+                                 effect="fade"
+                                 var="t"
+                                 style="width:235px"
+                                 filter="true"
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaActividadEconomicaN2}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"/>
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" listener="#{lineaCreditoSolicitudController.cambiaActividadEconomicaN2}" update="grupo,clase,subclase,actividadEconomica"/>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Grupo}"
+                               for="grupo"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="grupo"
+                                 value="#{lineaCreditoSolicitudController.actividadEconomicaN3}"
+                                 panelStyle="width:500px"
+                                 effect="fade"
+                                 var="t"
+                                 style="width:235px"
+                                 filter="true"
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaActividadEconomicaN3}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"/>
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" listener="#{lineaCreditoSolicitudController.cambiaActividadEconomicaN3}" update="clase,subclase,actividadEconomica"/>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Clase}"
+                               for="clase"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="clase"
+                                 value="#{lineaCreditoSolicitudController.actividadEconomicaN4}"
+                                 panelStyle="width:500px"
+                                 effect="fade"
+                                 var="t"
+                                 style="width:235px"
+                                 filter="true"
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaActividadEconomicaN4}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"/>
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" listener="#{lineaCreditoSolicitudController.cambiaActividadEconomicaN4}" update="subclase,actividadEconomica"/>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Subclase}"
+                               for="subclase"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="subclase"
+                                 value="#{lineaCreditoSolicitudController.actividadEconomicaN5}"
+                                 panelStyle="width:500px"
+                                 effect="fade"
+                                 var="t"
+                                 style="width:235px"
+                                 filter="true"
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaActividadEconomicaN5}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"/>
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" listener="#{lineaCreditoSolicitudController.cambiaActividadEconomicaN5}" update="actividadEconomica"/>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.ActividadEconomica}"
+                               for="actividadEconomica"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="actividadEconomica"
+                                 value="#{lineaCreditoSolicitudController.actividadEconomicaN6}"
+                                 panelStyle="width:500px"
+                                 effect="fade"
+                                 var="t"
+                                 style="width:235px"
+                                 filter="true"
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaActividadEconomicaN6}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"/>
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid columns="4">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.DestinoFInanciero}"
+                               for="destinoFinanciero"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="destinoFinanciero"
+                                 value="#{lineaCreditoSolicitudController.destinoFinanciero}"
+                                 disabled="false"
+                                 filter="true"
+                                 style="width: 280px"
+                                 filterMatchMode="contains"
+                                 required="true">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaDestinoFinanciero}"
+                                   var="destinoFinacnerioItem"
+                                   itemValue="#{destinoFinacnerioItem}"
+                                   itemLabel="#{destinoFinacnerioItem.nombre}"/>
+                    <f:converter binding="#{destinoFinancieroConverter}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Pais}"
+                           for="codigoUbiGeoPaiRes"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoUbiGeoPaiRes"
+                             style="width: 200px"
+                             value="#{lineaCreditoSolicitudController.ubicacionGeograficaPais}" >
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{lineaCreditoSolicitudController.listaUbicacionGeograficaPais}"
+                               var="UbiGeoPaiResItem"
+                               itemValue="#{UbiGeoPaiResItem}"
+                               itemLabel="#{UbiGeoPaiResItem.nombre}"/>
+                <p:ajax update="codigoUbiGeoProRes,codigoUbiGeoCiuRes,codigoUbiGeoParRes"
+                        listener="#{lineaCreditoSolicitudController.cambiaUbicacionGeograficaPais}" />
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Provincia}"
+                           for="codigoUbiGeoProRes"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoProRes"
+                             value="#{lineaCreditoSolicitudController.ubicacionGeograficaProvincia}"
+                             style="width: 300px">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{lineaCreditoSolicitudController.listaUbicacionGeograficaProvincia}"
+                               var="UbiGeoProResItem"
+                               itemValue="#{UbiGeoProResItem}"
+                               itemLabel="#{UbiGeoProResItem.nombre}"/>
+                <p:ajax update="codigoUbiGeoCiuRes,codigoUbiGeoParRes"
+                        listener="#{lineaCreditoSolicitudController.cambiaUbicacionGeograficaProvincia}" />
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Ciudad}"
+                           for="codigoUbiGeoCiuRes"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoCiuRes"
+                             value="#{lineaCreditoSolicitudController.ubicacionGeograficaCiudad}"
+                             filter="true"
+                             style="width: 300px"
+                             filterMatchMode="startsWith">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{lineaCreditoSolicitudController.listaUbicacionGeograficaCiudad}"
+                               var="UbiGeoCiuResItem"
+                               itemValue="#{UbiGeoCiuResItem}"
+                               itemLabel="#{UbiGeoCiuResItem.nombre}"/>
+                <p:ajax update="codigoUbiGeoParRes"
+                        listener="#{lineaCreditoSolicitudController.cambiaUbicacionGeograficaCiudad}" />
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Parroquia}"
+                           for="codigoUbiGeoParRes"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoParRes"
+                             value="#{lineaCreditoSolicitudController.ubicacionGeograficaParroquia}"
+                             required="false"
+                             style="width: 300px"
+                             filter="true" >
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{lineaCreditoSolicitudController.listaUbicacionGeograficaParroquia}"
+                               var="UbiGeoParResItem"
+                               itemValue="#{UbiGeoParResItem}"
+                               itemLabel="#{UbiGeoParResItem.nombre}"/>
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+        </h:panelGrid>
+        <h:outputText value="&lt;br/&gt;" escape="false"/>
+        <p:panel  id="panelParametrosLinea"
+                  header="#{propiedadesEtiquetaBL.ParametrosLineaCredito}"
+                  style="font-size: 10px">
+            <h:panelGrid columns="8">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                               for="moneda"
+                               styleClass="etiqueta"/>
+                <p:inputText id="moneda"
+                             readonly="true"
+                             value="#{lineaCreditoSolicitudController.lineaCredito.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.nombre}" />
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoCartera}" 
+                               for="tipoCartera"
+                               styleClass="etiqueta"/>
+                <p:inputText id="tipoCartera"      
+                             readonly="true"
+                             value="#{lineaCreditoSolicitudController.lineaCredito.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.codigoTipoCartera.nombre}" />
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                               for="producto"
+                               styleClass="etiqueta"/>
+                <p:inputText id="producto"
+                             readonly="true"
+                             value="#{lineaCreditoSolicitudController.lineaCredito.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}">
+                </p:inputText>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoTabla}"
+                               for="tipoTabla"
+                               styleClass="etiqueta"/>
+                <p:inputText id="tipoTabla"
+                             readonly="true"
+                             value="#{lineaCreditoSolicitudController.lineaCredito.tipoTabla}" />
+            </h:panelGrid>
+
+            <h:panelGrid columns="4">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.MontoLineaCredito}"
+                               for="montoCredito"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="montoCredito"
+                             value="#{lineaCreditoSolicitudController.lineaCreditoSolicitud.montoLineaCredito}"
+                             styleClass="campoRequeridoValor"
+                             size="20"
+                             required="true">
+                    <p:ajax event="blur"
+                            listener="#{lineaCreditoSolicitudController.seleccionaTasaPorMonto}"
+                            update="tasaCredito,montoCredito"/>
+                    <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" 
+                               for="tasaCredito"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="tasaCredito"
+                             value="#{lineaCreditoSolicitudController.tasaLineaCredito.codigoTasa.valor}"
+                             styleClass="campoRequeridoValor"
+                             readonly="true"
+                             size="7">
+                    <f:convertNumber type="number" groupingUsed="true" locale="en" maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+            </h:panelGrid>
+
+            <h:panelGrid columns="2">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.OrigenRecursos}" 
+                               for="origenRecursos"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="origenRecursos" 
+                                 value="#{lineaCreditoSolicitudController.lineaCredito.codigoOrigenRecursos}"
+                                 required="false" 
+                                 disabled="true">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaOrigenRecursos}" 
+                                   var="origenItem"
+                                   itemValue="#{origenItem}"
+                                   itemLabel="#{origenItem.nombre}"/>
+                    <f:converter binding="#{origenRecursosConverter}"/>               
+                </p:selectOneMenu> 
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.DestinoEspecifico}" 
+                               for="destinoEspecifico"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="destinoEspecifico" 
+                                 value="#{lineaCreditoSolicitudController.lineaCreditoSolicitud.codigoDestinoEspecifico}"
+                                 required="true">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaDestinoEspecifico}"
+                                   var="item"
+                                   itemValue="#{item.codigo}"
+                                   itemLabel="#{item.nombre}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}"
+                               for="observaciones"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputTextarea  id="observaciones"
+                                  styleClass="campoRequerido"
+                                  onblur="value = value.toUpperCase()"
+                                  value="#{lineaCreditoSolicitudController.lineaCreditoSolicitud.observaciones}"
+                                  style="height: 40px !important; width: 245px !important; overflow:auto !important;"
+                                  autoResize="false"
+                                  required="true">
+                </p:inputTextarea>
+            </h:panelGrid>
+        </p:panel>
+
+    </p:panel>
+</ui:composition>

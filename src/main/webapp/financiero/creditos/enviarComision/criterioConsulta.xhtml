@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="5">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.BuscarPor}"/>
+            <p:selectOneMenu id="buscarPor"                                  
+                             value="#{solicitudBean.buscarPor}"
+                             required="true"                                  
+                             requiredMessage="#{solicitudBean.buscarPor} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Socio}" itemValue="S" />  
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Credito}" itemValue="N" />
+                <p:ajax event="change" listener="#{solicitudBean.cambiaCriterio()}" update="criterioTex,nombreSocio,buscar,:EnviaComisionForm:datalist"/>
+            </p:selectOneMenu>                
+
+            <p:inputText id="criterioTex" 
+                         value="#{solicitudBean.criterio}"   
+                         style="text-align:  right"
+                         onblur="value = value.toUpperCase()" 
+                         size="15">
+                <p:ajax event="blur" listener="#{solicitudBean.obtieneSolicitudes()}" update="nombreSocio,:EnviaComisionForm:datalist"/>
+            </p:inputText>
+
+            <p:inputText id="nombreSocio" 
+                         readonly="true"   
+                         value="#{solicitudBean.nombreSocio}" 
+                         onblur="value = value.toUpperCase()" 
+                         size="50"/>
+
+            <p:commandButton id="buscar" 
+                             value="#{propiedadesEtiquetaBL.Buscar}"
+                             icon="#{propiedadesObjetosBL.IcoVer}" 
+                             onclick="procesandoDlg.show()"
+                             disabled="#{solicitudBean.deshabilitaBuscarSocioLista}"
+                             update=":ListaSociosForm,:barraForm"
+                             actionListener="#{solicitudBean.preparaBusquedaSocioLista}"
+                             oncomplete="procesandoDlg.hide();ListaSociosDialog.show();"
+                             />
+
+        </h:panelGrid>
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+</ui:composition>

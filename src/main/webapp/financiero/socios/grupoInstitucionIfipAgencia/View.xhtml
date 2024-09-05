@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GrupoInstitucionIfipAgenciaViewDlg" widgetVar="GrupoInstitucionIfipAgenciaViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewGrupoInstitucionIfipAgenciaTitle}" closeOnEscape="true">
+
+            <h:form id="GrupoInstitucionIfipAgenciaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{grupoInstitucionIfipAgenciaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionIfipAgenciaLabel_grupoInstitucionIfipAgenciaPK_codigoIfipAgencia}"/>
+                        <h:outputText value="#{grupoInstitucionIfipAgenciaController.selected.grupoInstitucionIfipAgenciaPK.codigoIfipAgencia}" title="#{myBundle.ViewGrupoInstitucionIfipAgenciaTitle_grupoInstitucionIfipAgenciaPK_codigoIfipAgencia}"/>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionIfipAgenciaLabel_generaDescuentoRol}"/>
+                        <h:outputText value="#{grupoInstitucionIfipAgenciaController.selected.generaDescuentoRol}" title="#{myBundle.ViewGrupoInstitucionIfipAgenciaTitle_generaDescuentoRol}"/>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionIfipAgenciaLabel_acreditaSueldos}"/>
+                        <h:outputText value="#{grupoInstitucionIfipAgenciaController.selected.acreditaSueldos}" title="#{myBundle.ViewGrupoInstitucionIfipAgenciaTitle_acreditaSueldos}"/>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionIfipAgenciaLabel_creditosGrupales}"/>
+                        <h:outputText value="#{grupoInstitucionIfipAgenciaController.selected.creditosGrupales}" title="#{myBundle.ViewGrupoInstitucionIfipAgenciaTitle_creditosGrupales}"/>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionIfipAgenciaLabel_registradoPor}"/>
+                        <h:outputText value="#{grupoInstitucionIfipAgenciaController.selected.registradoPor}" title="#{myBundle.ViewGrupoInstitucionIfipAgenciaTitle_registradoPor}"/>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionIfipAgenciaLabel_fechaRegistro}"/>
+                        <h:outputText value="#{grupoInstitucionIfipAgenciaController.selected.fechaRegistro}" title="#{myBundle.ViewGrupoInstitucionIfipAgenciaTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionIfipAgenciaLabel_eliminado}"/>
+                        <h:outputText value="#{grupoInstitucionIfipAgenciaController.selected.eliminado}" title="#{myBundle.ViewGrupoInstitucionIfipAgenciaTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewGrupoInstitucionIfipAgenciaLabel_grupoInstitucion}"/>
+                        <h:outputText value="#{grupoInstitucionIfipAgenciaController.selected.grupoInstitucion.codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="GrupoInstitucionIfipAgenciaViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

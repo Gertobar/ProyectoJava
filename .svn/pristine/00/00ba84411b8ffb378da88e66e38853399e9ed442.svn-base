@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="TalonarioDocumentoDpfListForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{talonarioDocumentoDpfController.itemsTalonarioDocumentoDpf}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{talonarioDocumentoDpfController.selected}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="8"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+            <f:facet name="header">
+                <h:outputText value="TALONARIO"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm"/>
+            <p:ajax event="rowUnselect" update=":barraForm"/>
+
+            <p:column sortBy="#{item.computador.nombre}" filterValue="#{item.computador.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Computador}"/>
+                </f:facet>
+                <h:outputText value="#{item.computador.nombre}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.moneda.nombre}" filterValue="#{item.moneda.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                </f:facet>
+                <h:outputText value="#{item.moneda.nombre}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.inicioSerie}" filterValue="#{item.inicioSerie}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.InicioSerie}"/>
+                </f:facet>
+                <h:outputText value="#{item.inicioSerie}">
+                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText>
+            </p:column>
+            <p:column sortBy="#{item.finSerie}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FinSerie}"/>
+                </f:facet>
+                <h:outputText value="#{item.finSerie}"/>
+            </p:column>
+            <p:column sortBy="#{item.digitos}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Digitos}"/>
+                </f:facet>
+                <h:outputText value="#{item.digitos}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                </f:facet>
+                <h:outputText value="#{item.usuarioRegistradoPor.username}"/>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>
+                </f:facet>
+                <p:calendar value="#{item.fechaRegistro}" pattern="dd/MM/yyyy HH:mm:ss"  disabled="true"/>
+            </p:column>
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                         
+                </p:selectOneMenu>
+            </p:column>
+
+
+        </p:dataTable>
+
+
+
+    </h:form>
+
+</ui:composition>

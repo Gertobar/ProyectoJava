@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <p:panel  id="contratoPanel"
+              header="#{propiedadesEtiquetaBL.Contrato}"
+              style="height: 530px; width: 1000px">
+        <p:focus context="contratoPanel"/>
+        <h:panelGrid columns="2" styleClass="grid">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Linea} #{propiedadesEtiquetaBL.Socio}"/>
+                <p:separator/>
+            </f:facet>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Socio}"
+                               styleClass="etiquetaRequerida"/>
+                <h:panelGrid columns="3">
+                    <p:inputText id="nombreSocioSolicitud"
+                                 readonly="true"
+                                 value="#{lineaCreditoSolicitudController.nombreCompletoSocio}"
+                                 onblur="value = value.toUpperCase()"
+                                 size="50"/>
+                    <p:commandButton id="buscarSocioSolicitud"
+                                     value="#{propiedadesEtiquetaBL.Buscar} #{propiedadesEtiquetaBL.Socio}"
+                                     icon="#{propiedadesObjetosBL.IcoVer}"
+                                     onclick="cambiaBusquedaSolicitud();
+                                             PF('listaSociosDialog').show();"
+                                     type="button"/>
+                    <p:remoteCommand name="cambiaBusquedaSolicitud"
+                                     action="#{lineaCreditoSolicitudController.noBuscaSolicitudesDesdeComponente}"/>
+                </h:panelGrid>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.LineaCredito}"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="linea"
+                                 value="#{lineaCreditoSolicitudController.lineaCredito}"
+                                 requiredMessage="#{propiedadesEtiquetaBL.LineaCredito} - #{propiedadesMensajesBL.CampoRequerido}"
+                                 required="false"
+                                 disabled="#{lineaCreditoSolicitudController.edicion}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaLineaCredito}"
+                                   var="lineaItem"
+                                   itemValue="#{lineaItem}"
+                                   itemLabel="#{lineaItem.nombre}" />
+                    <f:converter binding="#{lineaCreditoConverter}"/>
+                    <p:ajax event="change" listener="#{lineaCreditoSolicitudController.cambiaLineaCredito}"/>
+                </p:selectOneMenu>                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Minimo}"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="montoMinimo"
+                             readonly="true"
+                             disabled="true"
+                             value="#{lineaCreditoSolicitudController.lineaCredito.montoMinimo}"
+                             size="30"/>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Maximo}"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="montoMaximo"
+                             readonly="true"
+                             disabled="true"
+                             value="#{lineaCreditoSolicitudController.lineaCredito.montoMaximo}"
+                             size="30"/>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Pago}"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="diaPago"
+                             readonly="true"
+                             disabled="true"
+                             value="#{lineaCreditoSolicitudController.lineaCredito.diaGeneraCredito}"
+                             size="30"/>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Estado} #{propiedadesEtiquetaBL.Cuenta}"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="diaEstadoCuenta"
+                             readonly="true"
+                             disabled="true"
+                             value="#{lineaCreditoSolicitudController.lineaCreditoSolicitud.diaEstadoCuenta}"
+                             size="30"/>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.CanalServicio}"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="canal"
+                                 value="#{lineaCreditoSolicitudController.canalServicio}"
+                                 requiredMessage="#{propiedadesEtiquetaBL.CanalServicio} - #{propiedadesMensajesBL.CampoRequerido}"
+                                 required="false"
+                                 disabled="#{lineaCreditoSolicitudController.edicion}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{lineaCreditoSolicitudController.listaCanalServicio}"
+                                   var="canalServicio"
+                                   itemValue="#{canalServicio}"
+                                   itemLabel="#{canalServicio.canal}" />
+                    <f:converter binding="#{canalServicioIfipConverter}"/>
+                </p:selectOneMenu>
+                
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+
+            </h:panelGrid>
+        </h:panelGrid>
+    </p:panel>
+</ui:composition>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ContratoDpfListForm">
+
+
+        <p:dataTable id="datalist"
+                     value="#{contratoDpfController.itemsContratoDpf}"
+                     var="item"
+                     rowKey="#{item.contratoDpfPK}"
+                     paginator="true"
+                     rows="7"
+                     selectionMode="single"
+                     selection="#{contratoDpfController.selected}"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}">
+
+            <p:ajax event="rowSelect"   update=":barraForm"/>
+            <p:ajax event="rowUnselect" update=":barraForm"/>
+
+            <p:column sortBy="#{item.contratoDpfPK.codigo}" 
+                      filterBy="#{item.contratoDpfPK.codigo}" 
+                      filterMatchMode="contains">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.contratoDpfPK.codigo}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.moneda.nombre}" 
+                      filterValue="#{item.moneda.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                </f:facet>
+                <h:outputText value="#{item.moneda.nombre}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.fechaContrato}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaContrato}"/>
+                </f:facet>
+                <p:calendar readonly="true" value="#{item.fechaContrato}" pattern="dd/MM/yyyy"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.fechaVencimiento}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaVencimiento}"/>
+                </f:facet>
+                <p:calendar readonly="true" value="#{item.fechaVencimiento}" pattern="dd/MM/yyyy"/>
+            </p:column>
+            
+            <p:column filterValue="#{item.capital}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Capital}"/>
+                </f:facet>
+                <h:outputText value="#{item.capital}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+             <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Tasa}"/>
+                </f:facet>
+                 <h:outputText value="#{item.tasaInteres}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Interes}"/>
+                </f:facet>
+                <h:outputText value="#{item.interes}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.PorcentajeRetencion}"/>
+                </f:facet>
+                <h:outputText value="#{item.porcentajeRetencion}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Retencion}"/>
+                </f:facet>
+                <h:outputText value="#{item.retencion}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                </f:facet>
+                <h:outputText value="#{item.total}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.estado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Anulado}" itemValue="A" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Vigente}" itemValue="V" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Cancelada}" itemValue="C" />  
+
+                </p:selectOneMenu>
+            </p:column>
+
+        </p:dataTable>
+
+
+
+
+    </h:form>
+
+</ui:composition>

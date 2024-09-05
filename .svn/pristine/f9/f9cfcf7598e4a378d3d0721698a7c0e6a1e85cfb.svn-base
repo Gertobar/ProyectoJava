@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoRubroViewDlg" widgetVar="TipoRubroViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{myBundle.ViewTipoRubroTitle}" closeOnEscape="true">
+
+            <h:form id="TipoRubroViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoRubroController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTipoRubroLabel_codio}"/>
+                        <h:outputText value="#{tipoRubroController.selected.codio}" title="#{myBundle.ViewTipoRubroTitle_codio}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoRubroLabel_nombre}"/>
+                        <h:outputText value="#{tipoRubroController.selected.nombre}" title="#{myBundle.ViewTipoRubroTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoRubroLabel_siglas}"/>
+                        <h:outputText value="#{tipoRubroController.selected.siglas}" title="#{myBundle.ViewTipoRubroTitle_siglas}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoRubroLabel_descripcion}"/>
+                        <h:outputText value="#{tipoRubroController.selected.descripcion}" title="#{myBundle.ViewTipoRubroTitle_descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoRubroLabel_eliminado}"/>
+                        <h:outputText value="#{tipoRubroController.selected.eliminado}" title="#{myBundle.ViewTipoRubroTitle_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="TipoRubroViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

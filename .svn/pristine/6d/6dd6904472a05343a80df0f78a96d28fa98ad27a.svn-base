@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LicitudFonCptoTranCreateDlg" widgetVar="LicitudFonCptoTranCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateLicitudFonCptoTranTitle}" closeOnEscape="true">
+
+            <h:form id="LicitudFonCptoTranCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonCptoTranLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{licitudFonCptoTranController.selected.codigo}" title="#{myBundle.CreateLicitudFonCptoTranTitle_codigo}" required="true" requiredMessage="#{myBundle.CreateLicitudFonCptoTranRequiredMessage_codigo}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonCptoTranLabel_codigoIfip}" for="codigoIfip" />
+                        <p:inputText id="codigoIfip" value="#{licitudFonCptoTranController.selected.codigoIfip}" title="#{myBundle.CreateLicitudFonCptoTranTitle_codigoIfip}" required="true" requiredMessage="#{myBundle.CreateLicitudFonCptoTranRequiredMessage_codigoIfip}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonCptoTranLabel_acumulado}" for="acumulado" />
+                        <p:inputText id="acumulado" value="#{licitudFonCptoTranController.selected.acumulado}" title="#{myBundle.CreateLicitudFonCptoTranTitle_acumulado}" required="true" requiredMessage="#{myBundle.CreateLicitudFonCptoTranRequiredMessage_acumulado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonCptoTranLabel_compensacion}" for="compensacion" />
+                        <p:inputText id="compensacion" value="#{licitudFonCptoTranController.selected.compensacion}" title="#{myBundle.CreateLicitudFonCptoTranTitle_compensacion}" required="true" requiredMessage="#{myBundle.CreateLicitudFonCptoTranRequiredMessage_compensacion}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonCptoTranLabel_esIndividual}" for="esIndividual" />
+                        <p:inputText id="esIndividual" value="#{licitudFonCptoTranController.selected.esIndividual}" title="#{myBundle.CreateLicitudFonCptoTranTitle_esIndividual}" required="true" requiredMessage="#{myBundle.CreateLicitudFonCptoTranRequiredMessage_esIndividual}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateLicitudFonCptoTranLabel_conceptoTransaccionPro}" for="conceptoTransaccionPro" />
+                        <p:selectOneMenu id="conceptoTransaccionPro" value="#{licitudFonCptoTranController.selected.conceptoTransaccionPro}" required="true" requiredMessage="#{myBundle.EditLicitudFonCptoTranRequiredMessage_conceptoTransaccionPro}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{conceptoTransaccionProController.items}"
+                                           var="conceptoTransaccionProItem"
+                                           itemValue="#{conceptoTransaccionProItem}"
+                                           itemLabel="#{conceptoTransaccionProItem.conceptoTransaccionProPK.toString()}"
+                                           />
+                            <f:converter binding="#{conceptoTransaccionProConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{licitudFonCptoTranController.saveNew}" value="#{myBundle.Save}" update="display,:LicitudFonCptoTranListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,LicitudFonCptoTranCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="LicitudFonCptoTranCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

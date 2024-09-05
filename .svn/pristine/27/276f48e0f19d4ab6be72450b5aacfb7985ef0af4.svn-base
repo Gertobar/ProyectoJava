@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+    <p:panel  id="criterioConsulta" styleClass="encabezadosDialog">         
+        <p:focus context="criterioConsulta"/> 
+
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Generar} #{propiedadesEtiquetaBL.MayorGeneral}  "
+                           styleClass="encabezadosDialog"/>
+        </f:facet>            
+        <h:panelGroup>
+            <h:panelGrid id="procesoContableConTraGri" columns="2" style="width: 500px;"
+                         columnClasses="label, value, validator" styleClass="grid">  
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Periodo}" 
+                               for="periodo"
+                               styleClass="etiquetaRequerida" />
+                <p:outputLabel id="periodo"
+                               value="#{mayorGeneralBean.periodoActual}" 
+                               styleClass="etiqueta" />
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaInicio} " 
+                               for="fechaInicio"
+                               styleClass="etiquetaRequerida" />
+                <p:calendar id="fechaInicio"
+                            pattern="dd/MM/yyyy"
+                            value="#{mayorGeneralBean.fechaInicio}"
+                            title="#{propiedadesTituloBL.FechaInicio}"
+                            showOn="button"
+                            locale="es" 
+                            mindate="#{mayorGeneralBean.fechaMinima}"
+                            maxdate="#{mayorGeneralBean.fechaMaxima}"
+                            required="true" 
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaInicio} : #{propiedadesMensajesBL.CampoRequerido}">      
+                    <p:ajax event="dateSelect" 
+                            listener="#{mayorGeneralBean.obtienePlanCuenta()}"
+                            update="planCuenta,:MayorGeneralListForm"/>  
+                </p:calendar>
+                 
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaFin} " 
+                               for="fechaFin"
+                               styleClass="etiquetaRequerida" />
+                <p:calendar id="fechaFin"
+                            pattern="dd/MM/yyyy"
+                            value="#{mayorGeneralBean.fechaFin}"
+                            title="#{propiedadesTituloBL.Fecha}"
+                            showOn="button"
+                            locale="es" 
+                            mindate="#{mayorGeneralBean.fechaMinima}"
+                            maxdate="#{mayorGeneralBean.fechaMaxima}"
+                            required="true" 
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaFin} : #{propiedadesMensajesBL.CampoRequerido}">     
+                    <p:ajax event="dateSelect" 
+                            listener="#{mayorGeneralBean.obtienePlanCuenta()}"
+                            update="planCuenta,:MayorGeneralListForm"/>  
+                </p:calendar>
+                
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}" 
+                               for="planCuenta"
+                               styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="planCuenta" 
+                                 filter="true" 
+                                 filterMatchMode="startsWith"
+                                 value="#{mayorGeneralBean.planDeCuenta}"
+                                 style="width: 400px;"
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.PlanCuenta} : #{propiedadesMensajesBL.CampoRequerido}">                          
+
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{mayorGeneralBean.itemsPlanDeCuenta}"
+                                   var="PlanCuentaItem"
+                                   itemValue="#{PlanCuentaItem}"
+                                   itemLabel="#{PlanCuentaItem.planDeCuentaPK.cuentaContable} : #{PlanCuentaItem.nombre.toString()}"
+                                   />   
+                    <f:converter binding="#{planDeCuentaConverter}"/>                     
+                </p:selectOneMenu>  
+                
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.SaldoIncial}" styleClass="etiqueta"/>
+                <p:inputText id="saldoInicial" value="#{mayorGeneralBean.saldoInicial}" readonly="true" size="10">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+
+            </h:panelGrid>      
+        </h:panelGroup>
+    </p:panel>
+
+</ui:composition>

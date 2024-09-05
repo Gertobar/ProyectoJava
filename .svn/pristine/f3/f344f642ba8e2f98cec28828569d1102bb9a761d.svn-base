@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ImpresionLibretaCuentaViewDlg" widgetVar="ImpresionLibretaCuentaViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewImpresionLibretaCuentaTitle}" closeOnEscape="true">
+
+            <h:form id="ImpresionLibretaCuentaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{impresionLibretaCuentaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewImpresionLibretaCuentaLabel_codigoMovimiento}"/>
+                        <h:outputText value="#{impresionLibretaCuentaController.selected.codigoMovimiento}" title="#{myBundle.ViewImpresionLibretaCuentaTitle_codigoMovimiento}"/>
+
+                        <h:outputText value="#{myBundle.ViewImpresionLibretaCuentaLabel_numeroLinea}"/>
+                        <h:outputText value="#{impresionLibretaCuentaController.selected.numeroLinea}" title="#{myBundle.ViewImpresionLibretaCuentaTitle_numeroLinea}"/>
+
+                        <h:outputText value="#{myBundle.ViewImpresionLibretaCuentaLabel_movimientoCuenta}"/>
+                        <h:outputText value="#{impresionLibretaCuentaController.selected.movimientoCuenta.codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewImpresionLibretaCuentaLabel_numeroLibreta}"/>
+                        <h:outputText value="#{impresionLibretaCuentaController.selected.numeroLibreta.numeroLibreta}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="ImpresionLibretaCuentaViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

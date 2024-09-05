@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition>
+        <p:dialog id="contratoAhorroProgramadoPreCancelaDlg" 
+                  widgetVar="contratoAhorroProgramadoPreCancelaDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true"
+                  position="center">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.ContratoAhorroProgramado}" style="font-size: 10px;"/>
+            </f:facet>
+            <h:form id="contratoAhorroProgramadoPreCancelaForm">
+                <p:panel  id="contratoPanel"
+                          style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;">
+                    <h:panelGrid columns="2" styleClass="grid"  style="font-size: 10px; margin-top: 0px;">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                       for="codigoIfipPreCancela"  
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoIfipPreCancela" 
+                                     value="#{contratoAhorroProgramadoController.ifip.nombre}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}"
+                                     size="10" 
+                                     maxlength="10"
+                                     disabled="true"/>                                                               
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.PersonaNatural}" 
+                                       for="personaNaturalPreCancela"  
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="personaNaturalPreCancela" 
+                                     value="#{contratoAhorroProgramadoController.personaNatural.persona.nombreCompleto}" 
+                                     title="#{propiedadesTituloBL.PersonaNatural}"
+                                     size="60" 
+                                     maxlength="10"
+                                     disabled="true"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.AhorroProgramado}"
+                                       styleClass="etiquetaRequerida"
+                                       for="ahorroProgramadoPreCancela"/>                                                       
+                        <h:panelGrid columns="3">
+                            <p:selectOneMenu id="ahorroProgramadoPreCancela"
+                                             value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.codigoAhorroProgramado}"
+                                             disabled="true">
+                                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                <f:selectItems value="#{contratoAhorroProgramadoController.listaAhorroProgramado}"
+                                               var="cuentaItem"
+                                               itemValue="#{cuentaItem.codigo}"
+                                               itemLabel="#{cuentaItem.nombre}"/>                                                                   
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.MotivoAhorroProgramado}"
+                                           styleClass="etiquetaRequerida"
+                                           for="motivoAhorroProgramadoPreCancela"/>                            
+                            <p:selectOneMenu id="motivoAhorroProgramadoPreCancela"
+                                             value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.codigoMotivoAhorroPro}"
+                                             disabled="true">
+                                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                <f:selectItems value="#{contratoAhorroProgramadoController.listaMotivoAhorroProgramado}"
+                                               var="motivo"
+                                               itemValue="#{motivo.codigo}"
+                                               itemLabel="#{motivo.nombre}"/>                                    
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CuentaAhorroProgramado}"
+                                       styleClass="etiquetaRequerida"
+                                       for="cuentaAhorroProgramadoPreCancela"/>                             
+                        <p:selectOneMenu id="cuentaAhorroProgramadoPreCancela"
+                                         value="#{contratoAhorroProgramadoController.contratoAhorroProgramado.codigoCuentaAhorroPro}"
+                                         disabled="true">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{contratoAhorroProgramadoController.listaCuentaProgramado}"
+                                           var="cuenta"
+                                           itemValue="#{cuenta.codigo}"
+                                           itemLabel="#{cuenta.numero}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaFinalizacion}"
+                                       styleClass="etiquetaRequerida"
+                                       for="fechaFinalizacion"/>
+                        <p:inputText id="fechaFinalizacion" 
+                                     value="#{contratoAhorroProgramadoController.penalidadContratoAhorroResumen.fechaFinalizacion}" 
+                                     title="#{propiedadesTituloBL.FechaFinalizacion}"
+                                     size="60" 
+                                     maxlength="10"
+                                     readonly="true">
+                            <f:convertDateTime  pattern="dd/MM/yyyy"/>
+                        </p:inputText>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.PorcentajePenalizacion}"
+                                       styleClass="etiquetaRequerida"
+                                       for="porcentajePenalizacion"/>
+                        <p:inputText id="porcentajePenalizacion" 
+                                     value="#{contratoAhorroProgramadoController.penalidadContratoAhorroResumen.porcentajePenalizacion}"
+                                     title="#{propiedadesTituloBL.PorcentajePenalizacion}"
+                                     size="60" 
+                                     maxlength="10"
+                                     readonly="true"/>          
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.InteresAPercibir}"
+                                       styleClass="etiquetaRequerida"
+                                       for="interesAPercibir"/>
+                        <p:inputText id="interesAPercibir" 
+                                     value="#{contratoAhorroProgramadoController.penalidadContratoAhorroResumen.interesAPercibir}"
+                                     title="#{propiedadesTituloBL.PorcentajePenalizacion}"
+                                     size="60" 
+                                     maxlength="10"
+                                     readonly="true"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.InteresPenalizado}"
+                                       styleClass="etiquetaRequerida"
+                                       for="interesPenalizado"/>
+                        <p:inputText id="interesPenalizado" 
+                                     value="#{contratoAhorroProgramadoController.penalidadContratoAhorroResumen.interesPenalizado}"
+                                     title="#{propiedadesTituloBL.InteresPenalizado}"
+                                     size="60" 
+                                     maxlength="10"
+                                     readonly="true"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.PorcentajeTranscurrido}"
+                                       styleClass="etiquetaRequerida"
+                                       for="porcentajeTranscurrido"/>                        
+                        <p:inputText id="porcentajeTranscurrido" 
+                                     value="#{contratoAhorroProgramadoController.penalidadContratoAhorroResumen.porcentajeTranscurrido}"
+                                     title="#{propiedadesTituloBL.PorcentajeTranscurrido}"
+                                     size="60" 
+                                     maxlength="10"
+                                     readonly="true"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.MotivoPrecancelacionAhorroProgramado}"
+                                       styleClass="etiquetaRequerida"
+                                       for="motivoPrecancelacionAhorroProgramado"/>                            
+                        <p:selectOneMenu id="motivoPrecancelacionAhorroProgramado"
+                                         value="#{contratoAhorroProgramadoController.codigoMotivoPrecancelacionAhorroProgramado}"
+                                         required="true">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{contratoAhorroProgramadoController.listaMotivoPrecancelacionAhorroProgramado}"
+                                           var="motivoPrecancelacion"
+                                           itemValue="#{motivoPrecancelacion.codigo}"
+                                           itemLabel="#{motivoPrecancelacion.nombre}"/>
+                            <p:ajax event="change" 
+                                    update="@this"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>                    
+                </p:panel>
+                <br/>
+                <p:commandButton id="preCancelarBot"
+                                 style="font-size: 10px; margin-top: 0px;"
+                                 actionListener="#{contratoAhorroProgramadoController.precancelaContrato}" 
+                                 icon="#{propiedadesObjetosBL.IcoEliminar}" 
+                                 value="#{propiedadesEtiquetaBL.Precancelar}"
+                                 onclick="procesandoDlg.show();"
+                                 oncomplete="procesandoDlg.hide();"
+                                 update=":contratoAhorroProgramadoListForm:datalist"/>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

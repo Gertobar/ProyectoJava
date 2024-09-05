@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="imprimePagareDlg"                  
+              modal="true"
+              widgetVar="ImprimePagareDialogo">
+
+        <f:facet name="header">
+            <h:outputLabel  id="impresionLab"
+                            value="#{propiedadesEtiquetaBL.Impresion}"
+                            styleClass="encabezadosDialog"/>
+        </f:facet>
+        
+        <h:form id="PagareFor">
+            <h:panelGrid columns="1" style="text-align: center; size: 10px">
+                <h:panelGrid columns="2" style="text-align: center">
+                    <p:commandButton id="imprimirSolicitudBot"
+                                     value="#{propiedadesEtiquetaBL.Contrato}"
+                                     onclick="ImprimePagareDialogo.hide()"
+                                     title="#{propiedadesTituloBL.Imprimir}" 
+                                     icon="#{propiedadesObjetosBL.IcoImprimir}"  
+                                     disabled="#{((!empty lineaCreditoController.lineaCreditoSolicitudParaActivarSeleccion) and (lineaCreditoController.lineaCreditoSolicitudParaActivarSeleccion.codigoLineaCreditoEstadoSol != 5) and (lineaCreditoController.lineaCreditoSolicitudParaActivarSeleccion.codigoLineaCreditoEstadoSol != 6)) ? false : true}"
+                                     ajax="false"
+                                     actionListener="#{lineaCreditoController.imprimirSolicitudEnPDF}"/>
+                    <p:commandButton id="imprimirPagareBot"
+                                     value="#{propiedadesEtiquetaBL.Pagare}"
+                                     onclick="ImprimePagareDialogo.hide()"
+                                     title="#{propiedadesTituloBL.ImprimirPagare}"
+                                     icon="#{propiedadesObjetosBL.IcoImprimirReporte}"
+                                     disabled="#{((!empty lineaCreditoController.lineaCreditoSolicitudParaActivarSeleccion) and (lineaCreditoController.lineaCreditoSolicitudParaActivarSeleccion.codigoLineaCreditoEstadoSol != 5) and (lineaCreditoController.lineaCreditoSolicitudParaActivarSeleccion.codigoLineaCreditoEstadoSol != 6)) ? false : true}"
+                                     ajax="false"
+                                     actionListener="#{lineaCreditoController.imprimirPagareEnPDF}"/>
+                </h:panelGrid>
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+</ui:composition>

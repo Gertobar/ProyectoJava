@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <h:form id="CuentasContablesIfipCreateForm"> 
+
+        <p:panel  id="CuentasContablesIfipPan" styleClass="encabezadosDialog">         
+            <p:focus context="CuentasContablesIfipPan"/> 
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.CuentaContable} #{propiedadesEtiquetaBL.Ifip}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>            
+
+            <h:panelGrid id="CuentasContablesIfipGri" columns="4" 
+                         columnClasses="label, value, validator" styleClass="grid">
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Ifip}" 
+                               for="Ifip" 
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="Ifip" 
+                                 value="#{planDeCuentaIfipController.ifip}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Ifip} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{planDeCuentaIfipController.itemsIfip}"
+                                   var="IfipItem"
+                                   itemValue="#{IfipItem}"
+                                   itemLabel="#{IfipItem.nombre.toString()}"/> 
+                    <p:ajax event="change" 
+                            listener="#{planDeCuentaIfipController.cambioIfip()}" 
+                            update="planDeCuentasPick,grupoPlan,nivel"/>                                
+                    <f:converter binding="#{ifipConverter}"/>
+                </p:selectOneMenu>
+                <h:outputLabel value=""/>
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Grupo} "    
+                               for="grupoPlan"
+                               styleClass="etiquetaRequerida"/>
+
+                <p:selectOneMenu id="grupoPlan" 
+                                 value="#{planDeCuentaIfipController.grupo}" 
+                                 required="true"
+                                 requiredMessage="#{propiedadesEtiquetaBL.Grupo} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <p:ajax event="change" 
+                            listener="#{planDeCuentaIfipController.actualizaListas()}" 
+                            update="planDeCuentasPick"/>
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{planDeCuentaIfipController.itemsGrupoCuentaContable}"
+                                   var="grupoPlanCuentaItem"
+                                   itemValue="#{grupoPlanCuentaItem}"
+                                   itemLabel="#{grupoPlanCuentaItem.nombre.toString()}"
+                                   />
+                    <f:converter binding="#{grupoCuentaContableConverter}"/>
+                </p:selectOneMenu>
+                <h:outputLabel value=""/>
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Nivel} " 
+                               for="nivel"  
+                               styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="nivel" 
+                                 converter="javax.faces.Short"
+                                 value="#{planDeCuentaIfipController.nivel}"
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Nivel} : #{propiedadesMensajesBL.CampoRequerido}"> 
+                    <p:ajax event="change" 
+                            listener="#{planDeCuentaIfipController.actualizaListas()}" 
+                            update="planDeCuentasPick"/>
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItem itemLabel="3" itemValue="3" />  
+                    <f:selectItem itemLabel="4" itemValue="4" />  
+                    <f:selectItem itemLabel="5" itemValue="5" /> 
+                </p:selectOneMenu>
+                <h:outputLabel value=""/>
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.PlanCuenta}" 
+                               for="planDeCuentasPick" styleClass="etiquetaRequerida" />              
+                <p:pickList id="planDeCuentasPick" 
+                            value="#{planDeCuentaIfipController.itemsPlanDeCuenta}" 
+                            var="PlanDeCuenta"   
+                            itemValue="#{PlanDeCuenta}"
+                            itemLabel="#{PlanDeCuenta.nombre} : #{PlanDeCuenta.planDeCuentaPK.cuentaContable}"                        
+                            showCheckbox="true"
+                            showSourceFilter="true" 
+                            showTargetFilter="true" 
+                            filterMatchMode="contains">
+                    <f:converter binding="#{planDeCuentaConverter}"/>
+                    <f:facet name="sourceCaption">#{propiedadesEtiquetaBL.NoAsignadas}</f:facet>
+                    <f:facet name="targetCaption">#{propiedadesEtiquetaBL.Asignadas}</f:facet>           
+                </p:pickList>
+
+
+            </h:panelGrid>
+            <f:facet name="footer">
+
+                <p:commandButton id="operacionMenuBot" 
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 update=":mensaje,:CuentasContablesIfipCreateForm:CuentasContablesIfipPan"                                         
+                                 onclick="procesandoDlg.show();"
+                                 action="#{planDeCuentaIfipController.guardaCuentasIfip()}"
+                                 oncomplete="procesandoDlg.hide()">                   
+                             </p:commandButton>
+                </f:facet>
+                <h:panelGrid id="tipoOperacionGri" columns="4" 
+                             columnClasses="label, value, validator" styleClass="grid">
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+    </ui:composition>

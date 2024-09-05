@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="GuiaDepositoChequeFor"> 
+
+        <p:panel  id="GuiaDepositoChequePan"   
+                  header="#{propiedadesEtiquetaBL.GuiaDepositoCheque}" style="width: 1100px"
+                  styleClass="encabezadosDialog">         
+            <p:focus context="GuiaDepositoChequePan"/>      
+
+            <p:separator/>  
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+
+                <h:panelGrid columns="2">
+
+                    <p:panel  id="GuiaPan" style="width: 300px">  
+                        <h:panelGrid columns="1">
+                            <p:panel  id="GuiaDepositoCabPan" style="width: 280px">                                                
+
+                                <h:panelGrid id="DatosGuiaDepositoGri" columns="3" 
+                                             columnClasses="label, value, validator" styleClass="grid">
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.Fecha}" 
+                                                   styleClass="etiquetaRequerida"
+                                                   for="fechaGuiaDeposito" />
+                                    <p:calendar value="#{guiaDepositoChequeController.fechaGuia}" 
+                                                id="fechaGuiaDeposito"
+                                                readonly="true"
+                                                disabled="true"
+                                                size="16"
+                                                pattern="dd/MM/yyyy"                                      
+                                                locale="es" 
+                                                required="true" />
+                                    <h:message for="fechaGuiaDeposito"  styleClass="invalido"/>
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                                   for="codigoMoneda" styleClass="etiquetaRequerida"/>
+                                    <p:selectOneMenu id="codigoMoneda" 
+                                                     value="#{guiaDepositoChequeController.ubicaMoneda}" 
+                                                     required="true" 
+                                                     requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                                        <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                        <f:selectItems value="#{guiaDepositoChequeController.listaMoneda}"
+                                                       var="MonedaItem"
+                                                       itemValue="#{MonedaItem}"
+                                                       itemLabel="#{MonedaItem.nombre}"/> 
+                                        <p:ajax event="change" 
+                                                listener="#{guiaDepositoChequeController.cambiaMoneda()}" 
+                                                update="codigoMoneda,codigoCuentaEntFin,GuiaDepositoDetPan,GuiaDepositoChequeTbl,codigoBoveda"/>                                
+                                        <f:converter binding="#{monedaConverter}"/>
+                                    </p:selectOneMenu>
+                                    <h:message for="codigoMoneda" styleClass="invalido" />
+                                    
+                                     <p:outputLabel value="#{propiedadesEtiquetaBL.Boveda}"
+                                                   styleClass="etiquetaRequerida"
+                                                   for="codigoBoveda" />
+                                    <p:selectOneMenu id="codigoBoveda" 
+                                                     value="#{guiaDepositoChequeController.boveda}" 
+                                                     disabled="false"
+                                                     requiredMessage="#{propiedadesEtiquetaBL.Boveda} - #{propiedadesMensajesBL.CampoRequerido}"
+                                                     required="true">
+                                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                        <f:selectItems value="#{guiaDepositoChequeController.itemsBoveda}"
+                                                       var="bovedaItem"
+                                                       itemValue="#{bovedaItem}"
+                                                       itemLabel="#{bovedaItem.nombre}"
+                                                       />                                       
+                                        <f:converter binding="#{bovedaConverter}"/>
+                                    </p:selectOneMenu>
+                                     <h:message for="codigoBoveda" styleClass="invalido" />
+                                </h:panelGrid>
+                            </p:panel>
+
+                            <p:panel  id="GuiaDepositoEntFinPan"
+                                      header="#{propiedadesEtiquetaBL.EmitirGuiaA}" 
+                                      style="width: 280px">
+                                <h:panelGrid id="DatosGuiaDepositoEntFinGri" columns="3" 
+                                             columnClasses="label, value, validator" styleClass="grid">
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.EntidadFinanciera}" 
+                                                   for="codigoCuentaEntFin" styleClass="etiquetaRequerida"/>
+                                    <p:selectOneMenu id="codigoCuentaEntFin" 
+                                                     value="#{guiaDepositoChequeController.ifipCuentaEntidadFinanciera}" 
+                                                     required="true" 
+                                                     disabled="#{guiaDepositoChequeController.deshabilitaComboEntFin}"
+                                                     requiredMessage="#{propiedadesEtiquetaBL.EntidadFinanciera} - #{propiedadesMensajesBL.CampoRequerido}"
+                                                     filter="true">
+                                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                        <f:selectItems value="#{guiaDepositoChequeController.itemsIfipCuentaEntidadFinanciera}"
+                                                       var="cuentEntidadFinancieraItem"
+                                                       itemValue="#{cuentEntidadFinancieraItem}"
+                                                       itemLabel="#{cuentEntidadFinancieraItem.entidadFinanciera.nombre}- #{cuentEntidadFinancieraItem.tipoCuentaEntidadFinanciera.nombre} - #{cuentEntidadFinancieraItem.numeroCuenta}"
+                                                       />                                       
+                                        <p:ajax event="change"  
+                                                update="codigoCuentaEntFin,transferirBot"/>    
+                                        <f:converter binding="#{ifipCuentaEntidadFinancieraConverter}"/>
+                                    </p:selectOneMenu>
+                                    <h:message for="codigoCuentaEntFin" styleClass="invalido" />  
+
+                                </h:panelGrid>
+
+
+                                <h:panelGrid columns="1" >
+                                    <f:facet name="footer">
+                                        <p:commandButton id="transferirBot"
+                                                         actionListener="#{guiaDepositoChequeController.emiteGuiaDeposito}"
+                                                         disabled="#{guiaDepositoChequeController.deshabilitaBotonEmitirGuia}"
+                                                         value="#{propiedadesEtiquetaBL.Emitir}"
+                                                         icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                                         update=":GuiaDepositoChequeFor,:GuiaDepositoChequeFor:GuiaDepositoDetPan,:GuiaDepositoChequeFor:GuiaDepositoChequeTbl,:mensaje,:ComprobanteFor,:impresionLab">                    
+                                            <p:confirm message="#{propiedadesMensajesBL.SeguroEmitirGuiaDepositoCheque}" 
+                                                       icon="ui-icon-info"
+                                                       class="encabezadosDialog"                                     
+                                                       header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                                        </p:commandButton>
+                                    </f:facet>
+
+
+                                </h:panelGrid>
+
+                            </p:panel>
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <p:panel  id="GuiaDepositoDetPan" >
+                        <h:panelGrid  id="GuiaDepositoChequeGri" columns="1" style="font-size: 10px;">
+
+                            <p:dataTable id="GuiaDepositoChequeTbl"  
+                                         value="#{guiaDepositoChequeController.listaChequesTransferidos}"      
+                                         var="itemGuiaDepositoCheque"                                        
+                                         selection="#{guiaDepositoChequeController.itemsChequesGuiaSeleccionados}"
+                                         rowKey="#{itemGuiaDepositoCheque.codigo}"    
+                                         scrollable="true" 
+                                         scrollHeight="150"                                                                                                                                   
+                                         rows="10"
+                                         emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                         >
+
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.ChequesTransferidos}"
+                                                   styleClass="encabezadosDialog"/>
+                                </f:facet>
+                                
+                                <p:ajax event="rowSelectCheckbox" 
+                                        listener="#{guiaDepositoChequeController.calculaTotales()}" 
+                                        update=":GuiaDepositoChequeFor:totalEfectivo" />
+                                
+                                <p:ajax event="rowUnselectCheckbox" 
+                                        listener="#{guiaDepositoChequeController.calculaTotales()}" 
+                                        update=":GuiaDepositoChequeFor:totalEfectivo" />
+                                
+                                <p:ajax event="toggleSelect" 
+                                        listener="#{guiaDepositoChequeController.calculaTotales()}" 
+                                        update=":GuiaDepositoChequeFor:totalEfectivo" />
+                                
+                                <p:column selectionMode="multiple"  style="text-align:center" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Incluir}"
+                                                      />
+                                    </f:facet>                                     
+                                </p:column>
+
+                                <p:column  style="text-align: center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.NumeroCheque}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemGuiaDepositoCheque.numeroCheque}">                            
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column  style="text-align: center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.NumeroCuenta}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemGuiaDepositoCheque.numeroCuenta}">                           
+                                    </h:outputText>
+                                </p:column> 
+
+                                <p:column  style="text-align: center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.EntidadFinanciera}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemGuiaDepositoCheque.entidadFinanciera.codigoTipoEntidad.siglas} #{itemTransferenciaCheque.entidadFinanciera.nombre}">                           
+                                    </h:outputText>
+                                </p:column>   
+
+                                <p:column  style="text-align: center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Movimiento}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemGuiaDepositoCheque.codigoMovimiento}">                           
+                                    </h:outputText>
+                                </p:column>    
+
+                                <p:column  style="text-align: center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemGuiaDepositoCheque.valor}">     
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column> 
+                            </p:dataTable>
+
+
+                            <h:panelGrid columns="2" width="600px">
+                                <h:panelGrid columns="2" width="500px" style="text-align:  right">
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.Total}" styleClass="encabezadosPanelGrid"/>                             
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" width="150px" style="text-align: right">
+                                    <h:outputText id="totalEfectivo" 
+                                                  value="#{guiaDepositoChequeController.total}" 
+                                                  styleClass="encabezadosPanelGrid">
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:outputText>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:panelGrid>
+
+                    </p:panel>               
+                </h:panelGrid>
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+                </p:confirmDialog>
+
+            </h:panelGroup>
+
+        </p:panel>
+
+    </h:form>
+</ui:composition>

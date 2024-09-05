@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProtestoChequeDetalleCreateDlg" widgetVar="ProtestoChequeDetalleCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateProtestoChequeDetalleTitle}" closeOnEscape="true">
+
+            <h:form id="ProtestoChequeDetalleCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateProtestoChequeDetalleLabel_protestoChequeDetallePK_codigoMoneda}" for="protestoChequeDetallePK_codigoMoneda" />
+                        <p:inputText id="protestoChequeDetallePK_codigoMoneda" value="#{protestoChequeDetalleController.selected.protestoChequeDetallePK.codigoMoneda}" title="#{myBundle.CreateProtestoChequeDetalleTitle_protestoChequeDetallePK_codigoMoneda}" required="true" requiredMessage="#{myBundle.CreateProtestoChequeDetalleRequiredMessage_protestoChequeDetallePK_codigoMoneda}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProtestoChequeDetalleLabel_numeroCheques}" for="numeroCheques" />
+                        <p:inputText id="numeroCheques" value="#{protestoChequeDetalleController.selected.numeroCheques}" title="#{myBundle.CreateProtestoChequeDetalleTitle_numeroCheques}" required="true" requiredMessage="#{myBundle.CreateProtestoChequeDetalleRequiredMessage_numeroCheques}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProtestoChequeDetalleLabel_totalCheques}" for="totalCheques" />
+                        <p:inputText id="totalCheques" value="#{protestoChequeDetalleController.selected.totalCheques}" title="#{myBundle.CreateProtestoChequeDetalleTitle_totalCheques}" required="true" requiredMessage="#{myBundle.CreateProtestoChequeDetalleRequiredMessage_totalCheques}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProtestoChequeDetalleLabel_totalProtesto}" for="totalProtesto" />
+                        <p:inputText id="totalProtesto" value="#{protestoChequeDetalleController.selected.totalProtesto}" title="#{myBundle.CreateProtestoChequeDetalleTitle_totalProtesto}" required="true" requiredMessage="#{myBundle.CreateProtestoChequeDetalleRequiredMessage_totalProtesto}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProtestoChequeDetalleLabel_protestoCheque}" for="protestoCheque" />
+                        <p:selectOneMenu id="protestoCheque" value="#{protestoChequeDetalleController.selected.protestoCheque}" required="true" requiredMessage="#{myBundle.EditProtestoChequeDetalleRequiredMessage_protestoCheque}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{protestoChequeController.items}"
+                                           var="protestoChequeItem"
+                                           itemValue="#{protestoChequeItem}"
+                                           itemLabel="#{protestoChequeItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{protestoChequeConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{protestoChequeDetalleController.saveNew}" value="#{myBundle.Save}" update="display,:ProtestoChequeDetalleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ProtestoChequeDetalleCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="ProtestoChequeDetalleCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

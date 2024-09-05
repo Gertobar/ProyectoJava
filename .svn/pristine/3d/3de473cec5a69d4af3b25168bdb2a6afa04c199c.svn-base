@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="datosBasicosPan" 
+              header="#{propiedadesEtiquetaBL.DatosBasicos} - #{propiedadesEtiquetaBL.Socio}"
+              style="border: 0; height: 500px; width: 700px">  
+        <p:focus context="datosBasicosPan"/>   
+
+
+        <h:panelGrid id="parametrosGri" columns="3" columnClasses="label, value, validator" styleClass="grid">  
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoSocio}" 
+                           for="codigoSocio"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.socio.socioPK.codigo}"
+                         disabled="true"
+                         id="codigoSocio"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.CodigoSocio} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            <h:message for="codigoSocio" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoPersona}" 
+                           for="codigoTipoPersona"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoTipoPersona" 
+                             value="#{socioBean.persona.codigoTipoPersona}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.TipoPersona} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsTipoPersona}"
+                               var="codigoTipoPersonaItem"
+                               itemValue="#{codigoTipoPersonaItem}"
+                               itemLabel="#{codigoTipoPersonaItem.nombre}"
+                               />
+                <p:ajax update="codigoTipoIdentificacion,identificacion,fechaCaducidad"      
+                        listener="#{socioBean.cambiaTipoPersona()}" />  
+                <f:converter binding="#{tipoPersonaConverter}"/>
+            </p:selectOneMenu>  
+            <h:message for="codigoTipoPersona"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoIdentificacion}" 
+                           for="codigoTipoIdentificacion"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoTipoIdentificacion" 
+                             value="#{socioBean.persona.codigoTipoIdentificacion}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.TipoIdentificacion} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsTipoIdentificacion}"
+                               var="codigoTipoIdentificacionItem"
+                               itemValue="#{codigoTipoIdentificacionItem}"
+                               itemLabel="#{codigoTipoIdentificacionItem.nombre}"
+                               />
+                <p:ajax update="identificacion,fechaCaducidad"
+                        listener="#{socioBean.cambiaTipoIdentificacion()}" />  
+
+                <f:converter binding="#{tipoIdentificacionConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoTipoIdentificacion" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                           for="identificacion"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.persona.identificacion}"
+                         id="identificacion"
+                         required="true"                          
+                         requiredMessage="#{propiedadesEtiquetaBL.Identificacion} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:validator validatorId="identificacionSocioValidador"/>
+                <p:ajax event="blur"  
+                        update=":mensaje,:SocioNuevoFor"
+                        listener="#{socioBean.validaSocioIngresado()}" />    
+
+                <f:attribute name="siglasIdentificacion" 
+                             value="#{socioBean.siglasIdentificacion}" />                
+            </p:inputText>            
+            <h:message for="identificacion" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaCaduca}" 
+                           for="fechaCaducidad"
+                           styleClass="etiquetaRequerida"/>
+            <p:calendar  value="#{socioBean.persona.fechaCaducidadIdentificacion}"
+                         pattern="dd/MM/yyyy"
+                         id="fechaCaducidad" 
+                         disabled="#{socioBean.deshabilitaFechaCaduca}"
+                         locale="es"   
+                         required="true"
+                         requiredMessage="#{propiedadesEtiquetaBL.FechaCaduca} - #{propiedadesMensajesBL.CampoRequerido}"                         
+                         mindate="#{socioBean.fechaActual}"
+                         >   
+            </p:calendar>
+            <h:message for="fechaCaducidad"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.MotivoSocio}" 
+                           for="codigoMotivoSocio"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoMotivoSocio" 
+                             value="#{socioBean.socio.codigoMotivoSocio}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.MotivoSocio} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{motivoSocioController.items}"
+                               var="codigoMotivoSocioItem"
+                               itemValue="#{codigoMotivoSocioItem}"
+                               itemLabel="#{codigoMotivoSocioItem.nombre}"
+                               />
+                <f:converter binding="#{motivoSocioConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoMotivoSocio" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ConocimientoIfip}" 
+                           for="codigoConocimientoIfip"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoConocimientoIfip" 
+                             value="#{socioBean.socio.codigoConocimientoIfip}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.ConocimientoIfip} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsConocimientoIfip}"
+                               var="codigoConocimientoIfipItem"
+                               itemValue="#{codigoConocimientoIfipItem}"
+                               itemLabel="#{codigoConocimientoIfipItem.nombre}"
+                               />
+                <f:converter binding="#{conocimientoIfipConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoConocimientoIfip" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.EntregoRequesitios}" 
+                           for="entregoRequisitos"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="entregoRequisitos" 
+                             value="#{socioBean.socio.entregoRequesitios}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.EntregoRequesitios} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItem itemLabel="SI"  itemValue="S"/>
+                <f:selectItem itemLabel="NO"  itemValue="N"/>
+            </p:selectOneMenu>
+            <h:message for="entregoRequisitos" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.EstadoSocio}" 
+                           for="estadoSocio"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="estadoSocio" 
+                             value="#{socioBean.socio.codigoEstadoSocio}"
+                             disabled="#{socioBean.deshabilitaEstadoSocio}"
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.EstadoSocio} - #{propiedadesMensajesBL.CampoRequerido}">                                                    
+                <f:selectItems value="#{socioBean.itemsEstadoSocio}"
+                               var="estadoSocioItem"
+                               itemValue="#{estadoSocioItem}"
+                               itemLabel="#{estadoSocioItem.nombre}"
+                               />
+                <f:converter binding="#{estadoSocioConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="estadoSocio" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                           for="observaciones"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.socio.observaciones}"
+                         id="observaciones"
+                         size="50"
+                         onblur="value = value.toUpperCase()"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.Observaciones} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            <h:message for="observaciones" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoArchivo}" 
+                           for="codigoArchivo"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.socio.codigoArchivo}"
+                         id="codigoArchivo"
+                         disabled="true"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.CodigoArchivo} - #{propiedadesMensajesBL.CampoRequerido}"/>
+
+            <h:message for="codigoArchivo" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.CreadoPor}" 
+                           for="creadoPor"
+                           styleClass="etiquetaRequerida"/>
+
+
+            <p:inputText id="creadoPor"
+                         value="#{socioBean.socio.codigoUsuarioCreacion.codigoPersona.nombreCompleto}"
+                         size="60"
+                         readonly="true"/>
+            <h:message for="creadoPor" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaCreacion}" 
+                           for="fechaCreacion"
+                           styleClass="etiquetaRequerida"/>
+            <p:calendar value="#{socioBean.socio.fechaCreacion}"
+                        id="fechaCreacion"
+                        disabled="true"
+                        pattern="dd/MM/yyyy HH:mm:ss"                                      
+                        locale="es" 
+                        required="true" 
+                        requiredMessage="#{propiedadesEtiquetaBL.FechaCreacion} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            <h:message for="fechaCreacion" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaActualizacion}" 
+                           for="fechaActualizacion"
+                           styleClass="etiquetaRequerida"/>
+            <p:calendar value="#{socioBean.socio.fechaActualizacion}"
+                        id="fechaActualizacion"
+                        disabled="true"
+                        pattern="dd/MM/yyyy HH:mm:ss"                                      
+                        locale="es" 
+                        required="true" 
+                        requiredMessage="#{propiedadesEtiquetaBL.FechaActualizacion} - #{propiedadesMensajesBL.CampoRequerido}"/>            
+            <h:message for="fechaActualizacion" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.IfipAgencia}" 
+                           for="ifipAgencia"
+                           styleClass="etiquetaRequerida"/>         
+            <p:inputText id="ifipAgencia"
+                         value="#{socioBean.socio.codigoIfipAgencia.nombre}" 
+                         readonly="true" 
+                         size="50"/>
+            <h:message for="ifipAgencia" styleClass="invalido" />
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.CorreoElectronico}" 
+                           for="correoElectronico"
+                           styleClass="etiqueta"/>
+            <p:inputText value="#{socioBean.persona.correoEletronico}"
+                         id="correoElectronico"
+                         required="false"
+                         validator="correoElectronicoValidador"
+                         size="40"
+                         onblur="value = value.toLowerCase()"/>
+            <h:message for="correoElectronico" styleClass="invalido" />
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ClasePersona}" 
+                           for="codigoClasePersona"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoClasePersona" 
+                             value="#{socioBean.clasePersona}"
+                             >
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.clasePersonaLista}"
+                               var="codigoClasePersonaItem"
+                               itemValue="#{codigoClasePersonaItem}"
+                               itemLabel="#{codigoClasePersonaItem.nombre}"
+                               />
+                <f:converter binding="#{clasePersonaConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="codigoClasePersona" styleClass="invalido" />
+
+            <p:outputLabel for="nombresSocio" value="#{propiedadesEtiquetaBL.ModificacionTasaDPFSocio}" styleClass="etiqueta" />
+            <p:inputText id="nombresSocio" 
+                         value="#{socioBean.nombreCompletoPersona}" 
+                         title="#{propiedadesTituloBL.CodigoIfip}" 
+                         required="true"                          
+                         size="50" maxlength="50"
+                         disabled="true"/>                       
+            <p:commandButton id="listaSocios"
+                             value="#{propiedadesEtiquetaBL.Buscar} #{propiedadesEtiquetaBL.Socio}"
+                             icon="#{propiedadesObjetosBL.IcoVer}"                                 
+                             onclick="PF('listaSociosDialog').show();"
+                             update="nombresSocio,codigoClasePersona" 
+                             type="button"/>                
+            <p:spacer height="20"/>
+        </h:panelGrid>
+
+        <h:outputText value="#{propiedadesEtiquetaBL.IrAlUltimo} :" />  
+        <h:selectBooleanCheckbox value="#{socioBean.saltar}" />  
+    </p:panel>
+
+</ui:composition>

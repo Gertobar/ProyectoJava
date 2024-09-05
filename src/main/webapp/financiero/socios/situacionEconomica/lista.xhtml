@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SituacionEconomicaListForm">
+        
+        <p:dataTable id="datalist" 
+                     value="#{situacionEconomicaBean.itemsSocios}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{situacionEconomicaBean.socioSel}"
+                     rowKey="#{item.socioPK}"
+                     paginator="true"
+                     rows="6"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Socios}"/>
+            </f:facet>
+            
+                <p:ajax event="rowSelect" listener="#{situacionEconomicaBean.buscaMora()}"  update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+                <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+               
+                <p:column sortBy="#{item.socioPK.codigo}" style="width:  10px">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.socioPK.codigo}"/>
+                </p:column>
+               
+                <p:column sortBy="#{item.codigoPersona.codigoTipoIdentificacion.nombre}" 
+                          filterValue="#{item.codigoPersona.codigoTipoIdentificacion.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.TipoIdentificacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoPersona.codigoTipoIdentificacion.nombre}"/>
+                </p:column>
+                
+                <p:column sortBy="#{item.codigoPersona.identificacion}" filterBy="#{item.codigoPersona.identificacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoPersona.identificacion}"/>
+                </p:column>
+                
+                <p:column sortBy="#{item.codigoPersona.nombreCompleto}" filterBy="#{item.codigoPersona.nombreCompleto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.NombreCompleto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoPersona.nombreCompleto}"/>
+                </p:column>
+                
+                <p:column sortBy="#{item.fechaCreacion}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.FechaCreacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaCreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column sortBy="#{item.codigoPersona.fechaActualizacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.FechaActualizacion}"/> 
+                    </f:facet>
+                    <h:outputText value="#{item.codigoPersona.fechaActualizacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column sortBy="#{item.codigoEstadoSocio.nombre}"
+                          filterValue="#{item.codigoEstadoSocio.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoEstadoSocio.nombre}"/>
+                </p:column>
+                
+            </p:dataTable>
+    </h:form>
+
+</ui:composition>

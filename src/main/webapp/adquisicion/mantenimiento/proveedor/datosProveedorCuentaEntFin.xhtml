@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Personas Naturales --> 
+    <p:panel id="datosProveedorCuentaEntFin"  header="#{propiedadesEtiquetaBL.ProveedorCuentaEntFin}" 
+             style="height: 520px; width: 800px">
+        <p:focus context="datosProveedorCuentaEntFin"/>   
+        <!-- PanelGrid para Personas Naturales --> 
+        <h:panelGrid id="personaCuentaEntFin" columns="3" columnClasses="label, value, validator" styleClass="grid">
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoCuentaEntidadFinanciera}" 
+                           for="tipoCuentaEntidadFinancieraPro"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="tipoCuentaEntidadFinancieraPro" 
+                             value="#{proveedorBean.tipoCuentaEntidadFinanciera}" 
+                             required="#{proveedorBean.banderaCuenEntMov}" 
+                             requiredMessage="#{propiedadesEtiquetaBL.TipoCuentaEntidadFinanciera} #{propiedadesMensajesBL.CampoRequerido}">
+                <f:selectItem itemLabel="#{bdhBL.SelectOneMessage}"/>
+                <f:selectItems value="#{proveedorBean.itemsTipoCuentaEntidadFinanciera}"
+                               var="tipoCuentaEntidadFinancieraItems"
+                               itemValue="#{tipoCuentaEntidadFinancieraItems}"
+                               itemLabel="#{tipoCuentaEntidadFinancieraItems.nombre}"
+                               />
+                <f:converter binding="#{tipoCuentaEntidadFinancieraConverter}"/>
+                <p:ajax event="change"
+                        listener="#{proveedorBean.cambioCriterioCuentaEnt()}"
+                        update="tipoCuentaEntidadFinancieraPro, entidadFinancieraProveedor, numeroCuentaProveedor,nombreCuentaProveedor, observacionesCuentaProveedor "> 
+                </p:ajax>
+            </p:selectOneMenu> 
+
+
+            <h:message for="tipoCuentaEntidadFinancieraPro"  styleClass="invalido"/>
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.EntidadFinanciera}" 
+                           for="entidadFinancieraProveedor"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="entidadFinancieraProveedor" 
+                             value="#{proveedorBean.entidadFinanciera}" 
+                             required="#{proveedorBean.banderaCuenEntMov}"
+                             filter="true" 
+                                 filterMatchMode="contains"
+                             requiredMessage="#{propiedadesEtiquetaBL.EntidadFinanciera} #{propiedadesMensajesBL.CampoRequerido}">
+                <f:selectItem itemLabel="#{bdhBL.SelectOneMessage}"/>
+                <f:selectItems value="#{proveedorBean.itemsEntidadFinanciera}"
+                               var="entidadFinancieraItems"
+                               itemValue="#{entidadFinancieraItems}"
+                               itemLabel="#{entidadFinancieraItems.nombre}"
+                               />
+                <f:converter binding="#{entidadFinancieraConverter}"/>
+                
+                                <p:ajax event="change"
+                        listener="#{proveedorBean.cambioCriterioCuentaEnt()}"
+                        update="tipoCuentaEntidadFinancieraPro, entidadFinancieraProveedor, numeroCuentaProveedor,nombreCuentaProveedor, observacionesCuentaProveedor "> 
+                </p:ajax>
+            </p:selectOneMenu> 
+
+
+            <h:message for="entidadFinancieraProveedor"  styleClass="invalido"/>
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroCuenta}" 
+                           for="numeroCuentaProveedor"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{proveedorBean.numeroCuentaProCEF}"
+                         id="numeroCuentaProveedor"
+                         size="50"
+                         required="#{proveedorBean.banderaCuenEntMov}" 
+                         requiredMessage="#{propiedadesEtiquetaBL.NumeroCuenta} - #{propiedadesMensajesBL.CampoRequerido}">
+                <p:ajax event="blur"
+                        listener="#{proveedorBean.cambioCriterioCuentaEnt()}"
+                        update="tipoCuentaEntidadFinancieraPro, entidadFinancieraProveedor, numeroCuentaProveedor,nombreCuentaProveedor, observacionesCuentaProveedor "> 
+                </p:ajax>
+            </p:inputText>       
+            <h:message for="numeroCuentaProveedor"  styleClass="invalido"/>
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.NombreCuenta}" 
+                           for="nombreCuentaProveedor"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{proveedorBean.nombreCuentaProCEF}"
+                         id="nombreCuentaProveedor"
+                         size="50"
+                         onblur="value = value.toUpperCase()" 
+                         required="#{proveedorBean.banderaCuenEntMov}" 
+                         requiredMessage="#{propiedadesEtiquetaBL.NombreCuenta} - #{propiedadesMensajesBL.CampoRequerido}">
+                <p:ajax event="blur"
+                        listener="#{proveedorBean.cambioCriterioCuentaEnt()}"
+                        update="tipoCuentaEntidadFinancieraPro, entidadFinancieraProveedor, numeroCuentaProveedor,nombreCuentaProveedor, observacionesCuentaProveedor "> 
+                </p:ajax>
+            </p:inputText>       
+            <h:message for="nombreCuentaProveedor"  styleClass="invalido"/>
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                           for="observacionesCuentaProveedor"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{proveedorBean.observacionesProCEF}"
+                         id="observacionesCuentaProveedor"
+                         size="60"
+                         onblur="value = value.toUpperCase()" 
+                         required="#{proveedorBean.banderaCuenEntMov}" 
+                         requiredMessage="#{propiedadesEtiquetaBL.Observaciones} - #{propiedadesMensajesBL.CampoRequerido}">
+                <p:ajax event="blur"
+                        listener="#{proveedorBean.cambioCriterioCuentaEnt()}"
+                        update="tipoCuentaEntidadFinancieraPro, entidadFinancieraProveedor, numeroCuentaProveedor,nombreCuentaProveedor, observacionesCuentaProveedor "> 
+                </p:ajax>
+            </p:inputText>       
+            <h:message for="observacionesCuentaProveedor"  styleClass="invalido"/>
+
+
+
+        </h:panelGrid>
+    </p:panel>
+
+</ui:composition>

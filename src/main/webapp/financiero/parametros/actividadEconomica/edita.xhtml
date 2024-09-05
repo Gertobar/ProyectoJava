@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ActividadEconomicaEditDlg"
+                  widgetVar="ActividadEconomicaEditDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.ActividadEconomica}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>    
+
+            <h:form id="ActividadEconomicaEditForm">
+
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{actividadEconomicaController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" 
+                                       for="codigo" styleClass="etiqueta" />
+                        <h:outputText id="codigo" value="#{actividadEconomicaController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoOc}" for="codigoOc" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoOc" value="#{actividadEconomicaController.selected.codigoOc}" 
+                                     title="#{propiedadesTituloBL.CodigoOc}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoOc} : #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" for="nombre"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" value="#{actividadEconomicaController.selected.nombre}" 
+                                     title="#{propiedadesTituloBL.Nombre}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre}: #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoNivel}" for="codigoNivel" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoNivel" 
+                                         value="#{actividadEconomicaController.selected.codigoNivel}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.CodigoNivel} : #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{actividadEconomicaController.itemsNivel}"
+                                           var="codigoNivelItem"
+                                           itemValue="#{codigoNivelItem}"
+                                           itemLabel="#{codigoNivelItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{nivelConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoActEcoPad}" for="codigoActEcoPad"  styleClass="etiqueta"/>
+                        <p:selectOneMenu id="codigoActEcoPad" 
+                                         value="#{actividadEconomicaController.selected.codigoActEcoPad}" 
+                                         filter="true" 
+                                         filterMatchMode="startsWith">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{actividadEconomicaController.items}"
+                                           var="codigoActEcoPadItem"
+                                           itemValue="#{codigoActEcoPadItem}"
+                                           itemLabel="#{codigoActEcoPadItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{actividadEconomicaConverter}"/>
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{actividadEconomicaController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{actividadEconomicaController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:ActividadEconomicaListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,ActividadEconomicaEditDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

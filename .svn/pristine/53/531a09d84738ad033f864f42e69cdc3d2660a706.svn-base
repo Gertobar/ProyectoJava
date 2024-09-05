@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaTelefonoEditDlg" widgetVar="IfipAgenciaTelefonoEditDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoTitle}" closeOnEscape="true">
+
+            <h:form id="IfipAgenciaTelefonoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{ifipAgenciaTelefonoController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{ifipAgenciaTelefonoController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoLabel_codigoTipoTelefono}" for="codigoTipoTelefono" />
+                        <p:inputText id="codigoTipoTelefono" value="#{ifipAgenciaTelefonoController.selected.codigoTipoTelefono}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoTitle_codigoTipoTelefono}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoRequiredMessage_codigoTipoTelefono}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoLabel_codigoOperadoraTelefono}" for="codigoOperadoraTelefono" />
+                        <p:inputText id="codigoOperadoraTelefono" value="#{ifipAgenciaTelefonoController.selected.codigoOperadoraTelefono}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoTitle_codigoOperadoraTelefono}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoRequiredMessage_codigoOperadoraTelefono}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoLabel_numero}" for="numero" />
+                        <p:inputText id="numero" value="#{ifipAgenciaTelefonoController.selected.numero}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoTitle_numero}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoRequiredMessage_numero}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoLabel_principal}" for="principal" />
+                        <p:inputText id="principal" value="#{ifipAgenciaTelefonoController.selected.principal}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoTitle_principal}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoRequiredMessage_principal}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoLabel_mostrarImpresion}" for="mostrarImpresion" />
+                        <p:inputText id="mostrarImpresion" value="#{ifipAgenciaTelefonoController.selected.mostrarImpresion}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoTitle_mostrarImpresion}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoRequiredMessage_mostrarImpresion}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{ifipAgenciaTelefonoController.selected.eliminado}" title="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoTitle_eliminado}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoLabel_codigoIfipAgencia}" for="codigoIfipAgencia" />
+                        <p:selectOneMenu id="codigoIfipAgencia" value="#{ifipAgenciaTelefonoController.selected.codigoIfipAgencia}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaTelefonoRequiredMessage_codigoIfipAgencia}">
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.SelectOneMessage}"/>
+                            <f:selectItems value="#{ifipAgenciaController.items}"
+                                           var="codigoIfipAgenciaItem"
+                                           itemValue="#{codigoIfipAgenciaItem}"
+                                           itemLabel="#{codigoIfipAgenciaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{ifipAgenciaConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ifipAgenciaTelefonoController.save}" value="#{propiedadesEtiquetaBL.Save}" update="display,:IfipAgenciaTelefonoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IfipAgenciaTelefonoEditDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancel}" onclick="IfipAgenciaTelefonoEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

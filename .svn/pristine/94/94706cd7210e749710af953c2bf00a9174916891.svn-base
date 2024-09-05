@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <p:panel  id="confirmacionPanel"
+              header="#{propiedadesEtiquetaBL.Confirmacion}"
+              style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;">
+        <p:focus context="confirmacionPanel"/>
+        <p:separator/>
+        <h:panelGrid columns="1" style="margin: 0 auto;">
+            <h:panelGrid columns="2">
+                <f:facet name="header" >
+                    <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.Recomendacion} #{propiedadesEtiquetaBL.InformeTecnico}" style="text-align:  center" />
+                </f:facet>
+                <h:outputText value="#{lineaCreditoInformeController.lineaCreditoSolicitudInformeTecnico.recomendacion}"/>
+            </h:panelGrid>
+            <p:separator/>
+            <h:panelGrid columns="2">
+                <f:facet name="header" >
+                    <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.FlujoDeCaja}" style="text-align:  center" />
+                </f:facet>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Ingresos} #{propiedadesEtiquetaBL.Socio}" styleClass="etiqueta"/>
+                <h:outputText value="#{lineaCreditoInformeController.totalIngresos}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Ingresos} #{propiedadesEtiquetaBL.Conyuge}" styleClass="etiqueta"/>
+                <h:outputText value="#{lineaCreditoInformeController.totalIngresosConyuge}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Egresos}" styleClass="etiqueta"/>
+                <h:outputText value="#{lineaCreditoInformeController.totalGastos}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Saldo}" styleClass="etiqueta"/>
+                <h:outputText value="#{lineaCreditoInformeController.saldo}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Cobertura}" styleClass="etiqueta"/>
+                <h:outputText value="#{lineaCreditoInformeController.cobertura}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+            <p:separator/>
+            <h:panelGrid columns="2" style="text-align:  center">
+                <f:facet name="header" >
+                    <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.SituacionPatrimonial}" style="text-align:  center" />
+                </f:facet>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Activos}" styleClass="etiqueta"/>
+                <h:outputText value="#{lineaCreditoInformeController.totalActivos}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Pasivos}" styleClass="etiqueta"/>
+                <h:outputText value="#{lineaCreditoInformeController.totalPasivos}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Patrimonio}" styleClass="etiqueta"/>
+                <h:outputText value="#{lineaCreditoInformeController.totalPatrimonio}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </h:panelGrid>
+            <p:separator/>
+            <f:facet name="footer">
+                <p:commandButton id="guardaInformeTecnico"
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 disabled="#{menuController.permisoOperacion.guardar and !lineaCreditoInformeController.permiteNuevoInforme}"
+                                 onclick="procesandoDlg.show();"
+                                 oncomplete="procesandoDlg.hide();"
+                                 actionListener="#{lineaCreditoInformeController.guardar}"
+                                 update=":lineaCreditoSolicitudListForm,:barraForm:nuevoBot,:barraForm:imprimirBot">
+                    <p:confirm message="#{propiedadesMensajesBL.SeguroGuardarInformeTecnico}"
+                               icon="ui-icon-info"
+                               header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                </p:commandButton>
+            </f:facet>
+        </h:panelGrid>
+        <p:separator/>
+    </p:panel>
+    <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+        <p:commandButton value="#{propiedadesEtiquetaBL.Si}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+        <p:commandButton value="#{propiedadesEtiquetaBL.No}" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+    </p:confirmDialog>
+</ui:composition>

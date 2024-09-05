@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TasaInteresDpfIfipCreateDlg"
+                  widgetVar="TasaInteresDpfIfipCreateDialog"
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true">
+              <f:facet name="header">
+                  <h:outputLabel value="#{propiedadesEtiquetaBL.Crear} #{propiedadesEtiquetaBL.TasaInteresDpfIfip}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="TasaInteresDpfIfipCreateForm">
+            <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" >
+
+
+                         <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                       for="codigoIfip"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoIfip" 
+                                     value="#{tasaInteresDpfIfipController.ifip.nombre}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10"
+                                     disabled="true"/>
+
+                      
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Valor}" 
+                                       for="valor" 
+                                        styleClass="etiquetaRequerida"/>
+                        <p:inputText id="valor" value="#{tasaInteresDpfIfipController.selected.valor}" 
+                                     title="#{propiedadesEtiquetaBL.valor}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" 
+                                       for="registradoPor"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="registradoPor" value="#{tasaInteresDpfIfipController.selected.registradaPor.toString()}"
+                                     title="#{propiedadesEtiquetaBL.RegistradoPor}"
+                                     required="true" requiredMessage="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}" 
+                                       for="fechaRegistro" 
+                                        styleClass="etiquetaRequerida"/>
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss"
+                                    value="#{tasaInteresDpfIfipController.selected.fechaRegistro}"
+                                   title="#{propiedadesTituloBL.FechaRegistro}" 
+                                    required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}  -  #{propiedadesMensajesBL.CampoRequerido}" 
+                                    showOn="button"
+                                    />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{tasaInteresDpfIfipController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                        
+                        <p:commandButton actionListener="#{tasaInteresDpfIfipController.saveNew}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:TasaInteresDpfIfipListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,TasaInteresDpfIfipCreateDialog);"/>   
+                    </p:panelGrid>
+                 
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

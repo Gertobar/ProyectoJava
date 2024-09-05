@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RolOperacionViewDlg" widgetVar="RolOperacionViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewRolOperacionTitle}" closeOnEscape="true">
+
+            <h:form id="RolOperacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{rolOperacionController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewRolOperacionLabel_rolOperacionPK_codigoIfip}"/>
+                        <h:outputText value="#{rolOperacionController.selected.rolOperacionPK.codigoIfip}" title="#{myBundle.ViewRolOperacionTitle_rolOperacionPK_codigoIfip}"/>
+
+                        <h:outputText value="#{myBundle.ViewRolOperacionLabel_eliminado}"/>
+                        <h:outputText value="#{rolOperacionController.selected.eliminado}" title="#{myBundle.ViewRolOperacionTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewRolOperacionLabel_rol}"/>
+                        <h:outputText value="#{rolOperacionController.selected.rol.descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewRolOperacionLabel_operacion}"/>
+                        <h:outputText value="#{rolOperacionController.selected.operacion.codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="RolOperacionViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

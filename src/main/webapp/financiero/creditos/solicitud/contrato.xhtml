@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="contratoPan" 
+              header="#{propiedadesEtiquetaBL.Contrato}"
+              style="height: 530px; width: 1000px">  
+        <p:focus context="contratoPan"/>   
+        <h:panelGrid id="numeroSolicitudGri" columns="4" columnClasses="label, value, validator" styleClass="grid">  
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Numero}" 
+                           for="numeroSolicitud"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{solicitudController.solicitud.solicitudPK.numero}"
+                         disabled="true"
+                         id="numeroSolicitud"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.Numero} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            <h:message for="numeroSolicitud" styleClass="invalido" />            
+
+            <h:panelGrid columns="1" styleClass="grid">
+                <p:outputLabel value="#{solicitudController.informacionActualizada}"
+                           styleClass="etiquetaRequerida"/>
+        </h:panelGrid>
+            
+        </h:panelGrid>
+        <h:panelGrid id="codigoSocioGri" columns="4" styleClass="grid">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Socio}"/>
+                <p:separator/>
+            </f:facet>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" 
+                           for="codigoSocio"
+                           styleClass="etiquetaRequerida"/>
+            <h:inputText id="codigoSocio" 
+                         style="text-align:  right"
+                         requiredMessage="#{propiedadesEtiquetaBL.Socio} #{propiedadesMensajesBL.CampoRequerido}"
+                         value="#{solicitudController.codigoSocio}">
+                <p:ajax event="blur" 
+                        listener="#{solicitudController.buscaSocioSolicitud()}"
+                        update="actualizacionDatosSocio,actualizacionSituacionPatrimonial,coberturaSocio,
+                        nombreSocio,identificacionConyuge,nombreConyuge,buscarConyugeSolicitud,editarConyugeBot,cuentasSolicitud,
+                        eliminarConyugeBot,mensajeWizard,coberturaSocio,patrimonioSocio,:SolicitudNuevaFor:cuentasTbl,vinculadaDatalist"/>
+            </h:inputText>
+            <p:inputText  id="nombreSocio"
+                          size="60"
+                          readonly="true"
+                          value="#{solicitudController.solicitud.socio.codigoPersona.nombreCompleto}"/>
+
+            <p:commandButton id="buscarSocioSolicitud" 
+                             value="#{propiedadesEtiquetaBL.Buscar}"
+                             icon="#{propiedadesObjetosBL.IcoVer}" 
+                             onclick="procesandoDlg.show()"
+                             update=":ListaSociosForm,:SolicitudNuevaFor"
+                             actionListener="#{solicitudController.preparaBusquedaSocioSolicitud}"
+                             oncomplete="procesandoDlg.hide();ListaSociosDialog.show();"
+                             />
+        </h:panelGrid>
+        <h:panelGrid id="socioConyugeGri" columns="1">
+            <p:dataTable id="cuentasTbl" 
+                         value="#{solicitudController.itemsCuentas}"
+                         var="itemCuenta"                                                                                   
+                         rowKey="#{itemCuenta.codigo}"
+                         emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                                                 
+                         widgetVar="cuentasTabla"
+                         scrollable="true" 
+                         scrollHeight="30">
+
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Cuentas} #{propiedadesEtiquetaBL.Socio}"/>
+                </f:facet>
+
+
+                <p:column> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                    </f:facet>
+                    <h:outputLabel value="#{itemCuenta.tipoProducto.nombre}"/>
+                </p:column>
+
+                <p:column> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.NumeroCuenta}"/>
+                    </f:facet>
+                    <h:outputLabel value="#{itemCuenta.numero}"/>
+                </p:column>
+
+                <p:column> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                    </f:facet>
+                    <h:outputLabel value="#{itemCuenta.moneda.nombre}"/>
+                </p:column>
+
+                <p:column style="height: 25px "> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.SaldoTotal}"/>
+                    </f:facet>
+                    <h:outputLabel value="#{itemCuenta.saldoTotal}">
+                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                    </h:outputLabel>
+                </p:column>
+            </p:dataTable>
+
+
+            <h:panelGrid id="datosSocioGri" columns="4" styleClass="grid">  
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaActualizacionDatosSocio}" 
+                               for="actualizacionDatosSocio"
+                               styleClass="etiqueta"/>
+                <p:calendar id="actualizacionDatosSocio"
+                            disabled="true"
+                            pattern="dd/MM/yyyy HH:mm:ss"
+                            value="#{solicitudController.solicitud.socio.fechaActualizacion}"/>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaActualizacionCituacionPat}" 
+                               for="actualizacionSituacionPatrimonial"
+                               styleClass="etiqueta"/>
+                <p:calendar id="actualizacionSituacionPatrimonial"      
+                            disabled="true"
+                            pattern="dd/MM/yyyy HH:mm:ss"                           
+                            value="#{solicitudController.socioSituacionPatrimonial.fechaActualizacion}"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Cobertura}" 
+                               for="coberturaSocio"
+                               styleClass="etiqueta"/>
+                <p:inputText id="coberturaSocio"      
+                             readonly="true"
+                             value="#{solicitudController.socioFlujoCaja.cobertura}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Patrimonio}" 
+                               for="patrimonioSocio"
+                               styleClass="etiqueta">
+
+                </p:outputLabel>
+                <p:inputText id="patrimonioSocio"    
+                             readonly="true"
+                             value="#{solicitudController.socioSituacionPatrimonial.totalPatrimonio}">                
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+
+
+            </h:panelGrid>  
+            <p:spacer height="10"/>
+            <h:panelGrid id="datosConyugeGri" columns="5" styleClass="grid">  
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Conyuge}"/>
+                    <p:separator/>
+                </f:facet>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                               for="identificacionConyuge"
+                               styleClass="etiquetaRequerida"/>
+                <h:inputText id="identificacionConyuge"    
+                             disabled="#{solicitudController.deshabilitaTextoIdentificacionConyuge}"
+                             value="#{solicitudController.identificacionConyuge}">
+                    <p:ajax event="blur" 
+                            listener="#{solicitudController.buscaConyuge()}"
+                            update="nombreSocio,identificacionConyuge,nombreConyuge,buscarConyugeSolicitud,editarConyugeBot,
+                            eliminarConyugeBot,mensajeWizard,coberturaSocio,patrimonioSocio"/>
+                </h:inputText>
+                <p:inputText id="nombreConyuge"
+                             readonly="true"
+                             size="40"
+                             value="#{solicitudController.personaConyugeSocio.nombreCompleto}"/>
+                <h:message for="identificacionConyuge"  styleClass="invalido"/>
+
+                <f:facet name="footer">
+                    <p:commandButton id="buscarConyugeSolicitud" 
+                                     value="#{propiedadesEtiquetaBL.Buscar}"
+                                     icon="#{propiedadesObjetosBL.IcoVer}" 
+                                     onclick="procesandoDlg.show()"
+                                     update=":ListaConyugesForm:nombresConyugeBusqueda,:ListaConyugesForm:datalistConyuge"
+                                     actionListener="#{solicitudController.preparaBusquedaConyuge}"
+                                     disabled="#{solicitudController.deshabilitaBuscarConyuge}" 
+                                     oncomplete="procesandoDlg.hide();ListaConyugesDialog.show();"
+                                     /> 
+                    <p:commandButton id="editarConyugeBot" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     disabled="#{solicitudController.deshabilitaEditarConyuge}"
+                                     actionListener="#{solicitudController.guardaConyuge}"
+                                     update="identificacionConyuge,nombreConyuge,buscarConyugeSolicitud,editarConyugeBot,eliminarConyugeBot"/>
+                    <p:commandButton id="eliminarConyugeBot" 
+                                     icon="#{propiedadesObjetosBL.IcoEliminar}"
+                                     value="#{propiedadesEtiquetaBL.Eliminar}"
+                                     disabled="#{solicitudController.deshabilitaEliminarConyuge}"
+                                     actionListener="#{solicitudController.eliminarConyuge}"
+                                     update="identificacionConyuge,nombreConyuge,buscarConyugeSolicitud,editarConyugeBot,eliminarConyugeBot"/>
+                </f:facet>
+
+            </h:panelGrid>
+
+        </h:panelGrid>
+        
+        <h:panelGrid columns="2">
+            
+
+            <h:panelGrid id="agregarCuentasSolicitud" columns="5">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Cuentas} #{propiedadesEtiquetaBL.Solicitud} #{propiedadesEtiquetaBL.Credito}"/>
+                    <p:separator/>
+                </f:facet>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                               for="tipoItem"
+                               styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="tipoItem" 
+                                 value="#{solicitudController.tipoCuentaSel}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Debito}" itemValue="D" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Credito}" itemValue="C" />                   
+                </p:selectOneMenu>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}"
+                               styleClass="etiquetaRequerida"
+                               for="cuentasSolicitud"/>
+                <p:selectOneMenu id="cuentasSolicitud" 
+                                 value="#{solicitudController.cuentaCombo}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsCuentasAhorrosVista}"
+                                   var="CuentaItem"
+                                   itemValue="#{CuentaItem}"
+                                   itemLabel="#{CuentaItem.numero}"
+                                   />
+                    <f:converter binding="#{cuentaConverter}"/>
+                </p:selectOneMenu>
+
+
+                <p:commandButton id="agregarCuentaBot" 
+                                 value="#{propiedadesEtiquetaBL.Agregar}"
+                                 update="cuentasSolicitudTbl"
+                                 action="#{solicitudController.agregaCuentaDetalle()}">
+                </p:commandButton>
+
+
+            </h:panelGrid>
+            
+            <p:dataList id="vinculadaDatalist" rendered="false" value="#{solicitudController.itemsPersonaVinculado}" var="var" type="ordered">
+                <f:facet name="header">
+                    <h:outputText value="PERSONAS VINCULADAS"/>
+                </f:facet>
+                <h:outputText value="#{var.identificacion}, #{var.nombreCompleto}"/>
+            </p:dataList>
+        </h:panelGrid>
+        <p:dataTable id="cuentasSolicitudTbl" 
+                     value="#{solicitudController.itemsSolicitudDetalle}"
+                     var="item"                                                          
+                     rowKey="#{item.solicitudDetallePK}"
+                     paginator="true"
+                     rows="1"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                                                 
+                     widgetVar="cuentasSolicitudTabla">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.CuentasSolicitudCredito}"/>
+            </f:facet>
+
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                </f:facet>
+                <h:outputLabel value="#{item.cuentaAcreditada.productoIfip.producto.tipoProducto.nombre}"/>
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Credito}"/>
+                </f:facet>
+                <h:outputLabel value="#{item.cuentaAcreditada.numero}"/>
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Debito}"/>
+                </f:facet>
+                <h:outputLabel value="#{item.cuentaDebito.numero}"/>
+            </p:column>
+
+        </p:dataTable>
+
+
+
+    </p:panel>
+
+</ui:composition>

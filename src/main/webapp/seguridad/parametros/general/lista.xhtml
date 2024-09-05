@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ParametroGeneralSegIfiListForm">
+
+        <p:dataTable id="datalist" value="#{parametroGeneralSegIfiController.itemsParGenIfi}" var="item"
+                     selectionMode="single" 
+                     selection="#{parametroGeneralSegIfiController.selected}"
+                     rowKey="#{item.parametroGeneralSegIfiPK}"
+                     paginator="true"
+                     rows="8"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.ParametroGeneralSeguridad}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column sortBy="#{item.parametroGeneralSeguridad.codigo}" 
+                      filterBy="#{item.parametroGeneralSeguridad.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.parametroGeneralSeguridad.codigo}"/>
+            </p:column>
+
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Ifip}"/>
+                </f:facet>
+                <p:selectOneMenu id="codigoIfip" 
+                                 value="#{parametroGeneralSeguridadController.selected.codigoIfip}" 
+                                 disabled="true">
+                    <f:selectItem  itemValue="#{usuarioIfipAgenciaController.ifipAgencia.codigoIfip}"
+                                   itemLabel="#{usuarioIfipAgenciaController.ifipAgencia.codigoIfip.nombre}"/>
+                    <f:converter binding="#{ifipConverter}"/>
+                </p:selectOneMenu>
+            </p:column>
+
+            <p:column sortBy="#{item.valorNumerico}" filterBy="#{item.valorNumerico}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ValorNumerico}"/>
+                </f:facet>
+                <h:outputText value="#{item.valorNumerico}"/>
+            </p:column>
+            <p:column sortBy="#{item.parametroGeneralSeguridad.descripcion}" filterBy="#{item.parametroGeneralSeguridad.descripcion}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Descripcion}"/>
+                </f:facet>
+                <h:outputText value="#{item.parametroGeneralSeguridad.descripcion}"/>
+            </p:column>
+            <p:column sortBy="#{item.valorFechaUno}" filterBy="#{item.valorFechaUno}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ValorFechaUno}"/>
+                </f:facet>
+                <h:outputText value="#{item.valorFechaUno}">
+                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                </h:outputText>
+            </p:column>
+            <p:column sortBy="#{item.valorFechaDos}" filterBy="#{item.valorFechaDos}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ValorFechaDos}"/>
+                </f:facet>
+                <h:outputText value="#{item.valorFechaDos}">
+                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                </h:outputText>
+            </p:column>      
+            <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                         
+                </p:selectOneMenu>
+            </p:column>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

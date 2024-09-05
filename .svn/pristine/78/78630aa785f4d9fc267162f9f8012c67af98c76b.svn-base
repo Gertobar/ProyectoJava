@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contratoCrediAmigoFirmas" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="faedca92-a1d8-432d-bfb2-f62099457eba">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="titularDataset" uuid="af4e76e6-be48-4f97-9531-208817dc54ee">
+		<queryString>
+			<![CDATA[SELECT 'NOMBRE: '||p.nombre_completo nombre,
+       'C.I: '||p.identificacion identificacion,
+       'DEUDOR' tipo
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.firmante_linea_credito flc,
+       mks_socios.persona p
+WHERE  lcs.codigo = flc.codigo_linea_credito_solicitud
+AND    flc.codigo_persona = p.codigo
+AND    lcs.codigo = 61
+AND    flc.codigo_tipo_firmante = 1 -- TITULAR --
+ORDER BY flc.codigo_tipo_firmante]]>
+		</queryString>
+		<field name="NOMBRE" class="java.lang.String"/>
+		<field name="IDENTIFICACION" class="java.lang.String"/>
+		<field name="TIPO" class="java.lang.String"/>
+		<group name="NOMBRE">
+			<groupExpression><![CDATA[$F{NOMBRE}]]></groupExpression>
+		</group>
+		<group name="IDENTIFICACION">
+			<groupExpression><![CDATA[$F{IDENTIFICACION}]]></groupExpression>
+		</group>
+		<group name="TIPO">
+			<groupExpression><![CDATA[$F{TIPO}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="conyugeTitularDataset" uuid="b340ffc8-c449-48a0-a1b9-7c77857843af">
+		<queryString>
+			<![CDATA[SELECT 'NOMBRE: '||p.nombre_completo nombre,
+       'C.I: '||p.identificacion identificacion,
+       'CONYUGE DEUDOR' tipo
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.firmante_linea_credito flc,
+       mks_socios.persona p
+WHERE  lcs.codigo = flc.codigo_linea_credito_solicitud
+AND    flc.codigo_persona = p.codigo
+AND    lcs.codigo = 21
+AND    flc.codigo_tipo_firmante = 2 -- CONYUGE TITULAR --
+ORDER BY flc.codigo_tipo_firmante]]>
+		</queryString>
+		<field name="NOMBRE" class="java.lang.String"/>
+		<field name="IDENTIFICACION" class="java.lang.String"/>
+		<field name="TIPO" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="garanteDataset" uuid="bfd68942-eabf-4d08-91fd-060f8cd5c177">
+		<queryString>
+			<![CDATA[SELECT 'NOMBRE: '||p.nombre_completo nombre,
+       'C.I: '||p.identificacion identificacion,
+       'GARANTE' tipo
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.firmante_linea_credito flc,
+       mks_socios.persona p
+WHERE  lcs.codigo = flc.codigo_linea_credito_solicitud
+AND    flc.codigo_persona = p.codigo
+AND    lcs.codigo = 61
+AND    flc.codigo_tipo_firmante = 3 -- GARANTE --
+ORDER BY flc.codigo_tipo_firmante]]>
+		</queryString>
+		<field name="NOMBRE" class="java.lang.String"/>
+		<field name="IDENTIFICACION" class="java.lang.String"/>
+		<field name="TIPO" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="conyugeGaranteDataset" uuid="0664d079-3138-4e87-b563-542d45f82d13">
+		<queryString>
+			<![CDATA[SELECT 'NOMBRE: '||p.nombre_completo nombre,
+       'C.I: '||p.identificacion identificacion,
+       'CONYUGE GARANTE' tipo
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.firmante_linea_credito flc,
+       mks_socios.persona p
+WHERE  lcs.codigo = flc.codigo_linea_credito_solicitud
+AND    flc.codigo_persona = p.codigo
+AND    lcs.codigo = 61
+AND    flc.codigo_tipo_firmante = 4 -- CONYUGE GARANTE --
+ORDER BY flc.codigo_tipo_firmante]]>
+		</queryString>
+		<field name="NOMBRE" class="java.lang.String"/>
+		<field name="IDENTIFICACION" class="java.lang.String"/>
+		<field name="TIPO" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset1" uuid="055451dd-1e46-4fb2-99d9-1821bc8fd25c"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoLineaCredito" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="contratoCrediAmigo1" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+(
+SELECT UPPER( i.razon_social ) ||' '||
+       'CONTRATO DE LINEA DE CREDITO '||UPPER( lc.nombre ) titulo2
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_ifips.ifip i
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo_ifip = i.codigo
+AND    lcs.codigo = $P{codigoLineaCredito}
+)contenido0
+FROM  mks_creditos.linea_credito_solicitud lcs,
+      mks_creditos.linea_credito lc,
+      mks_ifips.ifip_agencia a,
+      mks_comunes.ubicacion_geografica ug
+WHERE lcs.codigo_linea_credito = lc.codigo
+AND   lcs.codigo_ifip_agencia = a.codigo
+AND   a.codigo_ubi_geo_ciudad = ug.codigo
+AND   lcs.codigo = $P{codigoLineaCredito}]]>
+	</queryString>
+	<field name="CONTENIDO0" class="java.lang.String"/>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="452" splitType="Stretch">
+			<subreport>
+				<reportElement x="33" y="3" width="240" height="100" uuid="eba7d105-e5e9-4d0c-93ce-a722f5a85e62"/>
+				<subreportParameter name="contratoCrediAmigo1">
+					<subreportParameterExpression><![CDATA[$P{contratoCrediAmigo1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1} + "titularSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="297" y="3" width="240" height="100" uuid="bbc3b8ce-729b-4a11-89d3-862cc118043d"/>
+				<subreportParameter name="contratoCrediAmigo1">
+					<subreportParameterExpression><![CDATA[$P{contratoCrediAmigo1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1}+ "conyugeTitularSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="33" y="103" width="240" height="100" uuid="ee0cee27-2714-43b8-8da9-fba7973c30e1"/>
+				<subreportParameter name="contratoCrediAmigo1">
+					<subreportParameterExpression><![CDATA[$P{contratoCrediAmigo1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1} + "garanteSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="297" y="103" width="240" height="100" uuid="38e63ad5-3217-46eb-8c29-d50ba2c26f49"/>
+				<subreportParameter name="contratoCrediAmigo1">
+					<subreportParameterExpression><![CDATA[$P{contratoCrediAmigo1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1} + "conyugeGaranteSubreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="50"/>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

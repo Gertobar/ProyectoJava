@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="procesoContableConTraProCreateForm"> 
+
+        <p:panel  id="procesoContableConTraPro" styleClass="encabezadosDialog">         
+            <p:focus context="procesoContableConTraPro"/> 
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.ProcesoContable} #{propiedadesEtiquetaBL.ConceptoTransaccionPro} "
+                               styleClass="encabezadosDialog"/>
+            </f:facet>   
+
+
+
+            <h:panelGroup>
+                <h:panelGrid id="procesoContableConTraGri" columns="4" style="width: 500px;"
+                             columnClasses="label, value, validator" styleClass="grid">  
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Moneda}"
+                                   for="moneda"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="moneda" 
+                                     value="#{procesoContableConTraProController.monedaActul}"                                 
+                                     >  
+
+                        <p:ajax event="change" 
+                                update="producto,codigoTransaccion,conceptotransaccion,procesoConTraProTbl" 
+                                listener="#{procesoContableConTraProController.cambiaMoneda()}" 
+                                />
+
+                        <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                        <f:selectItems value="#{procesoContableConTraProController.itemsMonedas}"
+                                       var="MonedaItem"
+                                       itemValue="#{MonedaItem}"
+                                       itemLabel="#{MonedaItem.nombre}"
+                                       />
+                        <f:converter binding="#{monedaConverter}"/>
+
+                    </p:selectOneMenu>
+
+                    <h:message for="moneda" styleClass="invalido" />
+                    <h:outputLabel value=""/>
+
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Producto}"
+                                   for="producto"
+                                   styleClass="etiquetaRequerida"/>
+
+                    <p:selectOneMenu id="producto" 
+                                     value="#{procesoContableConTraProController.productoActualIfip}"                                 
+                                     >  
+
+                        <p:ajax event="change" 
+                                update="codigoTransaccion,conceptotransaccion,procesoConTraProTbl" 
+                                listener="#{procesoContableConTraProController.cambiaProducto()}" 
+                                />            
+
+                        <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                        <f:selectItems value="#{procesoContableConTraProController.itemProductosifip}"
+                                       var="productoItem"
+                                       itemValue="#{productoItem}"
+                                       itemLabel="#{productoItem.producto.tipoProducto.nombre.toString()}"
+                                       />
+                        <f:converter binding="#{productoIfipConverter}"/>                    
+                    </p:selectOneMenu>
+
+                    <h:message for="producto" styleClass="invalido" />
+                    <h:outputLabel value=""/>
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Transaccion}" 
+                                   for="codigoTransaccion" styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="codigoTransaccion" 
+                                     value="#{procesoContableConTraProController.transaccionActual}" 
+                                     >
+                        <p:ajax event="change"                    
+                                listener="#{procesoContableConTraProController.cambiaTransaccion()}" 
+                                update="conceptotransaccion,procesoConTraProTbl">
+                        </p:ajax>
+
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{procesoContableConTraProController.itemTransacciones}"
+                                       var="TransaccionItem"
+                                       itemValue="#{TransaccionItem}"
+                                       itemLabel="#{TransaccionItem.nombre.toString()}"
+                                       />                    
+
+                        <f:converter binding="#{transaccionConverter}"/>
+                    </p:selectOneMenu>            
+
+
+                    <h:message for="codigoTransaccion" styleClass="invalido" />
+                    <h:outputLabel value=""/>
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Concepto}"
+                                   for="conceptotransaccion"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="conceptotransaccion" 
+                                     value="#{procesoContableConTraProController.conceptoTransaccionActual}"                                 
+                                     >   
+                        <p:ajax event="change"    
+                                update="procesoConTraProTbl,procesoContable"
+                                listener="#{procesoContableConTraProController.cambiaConceptoTransaccion()}"
+                                >
+                        </p:ajax>
+                        <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                        <f:selectItems value="#{procesoContableConTraProController.itemsConceptosTransacciones}"
+                                       var="ConceptoTransaccionItem"
+                                       itemValue="#{ConceptoTransaccionItem}"
+                                       itemLabel="#{ConceptoTransaccionItem.conceptoTransaccion.nombre.toString()}"
+                                       />
+                        <f:converter binding="#{conceptoTransaccionProConverter}"/>
+                    </p:selectOneMenu>
+                    <h:message for="conceptotransaccion" styleClass="invalido" />
+                    <h:outputLabel value=""/>
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.ProcesoContable}"
+                                   for="procesoContable"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="procesoContable" 
+                                     value="#{procesoContableConTraProController.procesoContable}"    
+                                     filter="true" 
+                                     filterMatchMode="startsWith"                             
+                                     >   
+                        <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                        <f:selectItems value="#{procesoContableConTraProController.itemsProcesosContables}"
+                                       var="ProcesoContableItem"
+                                       itemValue="#{ProcesoContableItem}"
+                                       itemLabel="#{ProcesoContableItem.nombre}"
+                                       />
+                        <f:converter binding="#{procesoContableConverter}"/>
+                    </p:selectOneMenu>
+                    <h:outputLabel value=""/>
+                    <p:commandButton id="agregaItemBot" 
+                                     value="#{propiedadesEtiquetaBL.Agregar}"
+                                     update="procesoConTraProTbl,:mensaje"
+                                     action="#{procesoContableConTraProController.agregarProcesoContable()}"/>
+
+                    <h:message for="procesoContable" styleClass="invalido" />
+
+                </h:panelGrid>
+
+                <p:contextMenu for="procesoConTraProTbl">     
+                    <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                                icon="ui-icon-trash" 
+                                action="#{procesoContableConTraProController.quitarProcesoContable()}" 
+                                update="procesoConTraProTbl"/>            
+                </p:contextMenu>   
+                <p:dataTable id="procesoConTraProTbl"                             
+                             value="#{procesoContableConTraProController.existentesProcesosContablesConTraPro}" 
+                             var="item"
+                             selectionMode="single" 
+                             selection="#{procesoContableConTraProController.procesoContableConTraProSel}"
+                             rowKey="#{item.procesoContableConTraProPK}"                         
+                             paginator="true"
+                             rows="8"
+                             emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                             >
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.ProcesoContable}"/>
+                    </f:facet>
+
+
+                    <p:column sortBy="#{item.procesoContable.codigo}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.procesoContable.codigo}" styleClass="campoResultadoValor"/>
+                    </p:column>
+
+                    <p:column  filterBy="#{item.procesoContable.nombre}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.procesoContable.nombre}" styleClass="campoResultadoValor"/>
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Descripcion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.procesoContable.descripcion}"/>
+                    </p:column> 
+
+
+
+
+                </p:dataTable>     
+
+
+                <p:commandButton id="operacionMenuBot" 
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 update=":mensaje,:procesoContableConTraProCreateForm"
+                                 action="#{procesoContableConTraProController.guardarProcesoContableTransaccion()}"
+                                 >                   
+                </p:commandButton>
+
+
+
+
+            </h:panelGroup>
+
+
+
+
+        </p:panel>
+    </h:form>
+</ui:composition>

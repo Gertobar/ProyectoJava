@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="2">
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaInicio} " 
+                           for="fechaInicio"
+                           styleClass="etiqueta" />
+            <p:calendar id="fechaInicio"
+                        pattern="dd/MM/yyyy"
+                        value="#{licitudFondosPerExcForBean.fechaInicio}"
+                        title="#{propiedadesTituloBL.FechaInicio}"
+                        showOn="button"
+                        locale="es" 
+                        requiredMessage="#{propiedadesEtiquetaBL.FechaInicio} : #{propiedadesMensajesBL.CampoRequerido}">          
+                <p:ajax event="dateSelect" listener="#{licitudFondosPerExcForBean.obtienePersonasExcentas()}" update=":LicitudFondosPerExcForListForm,:barraForm"/>
+            </p:calendar>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaFin} " 
+                           for="fechaFin"
+                           styleClass="etiqueta" />
+            <p:calendar id="fechaFin"
+                        pattern="dd/MM/yyyy"
+                        value="#{licitudFondosPerExcForBean.fechaFin}"
+                        showOn="button"
+                        locale="es" 
+                        requiredMessage="#{propiedadesEtiquetaBL.FechaFin} : #{propiedadesMensajesBL.CampoRequerido}">                    
+                <p:ajax event="dateSelect" listener="#{licitudFondosPerExcForBean.obtienePersonasExcentas()}" update=":LicitudFondosPerExcForListForm,:barraForm"/>
+            </p:calendar>
+
+
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Estado}"/>
+            <p:selectOneMenu id="buscarPor"                                  
+                             value="#{licitudFondosPerExcForBean.estado}"
+                             >                                          
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Pendiente}" itemValue="P" />  
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Aprobado}" itemValue="A" />
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Anulado}" itemValue="N" />
+                <p:ajax event="change" listener="#{licitudFondosPerExcForBean.obtienePersonasExcentas()}" update=":LicitudFondosPerExcForListForm,:barraForm"/>
+            </p:selectOneMenu>           
+
+        </h:panelGrid>
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

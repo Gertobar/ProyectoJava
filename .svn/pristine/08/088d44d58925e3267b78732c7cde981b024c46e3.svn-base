@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ClienteDlg" 
+                  widgetVar="ClienteDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel  id="etiquetaDialogo"
+                                value="#{clienteController.etiquetaDialogo} #{propiedadesEtiquetaBL.Cliente}"
+                                styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="ClienteForm">
+
+                <h:panelGroup id="display" style="font-size:10px">
+                    <p:panelGrid columns="3" columnClasses="label, value, validator" styleClass="grid">  
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoPersona}" 
+                                       for="codigoTipoPersona"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoTipoPersona" 
+                                         value="#{clienteController.clienteIfip.cliente.persona.codigoTipoPersona}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.TipoPersona} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{clienteController.itemsTipoPersona}"
+                                           var="codigoTipoPersonaItem"
+                                           itemValue="#{codigoTipoPersonaItem}"
+                                           itemLabel="#{codigoTipoPersonaItem.nombre}"
+                                           />
+                            <p:ajax event="change"
+                                    update="codigoTipoIdentificacion,identificacion"      
+                                    listener="#{clienteController.cambiaTipoPersona()}" />  
+                            <f:converter binding="#{tipoPersonaConverter}"/>
+                        </p:selectOneMenu>  
+                        <h:message for="codigoTipoPersona"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoIdentificacion}" 
+                                       for="codigoTipoIdentificacion"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoTipoIdentificacion" 
+                                         value="#{clienteController.clienteIfip.cliente.persona.codigoTipoIdentificacion}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.TipoIdentificacion} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{clienteController.itemsTipoIdentificacion}"
+                                           var="codigoTipoIdentificacionItem"
+                                           itemValue="#{codigoTipoIdentificacionItem}"
+                                           itemLabel="#{codigoTipoIdentificacionItem.nombre}"
+                                           />
+                            <p:ajax event="change"
+                                    update="identificacion,codigoTipoIdentificacion"
+                                    listener="#{clienteController.cambiaTipoIdentificacion()}" />  
+
+                            <f:converter binding="#{tipoIdentificacionConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoTipoIdentificacion" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                                       for="identificacion"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText value="#{clienteController.clienteIfip.cliente.persona.identificacion}"
+                                     id="identificacion"
+                                     required="true"                          
+                                     requiredMessage="#{propiedadesEtiquetaBL.Identificacion} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:validator validatorId="identificacionSocioValidador"/>
+                            <p:ajax event="blur"  
+                                    update=":mensaje, codigoTipoIdentificacion, codigoTipoPersona, identificacion, nombre, direccion, telefono, correoElectronico,:growl"
+                                    listener="#{clienteController.validaClienteIngresado()}" />    
+
+                            <f:attribute name="siglasIdentificacion" 
+                                         value="#{clienteController.siglasIdentificacion}" />                
+                        </p:inputText>            
+                        <h:message for="identificacion" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText value="#{clienteController.clienteIfip.cliente.persona.nombreCompleto}"
+                                     id="nombre"
+                                     required="true"   
+                                     onblur="value = value.toUpperCase()"
+                                     maxlength="100"
+                                     size="70"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                        <h:message for="nombre" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Direccion}" 
+                                       for="direccion"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText value="#{clienteController.clienteIfip.cliente.direccion}"
+                                     id="direccion"
+                                     onblur="value = value.toUpperCase()"
+                                     required="true"
+                                     size="80"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Direccion} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                        <h:message for="direccion" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Telefono}" 
+                                       for="telefono"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText value="#{clienteController.clienteIfip.cliente.telefono}"
+                                     id="telefono"
+                                     required="true"                          
+                                     requiredMessage="#{propiedadesEtiquetaBL.Telefono} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                        <h:message for="telefono" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CorreoElectronico}" 
+                                       for="correoElectronico"
+                                       styleClass="etiqueta"/>
+                        <p:inputText value="#{clienteController.clienteIfip.cliente.persona.correoEletronico}"
+                                     id="correoElectronico"                   
+                                     requiredMessage="#{propiedadesEtiquetaBL.CorreoElectronico} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                        <h:message for="correoElectronico" styleClass="invalido" />
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CorreoElectronico}" 
+                                       for="eliminado"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="eliminado" 
+                                         disabled="true"
+                                         value="#{clienteController.clienteIfip.eliminado}">    
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+
+                        </p:selectOneMenu>
+                        <h:message for="eliminado" styleClass="invalido" />
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{clienteController.guardar()}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     update="display,:ClienteListForm:datalist,:growl" 
+                                     oncomplete="handleSubmit(xhr,status,args,ClienteDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancelar}" 
+                                     icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                     onclick="ClienteDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>

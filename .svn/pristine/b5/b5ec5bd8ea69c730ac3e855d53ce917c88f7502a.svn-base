@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:cc="http://java.sun.com/jsf/composite"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <cc:interface componentType="olvideClaveUsuarioComponente">
+        <cc:attribute name="onHide" type="java.lang.String" required="true"/>
+        <cc:attribute name="widgetVar" type="java.lang.String" required="true"/>
+    </cc:interface>
+
+    <cc:implementation>
+        <p:dialog closable="true"
+                  closeOnEscape="true"
+                  maximizable="false"
+                  resizable="false"
+                  modal="true"
+                  style="width: 100% !important;display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;"
+                  widgetVar="#{cc.attrs.widgetVar}"
+                  onShow="abrirDialogo()"
+                  onHide="#{cc.attrs.onHide}">
+            <p:remoteCommand name="abrirDialogo"
+                             process="@form"
+                             action="#{olvideClaveUsuarioComponenteController.abrirDialogo}"
+                             update="olvideClaveUsuarioComponenteForm:nombreUsuario,olvideClaveUsuarioComponenteForm:identificacion,olvideClaveUsuarioComponenteForm:fechaNacimiento,olvideClaveUsuarioComponenteForm:correoElectronico,olvideClaveUsuarioComponenteForm:generaClaveBot"/>
+            <f:facet name="header">
+                <h:outputLabel  id="encabezadoCambioClaveUsuarioLabel"
+                                value="#{propiedadesEtiquetaBL.OlvideClave}"
+                                styleClass="encabezadosDialog"/>
+            </f:facet>
+            <h:form id="olvideClaveUsuarioComponenteForm">
+                <p:focus id="focus" 
+                         for="#{olvideClaveUsuarioComponenteController.foco}" 
+                         context="olvideClaveUsuarioComponenteForm" />
+                <p:growl id="mensajeOlvideClaveUsuario" 
+                         showDetail="true" 
+                         sticky="false" 
+                         autoUpdate="true" 
+                         life="5000"/>
+                <h:panelGrid id="panelPrincipal" 
+                             columns="2" 
+                             style="width: 100% !important;display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;text-align: center !important;">
+                    <img src="../resources/images/change_password.png"/>
+                    <h:panelGrid id="panelOlvideClave"
+                                 columns="2"
+                                 style="font-size: 10px !important;text-align: left;">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre} #{propiedadesEtiquetaBL.Usuario} *"
+                                       for="nombreUsuario"
+                                       styleClass="etiquetaRequerida"
+                                       style="text-align: right !important;"/>
+                        <p:inputText id="nombreUsuario"
+                                     value="#{olvideClaveUsuarioComponenteController.nombreUsuario}"
+                                     size="10"
+                                     onkeyup="value = value.toUpperCase()">
+                            <p:ajax event="change"
+                                    listener="#{olvideClaveUsuarioComponenteController.buscarUsuario}"
+                                    update="nombreUsuario,identificacion,fechaNacimiento,correoElectronico,generaClaveBot,mensajeOlvideClaveUsuario,focus"/>
+                        </p:inputText> 
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion} *"
+                                       for="identificacion"
+                                       styleClass="etiquetaRequerida"
+                                       style="text-align: right !important;"/>
+                        <p:inputText id="identificacion"
+                                     size="15"
+                                     value="#{olvideClaveUsuarioComponenteController.identificacion}"
+                                     validator="validadorSoloNumero">
+                            <p:ajax event="change"
+                                    listener="#{olvideClaveUsuarioComponenteController.cambiaIdentificacionUsuario}"
+                                    update="fechaNacimiento,generaClaveBot,mensajeOlvideClaveUsuario,correoElectronico,focus"/>
+                        </p:inputText> 
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaNacimiento} *"
+                                       for="fechaNacimiento"
+                                       styleClass="etiquetaRequerida"
+                                       style="text-align: right !important;"/>
+                        <p:calendar  value="#{olvideClaveUsuarioComponenteController.fechaNacimiento}"
+                                     pattern="dd/MM/yyyy"
+                                     id="fechaNacimiento"
+                                     locale="es"
+                                     size="15"
+                                     disabled="#{!olvideClaveUsuarioComponenteController.habilitaFechaNacimiento}">
+                            <p:ajax event="dateSelect" 
+                                    update="@this,generaClaveBot,mensajeOlvideClaveUsuario,correoElectronico,focus"
+                                    listener="#{olvideClaveUsuarioComponenteController.cambiaFechaNacimientoUsuario}"/>
+                            <p:ajax event="change"
+                                    update="@this,generaClaveBot,mensajeOlvideClaveUsuario,correoElectronico,focus"
+                                    listener="#{olvideClaveUsuarioComponenteController.cambiaFechaNacimientoUsuario}"/>
+                        </p:calendar>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CorreoElectronico}"
+                                       for="correoElectronico"
+                                       style="text-align: right !important;"/>
+                        <p:inputText id="correoElectronico"
+                                     value="#{olvideClaveUsuarioComponenteController.correoElectronico}"
+                                     readonly="true"
+                                     size="30"/>
+                        <p:outputLabel value=""/>
+                        <p:commandButton id="generaClaveBot"
+                                         value="#{propiedadesEtiquetaBL.GeneraClave}"
+                                         disabled="#{!olvideClaveUsuarioComponenteController.habilitaGenerarClave}"
+                                         onclick="procesandoDlg.show();"
+                                         action="#{olvideClaveUsuarioComponenteController.generaClaveUsuario}"
+                                         oncomplete="procesandoDlg.hide();PF('#{cc.attrs.widgetVar}').hide();"
+                                         update="nombreUsuario,identificacion,fechaNacimiento,correoElectronico,generaClaveBot"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </cc:implementation>
+</ui:composition>

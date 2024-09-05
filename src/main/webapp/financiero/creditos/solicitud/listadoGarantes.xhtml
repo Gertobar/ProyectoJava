@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="ListaGarantesDlg"                  
+              modal="true" style="height: 500px"
+              widgetVar="ListaGarantesDialog">     
+        
+            <f:facet name="header">
+                <h:outputLabel  
+                                value="#{propiedadesEtiquetaBL.Busqueda} #{propiedadesEtiquetaBL.Garantes}"
+                               styleClass="encabezadosDialog"/>               
+                
+                
+            </f:facet>
+        <h:form id="ListaGarantesForm">
+            <h:panelGrid id="SociosGri" columns="1" style="font-size: 10px; height: 400px" >
+                <f:facet name="header">                                    
+                    <h:outputLabel value="#{propiedadesMensajesBL.SeleccioneGarante}"/> <br/>
+                    <h:outputLabel id="garanteMensajeCriterio" 
+                                   value="#{solicitudController.mensajeCriterio}" 
+                                   styleClass="invalido"/>
+                </f:facet>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombres}" styleClass="etiqueta"/>
+                    <p:inputText id="nombresGaranteBusqueda"
+                                 value="#{solicitudController.nombreGaranteBusqueda}"
+                                 size="50">
+                        <p:ajax event="keyup" 
+                                listener="#{solicitudController.obtieneGarantes()}" 
+                                update=":ListaGarantesForm:garanteDatalist,:ListaGarantesForm:garanteMensajeCriterio"/>
+                    </p:inputText>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Buscar}"
+                                     icon="#{propiedadesObjetosBL.IcoEjecutarConsulta}"
+                                     action="#{solicitudController.obtieneGarantes()}"
+                                     update=":ListaGarantesForm:garanteDatalist"/>
+
+                </h:panelGrid>
+                <p:dataTable id="garanteDatalist" 
+                             value="#{solicitudController.itemsGarantes}" 
+                             var="item"
+                             selectionMode="single" 
+                             selection="#{solicitudController.garanteSel}"
+                             rowKey="#{item.codigoPersona}"
+                             paginator="true"
+                             emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                             rows="10"
+                             >
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Garantes}"/>
+                    </f:facet>
+                    <p:column>                    
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.persona.identificacion}"/>
+                    </p:column>
+                    
+                    <p:column>                    
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.persona.nombreCompleto}"/>
+                    </p:column>
+                    
+                    <p:column>                    
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.EstadoCivil}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codigoEstadoCivil.nombre}"/>
+                    </p:column>
+                    
+                </p:dataTable>
+                
+                <p:commandButton id="aceptarBot"
+                                 value="#{propiedadesEtiquetaBL.Aceptar}"   
+                                 actionListener="#{solicitudController.seleccionaGarante()}"
+                                 update=":barraForm"
+                                 oncomplete="ListaGarantesDialog.hide();"
+                                 />
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+
+</ui:composition>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CuentaContableItemVentaEditDlg" 
+                  widgetVar="CuentaContableItemVentaEditDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Editar} #{propiedadesEtiquetaBL.CuentasContablesItemVenta}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="CuentaContableItemVentaEditForm">
+
+                <h:panelGroup id="display" style="font-size:  10px">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cuentaContableItemVentaController.selected != null}" style="font-size:  10px">
+
+                        <p:outputLabel styleClass="etiqueta"
+                                       value="#{propiedadesEtiquetaBL.ItemVenta}" 
+                                       for="itemVenta" />
+                        <h:outputText id="itemVenta" 
+                                      value="#{cuentaContableItemVentaController.selected.itemVenta.nombre}" />
+
+                        <p:outputLabel styleClass="etiquetaRequerida"
+                                       value="#{propiedadesEtiquetaBL.CuentaContable}" 
+                                       for="planDeCuentaIfip" />
+                        <p:selectOneMenu id="planDeCuentaIfip" 
+                                         value="#{cuentaContableItemVentaController.selected.planDeCuentaIfip}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.CuentaContable} : #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{cuentaContableItemVentaController.itemsPlanDeCuentaIfip}"
+                                           var="planDeCuentaIfipItem"
+                                           itemValue="#{planDeCuentaIfipItem}"
+                                           itemLabel="#{planDeCuentaIfipItem.planDeCuentaIfipPK.cuentaContable} : #{planDeCuentaIfipItem.planDeCuenta.nombre}"/>
+                            <f:converter binding="#{planDeCuentaIfipConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel styleClass="etiquetaRequerida" 
+                                       value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado" />                        
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{cuentaContableItemVentaController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu> 
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cuentaContableItemVentaController.editar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     update="display,:CuentaContableItemVentaListForm:datalist,:growl" 
+                                     oncomplete="handleSubmit(xhr,status,args,CuentaContableItemVentaEditDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancelar}" 
+                                     icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                     onclick="CuentaContableItemVentaEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

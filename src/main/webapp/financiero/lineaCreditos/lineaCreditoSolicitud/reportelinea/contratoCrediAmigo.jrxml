@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="475" leftMargin="60" rightMargin="60" topMargin="15" bottomMargin="10" uuid="c11b3ef9-d5e0-4c1f-bef1-ab85495aeff4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<subDataset name="montosDataset" uuid="b473d12c-a0ec-41f5-9b0b-bf02950a0d47">
+		<queryString>
+			<![CDATA[SELECT '$'||TRIM( TO_CHAR(lcp.monto_inicio_plazo,'FM9999999990.00') ) desde,
+       '$'||TRIM( TO_CHAR(lcp.monto_fin_plazo,'FM9999999990.00') ) hasta,
+       lcp.numero_cuotas||CASE WHEN lcp.numero_cuotas  = 1 THEN ' CUOTA'
+                               ELSE ' CUOTAS' END cuotas
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_creditos.linea_credito_plazo lcp
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo = lcp.codigo_linea_credito
+AND    lcs.codigo = 21
+AND    lcp.eliminado = 'N'
+ORDER BY lcp.monto_inicio_plazo]]>
+		</queryString>
+		<field name="DESDE" class="java.lang.String"/>
+		<field name="HASTA" class="java.lang.String"/>
+		<field name="CUOTAS" class="java.lang.String"/>
+		<group name="group1"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoLineaCredito" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="contratoCrediAmigo1" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+(
+SELECT UPPER( i.razon_social ) ||' '||
+       'CONTRATO DE CRÉDITO-'||UPPER( lc.nombre ) titulo2
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_ifips.ifip i
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo_ifip = i.codigo
+AND    lcs.codigo = $P{codigoLineaCredito}
+)contenido0,
+
+'Comparecen a la suscripción del presente contrato por una parte la '||UPPER( i.razon_social )||', debidamente representada por quien suscribe al pie del presente documento en su calidad de Representante Legal, a quien en adelante y para fines de este contrato se denominará simplemente “LA COOPERATIVA o '||i.nombre||'"; y por otra el(a) señor(a): '||UPPER( p.nombre_completo )||', socio (a) de la '||UPPER( i.razon_social )||' signado con el Código Nº '||s.codigo||', perteneciente a la oficina '||UPPER( a.nombre )||', por sus propios y personales derechos, en calidad de DEUDOR (es), a quien(es) en el futuro se denominará como EL SOCIO o EL DEUDOR, y; como deudor(es) solidario(s):'||NVL( c.conyuge,'..............' )||' por sus propios y personales derechos, quien(es) comparece(n) en calidad de garante(s) solidario (s) de la obligación de crédito Nº'||$P{codigoLineaCredito}||'. que el deudor adquiere para con la '||UPPER( i.razon_social )||' mediante el presente instrumento. Los comparecientes son mayores de edad y capaces ante la ley para obligarse y contratar, quienes en forma libre y voluntaria convienen en celebrar el presente contrato de préstamo o mutuo al tenor de las siguientes cláusulas:
+
+PRIMERA. - ANTECEDENTES:     
+La '||UPPER( i.razon_social )||' es una institución financiera legalmente constituida, mediante resolución N.-SEPS-IGJP-ISA-2015-104, del 13 de octubre de 2015, a través del cual el Superintendente de Economía Popular y Solidaria  aprueba la creación de la '||UPPER( i.razon_social )||', la misma que nace de la fusión de ocho (8) Cooperativas de Ahorro y Crédito y una Caja, entre ellas: COAC INTEGRAL, COAC HUINARA, COAC GUACHAPALA, COAC SOLIDARIA-GUALAQUIZA, COAC FAMILIA AUSTRAL, COAC GUEL, COAC LA FLORIDA, COAC SOL DE LOS ANDES Y CAJA ZHONDELEG.
+
+SEGUNDA. - OBJETO DEL CONTRATO:
+LA COOPERATIVA aprueba al DEUDOR (es) una  línea de crédito denominada '||UPPER( lc.nombre )||' por el valor de $'||TRIM( TO_CHAR(lcs.monto_linea_credito,'FM9999999990.00') )||' Dólares americanos con '||( lcs.monto_linea_credito-TRUNC( lcs.monto_linea_credito ) )||'/100 centavos de dólar. Esta línea de crédito es personal e intransferible y tiene como propósito facultar al SOCIO la obtención de una línea de crédito activa para la generación de futuros avances de efectivo a través de su Libreta de Ahorros.
+
+EL DEUDOR y garante (s) solidario (s) se obligan de manera incondicional e irrevocable a cancelar los valores de capital concedidos (s) de esta Línea de Crédito a LA COOPERATIVA, más la tasa de interés anual pactada y de acuerdo a los vencimientos sucesivos establecidos en la tabla (s) de amortización generada al corte de cada mes y constante únicamente en el sistema contable financiero-  , más los intereses de mora y demás rubros por gestión de cobranza, en caso de retraso en el pago de sus dividendos.' contenido1,
+'
+TERCERA. - ACEPTACIÓN:
+La COOPERATIVA otorgará la línea de crédito '||UPPER( lc.nombre )||', bajo los términos y condiciones establecidos en el presente contrato y en el pagaré a la orden que se genere para el efecto.
+Esta línea de crédito no tiene fecha de vencimiento, por lo que, el socio podrá hacer uso de la misma siempre que no se supere el monto máximo de capital permitido. A más de considerar que, para la concesión de nuevos avances  EL SOCIO deberá encontrarse al día en el pago de sus obligaciones.
+
+EL SOCIO dentro de esta línea de crédito podrá efectuar varios avances de efectivo u operaciones de crédito, por lo que, todos los avances  efectuados durante el mes se consolidarán en una sola operación de crédito, previo la fecha de corte definida por la COOPERATIVA. Por consiguiente, LA COOPERATIVA remitirá un estado de cuenta consolidado con todos los valores de las cuotas pendientes de pago, para lo cual, EL DEUDOR deberá proporcionar a LA COOPERATIVA una cuenta de correo electrónico válida, misma que en caso de inhabilitación y/o cambio deberá ser comunicado de manera inmediata a LA COOPERATIVA para su actualización.
+
+Mediante el presente documento El SOCIO acepta y reconoce sin reserva alguna el retiro de dinero y demás transacciones autorizadas por la COOPERATIVA.
+
+El SOCIO es el único responsable ante la COOPERATIVA del uso indebido de la línea de crédito '||UPPER( lc.nombre )||'.
+
+EL SOCIO acepta incondicionalmente las cláusulas contenidas en el presente contrato y se somete expresamente a las condiciones establecidas por LA COOPERATIVA.
+
+CUARTA. - PLAZOS Y MONTOS:
+Esta línea de crédito se encuentra aprobada, por lo que,  El SOCIO podrá hacer uso de esta línea de crédito cuando él la creyere conveniente, ya sea a través de un solo retiro o varios retiros o avances de efectivo hasta el monto límite aprobado, cuyos valores serán acreditados y reflejados directamente en su cuenta o libreta de ahorros.
+
+Cada desembolso o avance de efectivo generará un comprobante o ticket de entrega de los recursos, en donde se detallará los valores retirados por EL SOCIO. Dicho documento justifica la entrega de los valores por parte de LA COOPERATIVA y recibidos a entera satisfacción por parte de EL DEUDOR, y que automáticamente formará parte integrante de este contrato de crédito. Autorizando a LA COOPERATIVA para que con cada avance de efectivo se debite desde mi cuenta de ahorros el valor correspondiente al 3% del Fondo de Reservas Irrepartibles, en aplicación a la Resolución vigente de la Junta de Política y Regulación Monetaria y Financiera.
+
+La disponibilidad de esta Línea de Crédito para futuros avances de efectivo, se encontrarán en función del cupo límite aprobado y el saldo capital de los avances de efectivo realizados, y, siempre que EL DEUDOR se encuentre al día con el pago de las obligaciones contraídas con LA COOPERATIVA. ' contenido2
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_creditos.producto_credito pc,
+       mks_creditos.tipo_cartera tc,
+       mks_ifips.ifip i,
+       mks_socios.socio s,
+       mks_socios.persona p,
+       mks_ifips.ifip_agencia a,
+       (SELECT lcs.codigo,
+                         p2.nombre_completo conyuge
+                  FROM   mks_creditos.linea_credito_solicitud lcs,
+                         mks_socios.socio s,
+                         mks_socios.persona p,
+                         mks_socios.persona_conyuge pc,
+                         mks_socios.persona p2
+                  WHERE  lcs.codigo_socio = s.codigo
+                  AND    s.codigo_persona = p.codigo
+                  AND    p.codigo = pc.codigo_persona
+                  AND    pc.codigo_persona_conyuge = p2.codigo
+                  AND    lcs.codigo = $P{codigoLineaCredito}) c
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo_producto = pc.codigo
+AND    pc.codigo_tipo_cartera = tc.codigo
+AND    lc.codigo_ifip = i.codigo
+AND    lcs.codigo_socio = s.codigo
+AND    s.codigo_persona = p.codigo
+AND    lcs.codigo_ifip_agencia = a.codigo
+AND    lcs.codigo = c.codigo( + )
+AND    lcs.codigo = $P{codigoLineaCredito}]]>
+	</queryString>
+	<field name="CONTENIDO0" class="java.lang.String"/>
+	<field name="CONTENIDO1" class="java.lang.String"/>
+	<field name="CONTENIDO2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="-1" y="0" width="475" height="38" uuid="2f3ce2c9-404d-4e4f-89a6-790dee0f91ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONTENIDO0}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="770" splitType="Stretch">
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-32" y="0" width="538" height="343" uuid="7a0e646f-0680-4069-9970-15493692f474"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-33" y="343" width="538" height="427" uuid="aec3834c-2d26-4846-b362-5b40ce3a2e7d"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<summary>
+		<band height="50" splitType="Stretch">
+			<subreport>
+				<reportElement x="-58" y="0" width="589" height="50" uuid="28597780-9def-430c-b72f-0fd68726e4a1"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="contratoCrediAmigo1">
+					<subreportParameterExpression><![CDATA[$P{contratoCrediAmigo1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1}+"contratoCrediAmigo1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

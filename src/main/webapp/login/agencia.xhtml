@@ -1,0 +1,51 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="/resources/plantilla/agenciaPlantilla.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="agencia">
+        <h:form>
+            <p:panel id="panelPrincipal" style="height:470px; text-align: center " >  
+                <p:messages id="mensaje" showDetail="true" autoUpdate="true" closable="true" /> 
+                <p:focus context="panelPrincipal"/>  
+                <h:form id="menu"> 
+                    <h:panelGrid columns="1" width="100%">
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.SeleccioneAgencia}" 
+                                           styleClass="encabezadosPanelGrid"/>
+                        </f:facet>
+                        <p:dataGrid id="datalist" 
+                                    value="#{usuarioIfipAgenciaController.itemsPermisosIfiAgeUsu}" 
+                                    var="item" 
+                                    columns="1"  
+                                    rows="4" 
+                                    paginator="true"  
+                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                    style=" width: 60%"
+                                    >      
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Agencias}"/>
+                            </f:facet>
+                            <p:panel style="text-align:center">  
+                                <h:panelGrid columns="1" style="width:100%; text-align: center" >  
+
+                                    <p:commandLink  value="#{item.ifipAgencia.nombre}" 
+                                                    action="#{usuarioIfipAgenciaController.irModulos()}">
+                                        <f:setPropertyActionListener target="#{usuarioIfipAgenciaController.usuarioIfipAgencia}" value="#{item}" />
+                                        <f:setPropertyActionListener target="#{menuController.codigoIfip}" value="#{item.ifipAgencia.codigoIfip.codigo}" />
+                                        <f:setPropertyActionListener target="#{menuController.codigoRol}" value="#{item.codigoRol.codigo}" />
+                                    </p:commandLink>   
+
+                                    <h:outputText value="#{item.ifipAgencia.codigoUbiGeoPais.nombre}/#{item.ifipAgencia.codigoUbiGeoProvincia.nombre}/#{item.ifipAgencia.codigoUbiGeoCiudad.nombre}/#{item.ifipAgencia.codigoUbiGeoParroquia.nombre}" /> 
+                                    <h:outputText value="#{item.ifipAgencia.direccion}" />  
+                                </h:panelGrid>  
+                            </p:panel>
+
+                        </p:dataGrid>
+                    </h:panelGrid>
+                </h:form>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

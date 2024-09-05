@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <p:dialog closable="true"
+              closeOnEscape="false"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="periodoContableDlg"                  
+              modal="true"
+              widgetVar="periodoContableDialog">     
+
+
+        <f:facet name="header">
+            <h:outputLabel  id="periodoContableLab"
+                            value="#{propiedadesEtiquetaBL.SeleccionePeriodoContable}"
+                            styleClass="encabezadosDialog"/>
+        </f:facet>
+        <h:form id="PeriodoContableFor">
+            <h:panelGrid columns="3" style="text-align: center; size: 10px">
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.PeriodoContable}" 
+                               for="periodo"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="periodo" 
+                                 value="#{menuController.periodoContable}" 
+                                 required="true"                                 
+                                 requiredMessage="#{propiedadesEtiquetaBL.PeriodoContable} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{menuController.itemsPeriodoContable}"
+                                   var="periodoItem"
+                                   itemValue="#{periodoItem}"
+                                   itemLabel="#{periodoItem.codigo}"
+                                   />    
+                    <f:converter binding="#{periodoContableConverter}"/>
+                </p:selectOneMenu>                                      
+                <h:message for="periodo"  styleClass="invalido"/>
+
+                <f:facet name="footer">
+
+                    <p:separator/>
+                    <h:panelGrid columns="1" style="font-size:  10px">
+                        <p:commandButton value="#{propiedadesEtiquetaBL.Aceptar}"
+                                         actionListener="#{menuController.seleccionaPeriodo()}"/>
+                    </h:panelGrid>
+                    <p:separator/>
+                    <h:panelGrid columns="1" style="font-size:  10px">
+                        <p:outputLabel  style="etiqueta" value="#{propiedadesMensajesBL.MensajePeriodoContable}"/>
+                    </h:panelGrid>
+                </f:facet>
+
+                
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+</ui:composition>

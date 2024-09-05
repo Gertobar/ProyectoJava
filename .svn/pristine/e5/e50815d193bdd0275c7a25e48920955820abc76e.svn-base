@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:composition>
+        <p:dialog id="lineaCreditoViewDlg" 
+                  widgetVar="lineaCreditoViewDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Mostrar} #{propiedadesEtiquetaBL.LineaCredito}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+            <h:form id="lineaCreditoViewForm">
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+                        <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.fechaRegistro}"
+                                      title="#{propiedadesTituloBL.FechaRegistro}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Usuario}"/>
+                        <h:outputText value="#{lineaCreditoController.usuario.username}"
+                                      title="#{propiedadesEtiquetaBL.Usuario}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoIfip}"/>
+                        <h:outputText value="#{lineaCreditoController.ifip.nombre}"
+                                      title="#{propiedadesEtiquetaBL.CodigoIfip}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                        <h:outputText value="#{lineaCreditoController.moneda.nombre}"
+                                      title="#{propiedadesEtiquetaBL.Moneda}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                        <h:outputText value="#{lineaCreditoController.productoCredito.nombre}"
+                                      title="#{propiedadesEtiquetaBL.Producto}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Periodicidad}"/>
+                        <h:outputText value="#{lineaCreditoController.periodicidad.nombre}"
+                                      title="#{propiedadesEtiquetaBL.Periodicidad}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.OrigenRecursos}"/>
+                        <h:outputText value="#{lineaCreditoController.origenRecursos.nombre}"
+                                      title="#{propiedadesEtiquetaBL.OrigenRecursos}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.nombre}"
+                                      title="#{propiedadesEtiquetaBL.Nombre}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Descripcion}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.descripcion}"
+                                      title="#{propiedadesEtiquetaBL.Descripcion}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Minimo}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.montoMinimo}"
+                                      title="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Minimo}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Maximo}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.montoMaximo}"
+                                      title="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Maximo}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Generar} #{propiedadesEtiquetaBL.Credito}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.diaGeneraCredito}"
+                                      title="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Generar} #{propiedadesEtiquetaBL.Credito}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Porcentaje} #{propiedadesEtiquetaBL.Pago} #{propiedadesEtiquetaBL.Minimo}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.porcentajePagoMinimo}"
+                                      title="#{propiedadesEtiquetaBL.Porcentaje} #{propiedadesEtiquetaBL.Pago} #{propiedadesEtiquetaBL.Minimo}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Bloqueo}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.diaParaBloqueo}"
+                                      title="#{propiedadesEtiquetaBL.Dia} #{propiedadesEtiquetaBL.Bloqueo}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Tipo} #{propiedadesEtiquetaBL.Tabla}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.tipoTabla}"
+                                      title="#{propiedadesEtiquetaBL.Tipo} #{propiedadesEtiquetaBL.Tabla}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Plazo} #{propiedadesEtiquetaBL.Automatico}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.plazoAutomatico}"
+                                      title="#{propiedadesEtiquetaBL.Plazo} #{propiedadesEtiquetaBL.Automatico}"/>
+                        <h:outputText value="#{propiedadesEtiquetaBL.Vigente}"/>
+                        <h:outputText value="#{lineaCreditoController.linea.vigente}"
+                                      title="#{propiedadesEtiquetaBL.Vigente}"/>
+                    </p:panelGrid>
+                    <p:separator/>
+                    <p:panelGrid columns="1">
+                        <c:if test="#{lineaCreditoController.linea.plazoAutomatico eq 'N'}">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.LineaCredito} #{propiedadesEtiquetaBL.Plazo}"/>
+                            </f:facet>
+                            <h:dataTable var="detalle" 
+                                         value="#{lineaCreditoController.listaLineaCreditoPlazo}">
+                                <p:column>
+                                    <f:facet name="header">#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Inicio} #{propiedadesEtiquetaBL.Plazo}</f:facet>
+                                    <h:outputText value="#{detalle.montoInicioPlazo}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Fin} #{propiedadesEtiquetaBL.Plazo}</f:facet>
+                                    <h:outputText value="#{detalle.montoFinPlazo}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">#{propiedadesEtiquetaBL.NumeroCuotas}</f:facet>
+                                    <h:outputText value="#{detalle.numeroCuotas}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">#{propiedadesEtiquetaBL.Eliminado}</f:facet>
+                                    <h:outputText value="#{detalle.eliminado}" />
+                                </p:column>
+                            </h:dataTable>
+                        </c:if>
+                        <c:if test="#{lineaCreditoController.linea.plazoAutomatico eq 'S'}">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.LineaCredito} #{propiedadesEtiquetaBL.Plazo} #{propiedadesEtiquetaBL.Maximo}"/>
+                            </f:facet>
+                            <h:dataTable var="detalle" 
+                                         value="#{lineaCreditoController.listaLineaCreditoPlazoMaximo}">
+                                <p:column>
+                                    <f:facet name="header">#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Inicio} #{propiedadesEtiquetaBL.Plazo}</f:facet>
+                                    <h:outputText value="#{detalle.montoInicioPlazo}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Fin} #{propiedadesEtiquetaBL.Plazo}</f:facet>
+                                    <h:outputText value="#{detalle.montoFinPlazo}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Inicio} #{propiedadesEtiquetaBL.Cuotas}</f:facet>
+                                    <h:outputText value="#{detalle.numeroCuotasInicio}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Fin} #{propiedadesEtiquetaBL.Cuotas}</f:facet>
+                                    <h:outputText value="#{detalle.numeroCuotasFin}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">#{propiedadesEtiquetaBL.Eliminado}</f:facet>
+                                    <h:outputText value="#{detalle.eliminado}" />
+                                </p:column>
+                            </h:dataTable>
+                        </c:if>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

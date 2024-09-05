@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="aprobarNegarForm">
+        <p:dataTable id="datalist"
+                     var="item"
+                     value="#{lineaCreditoAprobarNegarController.listaLineaCreditoSolicitud}"
+                     selection="#{lineaCreditoAprobarNegarController.listaLineaCreditoSolicitudSeleccionada}"
+                     rowKey="#{item.codigo}"
+                     style="margin-bottom:0"
+                     editable="true"
+                     editMode="cell"
+                     rowStyleClass="fondoBlanco">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Aprobar} / #{propiedadesEtiquetaBL.Negar}"/>
+            </f:facet>
+            <p:ajax event="rowSelectCheckbox"
+                    listener="#{lineaCreditoAprobarNegarController.onRowSelect}"
+                    oncomplete="if (#{!item.lineaCreditoSolAprNeg}) { PF('observacionesDlg').show()}"
+                    update="datalist,:barraForm:aprobarBot,:barraForm:negarBot"/>
+            <p:ajax event="rowUnselectCheckbox"
+                    listener="#{lineaCreditoAprobarNegarController.onRowUnselect}"
+                    update="datalist,:barraForm:aprobarBot,:barraForm:negarBot"/>
+            <p:ajax event="toggleSelect"
+                    listener="#{lineaCreditoAprobarNegarController.onRowSelectList}"
+                    update="datalist,:barraForm:aprobarBot,:barraForm:negarBot"
+                    oncomplete="PF('observacionesDlg').show()"/>
+            <p:column selectionMode="multiple"
+                      style="width:16px;text-align:center"/>
+            <p:column sortBy="#{item.agencia}" style="width:  10px" filterBy="#{item.agencia}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Agencia}"/>
+                </f:facet>
+                <h:outputText value="#{item.agencia}"/>
+            </p:column>
+            <p:column sortBy="#{item.codigo}" style="width:  10px" filterBy="#{item.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Numero}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}"/>
+            </p:column>
+            <p:column sortBy="#{item.socio.codigoPersona.nombreCompleto}" style="width:  10px"
+                      filterBy="#{item.socio.codigoPersona.nombreCompleto}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                </f:facet>
+                <h:outputText value="#{item.socio.codigoPersona.nombreCompleto}"/>
+            </p:column>
+            <p:column sortBy="#{item.lineaCredito.codigoProducto.nombre}"
+                      filterBy="#{item.lineaCredito.codigoProducto.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                </f:facet>
+                <h:outputText value="#{item.lineaCredito.codigoProducto.nombre}"/>
+            </p:column>
+            <p:column sortBy="#{item.montoLineaCredito}" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Monto}"/>
+                </f:facet>
+                <h:outputText value="#{item.montoLineaCredito}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            <p:column sortBy="#{item.fechaSolicitud}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaSolicitud}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaSolicitud}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <h:outputText value="#{item.lineaCreditoEstadoSol.nombre}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Observaciones} ENVIO COMISION " styleClass="etiquetaRequerida"/>
+                </f:facet>
+                <h:outputText value="#{item.observacionesEnvioComision}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Observaciones}" styleClass="etiquetaRequerida"/>
+                </f:facet>
+                <h:outputText value="#{item.lineaCreditoSolAprNeg.observaciones}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:composition>

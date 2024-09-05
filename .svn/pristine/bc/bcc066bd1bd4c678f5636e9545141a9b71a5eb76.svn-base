@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoPerTipoIdeCreateDlg"
+                  widgetVar="TipoPerTipoIdeCreateDialog" 
+                  modal="true" resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.TipoPerTipoIde}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>         
+            <h:form id="TipoPerTipoIdeCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoPersona}" for="tipoPersona"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="tipoPersona" value="#{tipoPerTipoIdeController.selected.tipoPersona}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.TipoPersona} : #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoPersonaController.items}"
+                                           var="tipoPersonaItem"
+                                           itemValue="#{tipoPersonaItem}"
+                                           itemLabel="#{tipoPersonaItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{tipoPersonaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoIdentificacion}" for="tipoIdentificacion" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="tipoIdentificacion" value="#{tipoPerTipoIdeController.selected.tipoIdentificacion}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.TipoIdentificacion} : #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoIdentificacionController.items}"
+                                           var="tipoIdentificacionItem"
+                                           itemValue="#{tipoIdentificacionItem}"
+                                           itemLabel="#{tipoIdentificacionItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{tipoIdentificacionConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{tipoPerTipoIdeController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                    
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{tipoPerTipoIdeController.saveNew}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:TipoPerTipoIdeListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,TipoPerTipoIdeCreateDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PeriodoEfeCheEntFinListForm">
+
+        <p:panel header="#{myBundle.ListPeriodoEfeCheEntFinTitle}">
+
+            <p:dataTable id="datalist" value="#{periodoEfeCheEntFinController.items}" var="item"
+                         selectionMode="single" selection="#{periodoEfeCheEntFinController.selected}"
+                         rowKey="#{item.codigoEntidadFinanciera}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.codigoEntidadFinanciera}" filterBy="#{item.codigoEntidadFinanciera}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeriodoEfeCheEntFinTitle_codigoEntidadFinanciera}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoEntidadFinanciera}"/>
+                </p:column>
+                <p:column sortBy="#{item.registradoPor}" filterBy="#{item.registradoPor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeriodoEfeCheEntFinTitle_registradoPor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.registradoPor}"/>
+                </p:column>
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeriodoEfeCheEntFinTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeriodoEfeCheEntFinTitle_eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+                <p:column sortBy="#{item.codigoPeriodo.codigo}" filterBy="#{item.codigoPeriodo.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeriodoEfeCheEntFinTitle_codigoPeriodo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoPeriodo.codigo}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{periodoEfeCheEntFinController.prepareCreate}" update=":PeriodoEfeCheEntFinCreateForm" oncomplete="PeriodoEfeCheEntFinCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":PeriodoEfeCheEntFinViewForm" oncomplete="PeriodoEfeCheEntFinViewDialog.show()" disabled="#{empty periodoEfeCheEntFinController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":PeriodoEfeCheEntFinEditForm" oncomplete="PeriodoEfeCheEntFinEditDialog.show()" disabled="#{empty periodoEfeCheEntFinController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{periodoEfeCheEntFinController.delete}" update=":growl,datalist" disabled="#{empty periodoEfeCheEntFinController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

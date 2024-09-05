@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TalonarioLibretaAhorroCabCreateDlg" 
+                  widgetVar="TalonarioLibretaAhorroCabCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendToBody="true"                   
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Crea} - #{propiedadesEtiquetaBL.TalonarioLibreta}"
+                              styleClass="encabezadosDialog"/>                
+            </f:facet>
+
+            <h:form id="TalonarioLibretaAhorroCabCreateForm">
+                <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+                <h:panelGroup id="display"  style="font-size: 10px;">
+                    <p:panelGrid columns="3" 
+                                 columnClasses="label, value, validator" 
+                                 styleClass="grid" 
+                                 style="font-size: 10px;">                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="moneda" 
+                                         value="#{talonarioLibretaAhorroCabController.moneda}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{talonarioLibretaAhorroCabController.itemsMoneda}"
+                                           var="codigoMonedaItem"
+                                           itemValue="#{codigoMonedaItem}"
+                                           itemLabel="#{codigoMonedaItem.nombre}"
+                                           />
+                            <p:ajax update="producto"  
+                                    listener="#{talonarioLibretaAhorroCabController.cambiaMoneda()}" /> 
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>                      
+                        <h:message for="moneda" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                       for="producto"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="producto" 
+                                         value="#{talonarioLibretaAhorroCabController.productoIfip}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{talonarioLibretaAhorroCabController.itemsProductoIfip}"
+                                           var="codigoProductoIfipItem"
+                                           itemValue="#{codigoProductoIfipItem}"
+                                           itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                           />                       
+                            <f:converter binding="#{productoIfipConverter}"/>
+                        </p:selectOneMenu>  
+                        <h:message for="producto" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.InicioSerie}" 
+                                       for="inicioSerie" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText    id="inicioSerie" 
+                                        value="#{talonarioLibretaAhorroCabController.talonarioLibretaAhorroCab.inicioSerie}" 
+                                        title="#{propiedadesTituloBL.InicioSerie}" 
+                                        required="true" 
+                                        requiredMessage="#{propiedadesEtiquetaBL.InicioSerie} - #{propiedadesMensajesBL.CampoRequerido}">
+                             <p:ajax event="blur"
+                                     update="guardarBot"  
+                                     listener="#{talonarioLibretaAhorroCabController.buscaTalonarioSerie()}" /> 
+                            <f:validateLongRange minimum="1"/>
+                        </p:inputText>
+                        <h:message for="inicioSerie" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FinSerie}" 
+                                       for="finSerie"  
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="finSerie" 
+                                     value="#{talonarioLibretaAhorroCabController.talonarioLibretaAhorroCab.finSerie}" 
+                                     title="#{propiedadesTituloBL.FinSerie}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.FinSerie} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <p:ajax  event="blur"
+                                     update="guardarBot"  
+                                     listener="#{talonarioLibretaAhorroCabController.validaFinSerie()}" /> 
+                            <f:validateLongRange minimum="1"/>
+                        </p:inputText>
+                        <h:message for="finSerie" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.DigitosLibreta}" 
+                                       for="digitosLibreta" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText  id="digitosLibreta" 
+                                      value="#{talonarioLibretaAhorroCabController.talonarioLibretaAhorroCab.digitosLibreta}" 
+                                      title="#{propiedadesTituloBL.DigitosLibreta}" 
+                                      required="true" 
+                                      requiredMessage="#{propiedadesEtiquetaBL.DigitosLibreta} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:validateLongRange minimum="1"/>
+                        </p:inputText>
+                        <h:message for="digitosLibreta" styleClass="invalido" />
+                    </p:panelGrid>
+                    <p:separator/>
+                    <p:commandButton id="guardarBot"                        
+                                     actionListener="#{talonarioLibretaAhorroCabController.guardarTalonario}"
+                                     disabled="#{talonarioLibretaAhorroCabController.deshabilitarBotonGuardar}"
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}" 
+                                     onclick="procesandoDlg.show();"
+                                     update="display,:TalonarioLibretaAhorroCabListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,TalonarioLibretaAhorroCabCreateDialog);procesandoDlg.hide();"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="VentaListForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{ventaBean.itemsVenta}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{ventaBean.venta}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="6"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Venta}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm"/>
+            <p:ajax event="rowUnselect" update=":barraForm"/>
+
+            <p:column sortBy="#{item.codigo}" style="width:  10px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.clienteIfip.cliente.persona.nombreCompleto}" 
+                      filterBy="#{item.clienteIfip.cliente.persona.nombreCompleto}">
+                <f:facet name="header"> 
+                    <h:outputText value="#{propiedadesEtiquetaBL.Cliente}"/>
+                </f:facet>
+                <h:outputText value="#{item.clienteIfip.cliente.persona.nombreCompleto}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.fechaEmisionComprobante}" filterBy="#{item.fechaEmisionComprobante}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaEmision}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaEmisionComprobante}">
+
+                    <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>            
+                        
+            <p:column sortBy="#{item.subtotal}" filterBy="#{item.subtotal}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.SubTotal}"/>
+                </f:facet>
+                <h:outputText value="#{item.subtotal}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.subtotal}" filterBy="#{item.iva}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Iva}"/>
+                </f:facet>
+                <h:outputText value="#{item.iva}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column sortBy="#{item.retencionIva}" filterBy="#{item.retencionIva}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Retencion} #{propiedadesEtiquetaBL.Iva}"/>
+                </f:facet>
+                <h:outputText value="#{item.retencionIva}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column sortBy="#{item.retencionRenta}" filterBy="#{item.retencionRenta}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Retencion} #{propiedadesEtiquetaBL.Renta}"/>
+                </f:facet>
+                <h:outputText value="#{item.retencionRenta}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column sortBy="#{item.total}" filterBy="#{item.total}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                </f:facet>
+                <h:outputText value="#{item.total}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+            
+             <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.codigoEstado.codigo }">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Ingresado}" itemValue="1" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Contabilizada}" itemValue="2" />  
+
+                </p:selectOneMenu>
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>

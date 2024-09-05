@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pagoFactura" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="784c5b45-9e1c-4428-a7fc-4b522b59280c">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="16"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="detallePago" uuid="e07d7f9a-d8cd-407d-81f8-f20b807aade6">
+		<parameter name="codPag" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[SELECT UPPER(fop.nombre)                              "FORMA",
+         pad.valor                                      "VALOR",
+         CASE WHEN fop.codigo = 4 THEN
+                (SELECT  /*tIe.siglas||' '||efo.nombre
+                          ||' CUENTA#: '||ifc.numero_cuenta           "CUENTA INSTITUCION",*/ 
+                          'TRANSFERIDO A: '||tee.siglas||' '||enf.nombre
+                          ||' CUENTA#: '||def.numero_cuenta           "CUENTA PROVEEDOR"
+                  FROM    mks_adquisiciones.pago_compra_detalle         pad,
+                          mks_adquisiciones.pago_compra_detalle_transf  def,
+                          mks_comunes.entidad_financiera                enf,
+                          mks_comunes.tipo_entidad_financiera           tee
+                  WHERE   pad.codigo_pago                              = pac.codigo
+                  AND     pad.codigo                                   = def.codigo_pago_compra_detalle
+                  AND     enf.codigo                                   = def.codigo_entidad_financiera    
+                  AND     tee.codigo                                   = enf.codigo_tipo_entidad )       
+         
+              WHEN fop.codigo = 1 THEN
+                 (SELECT  UPPER('CHEQUE: '||tie.siglas||' '||efo.nombre||' '||
+                          'CUENTA# '||ifc.numero_cuenta||' NUMERO# '||pcc.numero_cheque
+                          ||' BENECIFICIARIO '||pcc.beneficiario)
+                  FROM    mks_adquisiciones.pago_compra_detalle_cheque pcc,
+                          mks_ifips.ifip_cuenta_entidad_financiera     ifc,
+                          mks_comunes.entidad_financiera               efo,
+                          mks_comunes.tipo_entidad_financiera          tie
+                  WHERE   pcc.codigo_pago_compra_detalle               = pad.codigo
+                  AND     pcc.codigo_cuenta_ent_fin                    = ifc.codigo
+                  AND     ifc.codigo_entidad_financiera                = efo.codigo
+                  AND     efo.codigo_tipo_entidad                      = tie.codigo)
+              WHEN fop.codigo = 3 THEN
+                (SELECT 'ACREDITA EN CUENTA#: '||cue.numero
+                 FROM   mks_adquisiciones.pago_compra_detalle_cue_ah trc,
+                        mks_ahorros.cuenta                           cue
+                 WHERE  trc.codigo_pago_compra_detalle               = pad.codigo
+                 AND    cue.codigo                                   = trc.codigo_cuenta)
+              WHEN fop.codigo = 2 THEN
+                   (SELECT  CASE WHEN pad.valor > ROUND(TO_NUMBER(par.valor),2) THEN
+                           'CAJA GENERAL' ELSE 'CAJA CHICA' END 
+                    FROM    mks_contables.parametro_contable_ifip par
+                    WHERE   codigo_ifip         = (SELECT codigo_ifip
+                                                   FROM   mks_adquisiciones.compra
+                                                   WHERE  codigo            = pac.codigo_compra)
+                    AND     codigo_parametro    = 3)
+                ELSE NULL END                                          "DETALLE" 
+  FROM   mks_adquisiciones.pago_compra                  pac,
+         mks_adquisiciones.pago_compra_detalle          pad,
+         mks_adquisiciones.forma_pago                   fop  
+  WHERE  pac.codigo                                     = $P{codPag}
+  AND    pac.codigo                                     = pad.codigo_pago
+  AND    fop.codigo                                     = pad.codigo_forma_pago]]>
+		</queryString>
+		<field name="FORMA" class="java.lang.String"/>
+		<field name="VALOR" class="java.math.BigDecimal"/>
+		<field name="DETALLE" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="transferencia" uuid="94cb5e6c-4e5e-4d68-a0d1-611cb024e398">
+		<parameter name="codPag" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[SELECT  tIe.siglas||' '||efo.nombre
+        ||' CUENTA#: '||ifc.numero_cuenta           "CUENTA INSTITUCION", 
+        tee.siglas||' '||enf.nombre
+        ||' CUENTA#: '||def.numero_cuenta           "CUENTA PROVEEDOR", 
+        def.valor                                     "VALOR"
+FROM    mks_adquisiciones.pago_compra_detalle         pad,
+        mks_adquisiciones.pago_compra_detalle_transf  def,
+        mks_comunes.entidad_financiera                enf,
+        mks_comunes.tipo_entidad_financiera           tee,
+        mks_ifips.ifip_cuenta_entidad_financiera      ifc,
+        mks_comunes.entidad_financiera                efo,
+        mks_comunes.tipo_entidad_financiera           tie
+WHERE   pad.codigo_pago                               = $P{codPag}
+AND     pad.codigo                                   = def.codigo_pago_compra_detalle
+AND     enf.codigo                                   = def.codigo_entidad_financiera    
+AND     tee.codigo                                   = enf.codigo_tipo_entidad
+AND     def.codigo_cuenta_ent_fin                    = ifc.codigo
+AND     ifc.codigo_entidad_financiera                = efo.codigo
+AND     efo.codigo_tipo_entidad                      = tie.codigo]]>
+		</queryString>
+		<field name="CUENTA INSTITUCION" class="java.lang.String"/>
+		<field name="CUENTA PROVEEDOR" class="java.lang.String"/>
+		<field name="VALOR" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="codigoPago" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT pep.nombre_completo                            "PROVEEDOR",
+         tic.siglas||' #: '||com.numero_comprobante     "COMPROBANTE",
+         com.fecha_emision_comprobante                  "FECHA COMPROBANTE",
+         com.fecha_ingreso                              "FECHA INGRESO",
+         pac.fecha_pago                                "FECHA PAGO",       
+         com.total                                      "TOTAL FACTURA",
+         pac.abono                                      "ABONO",
+         pac.saldo                                      "SALDO",
+         per.nombre_completo       		    "PAGADO POR",
+         DECODE(pac.compra_cancelada,'S','SI','NO')     "COMPROBANTE CANCELADO",
+         pac.codigo                                     "CODIGO PAGO",
+         tii.nombre||' '||ifi.nombre                    "IFIP",
+         (SELECT     'PERIODO '||com.codigo_periodo||' NUMERO: '||com.numero_comprobante
+FROM       mks_contables.comprobante               com,
+           mks_contables.comprobante_pago_compra   cpp
+WHERE      cpp.codigo_pago_compra                  = pac.codigo
+AND        cpp.codigo_comprobante                  = com.codigo) "COMPROBANTE CONTABLE"   
+  FROM   mks_adquisiciones.compra                       com,                            
+         mks_adquisiciones.pago_compra                  pac,
+         mks_seguridades.usuario                        usu,
+         mks_socios.persona                             per,
+         mks_adquisiciones.tipo_comprobante_compra      tic,
+         mks_adquisiciones.proveedor                    pro,
+         mks_socios.persona                             pep ,    
+         mks_ifips.ifip                                 ifi,
+         mks_ifips.tipo_ifip                            tii
+  WHERE  pac.codigo                                     = $P{codigoPago}
+  AND    pac.codigo_compra                              = com.codigo
+  AND    pac.pagado_por                                 = usu.codigo
+  AND    usu.codigo_persona                             = per.codigo
+  AND    com.codigo_tipo_comprobante                    = tic.codigo
+  AND    com.codigo_proveedor                           = pro.codigo
+  AND    pep.codigo                                     = pro.codigo_persona
+  AND    ifi.codigo                                     = usu.codigo_ifip
+  AND    tii.codigo                                     = ifi.codigo_tipo_ifip]]>
+	</queryString>
+	<field name="PROVEEDOR" class="java.lang.String"/>
+	<field name="COMPROBANTE" class="java.lang.String"/>
+	<field name="FECHA COMPROBANTE" class="java.sql.Timestamp"/>
+	<field name="FECHA INGRESO" class="java.sql.Timestamp"/>
+	<field name="FECHA PAGO" class="java.sql.Timestamp"/>
+	<field name="TOTAL FACTURA" class="java.math.BigDecimal"/>
+	<field name="ABONO" class="java.math.BigDecimal"/>
+	<field name="SALDO" class="java.math.BigDecimal"/>
+	<field name="PAGADO POR" class="java.lang.String"/>
+	<field name="COMPROBANTE CANCELADO" class="java.lang.String"/>
+	<field name="CODIGO PAGO" class="java.math.BigDecimal"/>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="COMPROBANTE CONTABLE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="9" y="19" width="544" height="20" uuid="e1355c1c-1d6b-4e5f-901a-ef9768ea34f7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAGO DE COMPRA A PROVEEDOR]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="9" y="-1" width="539" height="20" uuid="8b615ee4-db8c-46aa-9b95-35d7f6e1449d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="291" splitType="Stretch">
+			<textField pattern="#,###,##0.00;-#,###,##0.00">
+				<reportElement positionType="Float" x="427" y="50" width="100" height="15" uuid="47170e87-88cf-4334-a1a5-6df7ae78094e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL FACTURA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="94" width="100" height="15" uuid="2663baac-ec9b-43a2-8bd5-22e9c6f89bf4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA PAGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="2" width="154" height="20" uuid="b128644b-0102-4066-9caa-62a09f01964e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[DATOS DE LA COMPRA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="36" width="100" height="15" uuid="2cb3eec2-b957-45ca-a8d4-67947d0ec324"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPROBANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="12" y="108" width="100" height="15" uuid="40848338-cb04-474c-a00f-77481f24b505"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ABONO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="69" width="154" height="20" uuid="dc66e9a6-b607-4400-847b-7b29b3686e83"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[DATOS DEL PAGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="371" y="50" width="56" height="15" uuid="b0ce880c-8476-4ca3-9112-1318f9bf0f88"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="Float" x="111" y="50" width="134" height="15" uuid="425bc27c-2ca2-42cc-ae11-4d492e419941"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA INGRESO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="350" y="94" width="100" height="15" uuid="6f9d51e4-db0e-41ca-aceb-31eb2df399a1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CODIGO PAGO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="10" y="89" width="538" height="1" uuid="fe64aa82-db0e-463e-a621-4ba74a4073d2"/>
+			</line>
+			<textField pattern="">
+				<reportElement positionType="Float" x="111" y="36" width="248" height="15" uuid="655b2e50-2903-4dda-ae96-9825453d8ebc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COMPROBANTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="111" y="22" width="381" height="15" uuid="d61adb0d-baf1-4677-ab32-130e1ba3bbcc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PROVEEDOR}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="Float" x="111" y="94" width="100" height="15" uuid="5d57e0d9-44ab-42c6-afcd-1ade8a111572"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA PAGO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="371" y="36" width="56" height="15" uuid="80d17723-032e-4bdb-9939-f755dc308754"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA COMPROBANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="50" width="100" height="15" uuid="853d1223-9b8a-4bc7-acde-859c9e99073e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA INGRESO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="236" y="94" width="115" height="15" uuid="5984f513-e6eb-4ec5-bffd-af71bd77c1fc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO PAGO]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="Float" x="427" y="36" width="100" height="15" uuid="b4f64c06-4d1d-4af6-8fb6-f940c3359d0c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA COMPROBANTE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,##0.00;-###,##0.00">
+				<reportElement positionType="Float" x="112" y="122" width="117" height="15" uuid="88359cd9-a8ee-4cdf-9ef7-024dd187ba20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALDO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="22" width="100" height="15" uuid="718199a9-628a-48fd-af36-33fbb4287385"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROVEEDOR]]></text>
+			</staticText>
+			<textField pattern="###,##0.00;-###,##0.00">
+				<reportElement positionType="Float" x="112" y="108" width="117" height="15" uuid="c6096f3c-40ef-4629-90da-729c8defd2c6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ABONO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="12" y="122" width="100" height="15" uuid="eca121ae-c78e-4bd7-8f2d-3045f51fdfc4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="11" y="21" width="538" height="1" uuid="ef02cbab-5ebd-45f1-9391-256d7e9bd2b4"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="236" y="108" width="115" height="15" uuid="19f6bdf2-2e0d-49d0-b357-0680664a3613"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPRA CANCELADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="11" y="141" width="154" height="20" uuid="884885f1-efaf-4046-82df-6682b9340f68"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[DETALLE DEL PAGO]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="12" y="162" width="538" height="1" uuid="3a828bac-a02b-47f3-b7d9-d22846670680"/>
+			</line>
+			<textField>
+				<reportElement positionType="Float" x="19" y="258" width="245" height="15" uuid="290953d7-b94b-4d40-9616-e75d2fe2c32d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PROVEEDOR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="269" y="258" width="245" height="15" uuid="6d0e0835-7982-4a09-be01-fc86fb2e1f45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAGADO POR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="19" y="244" width="245" height="15" uuid="d0118577-83f0-4249-8e5e-d006f848266f"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[.................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="269" y="244" width="245" height="15" uuid="1ec92d50-43c4-436a-a5eb-c268e32aa2c0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[.................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="269" y="272" width="245" height="15" uuid="a9999569-807c-41ed-b7c0-f5d0c3a111b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAGADO POR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="19" y="272" width="245" height="15" uuid="39045879-45a1-4739-94a5-30285afd812d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROVEEDOR]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="11" y="166" width="537" height="50" uuid="ef126fe3-a3f7-4014-9488-726545999dd5"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="detallePago" uuid="dd23325e-1b45-4408-8ce0-abc31156c787">
+						<datasetParameter name="codPag">
+							<datasetParameterExpression><![CDATA[$P{codigoPago}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="125" uuid="176e4c5f-c46a-46ad-a7a1-dcc0d51d935b">
+						<jr:columnHeader style="table 2_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="125" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="bfc3e1e8-0b2f-4b26-8def-0947bfe4a239"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FORMA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="26" rowSpan="1">
+							<textField>
+								<reportElement x="7" y="0" width="118" height="26" uuid="0c6a3a1c-1042-4d73-816b-651b3b1fefa0"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FORMA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="3f8eef3a-8e97-416b-a1f3-deecde312602">
+						<jr:columnHeader style="table 2_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="f24bb0da-7501-4563-b8bd-12fdac4d0616"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[VALOR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="26" rowSpan="1">
+							<textField pattern="###,##0.00;-###,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="82" height="26" uuid="b52a6a25-65cd-4834-8d41-a297e7a18d3e"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{VALOR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="292" uuid="6b9181af-47e4-4564-9f98-18ce2a27f017">
+						<jr:columnHeader style="table 2_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="292" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="57c01d3c-5af8-4e45-9b60-3a42024088cd"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[DETALLE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="26" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="4" y="0" width="288" height="26" uuid="6d9647ad-efdc-46ca-8713-d9d5badb459f"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DETALLE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField>
+				<reportElement x="350" y="108" width="100" height="15" uuid="dd3a7000-2607-4ea9-92de-ef8a6ad44dcd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COMPROBANTE CANCELADO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="236" y="122" width="115" height="15" uuid="b5af460d-7514-4f94-8352-a55ab5fc984f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPROBANTE CONTABLE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="350" y="122" width="198" height="15" uuid="5f326aa4-f2a2-4b93-a3de-9bfe7d053fe6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COMPROBANTE CONTABLE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

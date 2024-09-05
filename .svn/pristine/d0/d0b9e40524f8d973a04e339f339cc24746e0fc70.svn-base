@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <ui:include src="/financiero/socios/situacionEconomica/situacionEconomica.xhtml"/> 
+        <ui:include src="/financiero/socios/situacionEconomica/personaTraActEcoEdi.xhtml"/> 
+        <p:dialog id="SocioNuevoDlg" 
+                  widgetVar="SocioNuevoDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true" 
+                  closable="true"
+                  style="height: 500px; width: 700px"
+                  onShow="personaWizer.loadStep(personaWizer.cfg.steps[0], true)">
+            <p:ajax event="close" listener="#{socioBean.oncloseDiag()}" />
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Socio}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            
+
+            <h:form id="SocioNuevoFor">
+
+                <p:wizard id="personaWiz"  
+                          widgetVar="personaWizer" 
+                          flowListener="#{socioBean.sigueProcesoSocio}"
+                          style="font-size: 10px; margin-top: 0px;" 
+                          showStepStatus="true"   
+                          showNavBar="true"
+                          backLabel="#{propiedadesEtiquetaBL.Atras}"
+                          nextLabel="#{propiedadesEtiquetaBL.Siguinte}"
+                          >  
+            
+                    <p:tab  id="datosBasicosTab" 
+                            title="#{propiedadesEtiquetaBL.DatosBasicos}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="datoBasico.xhtml"/> 
+                    </p:tab>  
+
+                    <p:tab id="detallePersonaNaturalTab" 
+                           title="#{propiedadesEtiquetaBL.PersonaNatural}" 
+                           titleStyle="font-size: 10px">                         
+                        <ui:include src="personaNatural.xhtml"/> 
+                    </p:tab> 
+
+                    <p:tab id="detallePersonaInstitucionTab" 
+                           title="#{propiedadesEtiquetaBL.PersonaInstitucion}" 
+                           titleStyle="font-size: 10px">                         
+                        <ui:include src="personaInstitucion.xhtml"/> 
+                    </p:tab> 
+
+                    <p:tab id="residenciaTab" 
+                           title="#{propiedadesEtiquetaBL.Residencia}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="personaResidencia.xhtml"/> 
+                    </p:tab> 
+
+                   <p:tab id="telefonoPersonaTab" 
+                           title="#{propiedadesEtiquetaBL.Telefonos}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="personaTelefono.xhtml"/> 
+                    </p:tab> 
+                                      
+                    <p:tab id="referenciaTab" 
+                           title="#{propiedadesEtiquetaBL.Referencia}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="personaReferencia.xhtml"/> 
+                    </p:tab> 
+                    
+                    <p:tab id="actividadEconomicaTab" 
+                           title="#{propiedadesEtiquetaBL.ActividadEconomica}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="personaActidadEconomica.xhtml"/> 
+                    </p:tab>
+                    
+                    <p:tab id="trabajoActividadEconomicaTab" 
+                           title="#{propiedadesEtiquetaBL.SitucaionEconomicalaboral}"
+                           titleStyle="font-size: 10px" 
+                           >
+                    </p:tab>
+                    <p:tab id="confirmacionTab" 
+                           title="#{propiedadesEtiquetaBL.Confirmacion}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="confirmacion.xhtml"/>
+                    </p:tab> 
+                
+                </p:wizard>
+                
+            </h:form>
+
+        </p:dialog>
+      
+    </ui:composition>
+
+</html>
+
+                           

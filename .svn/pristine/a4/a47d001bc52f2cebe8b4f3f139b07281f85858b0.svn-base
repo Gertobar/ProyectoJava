@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RenovacionContratoDpfCreateDlg" 
+                  widgetVar="RenovacionContratoDpfCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  style="height: 500px; width: 700px"
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel  value="#{propiedadesEtiquetaBL.Renovacion} #{propiedadesEtiquetaBL.Contrato} #{propiedadesEtiquetaBL.Dpf}"
+                                styleClass="encabezadosDialog"/>       
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+            <h:form id="RenovacionContratoDpfCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px;">
+                    <h:panelGrid columns="4">
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}" 
+                                       for="socio"  
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="socio"                                                                          
+                                     styleClass="campoValor"
+                                     disabled="false"
+                                     value="#{renovacionContratoDpfController.codigoSocioContrato}"
+                                     size="10">
+                             <p:ajax event="blur" 
+                                    update="nombrePersona,contrato" 
+                                    listener="#{renovacionContratoDpfController.obtieneNombreSocioContrato()}"/>
+                        </p:inputText>
+
+                        <p:inputText   id="nombrePersona"
+                                       value="#{renovacionContratoDpfController.nombreSocioContrato}"
+                                       readonly="true"  
+                                       size="50"/>
+                        
+                        <p:commandButton id="listadoSociosBot" 
+                                         style="font-size: 10px;"
+                                         actionListener="#{renovacionContratoDpfController.preparaBusquedaSociosContrato}"                             
+                                         value="#{propiedadesEtiquetaBL.Buscar}"
+                                         icon="#{propiedadesObjetosBL.IcoVer}"   
+                                         update=":ListaSociosForm,:RenovacionContratoDpfCreateForm"
+                                         onclick="procesandoDlg.show();"                 
+                                         oncomplete="ListaSociosDialog.show();procesandoDlg.hide();"
+                                         /> 
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Contrato}" 
+                                       for="contrato"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="contrato" 
+                                         value="#{renovacionContratoDpfController.contratoDpfSel}" 
+                                         required="false"
+                                         filter="true"
+                                         filterMatchMode="contains"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Contrato} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{renovacionContratoDpfController.itemsContratoDpf}"
+                                           var="itemsContrato"
+                                           itemValue="#{itemsContrato}"                                           
+                                           itemLabel="#{propiedadesEtiquetaBL.Codigo} : #{itemsContrato.contratoDpfPK.codigo} #{propiedadesEtiquetaBL.Capital} : #{itemsContrato.capital}"
+                                           />  
+                            <p:ajax event="change" 
+                                    update=":RenovacionContratoDpfCreateForm" 
+                                    listener="#{renovacionContratoDpfController.obtieneDatosContratoDpf()}"/>
+                            <f:converter binding="#{contratoDpfConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="contrato"  styleClass="invalido"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="4">  
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Contrato}"/>
+                            <p:separator/>
+                        </f:facet>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiqueta"/>
+
+                        <p:inputText id="moneda"
+                                     size="15"
+                                     value="#{renovacionContratoDpfController.contratoDpf.moneda.nombre}" 
+                                     readonly="true"/>   
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" 
+                                       for="periodicidad"
+                                       styleClass="etiqueta"/>
+                        <p:inputText id="periodicidad"
+                                     size="15"
+                                     value="#{renovacionContratoDpfController.contratoDpf.periodicidad.nombre}" 
+                                     readonly="true"/>    
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Plazo}" 
+                                       for="plazo"
+                                       styleClass="etiqueta"/>
+                        <p:inputText id="plazo" 
+                                     styleClass="campoValor"
+                                     value="#{renovacionContratoDpfController.contratoDpf.plazo}"
+                                     size="15"
+                                     required="false"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Plazo} - #{propiedadesMensajesBL.CampoRequerido}"/>                                                
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Dias} #{propiedadesEtiquetaBL.Plazo}" 
+                                       for="diasPlazo"
+                                       styleClass="etiqueta"/>
+                        <p:inputText id="diasPlazo" 
+                                     styleClass="campoValor"
+                                     size="15"
+                                     readonly="true"                                     
+                                     value="#{renovacionContratoDpfController.contratoDpf.plazoDias}">                            
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="0" />
+                        </p:inputText>  
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaVencimiento}" 
+                                       for="fechaVencimientoContrato"
+                                       styleClass="etiqueta"/>
+                        <p:calendar id="fechaVencimientoContrato" 
+                                    value="#{renovacionContratoDpfController.contratoDpf.fechaVencimiento}"
+                                    disabled="true"
+                                    readonlyInput="true"
+                                    size="15"
+                                    locale="es"   
+                                    pattern="dd/MM/yyyy"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}" 
+                                       for="fechaRegistro"
+                                       styleClass="etiqueta"/>
+                        <p:calendar id="fechaRegistro" 
+                                    value="#{renovacionContratoDpfController.contratoDpf.fechaSistema}"
+                                    disabled="true"
+                                    readonlyInput="true"
+                                    size="15"
+                                    locale="es"   
+                                    pattern="dd/MM/yyyy HH:mm:ss"/>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                         <f:facet name="header">
+                             <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Renovacion}"/>
+                            <p:separator/>
+                        </f:facet>
+                      
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Capital}" 
+                                       for="capital"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="capital" 
+                                     value="#{renovacionContratoDpfController.contratoDpf.capital}"
+                                     size="15"
+                                     readonly="true"
+                                     styleClass="campoValor">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="capital"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" 
+                                       for="tasa"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="tasa" 
+                                     value="#{renovacionContratoDpfController.tasaInteres}"
+                                     size="15"
+                                     readonly="true"
+                                     styleClass="campoValor">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="tasa"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Interes}" 
+                                       for="interes"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="interes" 
+                                     value="#{renovacionContratoDpfController.interes}"
+                                     size="15"
+                                     readonly="true"
+                                     styleClass="campoValor">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="interes"  styleClass="invalido"/>                       
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.PorcentajeRetencion}" 
+                                       for="porcentajeRetencion"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="porcentajeRetencion" 
+                                     value="#{renovacionContratoDpfController.porcentajeRetencion}"
+                                     readonly="true"
+                                     size="15"
+                                     styleClass="campoValor">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="porcentajeRetencion"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Retencion}" 
+                                       for="retencion"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="retencion" 
+                                     value="#{renovacionContratoDpfController.retencion}"                                    
+                                     size="15"
+                                     readonly="true"
+                                     styleClass="campoValor">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="retencion"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Total}" 
+                                       for="total"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="total" 
+                                     value="#{renovacionContratoDpfController.total}"
+                                     size="15"
+                                     readonly="true"
+                                     styleClass="campoValor">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>                                
+                        <h:message for="total"  styleClass="invalido"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nueva} #{propiedadesEtiquetaBL.FechaVencimiento}" 
+                                       for="fechaVencimiento"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:calendar id="fechaVencimiento" 
+                                    value="#{renovacionContratoDpfController.fechaVencimiento}"
+                                    disabled="true"
+                                    readonlyInput="true"
+                                    locale="es"   
+                                    size="15"
+                                    pattern="dd/MM/yyyy"/>
+                        <h:message for="fechaVencimiento"  styleClass="invalido"/>
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ConInteres}" 
+                                       for="conInteres"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="conInteres" 
+                                         disabled="#{renovacionContratoDpfController.deshabilitaConInteres}"
+                                         value="#{renovacionContratoDpfController.conInteres}">    
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                        </p:selectOneMenu>
+                        <h:message for="conInteres"  styleClass="invalido"/>
+
+                    </h:panelGrid>
+
+
+
+                    <p:dataTable id="cuentasTbl" 
+                                 value="#{renovacionContratoDpfController.itemsCuentaContraDpf}"
+                                 var="item"                                                          
+                                 rowKey="#{item.cuentaContratoDpfPK}"
+                                 paginator="true"
+                                 rows="1"
+                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                                                 
+                                 widgetVar="cuentasTabla">
+
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Cuentas} #{propiedadesEtiquetaBL.Dpf}"/>
+                        </f:facet>
+
+
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaCredito.productoIfip.producto.tipoProducto.nombre}"/>
+                        </p:column>
+
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Credito}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaCredito.numero}"/>
+                        </p:column>
+
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Debito}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaDebito.numero}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:commandButton id="guardarBot" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     onclick="procesandoDlg.show();"
+                                     actionListener="#{renovacionContratoDpfController.guardar}"    
+                                     update=":ComprobanteFor"
+                                     >
+                        <p:confirm message="#{propiedadesMensajesBL.SeguroRealizarRenovacion}" 
+                                   icon="ui-icon-info"                                      
+                                   header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                    </p:commandButton>
+
+                </h:panelGroup>
+
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+                </p:confirmDialog>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProtestoChequeDesgloceEditDlg" widgetVar="ProtestoChequeDesgloceEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditProtestoChequeDesgloceTitle}" closeOnEscape="true">
+
+            <h:form id="ProtestoChequeDesgloceEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{protestoChequeDesgloceController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditProtestoChequeDesgloceLabel_codigoCheque}" for="codigoCheque" />
+                        <h:outputText id="codigoCheque" value="#{protestoChequeDesgloceController.selected.codigoCheque}" />
+
+                        <p:outputLabel value="#{myBundle.EditProtestoChequeDesgloceLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{protestoChequeDesgloceController.selected.valor}" title="#{myBundle.EditProtestoChequeDesgloceTitle_valor}" required="true" requiredMessage="#{myBundle.EditProtestoChequeDesgloceRequiredMessage_valor}"/>
+
+                        <p:outputLabel value="#{myBundle.EditProtestoChequeDesgloceLabel_codigoTipoProChe}" for="codigoTipoProChe" />
+                        <p:selectOneMenu id="codigoTipoProChe" value="#{protestoChequeDesgloceController.selected.codigoTipoProChe}" required="true" requiredMessage="#{myBundle.EditProtestoChequeDesgloceRequiredMessage_codigoTipoProChe}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoProtestoChequeController.items}"
+                                           var="codigoTipoProCheItem"
+                                           itemValue="#{codigoTipoProCheItem}"
+                                           itemLabel="#{codigoTipoProCheItem.descripcion.toString()}"
+                                           />
+                            <f:converter binding="#{tipoProtestoChequeConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditProtestoChequeDesgloceLabel_protestoChequeDetalle}" for="protestoChequeDetalle" />
+                        <p:selectOneMenu id="protestoChequeDetalle" value="#{protestoChequeDesgloceController.selected.protestoChequeDetalle}" required="true" requiredMessage="#{myBundle.EditProtestoChequeDesgloceRequiredMessage_protestoChequeDetalle}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{protestoChequeDetalleController.items}"
+                                           var="protestoChequeDetalleItem"
+                                           itemValue="#{protestoChequeDetalleItem}"
+                                           itemLabel="#{protestoChequeDetalleItem.protestoChequeDetallePK.toString()}"
+                                           />
+                            <f:converter binding="#{protestoChequeDetalleConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditProtestoChequeDesgloceLabel_guiaDepositoChequeDes}" for="guiaDepositoChequeDes" />
+                        <p:selectOneMenu id="guiaDepositoChequeDes" value="#{protestoChequeDesgloceController.selected.guiaDepositoChequeDes}" required="true" requiredMessage="#{myBundle.EditProtestoChequeDesgloceRequiredMessage_guiaDepositoChequeDes}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{guiaDepositoChequeDesController.items}"
+                                           var="guiaDepositoChequeDesItem"
+                                           itemValue="#{guiaDepositoChequeDesItem}"
+                                           itemLabel="#{guiaDepositoChequeDesItem.codigoCheque.toString()}"
+                                           />
+                            <f:converter binding="#{guiaDepositoChequeDesConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{protestoChequeDesgloceController.save}" value="#{myBundle.Save}" update="display,:ProtestoChequeDesgloceListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ProtestoChequeDesgloceEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="ProtestoChequeDesgloceEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NotificacionesCreditoDlg"
+                  widgetVar="NotificacionesCreditoDialog" 
+                  modal="true" 
+                  resizable="false"
+                  appendTo="@(body)" 
+                  closeOnEscape="true"
+                  style="width: 700px">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.NotificacionesDeCredito}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <p:growl id="growl1" autoUpdate="true" showSummary="false" showDetail="true" life="4000" /> 
+
+            <h:form id="NotificacionesCreditoForm">
+
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+
+                    <h:panelGrid columns="1" style="border: transparent;width: 700px;">
+                         <p:panel style="width: 480px;height: 125px; margin-top: 0px;">
+                                <h:panelGrid id="Datos" columns="3"
+                                             columnClasses="label, value, validator" styleClass="grid">
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.Cuota}" 
+                                                   for="cuotaVencida" styleClass="etiquetaRequerida"/>
+                                    <p:selectOneMenu id="cuotaVencida" 
+                                                     value="#{notificacionCreditoController.cuotaVencida}"                                          
+                                                     required="true"                                                      
+                                                     requiredMessage="#{propiedadesEtiquetaBL.Cuota} - #{propiedadesMensajesBL.CampoRequerido}"
+                                                     disabled="true">
+                                        <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                        <f:selectItems value="#{notificacionCreditoController.itemsCuotasVencidas}"
+                                                       var="cuotaVencidaItem"
+                                                       itemValue="#{cuotaVencidaItem}"
+                                                       itemLabel="#{cuotaVencidaItem.calculoCuotaPagarPK.cuota} -  #{propiedadesEtiquetaBL.FechaPago}  : #{cuotaVencidaItem.tablaAmortizacion.fechaPagoFormato} - #{propiedadesEtiquetaBL.Mora}  : #{cuotaVencidaItem.moraCausadaFormato()}"/>
+                                        <f:converter binding="#{calculoCuotaPagarConverter}"/>
+                                    </p:selectOneMenu>
+                                    <p:tooltip id="toolTipContent" for="cuotaVencida">
+                                        <p:panelGrid columns="2">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.Detalle} #{propiedadesEtiquetaBL.CuotaPendiente}"/>
+                                            </f:facet>
+                                            <h:outputText value="#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Cuota}"/>
+                                            <h:outputText value="#{notificacionCreditoController.numeroCuotaCalculo}" 
+                                                          title="#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Cuota}" />
+                                            <h:outputText value="#{propiedadesEtiquetaBL.Cuota} #{propiedadesEtiquetaBL.Pendiente}"/>
+                                            <h:outputText value="#{notificacionCreditoController.capitalCuotaCalculo}" 
+                                                          title="#{propiedadesEtiquetaBL.Capital} #{propiedadesEtiquetaBL.Cuota} #{propiedadesEtiquetaBL.Pendiente}" />
+                                            <h:outputText value="#{propiedadesEtiquetaBL.DiasMora}"/>
+                                            <h:outputText value="#{notificacionCreditoController.diasMoraCalculo}" 
+                                                          title="#{propiedadesEtiquetaBL.DiasMora}" />
+                                        </p:panelGrid>
+                                        <p:panelGrid columns="2">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{propiedadesEtiquetaBL.ValorNotificacion} ANTERIOR"/>
+                                            </f:facet>
+                                            <h:outputText value="#{propiedadesEtiquetaBL.ValorNotificacion}"/>
+                                            <h:outputText value="#{notificacionCreditoController.valorNotificacionActualCargado}" 
+                                                          title="#{propiedadesEtiquetaBL.ValorNotificacion}" />
+                                        </p:panelGrid>
+                                    </p:tooltip>
+                                    
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.ValorNotificacion}" 
+                                                   for="valorNotificacion" 
+                                                   styleClass="etiquetaRequerida"/>                  
+                                    <p:inputText id="valorNotificacion" 
+                                                 value="#{notificacionCreditoController.ubicaValorNotificacion}"
+                                                 disabled="true"
+                                                  >
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                                                                                                
+                                    </p:inputText>
+                                    <h:message for="valorNotificacion" styleClass="invalido" />    
+                                    
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.TipoNotificacion}" 
+                                                   for="tipoNotificacion" styleClass="etiquetaRequerida"/>
+                                    <p:selectOneMenu id="tipoNotificacion" 
+                                                     value="#{notificacionCreditoController.ubicaTipoNotificacionIfip}"                                          
+                                                     required="true" 
+                                                     disabled="#{notificacionCreditoController.deshabilitaTipoNoti}"
+                                                     requiredMessage="#{propiedadesEtiquetaBL.TipoNotificacion} - #{propiedadesMensajesBL.CampoRequerido}">
+                                        <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                        <f:selectItems value="#{notificacionCreditoController.itemsTipoNotificacionIfip}"
+                                                       var="NotificacionItem"
+                                                       itemValue="#{NotificacionItem}"
+                                                       itemLabel="#{NotificacionItem.tipoNotificacion.nombre.toString()}"/>
+                                        <f:converter binding="#{tipoNotificacionIfipConverter}"/>                           
+                                        <p:ajax event="change"
+                                                update=":NotificacionesCreditoForm"
+                                                listener="#{notificacionCreditoController.validaTipoNotificacion()}"/>                                                              
+                                    </p:selectOneMenu>
+                                    <h:message for="tipoNotificacion" styleClass="invalido" />   
+                                    
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.EsParaGarante}" 
+                                                   for="esParaGarante" 
+                                                   styleClass="etiquetaRequerida"/>
+                                    <p:selectOneMenu id="esParaGarante" 
+                                                     value="#{notificacionCreditoController.ubicaEsParaGarante}"                                          
+                                                     required="true"     
+                                                     disabled="#{notificacionCreditoController.deshabilitaEsParaGarante}"
+                                                     requiredMessage="#{propiedadesEtiquetaBL.EsParaGarante} - #{propiedadesMensajesBL.CampoRequerido}">
+                                        <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}" />    
+                                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />    
+                                        <p:ajax event="change"
+                                                update=":NotificacionesCreditoForm:garantesCreditoPan,:NotificacionesCreditoForm:garantesTbl,guardaNotificacionCreditoBot"
+                                                listener="#{notificacionCreditoController.validaEsParaGarante()}"/>                                                              
+                                    </p:selectOneMenu>
+                                    <h:message for="esParaGarante" styleClass="invalido" />   
+                                </h:panelGrid>
+                            </p:panel>
+                   
+                        <h:panelGrid columns="1" style="height: 200px;border: transparent; margin-top: 0px;">
+                            <p:panel  id="garantesCreditoPan" 
+                                      header="#{propiedadesEtiquetaBL.SeleccioneGarante}"
+                                      visible="#{notificacionCreditoController.visiblePanelGarantes}"
+                                      style="width: 700px">  
+                                <p:focus context="garantesCreditoPan"/>   
+
+                                <p:dataTable id="garantesTbl" 
+                                             value="#{notificacionCreditoController.itemsGaranteCredito}" 
+                                             var="item"                                      
+                                             selection="#{notificacionCreditoController.itemsGaranteCreditoSel}"
+                                             rowKey="#{item.codigo}"
+                                             paginator="true"
+                                             emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                             rows="10">
+
+                                    <p:ajax event="rowSelectCheckbox"
+                                            listener="#{notificacionCreditoController.garanteSeleccionado}"
+                                            update=":NotificacionesCreditoForm:guardaNotificacionCreditoBot" />
+
+                                    <p:ajax event="rowUnselectCheckbox"   
+                                            listener="#{notificacionCreditoController.garanteNoSeleccionado}"
+                                            update=":NotificacionesCreditoForm:guardaNotificacionCreditoBot"/>
+
+                                    <p:ajax event="toggleSelect"
+                                            listener="#{notificacionCreditoController.garantesSeleccionados}"
+                                            update=":NotificacionesCreditoForm:guardaNotificacionCreditoBot" />
+
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{propiedadesEtiquetaBL.Garantes} #{propiedadesEtiquetaBL.Credito}"/>
+                                    </f:facet>
+
+                                    <p:column selectionMode="multiple"  style="text-align:center" >
+                                        <f:facet name="header">
+                                            <h:outputText value="#{propiedadesEtiquetaBL.Emitir}"
+                                                          />
+                                        </f:facet>                                     
+                                    </p:column>
+                                    <p:column>                    
+                                        <f:facet name="header">
+                                            <h:outputLabel value="#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Credito}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.tipoGarantiaCredito.tipoGarantiaCreditoPK.numeroCredito}"/>
+                                    </p:column>
+
+
+                                    <p:column>                    
+                                        <f:facet name="header">
+                                            <h:outputLabel value="#{propiedadesEtiquetaBL.NombreCompleto}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.garante.primerApellido} #{item.garante.segundoApellido} #{item.garante.nombres}"/>
+                                    </p:column>
+
+                                    <p:column>                    
+                                        <f:facet name="header">
+                                            <h:outputLabel value="#{propiedadesEtiquetaBL.Tipo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.tipoGarantiaCredito.tipoGarantiaProCreMonIfi.codigoTipoGarantia.nombre}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{propiedadesEtiquetaBL.Vigente}"/>
+                                        </f:facet>
+                                        <p:selectOneMenu value="#{item.vigente}" 
+                                                         disabled="true">                              
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />                                                                    
+                                        </p:selectOneMenu>
+                                    </p:column>
+
+                                    <p:column>                    
+                                        <f:facet name="header">
+                                            <h:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.registradoPorUsu.codigoPersona.nombreCompleto}"/>
+                                    </p:column>
+                                </p:dataTable>
+
+                            </p:panel>
+
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            <p:commandButton id="guardaNotificacionCreditoBot"
+                                             actionListener="#{notificacionCreditoController.guardaNotificacionCredito}"
+                                             disabled="#{notificacionCreditoController.deshabilitaBotonNotificacionCredito}"
+                                             value="#{propiedadesEtiquetaBL.EmitirNotificacion}"
+                                             onclick="procesandoDlg.show();"
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             update=":mensaje,:NotificacionesCreditoForm,:barraForm,:NotificacionesForm,:NotificacionesCreditoForm:garantesTbl,:ComprobanteFor,:impresionLab"
+                                             oncomplete="procesandoDlg.hide()">
+                                <p:confirm message="#{propiedadesMensajesBL.SeguroEmitirNotificacion}" 
+                                           icon="ui-icon-info"
+                                           class="encabezadosDialog"                                     
+                                           header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+
+                            </p:commandButton>
+                        </f:facet>
+                    </h:panelGrid>
+
+                    <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+                        <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+                    </p:confirmDialog> 
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

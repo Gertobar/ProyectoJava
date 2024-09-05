@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <p:panel style="display: block;width: 100%;overflow-x: auto;-ms-overflow-style: -ms-autohiding-scrollbar;">
+        <h:panelGroup layout="block">
+            <p:panelGrid columns="1" style="width: 100%">
+                <p:dataTable id="datalistHomonimo" 
+                             value ="#{personaUafeController.listaUafHomonimo}"
+                             var="item"
+                             paginator="true"
+                             rows="10"
+                             emptyMessage=""
+                             style="width: 100%">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Homonimos}"/>
+                    </f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.TipoIdentificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tipoIdentificacion}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroIdentificacion}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Apellidos}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.apellidos}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Nombres}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombres}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Nacionalidad}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nacionalidad}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="datalistPoliticamente" 
+                             value ="#{personaUafeController.listaUafPersonaPoliticamenteExp}"
+                             var="itemPoliticamente"
+                             paginator="true"
+                             rows="10"
+                             emptyMessage=""
+                             style="width: 100%">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.PoliticamenteExpuesta}"/>
+                    </f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Documento}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemPoliticamente.documento}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Apellidos}-#{propiedadesEtiquetaBL.Nombres}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemPoliticamente.apellidosNombres}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Denominacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemPoliticamente.denominacionPuesto}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Entidad}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemPoliticamente.entidad}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemPoliticamente.estado}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="datalistSentenciados" 
+                             value ="#{personaUafeController.listaUafSentenciado}"
+                             var="itemSentenciados"
+                             paginator="true"
+                             rows="10"
+                             emptyMessage=""
+                             style="width: 100%">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Sentenciados}"/>
+                    </f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.TipoIdentificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemSentenciados.tipoIdentificacion}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemSentenciados.numeroIdentificacion}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Apellidos}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemSentenciados.apellidos}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Nombres}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemSentenciados.nombres}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Nacionalidad}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemSentenciados.nacionalidad}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+        </h:panelGroup>
+    </p:panel>
+</ui:composition>

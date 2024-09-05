@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TalonarioChequeCreateDlg" 
+                  widgetVar="TalonarioChequeCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendToBody="true"                   
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.Crea} - #{propiedadesEtiquetaBL.TalonarioCheques}"
+                              styleClass="encabezadosDialog"/>                
+            </f:facet>
+
+            <h:form id="TalonarioChequeCreaForm">
+                <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+                <h:panelGroup id="display"  style="font-size: 10px;">
+                    <h:panelGrid columns="3" style="font-size: 10px;">
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.EntidadFinanciera} " 
+                                       for="codigoCuentaEntFin" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoCuentaEntFin" 
+                                         value="#{talonarioChequeController.ifipCuentaEntidadFinanciera}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.EntidadFinanciera} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         filter="true">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{talonarioChequeController.itemsIfipCuentaEntidadFinanciera}"
+                                           var="cuentEntidadFinancieraItem"
+                                           itemValue="#{cuentEntidadFinancieraItem}"
+                                           itemLabel="#{cuentEntidadFinancieraItem.tipoCuentaEntidadFinanciera.nombre} - #{cuentEntidadFinancieraItem.entidadFinanciera.nombre} - #{cuentEntidadFinancieraItem.numeroCuenta}"
+                                           />                                 
+                            <f:converter binding="#{ifipCuentaEntidadFinancieraConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoCuentaEntFin" styleClass="invalido" />                        
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.InicioSerie}" 
+                                       for="inicioSerie" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText    id="inicioSerie" 
+                                        value="#{talonarioChequeController.talonarioCheque.numeroInicio}" 
+                                        title="#{propiedadesTituloBL.InicioSerie}" 
+                                        required="true" 
+                                        requiredMessage="#{propiedadesEtiquetaBL.InicioSerie} - #{propiedadesMensajesBL.CampoRequerido}">
+                             <p:ajax  event="blur"
+                                     listener="#{talonarioChequeController.validaFinSerie()}" /> 
+                            <f:validateLongRange minimum="1"/>
+                        </p:inputText>
+                        <h:message for="inicioSerie" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FinSerie}" 
+                                       for="finSerie"  
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="finSerie" 
+                                     value="#{talonarioChequeController.talonarioCheque.numeroFin}" 
+                                     title="#{propiedadesTituloBL.FinSerie}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.FinSerie} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <p:ajax  event="blur"
+                                     listener="#{talonarioChequeController.validaFinSerie()}" /> 
+                            <f:validateLongRange minimum="1"/>
+                        </p:inputText>
+                        <h:message for="finSerie" styleClass="invalido" />
+
+                       
+                    </h:panelGrid>
+                    <p:separator/>
+                    <p:commandButton id="guardarBot"                        
+                                     actionListener="#{talonarioChequeController.guardaTalonario}"                                     
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"                                      
+                                     update="display,:TalonarioChequeForm,:mensaje" 
+                                     />
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

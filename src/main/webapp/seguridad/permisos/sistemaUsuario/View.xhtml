@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioSistemaViewDlg" widgetVar="UsuarioSistemaViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewUsuarioSistemaTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioSistemaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{usuarioSistemaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewUsuarioSistemaLabel_contrasena}"/>
+                        <h:outputText value="#{usuarioSistemaController.selected.contrasena}" title="#{myBundle.ViewUsuarioSistemaTitle_contrasena}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioSistemaLabel_fechaAsignacion}"/>
+                        <h:outputText value="#{usuarioSistemaController.selected.fechaAsignacion}" title="#{myBundle.ViewUsuarioSistemaTitle_fechaAsignacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioSistemaLabel_fechaExpiraContrasena}"/>
+                        <h:outputText value="#{usuarioSistemaController.selected.fechaExpiraContrasena}" title="#{myBundle.ViewUsuarioSistemaTitle_fechaExpiraContrasena}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioSistemaLabel_mesesVigencia}"/>
+                        <h:outputText value="#{usuarioSistemaController.selected.mesesVigencia}" title="#{myBundle.ViewUsuarioSistemaTitle_mesesVigencia}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioSistemaLabel_diasGracia}"/>
+                        <h:outputText value="#{usuarioSistemaController.selected.diasGracia}" title="#{myBundle.ViewUsuarioSistemaTitle_diasGracia}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioSistemaLabel_estado}"/>
+                        <h:outputText value="#{usuarioSistemaController.selected.estado}" title="#{myBundle.ViewUsuarioSistemaTitle_estado}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioSistemaLabel_asignadoPor}"/>
+                        <h:outputText value="#{usuarioSistemaController.selected.asignadoPor.username}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioSistemaLabel_usuario}"/>
+                        <h:outputText value="#{usuarioSistemaController.selected.usuario.username}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioSistemaLabel_sistema}"/>
+                        <h:outputText value="#{usuarioSistemaController.selected.sistema.codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="UsuarioSistemaViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

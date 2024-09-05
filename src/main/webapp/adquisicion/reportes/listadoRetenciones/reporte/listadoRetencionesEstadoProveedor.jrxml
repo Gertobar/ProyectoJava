@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bdaafc59-0bf0-4fb8-9634-929c01b0583f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="listaCompras" uuid="586821d1-d8ad-49cf-854d-630f9e503677">
+		<parameter name="codigoProveedorR" class="java.lang.Long"/>
+		<parameter name="codigoIfipR" class="java.lang.Long"/>
+		<parameter name="codigoIfipAgenciaR" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[select distinct ret.codigo "CODIGO",
+       prs.nombre_completo "NOMBRE PROVEEDOR" ,
+       cmp.numero_comprobante "NUMERO FACTURA",
+       ret.codigo_periodo "PERIODO",
+       ret.fecha_retencion "FECHA RETENCION",
+       ret.fecha_estado "FECHA COMPROBANTE",               
+       ret.total_retenido "TOTAL"
+       
+        from mks_adquisiciones.compra cmp,
+             mks_socios.persona prs,
+             mks_adquisiciones.proveedor pro,
+             mks_contables.retencion ret,
+             mks_ifips.ifip  ifi,
+             mks_ifips.ifip_agencia ifa
+        where
+             ifi.codigo= ifa.codigo_ifip and
+             ret.codigo_compra=cmp.codigo and
+             prs.codigo=pro.codigo_persona and
+             pro.codigo= cmp.codigo_proveedor and                  
+             cmp.codigo_proveedor = $P{codigoProveedorR} and
+             ifi.codigo=$P{codigoIfipR} and
+             ifa.codigo=$P{codigoIfipAgenciaR}
+        order by ret.codigo]]>
+		</queryString>
+		<field name="CODIGO" class="java.lang.Long"/>
+		<field name="NOMBRE PROVEEDOR" class="java.lang.String"/>
+		<field name="NUMERO FACTURA" class="java.lang.String"/>
+		<field name="PERIODO" class="java.lang.String"/>
+		<field name="FECHA RETENCION" class="java.util.Date"/>
+		<field name="FECHA COMPROBANTE" class="java.util.Date"/>
+		<field name="TOTAL" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="codigoProveedor" class="java.lang.Long"/>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<parameter name="codigoIfipAgencia" class="java.lang.Long"/>
+	<parameter name="codigoResponsable" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select  
+      ifi.path_imagen "IMAGEN",
+      ifa.nombre "AGENCIA",
+      tti.nombre||' '||ifi.nombre "IFIP",
+      (SELECT per.nombre_completo
+      FROM  mks_seguridades.usuario usu,                  
+            mks_socios.persona per
+      WHERE usu.codigo_persona=per.codigo and
+            usu.codigo=$P{codigoResponsable})  "AGENTE",
+              
+      (SELECT  per.nombre_completo
+      FROM  mks_adquisiciones.proveedor pro, 
+            mks_adquisiciones.proveedor_ifip pif,                 
+            mks_socios.persona per
+      WHERE pro.codigo_persona=per.codigo and
+            pro.codigo=pif.codigo_proveedor and
+            pro.codigo=$P{codigoProveedor} and
+            pif.codigo_ifip=$P{codigoIfip})  "PROVEEDOR" 
+  from 
+      mks_adquisiciones.proveedor_ifip pifip,        
+      mks_ifips.ifip  ifi,
+      mks_ifips.ifip_agencia ifa,
+      mks_ifips.tipo_ifip tti
+  where  
+      ifi.codigo= ifa.codigo_ifip and        
+      tti.codigo= ifi.codigo_tipo_ifip and 
+      pifip.codigo_proveedor=$P{codigoProveedor} and
+      pifip.codigo_ifip=$P{codigoIfip} and
+      ifa.codigo=$P{codigoIfipAgencia}]]>
+	</queryString>
+	<field name="IFIP" class="java.lang.String"/>
+	<field name="IMAGEN" class="java.lang.String"/>
+	<field name="AGENTE" class="java.lang.String"/>
+	<field name="PROVEEDOR" class="java.lang.String"/>
+	<field name="AGENCIA" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="74" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" mode="Transparent" x="5" y="24" width="544" height="20" uuid="28018225-171b-471e-a66f-838ed0428d25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IFIP}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="0" width="57" height="25" uuid="7f644b82-cc9c-4ce2-bf2a-f72fecf0b70b"/>
+				<imageExpression><![CDATA[$F{IMAGEN}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="203" y="54" width="151" height="20" uuid="d5101f26-5bd4-42c0-b80e-3fc74622a9e8"/>
+				<text><![CDATA[LISTA DE LAS RETENCIONES ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="94" splitType="Stretch">
+			<staticText>
+				<reportElement x="21" y="65" width="119" height="20" uuid="4b7bfe5a-4c51-49b2-9196-94f434fe0772"/>
+				<text><![CDATA[FECHA IMPRESION:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/YY">
+				<reportElement x="140" y="65" width="95" height="20" uuid="d43ff3c2-ef81-41bb-8251-223fc0b58b97"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="45" width="119" height="20" uuid="8b9f6c79-77d8-434e-806d-238dc53e0bca"/>
+				<text><![CDATA[NOMBRE PROVEEDOR:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="140" y="45" width="95" height="20" uuid="52d2f644-e31f-4270-8d2b-7a1f17a3cd3f"/>
+				<textFieldExpression><![CDATA[$F{PROVEEDOR}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/YY">
+				<reportElement x="140" y="25" width="95" height="20" uuid="4cf5df25-543c-4460-bee4-eba2cd536df1"/>
+				<textFieldExpression><![CDATA[$F{AGENCIA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="21" y="25" width="119" height="20" uuid="48ee579e-baac-47e4-a2a9-e65aa1c30483"/>
+				<text><![CDATA[AGENCIA:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="199" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 6" style="table 3" x="21" y="12" width="509" height="170" uuid="b8ed3368-e8c8-497e-9897-ab97ff06c784"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="listaCompras" uuid="e516b694-8991-414e-8471-0b9573405f26">
+						<datasetParameter name="codigoIfipR">
+							<datasetParameterExpression><![CDATA[$P{codigoIfip}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="codigoIfipAgenciaR">
+							<datasetParameterExpression><![CDATA[$P{codigoIfipAgencia}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="codigoProveedorR">
+							<datasetParameterExpression><![CDATA[$P{codigoProveedor}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="98" uuid="a6579e69-63bf-4ec5-a20c-106e76177275">
+						<jr:columnHeader style="table 6_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="98" height="30" forecolor="#FFFFFF" backcolor="#333333" uuid="c239c9de-9a8a-4049-a5dc-a442febebe74"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NOMBRE PROVEEDOR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 6_TD" height="28" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="98" height="20" uuid="98942b2a-9fd5-44b4-8c78-4ef74864d5c2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NOMBRE PROVEEDOR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="a6579e69-63bf-4ec5-a20c-106e76177275">
+						<jr:columnHeader style="table 6_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="30" forecolor="#FFFFFF" backcolor="#333333" uuid="c239c9de-9a8a-4049-a5dc-a442febebe74"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[NUMERO FACTURA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 6_TD" height="28" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" uuid="98942b2a-9fd5-44b4-8c78-4ef74864d5c2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NUMERO FACTURA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="a6579e69-63bf-4ec5-a20c-106e76177275">
+						<jr:columnHeader style="table 6_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="30" forecolor="#FFFFFF" backcolor="#333333" uuid="c239c9de-9a8a-4049-a5dc-a442febebe74"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PERIODO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 6_TD" height="28" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="dd/MM/YY">
+								<reportElement x="0" y="0" width="60" height="20" uuid="98942b2a-9fd5-44b4-8c78-4ef74864d5c2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PERIODO}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="a6579e69-63bf-4ec5-a20c-106e76177275">
+						<jr:columnHeader style="table 6_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="30" forecolor="#FFFFFF" backcolor="#333333" uuid="c239c9de-9a8a-4049-a5dc-a442febebe74"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FECHA RETENCION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 6_TD" height="28" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="dd/MM/YY">
+								<reportElement x="0" y="0" width="60" height="20" uuid="98942b2a-9fd5-44b4-8c78-4ef74864d5c2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FECHA RETENCION}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="a6579e69-63bf-4ec5-a20c-106e76177275">
+						<jr:columnHeader style="table 6_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="30" forecolor="#FFFFFF" backcolor="#333333" uuid="c239c9de-9a8a-4049-a5dc-a442febebe74"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FECHA COMPROBANTE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 6_TD" height="28" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" uuid="98942b2a-9fd5-44b4-8c78-4ef74864d5c2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{FECHA COMPROBANTE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="a6579e69-63bf-4ec5-a20c-106e76177275">
+						<jr:columnHeader style="table 6_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="30" forecolor="#FFFFFF" backcolor="#333333" uuid="c239c9de-9a8a-4049-a5dc-a442febebe74"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 6_TD" height="28" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" uuid="98942b2a-9fd5-44b4-8c78-4ef74864d5c2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="9" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="77" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

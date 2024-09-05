@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="SaldosCajaFor" >
+        <p:panel id="SaldosCajaPan">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.SaldosCaja}"/>
+            </f:facet>
+
+            <p:focus context="SaldosCajaPan"/>   
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+                <h:panelGrid id="SaldosCajaGri" columns="2">
+
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Agencia}" 
+                                   styleClass="etiqueta"/>
+                    <p:inputText value="#{saldosCajaController.ifipAgencia.nombre}"
+                                 readonly="true"
+                                 size="10"/>
+
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Fecha}" 
+                                   styleClass="etiqueta"/>
+                    <p:calendar value="#{saldosCajaController.fechaConsulta}"                                    
+                                readonly="true"
+                                size="35"
+                                pattern="dd/MM/yyyy hh:mm:ss a"
+                                locale="es" 
+                                required="true" />
+
+
+                </h:panelGrid>
+
+                <h:panelGrid  id="desgloceEfectivoGri"  columns="1" style="font-size: 10px;">
+                    <p:dataTable id="saldosCajaTbl"  
+                                 value="#{saldosCajaController.itemsSaldosCaja}"
+                                 widgetVar="saldosCajaTabla"
+                                 var="itemSaldos"
+                                 rowKey="#{itemSaldos.saldosCajaPK}" 
+                                 emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}"
+                                 scrollable="true" 
+                                 scrollHeight="250" 
+                                 >
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.SaldosCaja}"/>                
+                        </f:facet>                     
+
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemSaldos.moneda.nombre}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Caja}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemSaldos.apertura.computador.nombre}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cajero}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemSaldos.apertura.usuario.codigoPersona.nombreCompleto}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.FechaApertura}"/>
+                            </f:facet>
+                            <p:calendar disabled="true"
+                                        size="25"
+                                        pattern="dd/MM/yyyy hh:mm:ss a"
+                                        value="#{itemSaldos.apertura.fechaSistema}"/>
+                        </p:column>
+
+                        <p:column  style="text-align: right">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Efectivo}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemSaldos.saldoEfectivo}"> 
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column  style="text-align: right">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cheques}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemSaldos.saldoCheques}"> 
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column  style="text-align: right">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemSaldos.saldoTotal}"> 
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:panelGrid>
+            </h:panelGroup>
+        </p:panel>
+
+    </h:form>
+
+
+
+
+
+</ui:composition>

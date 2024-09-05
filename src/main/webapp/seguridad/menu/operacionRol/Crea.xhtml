@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="operacionRolFor"> 
+
+        <p:panel  id="operacionRolPan" >         
+            <p:focus context="operacionRolPan"/> 
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.RolOperacion}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>            
+
+            <h:panelGrid id="operacionMenuGri" columns="4" 
+                         columnClasses="label, value, validator" styleClass="grid">
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Modulo}" 
+                               for="codigoModulo" styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="codigoModulo" 
+                                 value="#{rolOperacionController.ubiModulo}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Modulo} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{rolOperacionController.itemsModulo}"
+                                   var="ModuloItem"
+                                   itemValue="#{ModuloItem}"
+                                   itemLabel="#{ModuloItem.nombre.toString()}"/>     
+                    <p:ajax event="change" update="codigoMenu,codigoOpcion"
+                            listener="#{rolOperacionController.cambiaModulo()}"/>                   
+                    <f:converter binding="#{menuConverter}"/>
+                </p:selectOneMenu>
+                <h:message for="codigoModulo" styleClass="invalido" />
+                <h:outputLabel value=""/>
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Menu}" 
+                               for="codigoMenu" styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="codigoMenu" 
+                                 value="#{rolOperacionController.ubiMenu}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Menu} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{rolOperacionController.itemsMenu}"
+                                   var="MenuItem"
+                                   itemValue="#{MenuItem}"
+                                   itemLabel="#{MenuItem.nombre.toString()}"/>
+                    <p:ajax event="change" update="codigoOpcion"
+                            listener="#{rolOperacionController.cambiaMenu()}">
+                    </p:ajax>
+                    <f:converter binding="#{menuConverter}"/>
+                </p:selectOneMenu>
+                <h:message for="codigoMenu" styleClass="invalido" />
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Opcion}" 
+                               for="codigoOpcion" styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="codigoOpcion" 
+                                 value="#{rolOperacionController.ubiOpcion}" 
+                                 required="true"                                     
+                                 requiredMessage="#{propiedadesEtiquetaBL.OpcionOperacion} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{rolOperacionController.itemsOpcion}"
+                                   var="OpcionItem"            
+                                   itemValue="#{OpcionItem}"
+                                   itemLabel="#{OpcionItem.nombre.toString()}"/>   
+                    <p:ajax event="change"                              
+                            listener="#{rolOperacionController.cambiaRol()}"
+                            update="operacionRolPick">
+                    </p:ajax>
+                    <f:converter binding="#{menuConverter}"/>
+                </p:selectOneMenu>
+                <h:message for="codigoOpcion" styleClass="invalido" />     
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Rol}" 
+                               for="codigoRol" styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="codigoRol" 
+                                 value="#{rolOperacionController.ubicaRol}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Rol} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{rolOperacionController.itemsRol}"
+                                   var="RolItem"
+                                   itemValue="#{RolItem}"
+                                   itemLabel="#{RolItem.descripcion.toString()}"/>   
+                    <p:ajax event="change"                           
+                            listener="#{rolOperacionController.cambiaRol()}"
+                            update="operacionRolPick">
+                    </p:ajax>
+                    <f:converter binding="#{rolConverter}"/>
+                </p:selectOneMenu>
+                <h:message for="codigoRol" styleClass="invalido" />          
+                <h:outputLabel value=""/>
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.OpcionOperacion}" 
+                               for="operacionRolPick" styleClass="etiquetaRequerida" />              
+                <p:pickList id="operacionRolPick" 
+                            value="#{rolOperacionController.itemsOpcionOperacion}" 
+                            var="opcionOperacion" 
+                            itemValue="#{opcionOperacion}" 
+                            itemLabel="#{opcionOperacion.nombre.toString()}"
+                            showCheckbox="true"
+                            showSourceFilter="true" 
+                            showTargetFilter="true" 
+                            filterMatchMode="contains">
+                    <f:converter binding="#{opcionOperacionConverter}"/>
+                    <f:facet name="sourceCaption">Faltantes</f:facet>
+                    <f:facet name="targetCaption">Existentes</f:facet>
+                </p:pickList>
+
+                <f:facet name="footer">
+                    <p:commandButton id="operacionMenuBot" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update=":mensaje,:operacionRolFor:operacionRolPan"                                     
+                                     onclick="procesandoDlg.show();"
+                                     action="#{rolOperacionController.guardaRolOpcionOperacionFaltantes()}"
+                                     oncomplete="procesandoDlg.hide()">                   
+                    </p:commandButton>
+                </f:facet>
+            </h:panelGrid>
+
+        </p:panel>
+    </h:form>
+</ui:composition>
+
+

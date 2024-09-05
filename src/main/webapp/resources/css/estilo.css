@@ -1,0 +1,241 @@
+    body {    
+    font-size: x-small
+}
+
+
+/* ----------- DIVISIONES -----------------*/
+#contenedor {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top :auto;	
+    width: 1000px;
+    valign: middle;	
+}
+
+#leyenda
+{
+    margin-left: 0px;
+    margin-right: auto;
+    marging-top: 0px;
+    width:  99%; 
+    valign: middle;
+    height: 80px;
+    text-align: right;	
+
+}
+
+#logo
+{
+    margin-left: 0px;
+    margin-right: auto;
+    marging-top: 0px;
+    width:  640px; 
+    valign: middle;
+    height: 80px;
+
+    background-image: url("../resources/images/logo.png"); 
+
+}
+/* --------- FIN DIVISIONES --------------*/
+
+
+/* ------------- PANELES ------------------*/
+.panelInicioSesion
+{
+    margin: 0 auto;    
+    background-image: url("../resources/images/mascoop_login.jpg"); 
+    width:  1019px; 
+    valign: middle;
+    height: 630px;  
+    display:block;
+
+
+}
+.panelVentana {
+    background-color: #FEFEFE;
+    height: 460px;	
+    font-size: x-small;	
+}
+
+.panelUbicacion
+{
+
+    border: none;    
+    padding: 0px;
+}
+
+.panelBanner {
+    margin-left: 0px;
+    margin-right: auto;
+    marging-top: 0px;
+    background-image: url(../resources/images/baner_final.png); 
+    background-size: 100%;
+    text-align: right;	       
+    height: 90px;
+    display: block;
+}
+
+.panelCredito {
+    margin-left: 0px;
+    margin-right: auto;
+    marging-top: 0px;
+    background-image: url("../resources/images/creditos_1.png");
+    background-size: 100%;
+    height: 30px;  
+    display: block;
+}
+/* ----------- FIN DE PANELES ----------------*/
+
+/* ----------------ENLACES ------------------ */
+.enlace {
+    color: #3870A6;     
+    text-decoration: none;
+    font-weight: bold
+}
+
+
+.ubicacion {
+    color: #4D4D4D;
+    text-decoration: none;
+    font-weight: bold
+}
+/* -------- FIN DE ENLACES----------------*/
+
+/* -------------- CAMPOS Y ETIQUETAS -----------*/
+.campoRequerido {
+    height: 16px;
+    border-style: solid;
+    background-color: #FEFEFE;
+    border-color: #CCCCCC;
+    border-width: thin;
+}
+
+.campo {
+    height: 16px;
+    border-style: solid;
+    background-color: #FFFFFFF;
+    border-color: #CCCCCC;
+    border-width: thin;
+}
+
+.campoResultado {
+    height: 16px;
+    color: #555555;
+    font-weight: bold
+}
+
+.campoRequeridoValor {
+    height: 16px;
+    border-style: solid;
+    background-color: #FEFEFE;
+    border-color: #CCCCCC;
+    border-width: thin;
+    text-align: right
+}
+
+.campoValor {
+    
+    border-style: solid;    
+    text-align: right
+}
+
+.campoResultadoValor {
+    height: 16px;
+    color: #555555;
+    font-weight: bold;
+    text-align: right;
+}
+
+.campoResultadoComprobante {
+    font-size: 9px;
+}
+
+.etiquetaRequerida {
+    
+    text-decoration-color:  #BE1313;
+    color: #BE1313;      
+    font-weight: bold
+}
+
+.etiqueta {
+    
+    font-weight: bold
+}
+
+.etiquetaBanner {
+    
+    font-weight: bold;
+    color: gold;
+    
+}
+
+.etiquetaBannerDetalle {
+    
+    
+    color: #FEFEFE;
+    
+}
+
+.cerrarSesion {
+    
+    font-weight: bold;
+    color: darksalmon;
+    
+}
+
+
+.etiquetaComprobante {
+    font-size: 9px;
+    font-weight: bold;
+}
+
+
+.etiquetaCabeceraComprobante {
+    height: 12px;    
+    font-weight: bold;
+    text-align:  center;
+}
+
+.invalido {
+    color: #BE1313;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.encabezadosPanelGrid
+{
+    font-size:  medium;
+    font-weight:  bold;
+    font-size: 11px;
+}
+
+.encabezadosDialog
+{
+    font-size:  medium;
+    font-weight:  bold;
+    font-size: 12px;
+}
+
+.encabezadosDialogAdvertencias
+{
+    font-size:  medium;
+    font-weight:  bold;
+    font-size: 12px;
+    color: #BE1313;
+}
+.tabla
+{
+    font-size:  smaller;
+}
+/* ------ FIN DE CAMPOS Y ETIQUETAS --------*/
+
+/* ------ BACKGROUND DE GESTION DE CARTERA ------ */
+.colorSinGestion {
+    background: rgb(243, 92, 92)  !important ;
+}
+.colorGestionSatisfactoriaSi {
+    background: rgb(121, 191, 70)  !important ;
+}
+.colorGestionSatisfactoriaNo {
+    background: rgb(239, 249, 62)  !important ;
+}

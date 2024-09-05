@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PeriodoEfeCheEntFinCreateDlg"
+                  widgetVar="PeriodoEfeCheEntFinCreateDialog"
+                  modal="true" resizable="false" appendToBody="true"
+                  header="#{propiedadesEtiquetaBL.PeriodoEfeCheEntFin}" closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.PeriodoEfeCheEntFin }"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="PeriodoEfeCheEntFinCreateForm">
+
+                <h:panelGroup  id="display" style="font-size: 10px; margin-top: 0px;" rendered="#{periodoEfeCheEntFinController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EntidadFinanciera}" for="codigoEntidadFinanciera" />
+                        <p:inputText id="codigoEntidadFinanciera" value="#{periodoEfeCheEntFinController.selected.codigoEntidadFinanciera}" 
+                                     title="#{propiedadesEtiquetaBL.EntidadFinanciera}"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.EntidadFinanciera}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{periodoEfeCheEntFinController.selected.registradoPor}"
+                                     title="#{propiedadesEtiquetaBL.RegistradoPor}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{periodoEfeCheEntFinController.selected.fechaRegistro}"
+                                    title="#{propiedadesEtiquetaBL.FechaRegistro}" 
+                                    required="true" 
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{periodoEfeCheEntFinController.selected.eliminado}" 
+                                     title="#{propiedadesEtiquetaBL.Eliminado}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Eliminado}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoPeriodo}" for="codigoPeriodo" />
+                        <p:selectOneMenu id="codigoPeriodo" value="#{periodoEfeCheEntFinController.selected.codigoPeriodo}"
+                                         required="true" requiredMessage="#{propiedadesEtiquetaBL.CodigoPeriodo}">
+             <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{periodoEfectivizacionChequeController.items}"
+                                           var="codigoPeriodoItem"
+                                           itemValue="#{codigoPeriodoItem}"
+                                           itemLabel="#{codigoPeriodoItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{periodoEfectivizacionChequeConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EntidadFinanciera}" for="entidadFinanciera" />
+                        <p:selectOneMenu id="entidadFinanciera" value="#{periodoEfeCheEntFinController.selected.entidadFinanciera}" 
+                                         required="true" requiredMessage="#{propiedadesEtiquetaBL.EntidadFinanciera}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{entidadFinancieraController.items}"
+                                           var="entidadFinancieraItem"
+                                           itemValue="#{entidadFinancieraItem}"
+                                           itemLabel="#{entidadFinancieraItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{entidadFinancieraConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Ifip}" for="codigoIfip" />
+                        <p:inputText id="codigoIfip" value="#{periodoEfeCheEntFinController.selected.codigoIfip}"
+                                     title="#{propiedadesEtiquetaBL.Ifip}" required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Ifip}"/>
+                         <f:facet name="footer">
+                             <p:commandButton actionListener="#{periodoEfeCheEntFinController.saveNew}"
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:PeriodoEfeCheEntFinListForm:datalist,:mensaje"
+                                             oncomplete="handleSubmit(xhr,status,args,PeriodoEfeCheEntFinCreateDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                    
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

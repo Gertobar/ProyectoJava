@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipCuentaEntidadFinancieraViewDlg" widgetVar="IfipCuentaEntidadFinancieraViewDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.ViewIfipCuentaEntidadFinancieraTitle}" closeOnEscape="true">
+
+            <h:form id="IfipCuentaEntidadFinancieraViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ifipCuentaEntidadFinancieraController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewIfipCuentaEntidadFinancieraLabel_codigo}"/>
+                        <h:outputText value="#{ifipCuentaEntidadFinancieraController.selected.codigo}" title="#{myBundle.ViewIfipCuentaEntidadFinancieraTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipCuentaEntidadFinancieraLabel_codigoEntidadFinanciera}"/>
+                        <h:outputText value="#{ifipCuentaEntidadFinancieraController.selected.codigoEntidadFinanciera}" title="#{myBundle.ViewIfipCuentaEntidadFinancieraTitle_codigoEntidadFinanciera}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipCuentaEntidadFinancieraLabel_codigoTipoCuenta}"/>
+                        <h:outputText value="#{ifipCuentaEntidadFinancieraController.selected.codigoTipoCuenta}" title="#{myBundle.ViewIfipCuentaEntidadFinancieraTitle_codigoTipoCuenta}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipCuentaEntidadFinancieraLabel_numeroCuenta}"/>
+                        <h:outputText value="#{ifipCuentaEntidadFinancieraController.selected.numeroCuenta}" title="#{myBundle.ViewIfipCuentaEntidadFinancieraTitle_numeroCuenta}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipCuentaEntidadFinancieraLabel_observaciones}"/>
+                        <h:outputText value="#{ifipCuentaEntidadFinancieraController.selected.observaciones}" title="#{myBundle.ViewIfipCuentaEntidadFinancieraTitle_observaciones}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipCuentaEntidadFinancieraLabel_eliminado}"/>
+                        <h:outputText value="#{ifipCuentaEntidadFinancieraController.selected.eliminado}" title="#{myBundle.ViewIfipCuentaEntidadFinancieraTitle_eliminado}"/>
+
+                        <h:outputText value="#{myBundle.ViewIfipCuentaEntidadFinancieraLabel_codigoIfip}"/>
+                        <h:outputText value="#{ifipCuentaEntidadFinancieraController.selected.codigoIfip.codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="IfipCuentaEntidadFinancieraViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

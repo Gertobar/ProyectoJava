@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+
+PARA GENERAR  LA RETENCION
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RetencionDlg"
+                  widgetVar="RetencionDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  closable="false"
+                  appendTo="@(body)" 
+                  style="height: 700px; width: 700px"
+
+                  >
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.GenerarRetencionFactura}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <p:growl id="growR" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+
+
+            <h:form id="RetencionForm">
+
+
+                <h:panelGroup id="panelTrabajoRetencionRet"  style="font-size: 10px; margin-top: 0px;">
+
+                    <h:panelGrid columns="2">
+
+                        <h:panelGrid id="cabeceraDatosProveedorRet" columns="1"
+                                     columnClasses="label, value" styleClass="grid" style="text-align: left">
+
+                            <p:focus context="panelCabeceraDatosProveedorRet"/>   
+
+                            <p:panel id="panelCabeceraDatosProveedorRet">
+                                <h:panelGrid  columns="3" 
+                                              columnClasses="label, value" styleClass="grid" style="text-align: left">  
+
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.DocumentosProveedor}"/>
+                                        <p:separator/>
+                                    </f:facet>
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorRepresentante}" 
+                                                   />
+                                    <h:inputText id="retencionProveedorRepresentante"     
+                                                 readonly="true"
+                                                 size="50"
+                                                 value="#{facturaBean.nombreProevedorCompleto}"
+                                                 style="text-align:  right">
+                                    </h:inputText> 
+
+                                    <p:outputLabel value=""/> 
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorCIRUC}" 
+                                                   />
+                                    <h:inputText id="retencionProveedorCiRuc"     
+                                                 readonly="true"
+                                                 value="#{facturaBean.ciRucProveedor}"
+                                                 style="text-align:  right">
+                                    </h:inputText>
+                                    <p:outputLabel value=""/> 
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorDireccion}"  
+                                                   />
+                                    <h:inputText id="retencionComprasProveedorDireccion"     
+                                                 readonly="true"
+                                                 size="50"
+                                                 value="#{facturaBean.comprasDireccionProveedor}"
+                                                 style="text-align:  right">
+                                    </h:inputText>                                                                         
+                                    <p:outputLabel value=""/> 
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorTieneRise}" 
+                                                   />
+
+                                    <p:selectOneMenu id="retencionComprasProveedorRise" 
+                                                     value="#{facturaBean.estadoRiseProveedor}"
+                                                     disabled="true" style="width: 50px"
+                                                     requiredMessage="#{propiedadesEtiquetaBL.DatosFacturaProveedorTieneRise} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                        <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                        <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                                    </p:selectOneMenu> 
+
+                                    <p:outputLabel value=""/> 
+
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorRetieneIva}" 
+                                                   />
+
+                                    <p:selectOneMenu id="retencionComprasProveedorRetieneIva" 
+                                                     value="#{facturaBean.estadoRetieneIvaProveedor}"
+                                                     disabled="true" style="width: 50px"
+                                                     requiredMessage="#{propiedadesEtiquetaBL.DatosFacturaProveedorRetieneIva} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                        <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                        <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                                    </p:selectOneMenu>    
+
+                                    <p:outputLabel value=""/> 
+
+                                </h:panelGrid>
+                            </p:panel>
+                        </h:panelGrid>    
+
+                        <h:panelGrid id="cabeceraDatosFacturaRet" columns="1"
+                                     columnClasses="label, value" styleClass="grid" style="text-align: left">
+
+                            <p:focus context="panelCabeceraDatosFacturaRet"/>   
+
+                            <p:panel id="panelCabeceraDatosFacturaRet">
+                                <h:panelGrid  columns="2" 
+                                              columnClasses="label, value" styleClass="grid" style="text-align: left">  
+
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.DatosFactura}"/>
+                                        <p:separator/>
+                                    </f:facet>
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.Codigo}"  
+                                                   />
+                                    <h:inputText id="retencionCodigo"
+                                                 value="#{facturaBean.compraSel.codigo}"
+                                                 style="text-align:  right; width: 20px;"
+                                                 readonly="true"
+                                                 >
+                                    </h:inputText>                                                                         
+
+
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroComprobante}" 
+                                                   />
+
+                                    <h:panelGrid  columns="3">
+
+                                        <h:inputText id="retencionNumeroComprobanteUno"     
+                                                     readonly="true"
+                                                     value="#{facturaBean.serieParteUno}"
+                                                     style="text-align:  right; width: 20px;">
+                                        </h:inputText> 
+
+                                        <h:inputText id="retencionNumeroComprobanteDos"     
+                                                     readonly="true"
+                                                     value="#{facturaBean.serieParteDos}"
+                                                     style="text-align:  right; width: 20px;">
+                                        </h:inputText> 
+
+                                        <h:inputText id="retencionNumeroComprobanteTres"     
+                                                     readonly="true"
+                                                     value="#{facturaBean.serieParteTres}"
+                                                     style="text-align:  right">
+                                        </h:inputText> 
+                                    </h:panelGrid>  
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.TipoComprobante}" 
+                                                   />
+                                    <h:inputText id="retencionTipoComprobante"     
+                                                 readonly="true"
+                                                 value="#{facturaBean.ubicaTipoComprobanteCompra.nombre}"
+                                                 style="text-align:  right">
+
+                                    </h:inputText>
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.SubTotal}"  
+                                                   />
+                                    <h:inputText id="retencionSubTotal"     
+                                                 readonly="true"
+                                                 value="#{facturaBean.subtotalCompra}"
+                                                 style="text-align:  right">
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:inputText>                                                                         
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.Iva}"  
+                                                   />
+                                    <h:inputText id="retencionIva"     
+                                                 readonly="true"
+                                                 value="#{facturaBean.compraSel.iva}"
+                                                 style="text-align:  right">
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:inputText>                                                                         
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.Total}"  
+                                                   />
+                                    <h:inputText id="retencionTotal"     
+                                                 readonly="true"
+                                                 value="#{facturaBean.totalCompra}"
+                                                 style="text-align:  right">
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:inputText>                                                                         
+
+
+
+                                </h:panelGrid>
+                            </p:panel>
+                        </h:panelGrid>  
+
+
+
+
+                    </h:panelGrid>  
+
+
+                    <p:separator/>
+
+                    <h:panelGrid id="detalleCompraGri" columns="8">            
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.DetalleCompras}"/>
+                        </f:facet>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.NombreArticulotF}" 
+                                       for="retencionCompraDetalle"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:selectOneMenu id="retencionCompraDetalle" 
+                                         value="#{facturaBean.compraDetalleSel}" 
+                                         style=" width: 160px;"
+                                         required="false"
+                                         filter="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.DetalleCompras} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{facturaBean.itemsCompraDetalleSel}"
+                                           var="itemCompraDetalle"
+                                           itemValue="#{itemCompraDetalle}"
+                                           itemLabel="#{itemCompraDetalle.detalleArticulo}"
+                                           />
+                            <f:converter binding="#{compraDetalleConverter}"/>
+                            <p:ajax event="change"
+                                    listener="#{facturaBean.cambiaArticulo()}"
+                                    update="retencionCompraDetalle,detComSubTotal,detComIva,detComTotal,retencionTipoRetencion,baseImponibleRetencion,valorRetenidoRetencion"/>
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.SubTotal}" />
+                        <h:inputText id="detComSubTotal"     
+                                     readonly="true"
+                                     value="#{facturaBean.subtotalDetalleCompra}"
+                                     style="text-align:  right">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:inputText>                                                                         
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Iva}"  
+                                       />
+                        <h:inputText id="detComIva"     
+                                     readonly="true"
+                                     value="#{facturaBean.ivaDetalleCompra}"
+                                     style="text-align:  right">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:inputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Total}"  
+                                       />
+                        <h:inputText id="detComTotal"     
+                                     readonly="true"
+                                     value="#{facturaBean.totalDetalleCompra}"
+                                     style="text-align:  right">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:inputText>
+                    </h:panelGrid>
+
+
+                    <h:panelGrid id="retencionDetalleRetencionGri" columns="9">   
+
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Retencion}"/>
+                        </f:facet>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoRetencion}" 
+                                       for="retencionTipoRetencion"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:selectOneMenu id="retencionTipoRetencion" 
+                                         value="#{facturaBean.tipoRetencion}" 
+                                         style=" width: 160px;"
+                                         required="false"
+                                         filter="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.TipoRetencion} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{facturaBean.itemsTipoRetencions}"
+                                           var="itemTipoRetencion"
+                                           itemValue="#{itemTipoRetencion}"
+                                           itemLabel="#{itemTipoRetencion.porcentaje}%      #{itemTipoRetencion.nombre}      #{itemTipoRetencion.codigoOc}"
+                                           />
+                            <f:converter binding="#{tipoRetencionConverter}"/>
+                            <p:ajax event="change" 
+                                    listener="#{facturaBean.calculoTotalRetencion()}"
+                                    update="baseImponibleRetencion,valorRetenidoRetencion,porcentajeRet"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.PorcentajeRetencion}" 
+                                       for="porcentajeRet"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="porcentajeRet"     
+                                     readonly="true"
+                                     value="#{facturaBean.porcentajeRetencion}"
+                                     size="8"
+                                     style="text-align:  right">
+
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.BaseImponible}" 
+                                       for="baseImponibleRetencion"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:inputText id="baseImponibleRetencion"     
+                                     readonly="false"
+                                     value="#{facturaBean.baseImponible}"
+                                     size="8"
+                                     style="text-align:  right">
+                            <p:ajax event="blur" listener="#{facturaBean.calculoTotalRetencionBaseImponible()}"
+                                    update="baseImponibleRetencion,valorRetenidoRetencion,porcentajeRet,"/>
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>
+
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ValorRetenido}" 
+                                       for="valorRetenidoRetencion"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:inputText id="valorRetenidoRetencion"     
+                                     readonly="true"
+                                     value="#{facturaBean.totalRetenido}"
+                                     size="8"
+                                     style="text-align:  right">
+
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </p:inputText>
+
+
+                        <p:commandButton id="agregaDetalleRetencion" 
+                                         value="#{propiedadesEtiquetaBL.Agregar}"
+                                         disabled="false"
+                                         update="retencionDetalleTbl, totalSumaRetencion, generoRetencionFactura,imprimoRetencionFactura"
+                                         action="#{facturaBean.agregoDetalleRetencion()}"/>
+
+                    </h:panelGrid>
+
+
+
+
+
+
+                    <h:panelGrid columns="1">
+
+                        <h:panelGrid columns="1">
+                            <h:panelGrid id="detallesCompraTablaRetencion" columns="1">
+
+                                <p:panel id="panelDetalleCompraRetencion">
+
+
+                                    <p:contextMenu for="retencionDetalleTbl">     
+                                        <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                                                    icon="ui-icon-trash" 
+                                                    action="#{facturaBean.eliminaDetalleRetencion()}" 
+                                                    update="totalSumaRetencion,retencionDetalleTbl"/>            
+                                    </p:contextMenu>  
+
+
+                                    <h:panelGrid columns="1" style="font-size: 10px;">    
+
+                                        <p:dataTable id="retencionDetalleTbl" 
+                                                     value="#{facturaBean.itemsRetencionDetalles}"
+                                                     var="itemRetencionDetalle"                                                          
+                                                     rowKey="#{itemRetencionDetalle.retencionDetallePK}"
+                                                     paginator="true"
+                                                     rows="5"
+                                                     style="width:600px;"
+                                                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                                                     editable="true"
+                                                     editMode="cell"
+                                                     selectionMode="single"
+                                                     scrollable="true"
+                                                     scrollHeight="80"
+                                                     liveScroll="true" 
+                                                     selection="#{facturaBean.retencionDetalleSel}"
+                                                     widgetVar="retencionDetalleTabla">
+                                            <f:facet name="header">
+                                                <h:outputLabel value="#{propiedadesEtiquetaBL.DetalleRetencion}"/>
+                                            </f:facet>
+
+
+                                            <p:column sortBy="#{itemRetencionDetalle.compraDetalle.codigoArticulo.nombre}" style="width: 150px;" >
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.NombreArticulotF}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{itemRetencionDetalle.compraDetalle.detalleArticulo}"/>
+                                            </p:column>
+
+                                            <p:column sortBy="#{itemRetencionDetalle.baseImponible}" width="50" rendered="true">
+
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.BaseImponible}">
+                                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                                    </h:outputText>
+                                                </f:facet>
+                                                <h:outputText value="#{itemRetencionDetalle.baseImponible}"/>
+
+                                            </p:column>
+
+
+                                            <p:column sortBy="#{itemRetencionDetalle.tipoRetencion.nombre}" style="width: 150px;">
+
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.Impuesto}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{itemRetencionDetalle.tipoRetencion.nombre}"/>
+
+                                            </p:column>
+
+
+                                            <p:column sortBy="#{itemRetencionDetalle.porcentaje}"  width="40" rendered="true">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.Porcentaje}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{itemRetencionDetalle.porcentaje}">
+                                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                                </h:outputText>
+                                            </p:column>
+
+                                            <p:column sortBy="#{itemRetencionDetalle.total}" width="50" rendered="true">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{itemRetencionDetalle.total}" id="totalDetalle">  
+                                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                                </h:outputText>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </h:panelGrid>
+
+
+
+                        </h:panelGrid>
+
+                        <p:separator/>
+
+                        <h:panelGrid  columns="2">
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Total} #{propiedadesEtiquetaBL.Retencion}" 
+                                           />
+
+                            <p:inputText id="totalSumaRetencion"     
+                                         readonly="true"
+                                         value="#{facturaBean.totalSumaRetenido}"
+                                         size="8"
+                                         style="text-align:  right">
+
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            </p:inputText>
+
+                        </h:panelGrid>
+
+
+                        <h:panelGrid  columns="5">
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroRetencion}" 
+                                           />
+
+                            <p:inputText id="serieRentencion"    
+                                         value="#{facturaBean.serieRetencion}"
+                                         size="4"
+                                         disabled="true"
+                                         readonly="#{facturaBean.deshabilitaBotonGuardarRetencion}"  
+                                         style="text-align:  right">
+                                <p:ajax event="blur" listener="#{facturaBean.obtieneDocumento()}" update="numeroRentencion,:mensaje,:growR" />
+                            </p:inputText>
+
+                            <p:inputText id="numeroRentencion"  
+                                         value="#{facturaBean.numeroRetencion}"
+                                         size="16"
+                                         rendered="false"
+                                         readonly="#{facturaBean.deshabilitaBotonGuardarRetencion}"  
+                                         style="text-align:  right">
+                                <p:ajax event="blur" listener="#{facturaBean.obtieneDocumento()}" update="numeroRentencion,:mensaje,:growR" />
+                            </p:inputText>
+
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRetencion} #{propiedadesEtiquetaBL.Retencion}" 
+                                           for="fechaRetencion"
+                                           styleClass="etiquetaRequerida" />
+                            <p:calendar id="fechaRetencion"
+                                        pattern="dd/MM/yyyy"
+                                        value="#{facturaBean.fechaRetencion}"
+                                        showOn="button"     
+                                        size="7"
+                                        readonly="#{facturaBean.deshabilitaBotonGuardarRetencion}"
+                                        locale="es"
+                                        mindate="#{facturaBean.compraSel.fechaEmisionComprobante}"
+                                        maxdate="#{facturaBean.fechaMaxima}"
+                                        requiredMessage="#{propiedadesEtiquetaBL.FechaInicio} : #{propiedadesMensajesBL.CampoRequerido}"/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3">
+                            <p:commandButton id="generoRetencionFactura" 
+                                             value="#{propiedadesEtiquetaBL.Retencion}" 
+                                             onclick="procesandoDlg.show()"
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             actionListener="#{facturaBean.guadarRetencion}"
+                                             disabled="#{facturaBean.deshabilitaBotonGuardarRetencion}"                                             
+                                             update=":ComprasListForm,:barraForm"
+                                             >
+                                <f:ajax render="RetencionForm" resetValues="true"/>
+                            </p:commandButton>
+
+                            <p:commandButton id="imprimoRetencionFactura" 
+                                             value="#{propiedadesEtiquetaBL.ImprimirDocumento}" 
+                                             onclick="procesandoDlg.show()"
+                                             icon="#{propiedadesObjetosBL.IcoImprimir}" 
+                                             actionListener="#{facturaBean.imprimirRetencion}"
+
+                                             update=":ComprasListForm:datalist,generoRetencionFactura,:barraForm,:ComprobanteFor,fechaRetencion,numeroRentencion,:growR,:mensaje"
+                                             >
+                                <f:ajax render="RetencionForm" resetValues="true"/>
+                            </p:commandButton>
+
+
+
+                            <p:commandButton id="cerrarRetencionFactura" 
+                                             value="#{propiedadesEtiquetaBL.Cerrar}" 
+                                             onclick="RetencionDlg.hide()"
+                                             icon="#{propiedadesObjetosBL.IcoCancelar}"
+                                             action="#{facturaBean.buscaCompras()}"
+                                             update=":ComprasListForm:datalist"
+                                             >
+                                <f:ajax render="RetencionForm" resetValues="true"/>
+                            </p:commandButton>
+
+                        </h:panelGrid>
+
+                    </h:panelGrid>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
+
+

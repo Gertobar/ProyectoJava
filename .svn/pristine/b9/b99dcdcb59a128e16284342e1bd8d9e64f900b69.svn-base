@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Personas Naturales --> 
+    <p:panel id="personaInstitucionalPan" 
+             header="#{propiedadesEtiquetaBL.PersonaInstitucional}" 
+             style="border: 0; height: 500px; width: 700px">
+        <p:focus context="personaInstitucionalPan"/>   
+        <!-- PanelGrid para Personas Naturales --> 
+        <h:panelGrid id="personaInstitucionalGri" 
+                     columns="3" 
+                     columnClasses="label, value, validator" 
+                     styleClass="grid">
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoInstitucion}" 
+                           for="tipoInstitucion"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="tipoInstitucion" 
+                             value="#{socioBean.personaInstitucion.codigoTipoInstitucion}" 
+                             disabled="false"
+                             required="true">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsTipoInstitucion}"
+                               var="tipoInstitucionItem"
+                               itemValue="#{tipoInstitucionItem}"
+                               itemLabel="#{tipoInstitucionItem.nombre}"
+                               />
+                <f:converter binding="#{tipoInstitucionConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="tipoInstitucion"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.RazonSocial}" 
+                           for="razonSocial"                           
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.personaInstitucion.razonSocial}"                          
+                         id="razonSocial"
+                         size="60"
+                         onblur="value=value.toUpperCase()"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.RazonSocial} - #{propiedadesMensajesBL.CampoRequerido}">                
+                <p:ajax event="blur"  
+                        listener="#{socioBean.validaRazonSocialIngresada()}" />  
+
+            </p:inputText>
+            <h:message for="razonSocial"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.NombreComercial}" 
+                           for="nombreComercial"                            
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.personaInstitucion.nombreComercial}"
+                         id="nombreComercial"
+                         size="60"
+                         onblur="value=value.toUpperCase()"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.NombreComercial} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            <h:message for="nombreComercial"  styleClass="invalido"/>
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ObjetoSocial}" 
+                           for="objetoSocial"
+                           styleClass="etiqueta"/>
+            <p:inputText value="#{socioBean.personaInstitucion.objetoSocial}"
+                         id="objetoSocial"
+                         size="60"
+                         onblur="value=value.toUpperCase()"
+                         required="false" 
+                         />
+            <h:message for="objetoSocial"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaConstitucion}" 
+                           for="fechaConstitucion"
+                           styleClass="etiquetaRequerida"/>
+            <p:calendar  value="#{socioBean.personaInstitucion.fechaConstitucion}"                              
+                         id="fechaConstitucion" 
+                         required="true" 
+                         pattern="dd/MM/yyyy"
+                         locale="es"      
+                         maxdate="#{socioBean.fechaActual}"
+                         requiredMessage="#{propiedadesEtiquetaBL.FechaConstitucion} - #{propiedadesMensajesBL.CampoRequerido}">           
+                
+            </p:calendar>
+            <h:message for="fechaConstitucion"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                           for="observacionesInstitucion"                           
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.personaInstitucion.observaciones}"                          
+                         id="observacionesInstitucion"
+                         size="50"      
+                         onblur="value=value.toUpperCase()"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.Observaciones} - #{propiedadesMensajesBL.CampoRequerido}"/>
+            <h:message for="observacionesInstitucion"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.EsSujetoSri}" 
+                           for="esSujetoSri"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="esSujetoSri" 
+                             value="#{socioBean.personaInstitucion.esSujetoSri}" 
+                             required="true"                              
+                             requiredMessage="#{propiedadesEtiquetaBL.EsSujetoSri} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+            </p:selectOneMenu>
+            <h:message for="esSujetoSri"  styleClass="invalido"/>
+            
+             <p:outputLabel value="#{propiedadesEtiquetaBL.ControladaOc}" 
+                           for="controladaOc"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="controladaOc" 
+                             value="#{socioBean.personaInstitucion.controladaOc}" 
+                             required="true"                              
+                             requiredMessage="#{propiedadesEtiquetaBL.ControladaOc} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+            </p:selectOneMenu>
+            <h:message for="controladaOc"  styleClass="invalido"/>
+        </h:panelGrid>
+
+
+        <h:panelGrid id="representantesInsGri">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Representante}"/>
+            </f:facet>
+            <h:panelGrid columns="1">
+                <h:panelGrid columns="5">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}"/>                
+                    <p:inputText id="identificacionRepresentante" value="#{socioBean.identificacionRepresentante}">                
+                        <p:ajax event="blur" 
+                                update="nombreRepresentate,agregarRepresentanteBot,registraRepresentanteBot" 
+                                listener="#{socioBean.buscaRepresentanteInstitucion()}" /> 
+                    </p:inputText>                
+                    <p:inputText id="nombreRepresentate" 
+                                 readonly="#{socioBean.deshabilidaNombreRepresentante}" 
+                                 size="30" 
+                                 onblur="value=value.toUpperCase()"
+                                 value="#{socioBean.nombreRepresentante}"/> 
+                    <p:commandButton id="registraRepresentanteBot"
+                                     value="#{propiedadesEtiquetaBL.Registrar}"
+                                     disabled="#{socioBean.deshabilitaRegistrarRepresentante}"
+                                     action="#{socioBean.registraRepresentante()}"
+                                     update="nombreRepresentate,registraRepresentanteBot,agregarRepresentanteBot"/>                                     
+                </h:panelGrid>
+
+                <h:panelGrid columns="7">
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Nivel}" 
+                                   for="nivelRepresentante"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="nivelRepresentante" 
+                                     value="#{socioBean.personaInstitucionRep.codigoNivel}" 
+                                     disabled="false"
+                                     required="false">                        
+                        <f:selectItems value="#{socioBean.itemsNivel}"
+                                       var="nivelItem"
+                                       itemValue="#{nivelItem}"
+                                       itemLabel="#{nivelItem.nombre}"
+                                       />
+                        <f:converter binding="#{nivelConverter}"/>
+                    </p:selectOneMenu>
+                    <h:message for="nivelRepresentante" styleClass="invalido" />
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Cargo}" 
+                                   for="cargo"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="cargo" 
+                                     value="#{socioBean.personaInstitucionRep.codigoCargo}" 
+                                     disabled="false"
+                                     required="false">                        
+                        <f:selectItems value="#{socioBean.itemsCargo}"
+                                       var="cargoItem"
+                                       itemValue="#{cargoItem}"
+                                       itemLabel="#{cargoItem.nombre}"
+                                       />
+                        <f:converter binding="#{cargoConverter}"/>
+                    </p:selectOneMenu>                
+                    <h:message for="cargo" styleClass="invalido" />
+
+                    <p:commandButton id="agregarRepresentanteBot" 
+                                     value="#{propiedadesEtiquetaBL.Agregar}" 
+                                     accesskey="A"
+                                     disabled="#{socioBean.deshabilitaAgregarRepresentante}"
+                                     update="representantesInsTbl,identificacionRepresentante,nombreRepresentate,agregarRepresentanteBot,nivelRepresentante,cargo"
+                                     action="#{socioBean.agregaRepresentante()}"/>
+                </h:panelGrid>
+            </h:panelGrid>
+
+            <h:panelGrid style="font-size: 10px;">
+                <p:contextMenu for="representantesInsTbl" widgetVar="cRepresentantesInsTbl">     
+                    <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}"  
+                                icon="ui-icon-trash" 
+                                action="#{socioBean.quitaRepresentante()}" 
+                                update="representantesInsTbl"/>
+                </p:contextMenu>   
+
+                <p:dataTable id="representantesInsTbl" 
+                             value="#{socioBean.itemsPersonaInstitucionRep}"
+                             var="itemRepresentante"                                                          
+                             rowKey="#{itemRepresentante.personaInstitucionRepPK}"
+                             paginator="true"
+                             rows="2"
+                             emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                             editable="true"
+                             editMode="cell"
+                             selectionMode="single"
+                             selection="#{socioBean.personaInstitucionRepSel}"
+                             widgetVar="representantesInsTabla">
+
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.PersonaInstitucionRep}"/>
+                    </f:facet>
+
+
+                    <p:column sortBy="#{itemRepresentante.persona.identificacion}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemRepresentante.persona.identificacion}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{itemRepresentante.persona.nombreCompleto}">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemRepresentante.persona.nombreCompleto}"/>
+                    </p:column>
+
+                    <p:column style="width: 200px"> 
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Cargo}"/>
+                        </f:facet>
+                        <p:cellEditor>  
+                            <f:facet name="output">#{itemRepresentante.codigoCargo.nombre} </f:facet>
+                            <f:facet name="input" >
+                                <p:selectOneMenu id="cargoRepresentanteInp" 
+                                                 value="#{itemRepresentante.codigoCargo}"
+                                                 required="true" 
+                                                 filter="true" 
+                                                 filterMatchMode="startsWith"
+                                                 requiredMessage="#{propiedadesEtiquetaBL.Cargo} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                    <f:selectItems value="#{socioBean.itemsCargo}"
+                                                   var="cargoItem"
+                                                   itemValue="#{cargoItem}"
+                                                   itemLabel="#{cargoItem.nombre}"
+                                                   />
+                                    <f:converter binding="#{cargoConverter}"/>                                 
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column style="width: 50px"> 
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Nivel}"/>
+                        </f:facet>
+                        <p:cellEditor>  
+                            <f:facet name="output">#{itemRepresentante.codigoNivel.nombre} </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="nivelRepresentanteInp" 
+                                                 value="#{itemRepresentante.codigoNivel}"
+                                                 required="true" 
+                                                 filter="true" 
+                                                 style="width: 50px"
+                                                 filterMatchMode="startsWith"
+                                                 requiredMessage="#{propiedadesEtiquetaBL.Nivel} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                    <f:selectItems value="#{socioBean.itemsNivel}"
+                                                   var="nivelItem"
+                                                   itemValue="#{nivelItem}"
+                                                   itemLabel="#{nivelItem.nombre}"
+                                                   />
+                                    <f:converter binding="#{nivelConverter}"/>                                 
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column style="width: 50px"> 
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                        </f:facet>
+                        <p:cellEditor>  
+                            <f:facet name="output"> 
+                                <p:selectOneMenu id="eliminadoRepresentanteOut" 
+                                                 value="#{itemRepresentante.eliminado}"
+                                                 required="true"  disabled="true"  
+                                                 style="width: 50px"
+                                                 requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                    <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                    <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                                                     
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="eliminadoRepresentanteInp" 
+                                                 value="#{itemRepresentante.eliminado}"
+                                                 required="true"  disabled="false" style="width: 50px"
+                                                 requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                    <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                    <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                                                        
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGrid>
+        </h:panelGrid>
+    </p:panel>
+
+</ui:composition>

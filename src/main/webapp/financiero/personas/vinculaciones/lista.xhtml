@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PersonaVinculadoListForm">
+
+
+        <p:dataTable id="datalist" 
+                     value="#{personaVinculadoBean.itemsPersonaVinculado}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{personaVinculadoBean.selected}"
+                     rowKey="#{item.personaVinculadoPK}"
+                     paginator="true"
+                     rows="6"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="PERSONA VINCULADO"/>
+            </f:facet>  
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column  style="width:  10px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                </f:facet>
+                <h:outputText value="#{personaVinculadoBean.valorIdentificacion(item.persona.identificacion,item.persona1.identificacion)}"/>
+            </p:column>
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                </f:facet>
+                <h:outputText value="#{personaVinculadoBean.valorNombre(item.persona.nombreCompleto,item.persona1.nombreCompleto)}"/>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="TIPO VINCULO"/>
+                </f:facet>
+                <h:outputText value="#{personaVinculadoBean.valorRol(item.persona.codigo,item.codigoTipoVinculado)}"/>
+            </p:column>   
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="GRADO"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoTipoVinculado.grado}"/>
+            </p:column>          
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="TIPO"/>
+                </f:facet>
+                <h:outputText value="#{(item.codigoTipoVinculado.tipo == 'C') ?'CONSANGUINIDAD':'AFINIDAD'}"/>
+            </p:column>
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaCreacion}"/>
+                </f:facet>
+                <p:calendar value="#{item.fechaRegistro}" 
+                            readonly="true" disabled="true"
+                            pattern="dd/MM/yyyy"                                      
+                            locale="es" />
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="ELIMINADO"/>
+                </f:facet>
+                <h:outputText value="#{(item.eliminado == 'S') ?'SI':'NO'}"/>
+            </p:column> 
+
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>

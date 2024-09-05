@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SituacionEconomicaDlg" 
+                  widgetVar="SituacionEconomicaDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  closeOnEscape="true" 
+                  style="height: 530px; width: 700px"
+                  onShow="situacionDialogWizer.loadStep(situacionDialogWizer.cfg.steps[0], true)">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.InformeTecnico} - #{informeTecnicoController.solicitudSel.socio.codigoPersona.nombreCompleto}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+
+            <h:form id="SituacionEconomicaFor">
+
+                <p:wizard id="situacionDialogWzr"  
+                          widgetVar="situacionDialogWizer" 
+                          flowListener="#{informeTecnicoController.sigueProceso}"
+                          style="font-size: 10px; margin-top: 0px;" 
+                          showStepStatus="true"   
+                          showNavBar="true"
+                          backLabel="#{propiedadesEtiquetaBL.Atras}"
+                          nextLabel="#{propiedadesEtiquetaBL.Siguinte}"
+                          >  
+
+                    <p:tab  id="flujoCajaTab" 
+                            title="#{propiedadesEtiquetaBL.FlujoDeCaja}" 
+                            titleStyle="font-size: 10px">  
+                        <ui:include src="flujoCaja.xhtml"/> 
+                    </p:tab>  
+
+                    <p:tab id="situacionPatrimonialTab" 
+                           title="#{propiedadesEtiquetaBL.SituacionPatrimonial}" 
+                           titleStyle="font-size: 10px">                         
+                        <ui:include src="situacionPatrimonial.xhtml"/> 
+                    </p:tab> 
+
+
+                    <p:tab id="informeTecnicoTab" 
+                           title="#{propiedadesEtiquetaBL.InformeTecnico}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="informeTecnico.xhtml"/>                                                                          
+                    </p:tab> 
+
+                    <p:tab id="confirmacionTab" 
+                           title="#{propiedadesEtiquetaBL.Confirmacion}"
+                           titleStyle="font-size: 10px">  
+                        <ui:include src="confirmacion.xhtml"/> 
+                    </p:tab> 
+
+                </p:wizard>  
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

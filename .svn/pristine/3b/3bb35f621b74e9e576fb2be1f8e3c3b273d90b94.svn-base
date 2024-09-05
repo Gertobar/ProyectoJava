@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TasaInteresDpfIfipEditDlg" widgetVar="TasaInteresDpfIfipEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{myBundle.EditTasaInteresDpfIfipTitle}" closeOnEscape="true">
+
+            <h:form id="TasaInteresDpfIfipEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tasaInteresDpfIfipController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditTasaInteresDpfIfipLabel_codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{tasaInteresDpfIfipController.selected.codigo}" />
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresDpfIfipLabel_codigoIfip}" for="codigoIfip" />
+                        <p:inputText id="codigoIfip" value="#{tasaInteresDpfIfipController.selected.codigoIfip}" title="#{myBundle.EditTasaInteresDpfIfipTitle_codigoIfip}" required="true" requiredMessage="#{myBundle.EditTasaInteresDpfIfipRequiredMessage_codigoIfip}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresDpfIfipLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{tasaInteresDpfIfipController.selected.valor}" title="#{myBundle.EditTasaInteresDpfIfipTitle_valor}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresDpfIfipLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{tasaInteresDpfIfipController.selected.registradoPor}" title="#{myBundle.EditTasaInteresDpfIfipTitle_registradoPor}" required="true" requiredMessage="#{myBundle.EditTasaInteresDpfIfipRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresDpfIfipLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{tasaInteresDpfIfipController.selected.fechaRegistro}" title="#{myBundle.EditTasaInteresDpfIfipTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.EditTasaInteresDpfIfipRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditTasaInteresDpfIfipLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tasaInteresDpfIfipController.selected.eliminado}" title="#{myBundle.EditTasaInteresDpfIfipTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditTasaInteresDpfIfipRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tasaInteresDpfIfipController.save}" value="#{myBundle.Save}" update="display,:TasaInteresDpfIfipListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TasaInteresDpfIfipEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TasaInteresDpfIfipEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

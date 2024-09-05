@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="515" pageHeight="252" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d252923d-01ff-4b4c-9a55-ffd160390627">
+	<property name="ireport.zoom" value="1.9487171000000019"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoSocio" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  
+        tii.nombre                                "TIPO DE IDENTIFICACION",
+        per.identificacion                        "IDENTIFICACION",
+        per.nombre_completo                       "NOMBRE",
+        esc.nombre                                "ESTADO CIVIL",
+        pen.fecha_nacimiento                      "FECH NACIMIENTO",
+        (select listagg(u.nombre,' - ') 
+        WITHIN GROUP (ORDER BY codigo) 
+        direccion  
+        from mks_comunes.ubicacion_geografica u  
+        start with codigo = pen.codigo_ubi_geo_nac 
+        connect by prior  
+        u.codigo_ubi_geo_padre = codigo)          "LUG NACIMIENTO",
+        DECODE(pen.sexo,'M','MASCULINO',
+                        'FEMENINO')               "SEXO",
+        ins.nombre                                "INSTRUCCION",
+        pro.nombre                                "PROFESION",
+        (select act.nombre
+        from mks_socios.persona_actividad_economica aec,
+          mks_socios.actividad_economica act
+           where aec.codigo_persona = pen.codigo_persona
+            and   act.codigo = aec.codigo_actividad_economica
+             and   rownum      <= 1) "ACTIVIDAD ECONOMICA",
+       -- aec.nombre                                "ACTIVIDAD ECONOMICA",
+        ing.nombre                                "FUENTE DE INGRESOS",
+        sec.nombre                                "SECTOR",
+        (select tf.numero  
+        from mks_socios.persona_telefono tf
+        where tf.codigo_persona = pen.codigo_persona
+        AND   tf.codigo_tipo_telefono = 1
+        and   tf.eliminado            = 'N'
+        AND     rownum      <= 1)                 "CONVENCIONAL",
+        (select tf.numero  
+        from mks_socios.persona_telefono tf
+        where tf.codigo_persona = pen.codigo_persona
+        AND   tf.codigo_tipo_telefono = 2
+                and   tf.eliminado            = 'N'
+        AND     rownum      <= 1)                 "CELULAR",
+        
+        (select u.nombre 
+                from mks_comunes.ubicacion_geografica u 
+                where u.codigo = pen.codigo_ubi_geo_naci) "NACIONALIDAD",
+        
+        (select listagg(u.nombre,' - ') 
+        WITHIN GROUP (ORDER BY codigo)  direccion  
+        from mks_comunes.ubicacion_geografica u  
+        start with codigo = prs.codigo_ubi_geo_res
+        connect by prior  
+        u.codigo_ubi_geo_padre = codigo)                  "LUGAR RESIDENCIA",
+        prs.direccion                             "DIRECCION",
+        (select case when count(uaf.documento)>0 
+          then 'SI' else 'NO' end from  
+          mks_historicos.uaf_persona_politicamente_exp 
+          uaf where uaf.documento = per.identificacion)   "PEPS"
+FROM    mks_socios.persona                      per,
+        mks_socios.tipo_persona                 tip,
+        mks_socios.tipo_identificacion          tii,
+        mks_socios.persona_natural              pen,
+        mks_socios.persona_residencia           prs,
+        mks_socios.estado_civil                 esc,
+        mks_socios.instruccion                  ins,
+        mks_socios.profesion                    pro,
+        mks_socios.fuente_ingresos              ing,
+        mks_socios.sector                       sec
+       -- mks_socios.actividad_economica          aec
+       -- mks_socios.persona_trabajo_act_eco      aceco
+WHERE   per.codigo                              in (select rpep.codigo_persona_rep 
+                                                from mks_socios.persona_institucion_rep rpep 
+                                                where rpep.codigo_persona = (select s.codigo_persona 
+                                                from mks_socios.socio s 
+                                                where s.codigo = $P{codigoSocio})
+                                                and   rpep.eliminado = 'N')
+--AND     soc.codigo_ifip                         = 1
+AND     tip.codigo                              = per.codigo_tipo_persona
+AND     tii.codigo                              = per.codigo_tipo_identificacion
+AND     per.codigo                              = pen.codigo_persona
+AND     esc.codigo                              = pen.codigo_estado_civil
+AND     ins.codigo                              = pen.codigo_instruccion
+AND     pro.codigo                              = pen.codigo_profesion
+AND     ing.codigo                              = pen.codigo_fuente_ingresos
+AND     sec.codigo                              = prs.codigo_sector
+AND     per.codigo                              = prs.codigo_persona
+   
+--AND     aec.codigo                              = aceco.codigo_actividad_economica
+--AND     aceco.codigo_persona                    = pen.codigo_persona]]>
+	</queryString>
+	<field name="TIPO DE IDENTIFICACION" class="java.lang.String"/>
+	<field name="IDENTIFICACION" class="java.lang.String"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="ESTADO CIVIL" class="java.lang.String"/>
+	<field name="FECH NACIMIENTO" class="java.sql.Timestamp"/>
+	<field name="LUG NACIMIENTO" class="java.lang.String"/>
+	<field name="SEXO" class="java.lang.String"/>
+	<field name="INSTRUCCION" class="java.lang.String"/>
+	<field name="PROFESION" class="java.lang.String"/>
+	<field name="ACTIVIDAD ECONOMICA" class="java.lang.String"/>
+	<field name="FUENTE DE INGRESOS" class="java.lang.String"/>
+	<field name="SECTOR" class="java.lang.String"/>
+	<field name="CONVENCIONAL" class="java.lang.String"/>
+	<field name="CELULAR" class="java.lang.String"/>
+	<field name="NACIONALIDAD" class="java.lang.String"/>
+	<field name="LUGAR RESIDENCIA" class="java.lang.String"/>
+	<field name="DIRECCION" class="java.lang.String"/>
+	<field name="PEPS" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="1" width="515" height="15" forecolor="#FFFFFF" backcolor="#3B83BD" uuid="dd2b245d-352f-436a-bd01-e77ed2ec7200"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ INFORMACIÓN DEL REPRESENTANTE LEGAL O APODERADO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="236" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="1" width="384" height="15" uuid="4bb7484c-7522-4632-8140-0e70bf249299"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="57" width="204" height="15" uuid="9e40e056-ee4c-4d5c-9caf-e147343fd63f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SEXO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="127" width="132" height="15" uuid="5b513dea-d1fc-4e8b-8031-5da071c05d89"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROFESIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="185" width="133" height="15" uuid="2cb4b35c-60a0-45dd-a69e-86ce4b053e70"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="1" width="132" height="15" uuid="b9d3e2c7-20f0-4bb9-bc80-3be8d1b50ea7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="15" width="204" height="15" uuid="c92cd96a-4f32-4901-9354-c83328b0ded6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TIPO DE IDENTIFICACION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="99" width="384" height="15" uuid="76c55194-2064-4cd3-8f73-db34fe177b10"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LUG NACIMIENTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="99" width="132" height="15" uuid="4e27e45e-d2b5-42d3-8757-c46906c21183"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LUGAR DE  NACIMIENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="132" height="15" uuid="8cc78b3e-6344-4431-b383-04b7092ddd55"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO DE IDENTIFICACION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="71" width="132" height="15" uuid="93ebeed0-f829-4cc0-b54e-cd9076e1e661"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO CIVIL]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="132" y="185" width="384" height="15" uuid="f887c2ff-431f-4115-adab-e31dbe07fd14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIRECCION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="29" width="132" height="15" uuid="ab9350a7-4aaf-4afe-ba56-2b77c58bf454"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IDENTIFICACION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="57" width="132" height="15" uuid="dafea3ab-53ab-4d6a-868d-74607326fb46"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GENERO]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="71" width="204" height="15" uuid="d81615ea-bdea-4ac2-b3b0-d1475de90f4b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESTADO CIVIL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="29" width="204" height="15" uuid="6c8ad83e-4d9d-4e1b-8e4d-670c778e5ba1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IDENTIFICACION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="127" width="384" height="15" uuid="ff3af71f-183e-4089-9e46-b9108a72397d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PROFESION}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="43" width="132" height="15" uuid="86349620-941f-4160-b7e7-932bff882678"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAÍS DE NACIONALIDAD]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="43" width="204" height="15" uuid="e9645c36-748b-4feb-95fe-da862f407d28"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NACIONALIDAD}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="113" width="132" height="15" uuid="f7fa3cbf-f882-4db1-93c4-0dbcd38d75e4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTIVIDAD ECONOMICA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="131" y="113" width="131" height="15" uuid="5adbe558-af10-4fca-8e80-ee420ccec5c2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACTIVIDAD ECONOMICA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="141" width="132" height="15" uuid="2b747bd7-acda-4165-873e-2c4f12dc37a4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PEPS]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="141" width="131" height="15" uuid="8b2faebb-c32b-4447-afb8-c65ea1d80770"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PEPS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="156" width="515" height="15" forecolor="#FFFFFF" backcolor="#3B83BD" uuid="1d76f440-90a4-4cdd-ae83-7d1fdc8b9ed2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ INFORMACIÓN DOMICILIARIA DEL REPRESENTANTE LEGAL O APODERADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="85" width="132" height="15" uuid="208af678-34ba-4af2-ae75-90ee29c28d96"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA NACIMIENTO]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="131" y="85" width="204" height="15" uuid="56cc6224-6d7f-4d48-a8f8-d70ea52333ea"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECH NACIMIENTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="199" width="133" height="15" uuid="067808f6-8aea-4940-94be-9e0746a8446c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONVENCIONAL]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="132" y="199" width="167" height="15" uuid="d0d46ad8-ab28-4dee-935a-66cca1042c65"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONVENCIONAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="213" width="133" height="15" uuid="1a68ccad-261a-43e8-afce-8e88d8e38747"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CELULAR]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="132" y="213" width="167" height="15" uuid="93b07740-150b-44e5-9f94-dace0a8345b5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CELULAR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="171" width="133" height="15" uuid="4ab6dac2-2183-4c71-bcfc-ddba2bbacb9c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LUGAR DE RESIDENCIA]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="132" y="171" width="235" height="15" uuid="b3e3ae0b-48dc-45d8-944d-c2a3496d93e5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LUGAR RESIDENCIA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

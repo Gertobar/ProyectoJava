@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="5">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.BuscarPor}"/>
+            <p:selectOneMenu id="buscarPor"                                  
+                             value="#{informeTecnicoController.buscarPor}"
+                             required="true"                                  
+                             requiredMessage="#{informeTecnicoController.buscarPor} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Socio}" itemValue="S" />  
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Credito}" itemValue="N" />
+                <p:ajax event="change" 
+                        listener="#{informeTecnicoController.cambiaCriterio()}" 
+                        update="criterioTex,nombreSocio,buscar,:InformeTecnicoForm:datalist"/>
+            </p:selectOneMenu>                
+
+            <p:inputText id="criterioTex" 
+                         value="#{informeTecnicoController.criterio}"   
+                         style="text-align:  right"
+                         onblur="value = value.toUpperCase()" 
+                         size="15">
+                <p:ajax event="blur" 
+                        listener="#{informeTecnicoController.obtieneSolicitudes()}" 
+                        update="nombreSocio,:InformeTecnicoForm:datalist"/>
+            </p:inputText>
+
+            <p:inputText id="nombreSocio" 
+                         readonly="true"   
+                         value="#{informeTecnicoController.nombreSocio}" 
+                         onblur="value = value.toUpperCase()" 
+                         size="50"/>
+
+            <p:commandButton id="buscar" 
+                             value="#{propiedadesEtiquetaBL.Buscar}"
+                             icon="#{propiedadesObjetosBL.IcoVer}" 
+                             onclick="procesandoDlg.show()"
+                             disabled="#{informeTecnicoController.deshabilitaBuscarSocioLista}"
+                             update=":ListaSociosForm"
+                             actionListener="#{informeTecnicoController.preparaBusquedaSocioLista}"
+                             oncomplete="procesandoDlg.hide();ListaSociosDialog.show();"
+                             />
+
+
+        </h:panelGrid>
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+</ui:composition>

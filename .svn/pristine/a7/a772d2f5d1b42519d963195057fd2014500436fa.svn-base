@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="UsuarioSistemaListForm">
+
+        <p:panel header="#{myBundle.ListUsuarioSistemaTitle}">
+
+            <p:dataTable id="datalist" value="#{usuarioSistemaController.items}" var="item"
+                         selectionMode="single" selection="#{usuarioSistemaController.selected}"
+                         rowKey="#{item.usuarioSistemaPK}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.contrasena}" filterBy="#{item.contrasena}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioSistemaTitle_contrasena}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contrasena}"/>
+                </p:column>
+                <p:column sortBy="#{item.fechaAsignacion}" filterBy="#{item.fechaAsignacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioSistemaTitle_fechaAsignacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaAsignacion}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column sortBy="#{item.fechaExpiraContrasena}" filterBy="#{item.fechaExpiraContrasena}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioSistemaTitle_fechaExpiraContrasena}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaExpiraContrasena}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column sortBy="#{item.mesesVigencia}" filterBy="#{item.mesesVigencia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioSistemaTitle_mesesVigencia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mesesVigencia}"/>
+                </p:column>
+                <p:column sortBy="#{item.diasGracia}" filterBy="#{item.diasGracia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioSistemaTitle_diasGracia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasGracia}"/>
+                </p:column>
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioSistemaTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+                <p:column sortBy="#{item.asignadoPor.username}" filterBy="#{item.asignadoPor.username}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioSistemaTitle_asignadoPor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.asignadoPor.username}"/>
+                </p:column>
+                <p:column sortBy="#{item.usuario.username}" filterBy="#{item.usuario.username}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioSistemaTitle_usuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuario.username}"/>
+                </p:column>
+                <p:column sortBy="#{item.sistema.codigo}" filterBy="#{item.sistema.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioSistemaTitle_sistema}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sistema.codigo}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{usuarioSistemaController.prepareCreate}" update=":UsuarioSistemaCreateForm" oncomplete="UsuarioSistemaCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":UsuarioSistemaViewForm" oncomplete="UsuarioSistemaViewDialog.show()" disabled="#{empty usuarioSistemaController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":UsuarioSistemaEditForm" oncomplete="UsuarioSistemaEditDialog.show()" disabled="#{empty usuarioSistemaController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{usuarioSistemaController.delete}" update=":mensaje,datalist" disabled="#{empty usuarioSistemaController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

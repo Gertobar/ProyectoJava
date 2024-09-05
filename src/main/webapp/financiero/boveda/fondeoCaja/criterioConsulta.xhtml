@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="6">           
+            <h:outputLabel value="#{propiedadesEtiquetaBL.FechaInicio}"/>
+            <p:calendar  value="#{fondeoCajaController.fechaInicioFondeo}"
+                         pattern="dd/MM/yyyy"
+                         id="fechaInicioFondeo" 
+                         size="15"
+                         locale="es"
+                         mindate="01/01/1920">   
+            </p:calendar>
+            <h:outputLabel value="#{propiedadesEtiquetaBL.FechaFin}"/>
+            <p:calendar  value="#{fondeoCajaController.fechaFinFondeo}"
+                         pattern="dd/MM/yyyy"
+                         id="fechaFinFondeo" 
+                         size="15"
+                         locale="es"
+                         mindate="01/01/1920">   
+            </p:calendar>
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Estado}"/>
+            <p:selectOneMenu id="estadoCriterio" value="#{fondeoCajaController.estadoFondeo}">
+                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                <f:selectItem itemValue="N" itemLabel="#{propiedadesEtiquetaBL.Anulado}"/>
+                <f:selectItem itemValue="E" itemLabel="#{propiedadesEtiquetaBL.Entegrado}"/>
+                <f:selectItem itemValue="C" itemLabel="#{propiedadesEtiquetaBL.CajaCerrada}"/>
+                <f:selectItem itemValue="A" itemLabel="#{propiedadesEtiquetaBL.CajaAperturada}"/>
+            </p:selectOneMenu> 
+        </h:panelGrid>
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

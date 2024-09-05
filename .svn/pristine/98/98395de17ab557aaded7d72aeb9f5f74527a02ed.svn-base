@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RangoDiasDpfCreateDlg" 
+                  widgetVar="RangoDiasDpfCreateDialog"
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true">
+            
+               <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.RangoDiasDpf}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="RangoDiasDpfCreateForm">
+
+                   <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" >
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{rangoDiasDpfController.selected.codigo}"
+                                     title="#{propiedadesEtiquetaBL.Codigo}" required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Codigo}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RangoInicial}" for="rangoInicial" />
+                        <p:inputText id="rangoInicial" value="#{rangoDiasDpfController.selected.rangoInicial}"
+                                     title="#{propiedadesEtiquetaBL.RangoInicial}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.RangoInicial}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RangoFinal}" for="rangoFinal" />
+                        <p:inputText id="rangoFinal" value="#{rangoDiasDpfController.selected.rangoFinal}" 
+                                     title="#{propiedadesEtiquetaBL.RangoFinal}" required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.RangoFinal}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{rangoDiasDpfController.selected.eliminado}"
+                                     title="#{propiedadesEtiquetaBL.rangoDiasDpfController}"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Eliminado}"/>
+                        
+                     <p:commandButton actionListener="#{tipoTelefonoController.saveNew}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:RangoDiasDpfListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,RangoDiasDpfCreateDialog);"/>    
+                    </p:panelGrid>
+                   
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

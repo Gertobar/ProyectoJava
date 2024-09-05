@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para Personas Naturales --> 
+    <p:panel id="personaActEcoPan" 
+             header="#{propiedadesEtiquetaBL.ActividadEconomica}" 
+             style="border: 0; height: 500px; width: 700px">
+        <p:focus context="personaActEcoPan"/>   
+        <!-- PanelGrid para Personas Naturales --> 
+        <h:panelGrid id="personaActEcoGri" 
+                     columns="3" 
+                     columnClasses="label, value, validator" 
+                     styleClass="grid">
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.ActividadEconomica}" 
+                           for="actividadEconomica"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="actividadEconomica" 
+                             value="#{socioBean.personaActividadEconomica.actividadEconomica}"
+                             panelStyle="width:600px"
+                             effect="fade" 
+                             var="t" 
+                             style="width:500px"
+                             filter="true" 
+                             filterMatchMode="contains">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{socioBean.itemsActividadEconomica}"
+                               var="actividadEconomicaItem"
+                               itemValue="#{actividadEconomicaItem}"
+                               itemLabel="#{actividadEconomicaItem.nombre}"
+                               />                    
+                <p:column>
+                    <h:outputText value="#{t.nombre}" />
+                </p:column>
+                <f:converter binding="#{actividadEconomicaConverter}"/>
+            </p:selectOneMenu>            
+            <h:message for="actividadEconomica"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" 
+                           for="periodicidadActEco"                           
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="periodicidadActEco" 
+                             value="#{socioBean.personaActividadEconomica.periodicidad}" 
+                             disabled="false"
+                             required="true">
+                <f:selectItems value="#{socioBean.itemsPeriodicidad}"
+                               var="periodicidadActEcoItem"
+                               itemValue="#{periodicidadActEcoItem}"
+                               itemLabel="#{periodicidadActEcoItem.nombre}"
+                               />
+                <f:converter binding="#{periodicidadConverter}"/>
+            </p:selectOneMenu>
+            <h:message for="periodicidadActEco"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Tiempo}" 
+                           for="tiempoActEco"                            
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText value="#{socioBean.tiempoActEco}"
+                         id="tiempoActEco"
+                         required="true" 
+                         requiredMessage="#{propiedadesEtiquetaBL.Tiempo} - #{propiedadesMensajesBL.CampoRequerido}">
+                <f:convertNumber integerOnly="true"/>
+            </p:inputText>
+            <h:message for="tiempoActEco"  styleClass="invalido"/>
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaIngreso}" 
+                           for="fechaIngresoActEco"
+                           styleClass="etiquetaRequerida"/>
+            <p:calendar  value="#{socioBean.fechaIngresoActEco}"                              
+                         id="fechaIngresoActEco"                          
+                         pattern="dd/MM/yyyy"
+                         locale="es"         
+                         maxdate="#{socioBean.fechaActual}"
+                         requiredMessage="#{propiedadesEtiquetaBL.FechaIngreso} - #{propiedadesMensajesBL.CampoRequerido}">       
+            </p:calendar>
+            <h:message for="fechaIngresoActEco"  styleClass="invalido"/>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.EsPrincipal}" 
+                           for="esPrincipalActEco"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="esPrincipalActEco" 
+                             value="#{socioBean.personaActividadEconomica.esPrincipal}"
+                             required="true"  disabled="false" style="width: 50px"
+                             requiredMessage="#{propiedadesEtiquetaBL.EsPrincipal} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                   
+            </p:selectOneMenu>
+            <h:message for="esPrincipalActEco"  styleClass="invalido"/>
+
+            <f:facet name="footer">
+                <h:panelGrid style="text-align:  center" columns="1">
+                    <p:commandButton id="agregaActEcoBot"
+                                     value="#{propiedadesEtiquetaBL.Agregar}"
+                                     update="personaActEcoTbl,actividadEconomica,periodicidadActEco,tiempoActEco,fechaIngresoActEco"
+                                     accesskey="A"
+                                     action="#{socioBean.agregaActividadEconomica()}"/>
+                </h:panelGrid>
+            </f:facet>
+        </h:panelGrid>
+
+
+        <h:panelGrid style="font-size: 10px;">
+            <p:contextMenu for="personaActEcoTbl" widgetVar="cPersonaActEcoTbl">     
+                <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}"  
+                            icon="ui-icon-trash" 
+                            action="#{socioBean.quitaActividadEconomica()}" 
+                            immediate="true"
+                            update="personaActEcoTbl"/>
+            </p:contextMenu>   
+
+            <p:dataTable id="personaActEcoTbl" 
+                         value="#{socioBean.itemsPersonaActEco}"
+                         var="itemActividadEconomica"                                                          
+                         rowKey="#{itemActividadEconomica.personaActividadEconomicaPK}"
+                         paginator="true"
+                         rows="4"
+                         emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                         editable="true"
+                         editMode="cell"
+                         selectionMode="single"
+                         selection="#{socioBean.personaActividadEconomicaSel}"
+                         widgetVar="personaActEcoTabla">
+
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.ActividadEconomica}"/>
+                </f:facet>
+
+
+                <p:column  sortBy="#{itemActividadEconomica.actividadEconomica.nombre}"> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ActividadEconomica}"/>
+                    </f:facet>
+                    <h:outputLabel value="#{itemActividadEconomica.actividadEconomica.nombre}"/>
+                </p:column>
+
+                <p:column> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Periodicidad}"/>
+                    </f:facet>
+                    <p:cellEditor>  
+                        <f:facet name="output">#{itemActividadEconomica.periodicidad.nombre} </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="periodicidadActEcoInp" 
+                                             value="#{itemActividadEconomica.periodicidad}" 
+                                             disabled="false"
+                                             required="true">
+                                <f:selectItems value="#{socioBean.itemsPeriodicidad}"
+                                               var="periodicidadActEcoItem"
+                                               itemValue="#{periodicidadActEcoItem}"
+                                               itemLabel="#{periodicidadActEcoItem.nombre}"
+                                               />
+                                <f:converter binding="#{periodicidadConverter}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Tiempo}"/>
+                    </f:facet>               
+                    <p:cellEditor>  
+                        <f:facet name="output">#{itemActividadEconomica.tiempo} </f:facet>
+                        <f:facet name="input" >
+                            <p:inputText   id="tiempoActEcoInp"                                        
+                                           value="#{itemActividadEconomica.tiempo}"
+                                           required="true"
+                                           requiredMessage="#{propiedadesEtiquetaBL.Tiempo} : #{propiedadesMensajesBL.CampoRequerido}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.FechaIngreso}"/>
+                    </f:facet>               
+                    <p:cellEditor>  
+                        <f:facet name="output">
+                            <h:outputLabel value="#{itemActividadEconomica.fechaIngreso}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputLabel>
+                        </f:facet>
+                        <f:facet name="input" >
+                            <p:calendar  value="#{itemActividadEconomica.fechaIngreso}"                              
+                                         id="fechaIngresoActEcoInp"                          
+                                         pattern="dd/MM/yyyy"
+                                         locale="es"                         
+                                         requiredMessage="#{propiedadesEtiquetaBL.FechaIngreso} - #{propiedadesMensajesBL.CampoRequerido}">       
+                            </p:calendar>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width: 50px"> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.EsPrincipal}"/>
+                    </f:facet>
+                    <p:cellEditor>  
+                        <f:facet name="output"> 
+                            <p:selectOneMenu id="esPrincipalActEcoOut" 
+                                             value="#{itemActividadEconomica.esPrincipal}"
+                                             required="true"  disabled="true"  
+                                             style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.EsPrincipal} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                   
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="esPrincipalActEcoInp" 
+                                             value="#{itemActividadEconomica.esPrincipal}"
+                                             required="true"  disabled="false" style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.EsPrincipal} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width: 50px"> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                    </f:facet>
+                    <p:cellEditor>  
+                        <f:facet name="output"> 
+                            <p:selectOneMenu id="eliminadoctividadEconomicaOut" 
+                                             value="#{itemActividadEconomica.eliminado}"
+                                             required="true"  disabled="true"  
+                                             style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                  
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="eliminadoctividadEconomicaInp" 
+                                             value="#{itemActividadEconomica.eliminado}"
+                                             required="true"  disabled="false" style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />         
+
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+            </p:dataTable>
+        </h:panelGrid>
+    </p:panel>
+
+</ui:composition>

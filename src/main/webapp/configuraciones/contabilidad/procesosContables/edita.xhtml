@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProcesoContableEditDlg"
+                  widgetVar="ProcesoContableEditDialog" 
+                  modal="true" 
+                  resizable="false"                    
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.EditaProceso}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+            <h:form id="ProcesoContableEditForm">
+
+                <h:panelGrid columns="1" rendered="#{procesoContableController.procesoContableSel != null}"> 
+
+                    <h:panelGrid columns="2" style="font-size: 10px;  border: 1px;">
+
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Cabecera}"
+                                           styleClass="encabezadosDialog"/>
+                        </f:facet>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombreProcesoContable"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:inputText id="nombreProcesoContable" 
+                                     onkeyup="value = value.toUpperCase()"
+                                     value="#{procesoContableController.procesoContableSel.nombre}"
+                                     style="width: 350px;"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Descripcion}" 
+                                       for="descripcionProcesoContable"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="descripcionProcesoContable" 
+                                     onkeyup="value = value.toUpperCase()"
+                                     value="#{procesoContableController.procesoContableSel.descripcion}"
+                                     style="width: 350px;"/>   
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EstadoComprobante}" 
+                                       for="estadoProcesoContable"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:selectOneMenu id="estadoProcesoContable" 
+                                         value="#{procesoContableController.procesoContableSel.estadoComprobante}"                                 
+                                         required="true">    
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{procesoContableController.itemsEstadoComprobantes}"
+                                           var="codigoEstadoComprobanteItem"
+                                           itemValue="#{codigoEstadoComprobanteItem}"
+                                           itemLabel="#{codigoEstadoComprobanteItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{estadoComprobanteConverter}"/>
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{procesoContableController.procesoContableSel.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu> 
+
+                    </h:panelGrid>       
+
+
+                    <!-- DETALLE PROCESO CONTABLE -->
+
+                    <h:panelGrid columns="8" style="font-size: 10px; margin-top:20px; border: 1px;">
+
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.ProcesoContableDetalle}"
+                                           styleClass="encabezadosDialog"/>
+                        </f:facet> 
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="cuentaContable"                                   
+                                       />                
+                        <p:selectOneMenu id="cuentaContable" 
+                                         value="#{procesoContableController.procesoDetalle.planDeCuenta}"
+                                         style="width: 150px;"                                        
+                                         required="false"
+                                         filter="true" 
+                                         filterMatchMode="startsWith"
+                                         >                          
+                            <p:ajax event="change" 
+                                    update="agregaProcesoDetalleBot,:growl" 
+                                    listener="#{procesoContableController.buscaProcesoDetalle()}" />
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{procesoContableController.itemsPlanDeCuenta}"
+                                           var="planCuentaItem"
+                                           itemValue="#{planCuentaItem}"
+                                           itemLabel="#{planCuentaItem.planDeCuentaPK.cuentaContable} : #{planCuentaItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{planDeCuentaConverter}"/>
+
+                        </p:selectOneMenu>                    
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                                       for="tipo"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="tipo" 
+                                         value="#{procesoContableController.procesoDetalle.tipo}"
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Tipo} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Debito}" itemValue="D" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Creditos}" itemValue="C" />                                  
+                        </p:selectOneMenu> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Linea}" 
+                                       for="numeroLinea"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:inputText id="numeroLinea" 
+                                     value="#{procesoContableController.procesoDetalle.linea}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminadoDetalle"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminadoDetalle" 
+                                         value="#{procesoContableController.procesoDetalle.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu> 
+
+                        <p:commandButton id="agregaProcesoDetalleBot"                                         
+                                         value="#{propiedadesEtiquetaBL.Agregar}" 
+                                         disabled="#{procesoContableController.deshabilitaAgregar}"
+                                         action="#{procesoContableController.agregarProcesoDetalle()}"
+                                         update=":ProcesoContableEditForm:agregaProcesoDetalleBot,:ProcesoContableEditForm:ProcesoDetalleEditTbl,:growl"
+                                         />
+                    </h:panelGrid>
+
+                    <!-- AGREGAR A TABLA DETALLE PROCESO CONTABLE -->
+                    <p:contextMenu for="ProcesoDetalleEditTbl">     
+                        <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                                    icon="ui-icon-trash" 
+                                    action="#{procesoContableController.quitaProcesoDetalle()}"
+                                    update="ProcesoDetalleEditTbl"/>            
+                    </p:contextMenu>
+                    <h:panelGrid columns="1" style="font-size: 10px;">
+
+                        <p:dataTable id="ProcesoDetalleEditTbl" 
+                                     value="#{procesoContableController.itemsProcesoContableDetalle}"
+                                     var="itemDetalle"                                                          
+                                     rowKey="#{itemDetalle.procesoContableDetallePK}"
+                                     paginator="true"
+                                     rows="8"
+                                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                                     editable="true"
+                                     editMode="cell"
+                                     selectionMode="single"
+                                     selection="#{procesoContableController.procesoDetalleSel}"                     
+                                     widgetVar="detalleTablaEdit"
+                                     style="width: 600px; height: 200px;"
+                                     >
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.ProcesoContable}"/>
+                            </f:facet>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.PlanCuenta}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemDetalle.procesoContableDetallePK.cuentaContable} : #{itemDetalle.planDeCuenta.nombre}"/>
+                            </p:column>
+
+                            <p:column> 
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Tipo}"/>
+                                </f:facet>
+                                <p:cellEditor>  
+                                 <f:facet name="output"><p:selectOneMenu id="tipo1" 
+                                                             value="#{itemDetalle.tipo}"
+                                                             required="true"                                                              
+                                                             style="width: 100px;" 
+                                                             disabled="true"
+                                                             requiredMessage="#{propiedadesEtiquetaBL.Tipo} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Debito}" itemValue="D" />  
+                                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Creditos}" itemValue="C" />                                      
+                                            </p:selectOneMenu> </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu id="tipo" 
+                                                         value="#{itemDetalle.tipo}"
+                                                         required="true"                                                              
+                                                         style="width: 100px;"                                                              
+                                                         requiredMessage="#{propiedadesEtiquetaBL.Tipo} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Debito}" itemValue="D" />  
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Creditos}" itemValue="C" />                                           
+
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column> 
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Linea}"/>
+                                </f:facet>
+                                <h:outputLabel value="#{procesoContableController.procesoDetalle.linea}"/>              
+                            </p:column>     
+
+                            <p:column> 
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                                </f:facet>
+                                <p:cellEditor>  
+                                    <f:facet name="output"><p:selectOneMenu id="eliminadotbl1" 
+                                                         value="#{itemDetalle.eliminado}"
+                                                         required="true"                                                              
+                                                         style="width: 50%"     
+                                                         disabled="true"
+                                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />    
+                                        </p:selectOneMenu> </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu id="eliminadotbl" 
+                                                         value="#{itemDetalle.eliminado}"
+                                                         required="true"                                                              
+                                                         style="width: 50%"                                                              
+                                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />    
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:panelGrid>
+
+
+
+
+                    <!--BOTON GUARDAR PROCESO CONTABLE-->
+
+                    <p:commandButton style="width: 125px; height: 25px;"
+                        actionListener="#{procesoContableController.guardarProcesoContableDetalle()}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update=":ProcesoContableListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,ProcesoContableEditDialog);"/>
+                </h:panelGrid>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SeguimientoSolicitudDlg"
+                  widgetVar="SeguimientoSolicitudDialog" 
+                  modal="true" 
+                  resizable="false"
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.SeguimientoSolicitud}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <p:growl id="growl1" autoUpdate="true" showSummary="false" showDetail="true" life="4000" /> 
+
+            <h:form id="SeguimientoSolicitudForm"> 
+
+                <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+                    <p:dataTable id="seguimientoTbl" 
+                                 value="#{seguimientoEstadoSolicitudController.itemsSeguimientoEstadoSolicitud}" 
+                                 var="item"
+                                 selectionMode="single"                                  
+                                 rowKey="#{item.codigo}"
+                                 paginator="true"
+                                 rows="10"
+                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}">
+
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Seguimiento} #{propiedadesEtiquetaBL.Estado} #{propiedadesEtiquetaBL.Solicitud} #{propiedadesEtiquetaBL.De} #{propiedadesEtiquetaBL.Credito}"/>
+                        </f:facet>
+
+                        <p:column sortBy="#{item.solicitud.solicitudPK.numero}" filterBy="#{item.solicitud.solicitudPK.numero}">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Numero}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.solicitud.solicitudPK.numero}"/>
+                        </p:column>   
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.solicitud.socio.codigoPersona.nombreCompleto}"/>
+                        </p:column>  
+                        <p:column>                    
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuarioEstadoCredito.estadoCredito.nombre}"/>
+                        </p:column>
+
+                        <p:column sortBy="#{item.fechaEstado}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Fecha}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaEstado}">
+                                <f:convertDateTime pattern="dd/MM/yyyy   HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>   
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuarioEstadoCredito.usuario.codigoPersona.nombreCompleto}"/>
+                        </p:column>
+
+                    </p:dataTable> 
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

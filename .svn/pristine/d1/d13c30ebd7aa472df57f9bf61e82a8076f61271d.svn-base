@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="informeTecnicoPan" 
+              header="#{propiedadesEtiquetaBL.InformeTecnico}"
+              style="height: 530px; width: 700px">  
+        <p:focus context="informeTecnicoPan"/>   
+
+        <h:panelGroup id="display"  style="font-size: 10px; margin-top: 0px;">
+            <h:panelGrid columns="1">       
+
+                <p:panel id="panelSocio">
+                    <h:panelGrid  columns="2" columnClasses="label, value" styleClass="grid" style="text-align: left">  
+                        <f:facet name="header"> 
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Socio}: "
+                                               styleClass="etiqueta"/>
+                                <h:outputText value="#{informeTecnicoController.solicitudSel.socio.codigoPersona.nombreCompleto}"
+                                              style="font-weight: normal"/>
+
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Numero} #{propiedadesEtiquetaBL.Solicitud}: "
+                                               styleClass="etiqueta"/>
+                                <h:outputText value="#{informeTecnicoController.solicitudSel.solicitudPK.numero}"
+                                              style="font-weight: normal" />                                
+
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.FechaSolicitud}: "
+                                               styleClass="etiqueta"/>
+                                <h:outputText value="#{informeTecnicoController.solicitudSel.fechaSolicitud}"
+                                              style="font-weight: normal"/>
+
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Tasa}: "
+                                               styleClass="etiqueta"/>
+                                <h:outputText value="#{informeTecnicoController.solicitudSel.numeroCuotas}"
+                                              style="font-weight: normal">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                </h:outputText>
+
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Tasa}: "
+                                               styleClass="etiqueta"/>
+                                <h:outputText value="#{informeTecnicoController.solicitudSel.tasa}"
+                                              style="font-weight: normal">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                </h:outputText>
+
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Credito}: "
+                                               styleClass="etiqueta"/>
+                                <h:outputText value="#{informeTecnicoController.solicitudSel.montoCredito}"                                                   
+                                              style="font-weight: normal">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                                
+                                </h:outputText>
+                            </h:panelGrid>
+                        </f:facet>
+                        
+                    </h:panelGrid>
+                </p:panel>
+
+                <h:panelGrid columns="1">
+                    <h:panelGrid id="DatosInformeGri" 
+                                 columns="3" 
+                                 columnClasses="label, value, validator"
+                                 styleClass="grid">                                                             
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Factible}" 
+                                       for="factible" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="factible" 
+                                         value="#{informeTecnicoController.ubicaFactible}" 
+                                         disabled="#{informeTecnicoController.deshabilitaFactible}"
+                                         required="true"                                             
+                                         requiredMessage="#{propiedadesEtiquetaBL.Factible} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}" itemValue="V"/>
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />                                    
+                        </p:selectOneMenu>
+                        <h:message for="factible" styleClass="invalido" />  
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Detalle}" 
+                                       for="detalle" 
+                                       styleClass="etiquetaRequerida"/>
+                        <h:inputTextarea id="detalle" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Detalle} - #{propiedadesMensajesBL.CampoRequerido}"
+                                     cols="100"
+                                     rows="3"
+                                     disabled="#{informeTecnicoController.deshabilitaDetalle}"
+                                     value="#{informeTecnicoController.ubicaDetalle}"
+                                     title="#{propiedadesTituloBL.Detalle}">                             
+                        </h:inputTextarea>
+                        <h:message for="detalle" styleClass="invalido" />                                               
+
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:panelGrid>
+        </h:panelGroup>
+    </p:panel>
+
+</ui:composition>
+

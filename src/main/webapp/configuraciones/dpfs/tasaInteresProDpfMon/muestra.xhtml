@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TasaInteresProDpfMonViewDlg"
+                  widgetVar="TasaInteresProDpfMonViewDialog"
+                  modal="true" resizable="false"  appendToBody="true" 
+                  closeOnEscape="true">
+
+            <h:form id="TasaInteresProDpfMonViewForm">
+
+              <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2" columnClasses="column" 
+                                 rendered="#{tasaInteresProDpfMonController.selected != null}">
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.codigo}" 
+                                      title="#{propiedadesEtiquetaBL.Codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.CodigoMoneda}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.codigoMoneda}" 
+                                      title="#{propiedadesEtiquetaBL.CodigoMoneda}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Ifip}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.codigoIfip}"
+                                      title="#{propiedadesEtiquetaBL.Ifip}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.MontoInicial}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.montoInicial}"
+                                      title="#{propiedadesEtiquetaBL.MontoInicial}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.MontoFinal}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.montoFinal}" 
+                                      title="#{propiedadesEtiquetaBL.MontoFinal}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.registradoPor}"
+                                      title="#{propiedadesEtiquetaBL.RegistradaPor}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.fechaRegistro}" 
+                                      title="#{propiedadesEtiquetaBL.FechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.eliminado}"
+                                      title="#{propiedadesEtiquetaBL.Eliminado}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Tasa}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.codigoTasa.codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.RangoDiasDpf}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.codigoRango.codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.Moneda}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.moneda.codigo}"/>
+
+                        <h:outputText value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                        <h:outputText value="#{tasaInteresProDpfMonController.selected.usuarioRealizadoPor.username}"/>
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

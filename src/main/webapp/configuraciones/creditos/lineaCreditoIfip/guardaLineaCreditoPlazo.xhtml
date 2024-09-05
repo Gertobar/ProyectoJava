@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGroup id="displayLineaPlazo" style="font-size: 10px; margin-top: 0px;">
+        <p:panelGrid columns="1">
+            <p:commandButton id="nuevoDetalleLineaCreditoPlazoBot"
+                             title="#{propiedadesTituloBL.Nuevo}"
+                             icon="#{propiedadesObjetosBL.IcoNuevo}"
+                             value="Adicionar"
+                             actionListener="#{lineaCreditoController.adicionarFilaLineaCreditoPlazo}"
+                             update="detalleLineaCreditoPlazo"
+                             disabled="#{lineaCreditoController.inactivaControlesLineaCreditoPlazo}"/>
+            <p:dataTable id="detalleLineaCreditoPlazo"
+                         var="detalle"
+                         value="#{lineaCreditoController.listaLineaCreditoPlazo}"
+                         editable="true"
+                         emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}"
+                         rowIndexVar="rowIndex"
+                         editMode="cell"
+                         disabledSelection="#{lineaCreditoController.inactivaControlesLineaCreditoPlazo}">
+                <p:ajax event="cellEdit" listener="#{lineaCreditoController.editaCeldaLineaCreditoPlazo}" update="detalleLineaCreditoPlazo" />
+                <p:column headerText="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Inicio} #{propiedadesEtiquetaBL.Plazo}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{detalle.montoInicioPlazo}"/></f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{detalle.montoInicioPlazo}"
+                                         disabled="#{lineaCreditoController.inactivaControlesLineaCreditoPlazo}">
+                                <f:validateDoubleRange minimum="1"/>
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="#{propiedadesEtiquetaBL.Monto} #{propiedadesEtiquetaBL.Fin} #{propiedadesEtiquetaBL.Plazo}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{detalle.montoFinPlazo}"/></f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{detalle.montoFinPlazo}"
+                                         disabled="#{lineaCreditoController.inactivaControlesLineaCreditoPlazo}">
+                                <f:validateDoubleRange minimum="1"/>
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>                
+                <p:column headerText="#{propiedadesEtiquetaBL.NumeroCuotas}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{detalle.numeroCuotas}" /></f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{detalle.numeroCuotas}"
+                                         disabled="#{lineaCreditoController.inactivaControlesLineaCreditoPlazo}">
+                                <f:convertNumber integerOnly="true"/>
+                                <f:validateLongRange minimum="1" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="#{propiedadesEtiquetaBL.Eliminado}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{detalle.eliminado}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu id="elimidadoDetalle"
+                                             value="#{detalle.eliminado}"
+                                             required="true"
+                                             disabled="#{lineaCreditoController.inactivaControlesLineaCreditoPlazo}">
+                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="#{propiedadesEtiquetaBL.Eliminar}">
+                    <p:commandButton id="eliminarLineaCreditoPlazo"
+                                     title="#{propiedadesTituloBL.Eliminar}" 
+                                     icon="#{propiedadesObjetosBL.IcoEliminar}"  
+                                     disabled="#{(!lineaCreditoController.inactivaControlesLineaCreditoPlazo and detalle.codigo eq null) ? false: true}"
+                                     actionListener="#{lineaCreditoController.eliminarFilaLineaCreditoPlazo(detalle.codigo, rowIndex)}"
+                                     update="detalleLineaCreditoPlazo"
+                                     immediate="true"/>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton id="guardarLineaPlazo"
+                             actionListener="#{lineaCreditoController.guarda}" 
+                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                             value="#{propiedadesEtiquetaBL.Guardar}"
+                             onclick="procesandoDlg.show();"
+                             update="@parent, displayLinea, displayLineaPlazo, :lineaCreditoListForm:datalist"
+                             oncomplete="#{lineaCreditoController.edicion?'handleSubmit(xhr,status,args,lineaCreditoEditDialog);procesandoDlg.hide();':'handleSubmit(xhr,status,args,lineaCreditoCreateDialog);procesandoDlg.hide();'}"/>
+        </p:panelGrid>
+    </h:panelGroup>
+</ui:composition>

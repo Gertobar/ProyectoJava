@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="MovimientoBovedaFor" >
+        <p:remoteCommand autoRun="true" action="#{movimientoBovedaController.verificaHorario}" process="@this" /> 
+        <p:panel id="MovimientoBovedaPan">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.MovimientoBoveda}"/>
+            </f:facet>
+
+            <p:focus context="MovimientoBovedaPan"/>   
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+                <h:panelGrid columns="2">
+                    <h:panelGrid columns="1" style="font-size: 10px;">
+
+                        <h:panelGrid id="MovimientoBodegaGriUno"  style="font-size: 10px;" columns="3">
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                           for="moneda"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="moneda" 
+                                             value="#{movimientoBovedaController.moneda}" 
+                                             required="true"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{movimientoBovedaController.itemsMoneda}"
+                                               var="codigoMonedaItem"
+                                               itemValue="#{codigoMonedaItem}"
+                                               itemLabel="#{codigoMonedaItem.nombre}"
+                                               />                    
+                                <p:ajax event="change" listener="#{movimientoBovedaController.cambiaMoneda()}" update="boveda"/>
+                                <f:converter binding="#{monedaConverter}"/>
+                            </p:selectOneMenu>                                      
+                            <h:message for="moneda"  styleClass="invalido"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Boveda}" 
+                                           for="boveda"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="boveda" 
+                                             value="#{movimientoBovedaController.movimientoBoveda.codigoBoveda}" 
+                                             required="true"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Boveda} - #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{movimientoBovedaController.itemsBoveda}"
+                                               var="codigoBovedaItem"
+                                               itemValue="#{codigoBovedaItem}"
+                                               itemLabel="#{codigoBovedaItem.nombre}"
+                                               />                    
+                                <f:converter binding="#{bovedaConverter}"/>
+                            </p:selectOneMenu>                                      
+                            <h:message for="boveda"  styleClass="invalido"/>
+
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}"
+                                           styleClass="etiquetaRequerida"
+                                           for="tipo" />
+                            <p:selectOneMenu id="tipo" 
+                                             value="#{movimientoBovedaController.tipo}"                                              
+                                             required="true"
+                                             disabled="false"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Tipo} - #{propiedadesMensajesBL.CampoRequerido}"
+                                             >
+                                <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                                <f:selectItem itemValue="I" itemLabel="#{propiedadesEtiquetaBL.Ingreso}"/>
+                                <f:selectItem itemValue="E" itemLabel="#{propiedadesEtiquetaBL.Egreso}"/>
+                                <p:ajax event="change" listener="#{movimientoBovedaController.cambiaTipo()}" update="movimiento,aperturaCaja,entidadFinanciera"/>
+                            </p:selectOneMenu>
+                            <h:message for="tipo"  styleClass="invalido"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Movimiento}"
+                                           styleClass="etiquetaRequerida"
+                                           for="movimiento" />
+                            <p:selectOneMenu id="movimiento" 
+                                             value="#{movimientoBovedaController.movimientoBoveda.codigoTipoMovimiento}" 
+                                             disabled="false"
+                                             requiredMessage="#{propiedadesEtiquetaBL.TipoMovimiento} - #{propiedadesMensajesBL.CampoRequerido}"
+                                             required="true">
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{movimientoBovedaController.itemsTipoMovimientoBoveda}"
+                                               var="tipoMovimientoItem"
+                                               itemValue="#{tipoMovimientoItem}"
+                                               itemLabel="#{tipoMovimientoItem.nombre}"
+                                               />
+                                <p:ajax event="change" 
+                                        listener="#{movimientoBovedaController.cambiaMovimientoBoveda()}"
+                                        update="entidadFinancieraMovBovPan,aperturaCajasMovBovPan"/>                                
+                                <f:converter binding="#{tipoMovimientoBovedaConverter}"/>
+                            </p:selectOneMenu>
+                            <h:message for="movimiento"  styleClass="invalido"/>
+                        </h:panelGrid>
+
+                        <p:panel id="entidadFinancieraMovBovPan" 
+                                 visible="#{movimientoBovedaController.verPanelEntidades}"
+                                 style="border: 0; font-size:  10px; top: 0px; left: 0px;">
+                            <p:outputLabel  value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.EntidadFinanciera} * " 
+                                           styleClass="etiquetaRequerida"                                            
+                                           />
+                            <p:selectOneMenu id="entidadFinanciera" 
+                                             value="#{movimientoBovedaController.ifipCuentaEntidadFinanciera}" 
+                                             required="#{movimientoBovedaController.verPanelEntidades}"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.EntidadFinanciera} - #{propiedadesMensajesBL.CampoRequerido}"
+                                             filter="true"  >
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{movimientoBovedaController.itemsIfipCuentaEntidadFinanciera}"
+                                               var="cuentEntidadFinancieraItem"
+                                               itemValue="#{cuentEntidadFinancieraItem}"
+                                               itemLabel="#{cuentEntidadFinancieraItem.entidadFinanciera.nombre}- #{cuentEntidadFinancieraItem.tipoCuentaEntidadFinanciera.nombre} - #{cuentEntidadFinancieraItem.numeroCuenta}"
+                                               />    
+                                <p:ajax event="change" listener="#{movimientoBovedaController.cambiaEntidadFinanciera()}" update="observaciones"/>
+                                <f:converter binding="#{ifipCuentaEntidadFinancieraConverter}"/>
+                            </p:selectOneMenu>   
+                            <h:message for="entidadFinanciera"  styleClass="invalido"/>
+                          
+                        </p:panel> 
+
+                        <p:panel id="aperturaCajasMovBovPan" 
+                                 visible="#{movimientoBovedaController.verPanelAperturaCajas}"
+                                 style="border: 0; font-size:  10px; top: 0px; left: 0px;">
+                            <h:outputText  value="#{propiedadesEtiquetaBL.CajaAperturada} * " styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="aperturaCaja" 
+                                             value="#{movimientoBovedaController.apertura}" 
+                                             required="#{movimientoBovedaController.verPanelAperturaCajas}"
+                                             requiredMessage="#{propiedadesEtiquetaBL.AperturaCaja}  #{propiedadesMensajesBL.CampoRequerido}"
+                                             filter="true" 
+                                             filterMatchMode="startsWith" >
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{movimientoBovedaController.itemsApertura}"
+                                               var="aperturaItem"
+                                               itemValue="#{aperturaItem}"
+                                               itemLabel="#{aperturaItem.usuario.codigoPersona.nombreCompleto} - #{aperturaItem.computador.nombre}"
+                                               />         
+                                <p:ajax event="change" listener="#{movimientoBovedaController.cambiaAperturaCaja()}" update="observaciones"/>
+                                <f:converter binding="#{aperturaConverter}"/>
+                            </p:selectOneMenu>   
+                            <h:message for="aperturaCajasMovBovPan"  styleClass="invalido"/>
+                        </p:panel> 
+
+                        <h:panelGrid id="MovimientoBodegaGri2"  style="font-size: 10px;" columns="3">
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaMovimiento}"
+                                           styleClass="etiquetaRequerida"
+                                           for="fechaMovimiento" />
+                            <p:calendar value="#{movimientoBovedaController.movimientoBoveda.fechaMovimiento}" 
+                                        id="fechaMovimiento"
+                                        readonly="true"
+                                        disabled="true"
+                                        size="20"
+                                        pattern="dd/MM/yyyy"                                      
+                                        locale="es" 
+                                        required="true" />
+                            <h:message for="fechaMovimiento"  styleClass="invalido"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.FechaSistema}"
+                                           styleClass="etiquetaRequerida"
+                                           for="fechaSistema" />
+                            <p:calendar value="#{movimientoBovedaController.movimientoBoveda.fechaSistema}" 
+                                        id="fechaSistema"
+                                        readonly="true"
+                                        disabled="true"
+                                        size="20"
+                                        pattern="dd/MM/yyyy HH:mm:ss"                                      
+                                        locale="es" 
+                                        required="true" />
+                            <h:message for="fechaSistema"  styleClass="invalido"/>
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Comprobante}" 
+                                           for="comprobante"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:inputText id="comprobante"
+                                         value="#{movimientoBovedaController.movimientoBoveda.comprobante}"                                 
+                                         size="30"
+                                         onblur="value = value.toUpperCase()"
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Comprobante} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                            <h:message for="comprobante" styleClass="invalido" />
+
+                             <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                                           for="observaciones"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:inputText id="observaciones"
+                                         value="#{movimientoBovedaController.movimientoBoveda.observaciones}"                                 
+                                         size="50"
+                                         readonly="false"
+                                         onblur="value = value.toUpperCase()"                                         
+                                         requiredMessage="#{propiedadesEtiquetaBL.Observaciones} - #{propiedadesMensajesBL.CampoRequerido}">
+
+
+                            </p:inputText>
+                            <h:message for="observaciones" styleClass="invalido" />
+                            
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Valor}" 
+                                           for="valor"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:inputText id="valor"
+                                         value="#{movimientoBovedaController.movimientoBoveda.valorEfectivo}"
+                                         readonly="true"
+                                         size="20"
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Valor} - #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                <f:validateLongRange minimum="0"/>
+                            </p:inputText>
+                            <p:commandButton value="#{propiedadesEtiquetaBL.Desgloce}"
+                                             action="#{movimientoBovedaController.muestraPanelDesgloce()}"
+                                             update="MovimientoBovedaDesEfePan"/>
+
+                           
+
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <p:panel id="MovimientoBovedaDesEfePan" 
+                             widgetVar="MovimientoBovedaDesEfePanel"
+                             visible="#{movimientoBovedaController.verPanelDesgloceEfectivo}"
+                             style="width: 500px"
+                             >
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.DesgloceEfectivo}"
+                                           styleClass="encabezadosDialog"/>
+                        </f:facet>
+                        <p:focus context="MovimientoBovedaDesEfePan"/>   
+                        <h:panelGrid  id="desgloceEfectivoGri"  columns="1" style="font-size: 10px;">
+                            <p:dataTable id="desgloseEfectivoTbl"  
+                                         value="#{movimientoBovedaController.itemsMovimientoBovedaDesEfe}"
+                                         widgetVar="desgloseEfectivoTabla"
+                                         var="itemDesgloce"
+                                         rowKey="#{itemDesgloce.movimientoBovedaDesEfePK}"    
+                                         scrollable="true" 
+                                         scrollHeight="150" 
+                                         editable="true" 
+                                         editMode="cell" 
+                                         style="width: 450px"
+                                         >
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{propiedadesEtiquetaBL.DesgloceEfectivo}"/>                
+                                </f:facet>                     
+
+
+                                <p:column style="width: 100px">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Denominacion}"/>
+                                    </f:facet>
+                                    <p:selectOneMenu id="denominacion" 
+                                                     value="#{itemDesgloce.fraccionMoneda.tipoFraccionMoneda.denominacion}"                                              
+                                                     disabled="true">
+                                        <f:selectItem itemValue="B" itemLabel="#{propiedadesEtiquetaBL.Billete}"/>
+                                        <f:selectItem itemValue="M" itemLabel="#{propiedadesEtiquetaBL.Moneda}"/>
+                                    </p:selectOneMenu> 
+                                </p:column>
+
+                                <p:column  style="width: 50px; text-align: right">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{itemDesgloce.fraccionMoneda.tipoFraccionMoneda.valor}"> 
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column id="cantidadCol" style="width: 50px; text-align: center">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Cantidad}"/>
+                                    </f:facet>
+                                    <p:cellEditor>  
+                                        <f:facet name="output">
+                                            <h:outputText value="#{itemDesgloce.cantidad}" />
+                                        </f:facet>
+                                        <f:facet name="input" >
+                                            <p:inputText   id="cantidadInp"                                        
+                                                           value="#{itemDesgloce.cantidad}"
+                                                           style="text-align: center">
+                                                <p:ajax event="keyup"
+                                                        listener="#{movimientoBovedaController.cantidadModificada()}"
+                                                        update="totalOut,:MovimientoBovedaFor:totalEfectivo,:MovimientoBovedaFor:valor,:MovimientoBovedaFor:guardarBot"
+                                                        />
+                                                <f:validateLongRange minimum="0"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column id="totalCol" 
+                                          style="width: 100px; text-align: center"  
+                                          rendered="true"                                       
+                                          >
+                                    <f:facet name="header"> 
+                                        <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                                    </f:facet>
+                                    <h:outputText id="totalOut" value="#{itemDesgloce.total}">
+                                        <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2">
+                            <h:panelGrid columns="1" width="290px" style="text-align:  right">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Totales}" styleClass="encabezadosPanelGrid"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="1" width="150px" style="text-align: center">
+                                <h:outputText id="totalEfectivo" 
+                                              value="#{movimientoBovedaController.movimientoBoveda.valorEfectivo}" 
+                                              styleClass="encabezadosPanelGrid">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </h:outputText>
+                            </h:panelGrid>
+                        </h:panelGrid>
+
+                        <p:commandButton id="regresarBot"
+                                         value="#{propiedadesEtiquetaBL.Regresar}"
+                                         update="MovimientoBovedaDesEfePan"
+                                         action="#{movimientoBovedaController.desaparecePanelDesgloce()}"/>
+                    </p:panel>
+                </h:panelGrid>
+
+            </h:panelGroup>
+
+            <p:commandButton id="guardarBot"                                      
+                             disabled="#{movimientoBovedaController.deshabilitaBotonGuardar or movimientoBovedaController.permiteTransaccionar==0}"
+                             value="#{propiedadesEtiquetaBL.Guardar}"
+                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                             actionListener="#{movimientoBovedaController.guardarMovimiento}"
+                             update="display,:MovimientoBovedaFor,:mensaje" 
+                             >                    
+                <p:confirm message="#{propiedadesMensajesBL.SeguroGuardarMovimiento}" 
+                           icon="ui-icon-info"
+                           class="encabezadosDialog"                               
+                           header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+            </p:commandButton>              
+
+
+
+
+
+        </p:panel>
+
+        <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+            <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+            <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+        </p:confirmDialog>
+
+        <p:dialog closable="true"
+                  appendTo="@(body)"
+                  maximizable="false" 
+                  resizable="false"                
+                  id="imprimeDlg"                  
+                  modal="true"
+                  widgetVar="imprimeDialog">     
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Impresion}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:panelGrid columns="1">
+                <h:commandLink id="imprimeLin"
+                               immediate="true" 
+                               value="#{propiedadesMensajesBL.ImprimirMovmiento}" 
+                               actionListener="#{movimientoBovedaController.imprime}"                                  
+                               onclick="imprimeDialog.hide();"/>
+
+            </h:panelGrid>
+
+        </p:dialog> 
+
+    </h:form>
+
+
+
+
+
+</ui:composition>

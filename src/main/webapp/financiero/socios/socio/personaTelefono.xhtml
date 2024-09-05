@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel para los Telefonos de una Persona --> 
+    <p:panel id="personaTelefonoPan" 
+             header="#{propiedadesEtiquetaBL.Telefonos} #{propiedadesEtiquetaBL.DeLa} #{propiedadesEtiquetaBL.Persona}"
+             style="border: 0; height: 500px; width: 700px">
+        <p:focus context="personaTelefonoPan"/>   
+        <h:panelGrid id="personaTelefonoGri" columns="1">            
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Telefono}"/>
+            </f:facet>
+
+            <h:panelGrid columns="6">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.OperadoraTelefono}" 
+                               for="operadoraTelefono"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="operadoraTelefono" 
+                                 value="#{socioBean.personaTelefono.codigoOperadoraTelefono}" 
+                                 disabled="false"
+                                 required="false">                        
+                    <f:selectItems value="#{socioBean.itemsOperadoraTelefono}"
+                                   var="operadoraTelefonoItem"
+                                   itemValue="#{operadoraTelefonoItem}"
+                                   itemLabel="#{operadoraTelefonoItem.siglas}"
+                                   />
+                    <f:converter binding="#{operadoraTelefonoConverter}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoTelefono}" 
+                               for="tipoTelefono"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="tipoTelefono" 
+                                 value="#{socioBean.personaTelefono.codigoTipoTelefono}" 
+                                 disabled="false"
+                                 required="false">                        
+                    <f:selectItems value="#{socioBean.itemsTipoTelefono}"
+                                   var="tipoTelefonoItem"
+                                   itemValue="#{tipoTelefonoItem}"
+                                   itemLabel="#{tipoTelefonoItem.nombre}"
+                                   />
+                    <f:converter binding="#{tipoTelefonoConverter}"/>
+                </p:selectOneMenu>  
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Notifica}" 
+                               for="notificaTelefonoPerNat"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="notificaTelefonoPerNat" 
+                                 value="#{socioBean.personaTelefono.recibeNotificacion}" 
+                                 disabled="false"
+                                 required="false">                        
+                    <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                    <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+                </p:selectOneMenu> 
+
+            </h:panelGrid>
+
+            <h:panelGrid columns="3">
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Numero}" styleClass="etiquetaRequerida"/>                
+                <p:inputText id="telefonoPersona" value="#{socioBean.numeroTelefono}">                
+                    <p:ajax event="blur" 
+                            update="agregaTelefonoBot" 
+                            listener="#{socioBean.buscaTelefono()}" /> 
+                </p:inputText>
+
+                <p:commandButton id="agregaTelefonoBot" 
+                                 value="#{propiedadesEtiquetaBL.Agregar}"
+                                 disabled="#{socioBean.deshabilitaAgregarTelefono}"
+                                 update="agregaTelefonoBot,telefonosTbl"
+                                 action="#{socioBean.agregaTelefono()}"/>
+            </h:panelGrid>
+        </h:panelGrid>
+
+        <p:contextMenu for="telefonosTbl">     
+            <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                        icon="ui-icon-trash" 
+                        action="#{socioBean.quitaTelefono()}" 
+                        update="telefonosTbl"/>            
+        </p:contextMenu>   
+        <h:panelGrid columns="1" style="font-size: 10px;">
+            <p:dataTable id="telefonosTbl" 
+                         value="#{socioBean.itemsPersonaTelefono}"
+                         var="itemTelefono"                                                          
+                         rowKey="#{itemTelefono.numero}"
+                         paginator="true"
+                         rows="8"
+                         emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                         editable="true"
+                         editMode="cell"
+                         selectionMode="single"
+                         selection="#{socioBean.personaTelefonoSel}"                     
+                         widgetVar="telefonosTabla">
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.Telefonos}"/>
+                </f:facet>
+
+                <p:column sortBy="#{itemTelefono.numero}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Numero}"/>
+                    </f:facet>
+                    <h:outputText value="#{itemTelefono.numero}"/>
+                </p:column>
+
+                <p:column> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.OperadoraTelefono}"/>
+                    </f:facet>
+                    <p:cellEditor>  
+                        <f:facet name="output">#{itemTelefono.codigoOperadoraTelefono.siglas} </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="operadoraTelefonoInp" 
+                                             value="#{itemTelefono.codigoOperadoraTelefono}"
+                                             required="true" 
+                                             filter="true" 
+                                             style="width: 100%"
+                                             filterMatchMode="startsWith"
+                                             requiredMessage="#{propiedadesEtiquetaBL.OperadoraTelefono} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItems value="#{socioBean.itemsOperadoraTelefono}"
+                                               var="operadoraTelefonoItem"
+                                               itemValue="#{operadoraTelefonoItem}"
+                                               itemLabel="#{operadoraTelefonoItem.siglas}"
+                                               />
+                                <f:converter binding="#{operadoraTelefonoConverter}"/>                                 
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.TipoTelefono}"/>
+                    </f:facet>
+                    <h:outputLabel value="#{itemTelefono.codigoTipoTelefono.nombre}"/>              
+                </p:column>
+
+                <p:column style="width: 50px"> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                    </f:facet>
+                    <p:cellEditor>  
+                        <f:facet name="output"> 
+                            <p:selectOneMenu id="eliminadoTelefonoOut" 
+                                             value="#{itemTelefono.eliminado}"
+                                             required="true"  disabled="true"  
+                                             style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="eliminadoTelefonoInp" 
+                                             value="#{itemTelefono.eliminado}"
+                                             required="true"  disabled="false" style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column style="width: 50px"> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Notifica}"/>
+                    </f:facet>
+                    <p:cellEditor>  
+                        <f:facet name="output"> 
+                            <p:selectOneMenu id="notificaTelefonoOut" 
+                                             value="#{itemTelefono.recibeNotificacion}"
+                                             required="true"  disabled="true"  
+                                             style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Notifica} : #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="notificaTelefonoInp" 
+                                             value="#{itemTelefono.recibeNotificacion}"
+                                             required="true"  disabled="false" style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+            </p:dataTable>
+        </h:panelGrid>
+    </p:panel>
+
+</ui:composition>

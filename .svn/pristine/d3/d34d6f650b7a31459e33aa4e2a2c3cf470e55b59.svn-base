@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MenuViewDlg" widgetVar="MenuViewDialog" modal="true" resizable="false"
+                  appendToBody="true" closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value=" #{propiedadesEtiquetaBL.Menu}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+            <h:form id="MenuViewForm">
+
+                <h:panelGroup id="display" style="font-size: 10px">
+                    <p:panelGrid  columns="2" rendered="#{menuController.selected != null}">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" 
+                                       for="codigo"
+                                       styleClass="etiquetaRequerida"/>
+                        <h:outputText id="codigo" value="#{menuController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:outputLabel id="nombre" value="#{menuController.selected.nombre}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Aplicacion}"
+                                       for="aplicacion"
+                                       styleClass="etiqueta"/>
+                        <p:outputLabel id="aplicacion"                                      
+                                       value="#{menuController.selected.aplicacion}"  />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Icono}" 
+                                       for="icono"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:outputLabel id="icono" 
+                                       value="#{menuController.selected.icono}"   />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Titulo}" 
+                                       styleClass="etiqueta"
+                                       for="titulo" />
+                        <p:outputLabel id="titulo" 
+                                       value="#{menuController.selected.titulo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Orden}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="orden" />
+                        <p:outputLabel id="orden"
+                                       value="#{menuController.selected.orden}"   />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="tipo" />
+                        <p:selectOneMenu id="tipo" 
+                                         value="#{menuController.selected.tipo}" 
+                                         disabled="true"
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Tipo} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}" itemValue="" />  
+                            <f:selectItem itemLabel="MENU" itemValue="M" />  
+                            <f:selectItem itemLabel="OPCION" itemValue="O" />  
+                            <f:selectItem itemLabel="MODULO" itemValue="D" />  
+                            <p:ajax update="codigoMenuPadre"  listener="#{menuController.cambiaMenuPadre()}" />  
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EsDeRenafipse}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="esDeRenafipse" />
+                        <p:selectOneMenu id="esDeRenafipse" 
+                                         value="#{menuController.selected.esDeRenafipse}" 
+                                         required="true"
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.EsDeRenafipse} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}" itemValue="" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />  
+                            <f:selectItem itemLabel="NO" itemValue="N" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.DaPermisoRenafipse}" 
+                                       for="daPermisoRenafipse"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="daPermisoRenafipse" 
+                                         value="#{menuController.selected.daPermisoRenafipse}" 
+                                         required="true"
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.DaPermisoRenafipse} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}" itemValue="" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />  
+                            <f:selectItem itemLabel="NO" itemValue="N" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Sistema}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="codigoSistema" />
+                        <p:selectOneMenu id="codigoSistema" 
+                                         value="#{menuController.selected.codigoSistema}" 
+                                         required="true" 
+                                         disabled="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Sistema} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{sistemaController.items}"
+                                           var="codigoSistemaItem"
+                                           itemValue="#{codigoSistemaItem}"
+                                           itemLabel="#{codigoSistemaItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{sistemaConverter}"/>
+                        </p:selectOneMenu>      
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoMenuPadre}" 
+                                       styleClass="etiqueta"
+                                       for="codigoMenuPadre" />
+                        <p:selectOneMenu id="codigoMenuPadre" 
+                                         value="#{menuController.selected.codigoMenuPadre}"
+                                         filter="true" 
+                                         disabled="true"
+                                         filterMatchMode="startsWith"
+                                         effect="fade" >
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}" />
+                            <f:selectItems value="#{menuController.menuPadre}"
+                                           var="codigoMenuPadreItem"
+                                           itemValue="#{codigoMenuPadreItem}"                                           
+                                           itemLabel="#{codigoMenuPadreItem.codigoMenuPadre.nombre}  #{codigoMenuPadreItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{menuConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       styleClass="etiquetaRequerida"
+                                       for="eliminado" />
+                        <p:selectOneMenu id="eliminado" 
+                                         disabled="true"
+                                         value="#{menuController.selected.eliminado}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         >
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}" itemValue="" />  
+                            <f:selectItem itemLabel="SI" itemValue="S" />  
+                            <f:selectItem itemLabel="NO" itemValue="N" />
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+
+                    <p:separator/>
+                   
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

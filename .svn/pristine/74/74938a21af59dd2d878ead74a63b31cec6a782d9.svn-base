@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="475" leftMargin="60" rightMargin="60" topMargin="15" bottomMargin="10" uuid="c11b3ef9-d5e0-4c1f-bef1-ab85495aeff4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<subDataset name="montosDataset" uuid="b473d12c-a0ec-41f5-9b0b-bf02950a0d47">
+		<queryString>
+			<![CDATA[SELECT '$'||TRIM( TO_CHAR(lcp.monto_inicio_plazo,'FM9999999990.00') ) desde,
+       '$'||TRIM( TO_CHAR(lcp.monto_fin_plazo,'FM9999999990.00') ) hasta,
+       lcp.numero_cuotas||CASE WHEN lcp.numero_cuotas  = 1 THEN ' CUOTA'
+                               ELSE ' CUOTAS' END cuotas
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_creditos.linea_credito_plazo lcp
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo = lcp.codigo_linea_credito
+AND    lcs.codigo = 21
+AND    lcp.eliminado = 'N'
+ORDER BY lcp.monto_inicio_plazo]]>
+		</queryString>
+		<field name="DESDE" class="java.lang.String"/>
+		<field name="HASTA" class="java.lang.String"/>
+		<field name="CUOTAS" class="java.lang.String"/>
+		<group name="group1"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoLineaCredito" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="contratoCrediAmigo1" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+(
+SELECT UPPER( i.razon_social ) titulo2
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_ifips.ifip i
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo_ifip = i.codigo
+AND    lcs.codigo = $P{codigoLineaCredito}
+)contenido0,
+'Debo (emos) y pagaré (emos) solidaria e incondicionalmente, en esta ciudad de suscripción o en el lugar donde fuere demandado, solicitado o se me (nos) reconvenga a la orden de la '||UPPER( i.razon_social )||', la cantidad de:$'||TRIM( TO_CHAR(lcs.monto_linea_credito,'FM9999999990.00') )||' Dólares americanos con '||( lcs.monto_linea_credito-TRUNC( lcs.monto_linea_credito ) )||'/100 centavos de dólar , valor recibido a entera satisfacción y me (nos) obligo (obligamos) incondicionalmente, a reconocer el '|| tic.valor ||'% de tasa de interés nominal sobre los saldos de capital. Dicha suma de dinero me (nos) obligo (obligamos) a pagar incondicionalmente, mediante dividendos o amortizaciones, con vencimientos sucesivos que por concepto de capital e interés se indican de acuerdo a los avances o cupo utilizado, cuya tabla de amortización se adjunta y forma parte integrante de este Pagaré a la Orden y que suscribo (suscribimos) en unidad de acto.' contenido1,
+'En caso de mora parcial o total en el pago de uno o más dividendos del préstamo, incluidos los intereses que deba satisfacerse, pagaré (pagaremos) la tasa de interés de mora establecido por la ley vigente, adicional a la tasa del interés pactado; así mismo convengo (nimos) expresamente con el acreedor, la aceleración o anticipación de los vencimientos y de los pagos no vencidos aún, por lo que el acreedor por su sola voluntad y sin notificación o formalidad alguna podrá declarar de plazo vencido toda la obligación y exigir judicialmente el pago total de lo establecido, más los intereses estipulados, los gastos judiciales y extrajudiciales incluido impuestos, tasas y honorarios profesionales que ocasionare la suscripción y cobro de este pagaré a la orden, bastando para determinar el monto de tales gastos la sola afirmación de la '||UPPER( i.razon_social )||'.' contenido2,
+'Autorizo(amos) para que en caso de mora, de uno o más dividendos, se disponga de los valores que en mi (nuestra) cuenta mantengo (nemos) en la '||UPPER( i.razon_social )||', como también de los bienes muebles o inmuebles presentes y futuros, documentos entregados para el cobro a mi (nuestro) favor e impute tales valores al pago total o parcial como también de documentos entregados para el cobro a mi (nuestro) favor e impute tales valores al pago total o parcial de la obligación constante en este pagaré, los gastos ocasionados para el cobro, sus intereses de mora, intereses normales y el capital pendiente de pago, sin que para esto la '||UPPER( i.razon_social )||' deba emitir comunicación alguna.' contenido3,
+'En caso de juicio renuncio (amos) fuero y domicilio y expresamente me (nos) someto (emos) a los jueces competentes de la ciudad en donde se me (nos) reconvenga y al trámite ejecutivo o al establecido por la ley, a elección de mi (nuestra) acreedora, obligándome (nos) irrevocablemente al fiel cumplimiento de lo aquí estipulado con todos mis (nuestros) bienes presentes y futuros.' contenido4,
+tc.nombre tipo_credito,
+TRIM( TO_CHAR(lcs.monto_linea_credito,'FM9999999990.00') ) monto_linea_credito,
+UPPER( lc.nombre ) linea_credito,
+s.codigo codigo_socio,
+p.nombre_completo,
+(SELECT u.nombre
+ FROM   mks_ifips.ifip_agencia i,
+        mks_comunes.ubicacion_geografica u
+ WHERE  i.codigo = lcs.codigo_ifip_agencia 
+ AND    i.codigo_ubi_geo_ciudad = u.codigo) ciudad,
+( SELECT mks_comunes.pkg_utilitario_fecha.f_formato_fecha_1(SYSDATE)
+  FROM   dual
+) fecha_actual,
+'Para fines de ley expreso (amos) mi (nuestro). Visto Bueno. - Sin protesto
+'||UPPER( i.razon_social )||'. ' contenido5,
+'POR AVAL garantizo (amos) solidariamente en los mismos términos y condiciones constantes en el pagaré a la orden que antecede, al cumplimiento de las obligaciones del (los) suscriptor (es) de este pagaré a la orden, comprometiéndome (nos) con todos mis (nuestros) bienes presentes y futuros, propios y gananciales, así como renuncio (amos) los beneficios de orden, exclusión, división y otros que pudieren favorecerme (nos). Exímase de protesto, así como de avisos por falta de pago.' contenido6,
+'Autorizo (amos) para que en caso de mora disponga de los valores que en mi (nuestra) cuenta mantengo (nemos) en la '||UPPER( i.razon_social )||', como también de documentos entregados para el cobro a mi (nuestro) favor e impute tales valores al pago total o parcial de este pagaré, así mismo se faculta a la '||UPPER( i.razon_social )||' para que pueda pre cancelar el/los certificado(s) de depósito(s) a plazo fijo antes de su vencimiento para el pago de las obligaciones contraídas con el mismo, los gastos ocasionados para el cobro, sus intereses de mora, intereses normales y el capital pendiente de pago, sin que para esto la '||UPPER( i.razon_social )||', me (nos) deba dar aviso alguno de este hecho.' contenido7, 
+'Autorizo (amos) de forma expresa e irrevocablemente a la '||UPPER( i.razon_social )||', o a la persona que sea cesionario o endosatario de los efectos u obligaciones contenidas o derivadas del presente documento, para que toda la información de riesgos crediticios, constante en el presente documento sea transferida y actualizada periódicamente a los burós de crédito, legalmente autorizados, así como también para que mi actividad o comportamiento crediticio, comercial o contractual sea reportado y actualizado a tales entidades. Este aval subsistirá por el tiempo que duren las referidas obligaciones, aun cuando se haya vencido el plazo estipulado de las obligaciones que garantiza.' contenido8,
+'En caso de juicio renuncio (amos) fuero y domicilio y expresamente me (nos) someto (emos) a los jueces competentes de la ciudad en donde se me (nos) reconvenga y al trámite ejecutivo o al establecido por la ley, a elección de mi (nuestra) acreedora, obligándome (nos) irrevocablemente al fiel cumplimiento de lo aquí estipulado con todos mis (nuestros) bienes presentes y futuros.' contenido9
+FROM   mks_creditos.linea_credito_solicitud lcs,
+       mks_creditos.linea_credito lc,
+       mks_creditos.producto_credito pc,
+       mks_creditos.tipo_cartera tc,
+       mks_ifips.ifip i,
+       mks_socios.socio s,
+       mks_socios.persona p,
+       mks_ifips.ifip_agencia a,
+       (SELECT lcs.codigo,
+                         p2.nombre_completo conyuge
+                  FROM   mks_creditos.linea_credito_solicitud lcs,
+                         mks_socios.socio s,
+                         mks_socios.persona p,
+                         mks_socios.persona_conyuge pc,
+                         mks_socios.persona p2
+                  WHERE  lcs.codigo_socio = s.codigo
+                  AND    s.codigo_persona = p.codigo
+                  AND    p.codigo = pc.codigo_persona
+                  AND    pc.codigo_persona_conyuge = p2.codigo
+                  AND    lcs.codigo = $P{codigoLineaCredito}) c,
+       mks_creditos.tasa_interes_pro_cre_mon_ifi tipc,
+       mks_creditos.tasa_interes_credito_ifip tic
+WHERE  lcs.codigo_linea_credito = lc.codigo
+AND    lc.codigo_producto = pc.codigo
+AND    pc.codigo_tipo_cartera = tc.codigo
+AND    lc.codigo_ifip = i.codigo
+AND    lcs.codigo_socio = s.codigo
+AND    s.codigo_persona = p.codigo
+AND    lcs.codigo_ifip_agencia = a.codigo
+AND    lcs.codigo = c.codigo( + )
+AND    lcs.codigo = $P{codigoLineaCredito}
+AND    lc.codigo_producto = tipc.codigo_producto
+AND    lc.codigo_moneda = tipc.codigo_moneda
+AND    lc.codigo_ifip = tipc.codigo_ifip
+AND    tipc.codigo_tasa = tic.codigo]]>
+	</queryString>
+	<field name="CONTENIDO0" class="java.lang.String"/>
+	<field name="CONTENIDO1" class="java.lang.String"/>
+	<field name="CONTENIDO2" class="java.lang.String"/>
+	<field name="CONTENIDO3" class="java.lang.String"/>
+	<field name="CONTENIDO4" class="java.lang.String"/>
+	<field name="TIPO_CREDITO" class="java.lang.String"/>
+	<field name="MONTO_LINEA_CREDITO" class="java.lang.String"/>
+	<field name="LINEA_CREDITO" class="java.lang.String"/>
+	<field name="CODIGO_SOCIO" class="java.math.BigDecimal"/>
+	<field name="NOMBRE_COMPLETO" class="java.lang.String"/>
+	<field name="CIUDAD" class="java.lang.String"/>
+	<field name="FECHA_ACTUAL" class="java.lang.String"/>
+	<field name="CONTENIDO5" class="java.lang.String"/>
+	<field name="CONTENIDO6" class="java.lang.String"/>
+	<field name="CONTENIDO7" class="java.lang.String"/>
+	<field name="CONTENIDO8" class="java.lang.String"/>
+	<field name="CONTENIDO9" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="-1" y="0" width="475" height="38" uuid="2f3ce2c9-404d-4e4f-89a6-790dee0f91ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONTENIDO0}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="770" splitType="Stretch">
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-32" y="81" width="538" height="100" uuid="7a0e646f-0680-4069-9970-15493692f474"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-33" y="181" width="538" height="113" uuid="aec3834c-2d26-4846-b362-5b40ce3a2e7d"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="-33" y="0" width="128" height="20" uuid="53c8267f-153b-431b-8f7e-3a83a284b030"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAGARÉ A LA ORDEN Nº:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="-33" y="58" width="128" height="20" uuid="cf577b13-762b-46ad-9602-20da52e19e5d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE DEL SOCIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="-33" y="20" width="128" height="20" uuid="3bdcc261-7321-42fe-a6ac-f8ea52efcd9e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO DE CRÉDITO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="96" y="20" width="128" height="20" uuid="8c3796f6-6953-45db-985a-bd092677e927"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TIPO_CREDITO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="-33" y="39" width="128" height="20" uuid="8a7f357e-48cf-4cca-9d64-58e3f3131f46"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOCIO Nº:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="251" y="0" width="138" height="20" uuid="bc1f64c4-dadf-485e-a2bd-827a76b7135b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[POR $:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="251" y="20" width="138" height="20" uuid="d36c8d39-0aff-4ffc-b6ab-ec04f8c2e5aa"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LINEA CRÉDITO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="251" y="39" width="223" height="20" uuid="8c5dbc4f-1790-44a3-95e3-88c4d5a9ce9f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA DE VENCIMIENTO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="389" y="0" width="138" height="20" uuid="99a8568a-e62e-4364-837d-682ea648b653"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{MONTO_LINEA_CREDITO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="389" y="20" width="138" height="20" uuid="c507a573-6b15-401d-b3c7-3fa4f6e3806a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{LINEA_CREDITO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="96" y="0" width="128" height="20" uuid="235acdec-6dec-41ca-a069-f0643cb55141"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{codigoLineaCredito}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="96" y="39" width="128" height="20" uuid="85e5ce92-9f72-4715-8326-441243cf3877"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CODIGO_SOCIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="96" y="58" width="293" height="20" uuid="21bac374-3bc8-4588-8933-ed29b3b00030"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NOMBRE_COMPLETO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-33" y="294" width="538" height="94" uuid="338ba130-42ff-4dc9-9dd4-08caae9b60ae"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-32" y="388" width="538" height="60" uuid="474f6b4b-89ae-466b-b07c-79e425bfa4bc"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-34" y="448" width="539" height="18" uuid="59b2a8ed-e047-40b1-b523-3a17cddaf556"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CIUDAD}+", "+$F{FECHA_ACTUAL}+"."]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="-32" y="514" width="240" height="63" uuid="62e2b30c-c55a-4dc4-9e22-12293779f91c"/>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1} + "titularSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="266" y="514" width="240" height="63" uuid="d91c1426-0676-4269-85eb-1bb0835d2b06"/>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1}+ "conyugeTitularSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-32" y="577" width="538" height="24" uuid="38590e94-fb05-4fe5-87a0-0d821ca27394"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO5}+$F{CIUDAD}+", "+$F{FECHA_ACTUAL}+"."]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="-34" y="644" width="240" height="63" uuid="75bfa657-f88a-47dd-a750-efaf02cb2176"/>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1} + "titularSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="266" y="644" width="240" height="63" uuid="0d482e2c-e514-43c3-b765-281b72fcff20"/>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1}+ "conyugeTitularSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-34" y="712" width="538" height="58" uuid="0e76d175-dbd2-4fad-bdfa-848af8f75e35"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO6}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="770" splitType="Stretch">
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-32" y="17" width="536" height="105" uuid="70f697bb-fa3b-4fef-9fd0-0876834d3b68"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO7}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-32" y="122" width="536" height="91" uuid="3db42bca-cda5-4287-9c86-95ebc7d72766"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO8}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-33" y="213" width="536" height="74" uuid="e3e1df2d-dd27-45fb-9891-cb860cfa2c82"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO9}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-34" y="287" width="538" height="24" uuid="6b39f0c0-e839-4d94-a41e-e38cdcbd7fbd"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CIUDAD}+", "+$F{FECHA_ACTUAL}+"."]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="-34" y="367" width="240" height="63" uuid="da507c3e-d4ee-48ab-a22d-4d4c23b69c98"/>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1} + "garanteSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="263" y="367" width="240" height="63" uuid="54792bd1-5d9c-402d-b5ff-04e09004cb33"/>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1} + "conyugeGaranteSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="-32" y="446" width="535" height="24" uuid="37bf7bb5-3d6b-45b5-93a6-04f8068ff3f7"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{CONTENIDO5}+$F{CIUDAD}+", "+$F{FECHA_ACTUAL}+"."]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="-32" y="535" width="240" height="63" uuid="002bddda-3c67-4dfd-9bbb-01b9e3abe4e0"/>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1} + "garanteSubreport.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="263" y="535" width="240" height="63" uuid="e2041326-2528-4880-8b5e-d2cee297e574"/>
+				<subreportParameter name="codigoLineaCredito">
+					<subreportParameterExpression><![CDATA[$P{codigoLineaCredito}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{contratoCrediAmigo1} + "conyugeGaranteSubreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

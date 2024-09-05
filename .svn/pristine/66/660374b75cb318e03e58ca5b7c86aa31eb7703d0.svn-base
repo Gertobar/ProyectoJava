@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaSecuenciaCreateDlg" widgetVar="IfipAgenciaSecuenciaCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{propiedadesEtiquetaBL.CreateIfipAgenciaSecuenciaTitle}" closeOnEscape="true">
+
+            <h:form id="IfipAgenciaSecuenciaCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateIfipAgenciaSecuenciaLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{ifipAgenciaSecuenciaController.selected.valor}" title="#{propiedadesEtiquetaBL.CreateIfipAgenciaSecuenciaTitle_valor}" required="true" requiredMessage="#{propiedadesEtiquetaBL.CreateIfipAgenciaSecuenciaRequiredMessage_valor}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateIfipAgenciaSecuenciaLabel_secuencia}" for="secuencia" />
+                        <p:selectOneMenu id="secuencia" value="#{ifipAgenciaSecuenciaController.selected.secuencia}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaSecuenciaRequiredMessage_secuencia}">
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.SelectOneMessage}"/>
+                            <f:selectItems value="#{secuenciaController.items}"
+                                           var="secuenciaItem"
+                                           itemValue="#{secuenciaItem}"
+                                           itemLabel="#{secuenciaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{secuenciaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CreateIfipAgenciaSecuenciaLabel_ifipAgencia}" for="ifipAgencia" />
+                        <p:selectOneMenu id="ifipAgencia" value="#{ifipAgenciaSecuenciaController.selected.ifipAgencia}" required="true" requiredMessage="#{propiedadesEtiquetaBL.EditIfipAgenciaSecuenciaRequiredMessage_ifipAgencia}">
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.SelectOneMessage}"/>
+                            <f:selectItems value="#{ifipAgenciaController.items}"
+                                           var="ifipAgenciaItem"
+                                           itemValue="#{ifipAgenciaItem}"
+                                           itemLabel="#{ifipAgenciaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{ifipAgenciaConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ifipAgenciaSecuenciaController.saveNew}" value="#{propiedadesEtiquetaBL.Save}" update="display,:IfipAgenciaSecuenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IfipAgenciaSecuenciaCreateDialog);"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Cancel}" onclick="IfipAgenciaSecuenciaCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

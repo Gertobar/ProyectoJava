@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RolOperacionPorDefectoListForm">
+
+        <p:panel header="#{myBundle.ListRolOperacionPorDefectoTitle}">
+
+            <p:dataTable id="datalist" value="#{rolOperacionPorDefectoController.items}" var="item"
+                         selectionMode="single" selection="#{rolOperacionPorDefectoController.selected}"
+                         rowKey="#{item.rolOperacionPorDefectoPK}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRolOperacionPorDefectoTitle_eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+                <p:column sortBy="#{item.rol.descripcion}" filterBy="#{item.rol.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRolOperacionPorDefectoTitle_rol}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rol.descripcion}"/>
+                </p:column>
+                <p:column sortBy="#{item.operacion.codigo}" filterBy="#{item.operacion.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRolOperacionPorDefectoTitle_operacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.operacion.codigo}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{rolOperacionPorDefectoController.prepareCreate}" update=":RolOperacionPorDefectoCreateForm" oncomplete="RolOperacionPorDefectoCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":RolOperacionPorDefectoViewForm" oncomplete="RolOperacionPorDefectoViewDialog.show()" disabled="#{empty rolOperacionPorDefectoController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RolOperacionPorDefectoEditForm" oncomplete="RolOperacionPorDefectoEditDialog.show()" disabled="#{empty rolOperacionPorDefectoController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{rolOperacionPorDefectoController.delete}" update=":mensaje,datalist" disabled="#{empty rolOperacionPorDefectoController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

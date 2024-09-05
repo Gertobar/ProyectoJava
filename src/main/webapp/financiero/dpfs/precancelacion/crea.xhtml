@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PrecancelacionContratoDpfCreateDlg" 
+                  widgetVar="PrecancelacionContratoDpfCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  style="height: 500px; width: 700px"
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel  value="#{propiedadesEtiquetaBL.Precancelar} #{propiedadesEtiquetaBL.Contrato} #{propiedadesEtiquetaBL.Dpf}"
+                                styleClass="encabezadosDialog"/>       
+            </f:facet>
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+            <h:form id="PreancelacionContratoDpfCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px;">
+                    <h:panelGrid columns="2"> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoContrato}" 
+                                       for="codigoContrato"  
+                                       styleClass="etiqueta"/>
+                        <h:outputText id="codigoContrato"       
+                                      value="#{precancelacionContratoDpfController.contratoDpfSel.contratoDpfPK.codigo}"
+                                      />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Socio}" 
+                                       for="socio"  
+                                       styleClass="etiqueta"/>
+                        <h:outputText id="socio"                                                                          
+
+                                      value="#{precancelacionContratoDpfController.contratoDpfSel.persona.nombreCompleto}"
+                                      />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiqueta"/>
+
+                        <h:outputText id="moneda"
+                                      value="#{precancelacionContratoDpfController.contratoDpfSel.moneda.nombre}" 
+                                      />   
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaContrato}" 
+                                       for="fechaContrato"
+                                       styleClass="etiqueta"/>
+
+                        <h:outputText id="fechaContrato"
+                                      value="#{precancelacionContratoDpfController.contratoDpfSel.fechaContrato}" 
+                                      >   
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Dias} #{propiedadesEtiquetaBL.Plazo}" 
+                                       for="diasPlazo"
+                                       styleClass="etiqueta"/>
+                        <h:outputText id="diasPlazo" 
+
+                                      value="#{precancelacionContratoDpfController.contratoDpfSel.plazoDias}">                            
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="0" />
+                        </h:outputText>                         
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Capital}" 
+                                       for="capital"
+                                       styleClass="etiqueta"/>
+                        <h:outputText id="capital" 
+                                      value="#{precancelacionContratoDpfController.contratoDpfSel.capital}"
+                                      >
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>  
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Retencion}" 
+                                       for="retencion"
+                                       styleClass="etiqueta"/>
+                        <h:outputText id="retencion" 
+                                      value="#{precancelacionContratoDpfController.retencionPorPagar}"
+                                      >
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.InteresGenerado}" 
+                                       for="interesGenerado"
+                                       styleClass="etiqueta"/>
+                        <h:outputText id="interesGenerado" 
+                                      value="#{precancelacionContratoDpfController.interesGenerado}"
+                                      >
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.InteresPagado}" 
+                                       for="interesPagado"
+                                       styleClass="etiqueta"/>
+                        <h:outputText id="interesPagado" 
+                                      value="#{precancelacionContratoDpfController.interesPagado}"
+                                      >
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.InteresAcreditar}" 
+                                       for="interesAcreditar"
+                                       styleClass="etiqueta"/>
+                        <h:outputText id="interesAcreditar" 
+                                      value="#{precancelacionContratoDpfController.interesAcreditar}"
+                                      >
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Motivo}" 
+                                       for="motivo" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="motivo" 
+                                         value="#{precancelacionContratoDpfController.motivoPrecancelacion}" >
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{precancelacionContratoDpfController.itemsMotivoPrecancelacion}"
+                                           var="motivoItem"
+                                           itemValue="#{motivoItem}"
+                                           itemLabel="#{motivoItem.nombre.toString()}"/>  
+
+                            <f:converter binding="#{motivoPrecancelacionConverter}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+
+
+                    <p:dataTable id="cuentasTbl" 
+                                 value="#{precancelacionContratoDpfController.itemsCuentaContraDpf}"
+                                 var="item"                                                          
+                                 rowKey="#{item.cuentaContratoDpfPK}"
+                                 paginator="true"
+                                 rows="1"
+                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                                                 
+                                 widgetVar="cuentasTabla">
+
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Cuentas} #{propiedadesEtiquetaBL.Dpf}"/>
+                        </f:facet>
+
+
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaCredito.productoIfip.producto.tipoProducto.nombre}"/>
+                        </p:column>
+
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Credito}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaCredito.numero}"/>
+                        </p:column>
+
+                        <p:column> 
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cuenta} #{propiedadesEtiquetaBL.Debito}"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.cuentaDebito.numero}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:commandButton id="guardarBot" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     onclick="procesandoDlg.show();"
+                                     update=":ComprobanteFor,:PrecancelacionContratoDpfListForm,:barraForm"
+                                     actionListener="#{precancelacionContratoDpfController.guardar}"
+                                     >
+                        <p:confirm message="#{propiedadesMensajesBL.SeguroRealizarPrecancelacion}" 
+                                   icon="ui-icon-info"                                      
+                                   header="#{propiedadesEtiquetaBL.Confirmacion}"/>
+                    </p:commandButton>
+
+                </h:panelGroup>
+
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="explode" styleClass="encabezadosDialog">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Si}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="#{propiedadesEtiquetaBL.No}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>    
+                </p:confirmDialog>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

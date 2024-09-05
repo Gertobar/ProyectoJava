@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RangoDiasDpfViewDlg" widgetVar="RangoDiasDpfViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{myBundle.ViewRangoDiasDpfTitle}" closeOnEscape="true">
+
+            <h:form id="RangoDiasDpfViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{rangoDiasDpfController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewRangoDiasDpfLabel_codigo}"/>
+                        <h:outputText value="#{rangoDiasDpfController.selected.codigo}" title="#{myBundle.ViewRangoDiasDpfTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewRangoDiasDpfLabel_rangoInicial}"/>
+                        <h:outputText value="#{rangoDiasDpfController.selected.rangoInicial}" title="#{myBundle.ViewRangoDiasDpfTitle_rangoInicial}"/>
+
+                        <h:outputText value="#{myBundle.ViewRangoDiasDpfLabel_rangoFinal}"/>
+                        <h:outputText value="#{rangoDiasDpfController.selected.rangoFinal}" title="#{myBundle.ViewRangoDiasDpfTitle_rangoFinal}"/>
+
+                        <h:outputText value="#{myBundle.ViewRangoDiasDpfLabel_eliminado}"/>
+                        <h:outputText value="#{rangoDiasDpfController.selected.eliminado}" title="#{myBundle.ViewRangoDiasDpfTitle_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="RangoDiasDpfViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

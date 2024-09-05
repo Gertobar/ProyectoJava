@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <p:dialog appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="ReimprimirComprobanteDlg"                  
+              modal="true"
+              closable="false"
+              closeOnEscape="false"
+              widgetVar="ReimprimirComprobanteDialogo">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="reimpresionComprobante"
+                            value="#{propiedadesEtiquetaBL.Impresion}"
+                            styleClass="encabezadosDialog"/>
+        </f:facet>
+        
+        <h:form id="ReimprimirComprobanteFor">
+            <h:panelGrid columns="1" style="text-align: center; size: 10px">
+                
+                <h:outputText styleClass="encabezadosPanelGrid" 
+                              value="#{propiedadesMensajesBL.ImpresionComprobante}"/>
+                <h:panelGrid columns="2" style="text-align: center">
+                    <p:commandButton value="#{propiedadesEtiquetaBL.Si}"
+                                     actionListener="#{movimientoCuentaBean.reimprimirComprobante}"
+                                     update=":MovimientoCuentaFor,:mensaje,:ComprobanteFor,:impresionLab"
+                                     onclick="ImprimeReversoDialogo.hide();procesandoDlg.show()"/>
+                    
+                    <p:commandButton value="#{propiedadesEtiquetaBL.No}"
+                                     action="#{movimientoCuentaBean.init()}"
+                                     update=":MovimientoCuentaFor,:mensaje,:ComprobanteFor,:impresionLab"
+                                     onclick="ImprimeReversoDialogo.hide();"
+                                     oncomplete="ReimprimirComprobanteDialogo.hide()"/>
+                </h:panelGrid>
+            </h:panelGrid>
+        </h:form>
+
+    </p:dialog> 
+
+
+
+
+</ui:composition>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+
+        <h:panelGrid columns="3">
+            <p:panel style="border: #FFFFFF">
+                <h:panelGrid columns="4">
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.BuscarPor}"/>
+                    <p:selectOneMenu id="buscarPor"  >                                                                                                                           
+                        <f:selectItem itemLabel="#{propiedadesEtiquetaBL.CodigoSocio}"/>                       
+                    </p:selectOneMenu>                
+                    <p:inputText id="crieterioTex" 
+                                 value="#{pagoCreditoController.codigoSocio}"
+                                 style="text-align:  right"
+                                 onblur="value = value.toUpperCase()"
+                                 size="10">  
+                        <p:ajax event="blur"
+                                listener="#{pagoCreditoController.obtieneNombreSocio()}"                     
+                                update="nombreSocio,:PagoCreditoListForm:datalist,:barraForm"/> 
+                    </p:inputText>
+                    <p:inputText id="nombreSocio" 
+                                 readonly="true" 
+                                 value="#{pagoCreditoController.socio.codigoPersona.nombreCompleto.toString()}"                                
+                                 onblur="value = value.toUpperCase()"
+                                 size="50">
+                    </p:inputText>                 
+                </h:panelGrid> 
+            </p:panel>
+
+
+            <p:panel id="panelSocios" style="border: #FFFFFF">
+                <h:panelGrid columns="1">
+                    <p:commandButton id="listadoSociosBot" 
+                                     style="font-size: 10px;"
+                                     value="#{propiedadesEtiquetaBL.Buscar}"
+                                     icon="#{propiedadesObjetosBL.IcoVer}"  
+                                     update=":mensaje,:ListaSociosForm"       
+                                     onclick="procesandoDlg.show();"                 
+                                     oncomplete="ListaSociosDialog.show();procesandoDlg.hide();"
+                                     />                
+                </h:panelGrid>
+            </p:panel>
+
+        </h:panelGrid>
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

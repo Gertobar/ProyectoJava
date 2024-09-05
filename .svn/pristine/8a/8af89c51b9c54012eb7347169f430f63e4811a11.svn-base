@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoGarantiaProCreMonIfiCreateDlg" widgetVar="TipoGarantiaProCreMonIfiCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateTipoGarantiaProCreMonIfiTitle}" closeOnEscape="true">
+
+            <h:form id="TipoGarantiaProCreMonIfiCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoGarantiaProCreMonIfiController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateTipoGarantiaProCreMonIfiLabel_numero}" for="numero" />
+                        <p:inputText id="numero" value="#{tipoGarantiaProCreMonIfiController.selected.numero}" title="#{myBundle.CreateTipoGarantiaProCreMonIfiTitle_numero}" required="true" requiredMessage="#{myBundle.CreateTipoGarantiaProCreMonIfiRequiredMessage_numero}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoGarantiaProCreMonIfiLabel_obligatorio}" for="obligatorio" />
+                        <p:inputText id="obligatorio" value="#{tipoGarantiaProCreMonIfiController.selected.obligatorio}" title="#{myBundle.CreateTipoGarantiaProCreMonIfiTitle_obligatorio}" required="true" requiredMessage="#{myBundle.CreateTipoGarantiaProCreMonIfiRequiredMessage_obligatorio}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoGarantiaProCreMonIfiLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{tipoGarantiaProCreMonIfiController.selected.registradoPor}" title="#{myBundle.CreateTipoGarantiaProCreMonIfiTitle_registradoPor}" required="true" requiredMessage="#{myBundle.CreateTipoGarantiaProCreMonIfiRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoGarantiaProCreMonIfiLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoGarantiaProCreMonIfiController.selected.fechaRegistro}" title="#{myBundle.CreateTipoGarantiaProCreMonIfiTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.CreateTipoGarantiaProCreMonIfiRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoGarantiaProCreMonIfiLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tipoGarantiaProCreMonIfiController.selected.eliminado}" title="#{myBundle.CreateTipoGarantiaProCreMonIfiTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateTipoGarantiaProCreMonIfiRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoGarantiaProCreMonIfiLabel_codigoTipoGarantia}" for="codigoTipoGarantia" />
+                        <p:selectOneMenu id="codigoTipoGarantia" value="#{tipoGarantiaProCreMonIfiController.selected.codigoTipoGarantia}" required="true" requiredMessage="#{myBundle.CreateTipoGarantiaProCreMonIfiRequiredMessage_codigoTipoGarantia}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoGarantiaController.items}"
+                                           var="codigoTipoGarantiaItem"
+                                           itemValue="#{codigoTipoGarantiaItem}"
+                                           itemLabel="#{codigoTipoGarantiaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{tipoGarantiaConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoGarantiaProCreMonIfiLabel_codigoTasa}" for="codigoTasa" />
+                        <p:selectOneMenu id="codigoTasa" value="#{tipoGarantiaProCreMonIfiController.selected.codigoTasa}" required="true" requiredMessage="#{myBundle.CreateTipoGarantiaProCreMonIfiRequiredMessage_codigoTasa}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tasaInteresProCreMonIfiController.items}"
+                                           var="codigoTasaItem"
+                                           itemValue="#{codigoTasaItem}"
+                                           itemLabel="#{codigoTasaItem.codigo.toString()}"
+                                           />
+                            <f:converter binding="#{tasaInteresProCreMonIfiConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoGarantiaProCreMonIfiLabel_usuarioRegistradoPor}" for="usuarioRegistradoPor" />
+                        <p:selectOneMenu id="usuarioRegistradoPor" value="#{tipoGarantiaProCreMonIfiController.selected.usuarioRegistradoPor}" required="true" requiredMessage="#{myBundle.CreateTipoGarantiaProCreMonIfiRequiredMessage_usuarioRegistradoPor}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="usuarioRegistradoPorItem"
+                                           itemValue="#{usuarioRegistradoPorItem}"
+                                           itemLabel="#{usuarioRegistradoPorItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoGarantiaProCreMonIfiController.saveNew}" value="#{myBundle.Save}" update="display,:TipoGarantiaProCreMonIfiListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TipoGarantiaProCreMonIfiCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TipoGarantiaProCreMonIfiCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

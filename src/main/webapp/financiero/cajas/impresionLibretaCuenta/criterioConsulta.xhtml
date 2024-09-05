@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <p:panel id="criterioPan">
+        <p:focus context="criterioPan"/>  
+        <h:panelGrid columns="1" >
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+                <p:separator/>
+            </f:facet>
+            <p:focus context="impresionLibretaGri"/>  
+            <h:panelGrid  columns="2">
+                <h:panelGrid  id="impresionLibretaGri" columns="3" style="font-size:  10px">
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                   for="moneda"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="moneda" 
+                                     value="#{impresionLibretaCuentaController.moneda}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{impresionLibretaCuentaController.itemsMoneda}"
+                                       var="codigoMonedaItem"
+                                       itemValue="#{codigoMonedaItem}"
+                                       itemLabel="#{codigoMonedaItem.nombre}"
+                                       />    
+                        <p:ajax event="change" listener="#{impresionLibretaCuentaController.cambiaMoneda()}" update="producto"/>
+                        <f:converter binding="#{monedaConverter}"/>
+                    </p:selectOneMenu>                                      
+                    <h:message for="moneda"  styleClass="invalido"/>
+
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                   for="producto"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:selectOneMenu id="producto" 
+                                     value="#{impresionLibretaCuentaController.productoIfip}" 
+                                     required="true"
+                                     filter="true" 
+                                     filterMatchMode="startsWith" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                        <f:selectItems value="#{impresionLibretaCuentaController.itemsProductoIfip}"
+                                       var="codigoProductoIfipItem"
+                                       itemValue="#{codigoProductoIfipItem}"
+                                       itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                       />                   
+                        <p:ajax event="change" update="producto"/>
+                        <f:converter binding="#{productoIfipConverter}"/>
+                    </p:selectOneMenu>                                      
+                    <h:message for="producto"  styleClass="invalido"/>   
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}"
+                                   styleClass="etiquetaRequerida"
+                                   for="cuenta" />
+                    <p:inputText id="cuenta"                              
+                                 value="#{impresionLibretaCuentaController.numeroCuenta}"
+                                 size="20"
+                                 >
+                        <p:ajax event="blur" 
+                                listener="#{impresionLibretaCuentaController.buscaCuenta()}" 
+                                update="datosCuentaPan,:EstadoCuentaFor:datalist,libreta"/>
+                    </p:inputText>
+                    <p:commandButton id="cuentaBot"
+                                     value="#{propiedadesEtiquetaBL.Buscar}"                                 
+                                     update=":EstadoCuentaFor:datalist,:BuscaCuentaFor,:encabezadoListaCuentasLab,libreta"
+                                     actionListener="#{impresionLibretaCuentaController.preparaBusquedaCuentas}"
+                                     onclick="procesandoDlg.show()"                                         
+                                     oncomplete="procesandoDlg.hide();BuscaCuentaDialogo.show();"/>
+
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.NumeroLibreta}"
+                                   styleClass="etiquetaRequerida"
+                                   for="libreta" />
+                    <p:inputText id="libreta" 
+                                 readonly="true"
+                                 value="#{impresionLibretaCuentaController.cuenta.numeroLibreta}"
+                                 size="20"
+                                 >                   
+                    </p:inputText>               
+                    <h:message for="libreta"  styleClass="invalido"/>  
+
+                </h:panelGrid>
+                <p:panel  id="datosCuentaPan">
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Datos} #{propiedadesEtiquetaBL.Cuenta}"/>
+                    </f:facet>
+                    <h:panelGrid columns="2" style="font-size: 9px">
+                        <h:outputText  value="#{propiedadesEtiquetaBL.Codigo} #{propiedadesEtiquetaBL.Cuenta}"
+                                       styleClass="etiqueta"/>
+                        <h:outputText  value="#{impresionLibretaCuentaController.cuenta.codigo}"/>
+
+                        <h:outputText  value="#{propiedadesEtiquetaBL.Socio}" 
+                                       styleClass="etiqueta"/>
+                        <h:outputText  value="#{impresionLibretaCuentaController.cuenta.socio.codigoPersona.nombreCompleto}"/>
+
+                        <h:outputText  value="#{propiedadesEtiquetaBL.Identificacion}" 
+                                       styleClass="etiqueta"/>
+                        <h:outputText value="#{impresionLibretaCuentaController.cuenta.socio.codigoPersona.identificacion}">                           
+                        </h:outputText>
+
+                        <h:outputText  value="#{propiedadesEtiquetaBL.SaldoDisponible}" 
+                                       styleClass="etiqueta"/>
+                        <h:outputText value="#{impresionLibretaCuentaController.cuenta.saldoDisponible}">    
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+
+                        <h:outputText  value="#{propiedadesEtiquetaBL.Firmantes}" 
+                                       styleClass="etiqueta"/>
+                        <h:outputText value="#{impresionLibretaCuentaController.cuenta.codigoTipoFirma.nombre}">                         
+                        </h:outputText>
+
+                    </h:panelGrid>
+                </p:panel>
+            </h:panelGrid>
+
+        </h:panelGrid>
+    </p:panel>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProfesionEditDlg" 
+                  widgetVar="ProfesionEditDialog" 
+                  modal="true" 
+                  resizable="false"
+                  appendTo="@(body)"                              
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.Profesion}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="ProfesionEditForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{profesionController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" 
+                                       for="codigo" styleClass="etiqueta" />
+                        <h:outputText id="codigo" 
+                                      value="#{profesionController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoOc}" 
+                                       for="codigoOc"  styleClass="etiquetaRequerida" />
+                        <p:inputText id="codigoOc" value="#{profesionController.selected.codigoOc}" 
+                                     title="#{propiedadesTituloBL.CodigoOc}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoOc} : #{propiedadesMensajesBL.CampoRequerido}"
+                                     size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre" styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" value="#{profesionController.selected.nombre}" 
+                                     title="#{propiedadesTituloBL.Nombre}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} : #{propiedadesMensajesBL.CampoRequerido}" 
+                                     size="100" 
+                                     maxlength="100"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{profesionController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                               
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{profesionController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:ProfesionListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,ProfesionEditDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

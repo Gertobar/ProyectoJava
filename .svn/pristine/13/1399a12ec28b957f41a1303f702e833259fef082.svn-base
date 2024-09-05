@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel  id="neogociacionPan" 
+              header="#{propiedadesEtiquetaBL.Negociacion}"
+              style="height: 530px; width: 1000px">  
+        <p:focus context="neogociacionPan"/>   
+
+        <h:panelGrid id="productoGri" columns="1" columnClasses="label, value, validator" style="font-size: 10px">  
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.DestinoCredito}"/>
+                <p:separator/>
+            </f:facet>
+            <h:panelGrid columns="6">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                               for="moneda"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="moneda" 
+                                 value="#{solicitudController.solicitud.productoCreditoMonedaIfip.productoCreditoMoneda.moneda}" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsMoneda}"
+                                   var="monedaItem"
+                                   itemValue="#{monedaItem}"
+                                   itemLabel="#{monedaItem.nombre}"
+                                   />
+                    <f:converter binding="#{monedaConverter}"/>
+                    <p:ajax event="change" 
+                            listener="#{solicitudController.cambiaSeleccionMoneda()}" 
+                            update=":SolicitudNuevaFor:tablaAmortizacionTbl,
+                            :SolicitudNuevaFor:productoCredito,
+                            :SolicitudNuevaFor:periodicidad,
+                            cartera,
+                            tasaCredito,
+                            montoCredito,totalRubrosEnCredito,detalleRubrosCreditoBot"/>
+                </p:selectOneMenu>  
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoCartera}" 
+                               for="cartera"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="cartera" 
+                                 value="#{solicitudController.tipoCartera}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsTipoCartera}"
+                                   var="carteraItem"
+                                   itemValue="#{carteraItem}"
+                                   itemLabel="#{carteraItem.nombre}"
+                                   />
+                    <f:converter binding="#{tipoCarteraConverter}"/>
+                    <p:ajax event="change" 
+                            listener="#{solicitudController.cambiaSeleccionTipoCartera()}" 
+                            update=":SolicitudNuevaFor:tablaAmortizacionTbl,
+                            :SolicitudNuevaFor:productoCredito,
+                            :SolicitudNuevaFor:periodicidad,
+                            productoCredito,
+                            tasaCredito,
+                            destinoFinanciero,
+                            seccion,
+                            division,
+                            grupo,
+                            clase,
+                            subclase,
+                            actividadEconomica,
+                            montoCredito,totalRubrosEnCredito,detalleRubrosCreditoBot"/>
+                </p:selectOneMenu> 
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                               for="productoCredito"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="productoCredito" 
+                                 value="#{solicitudController.solicitud.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito}"                             
+                                 required="false" 
+                                 filter="true" 
+                                 filterMatchMode="startsWith">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsProductoCredito}" 
+                                   var="productoItem"
+                                   itemValue="#{productoItem}"
+                                   itemLabel="#{productoItem.nombre}"
+                                   />
+                    <f:converter binding="#{productoCreditoConverter}"/>
+                    <p:ajax event="change" 
+                            listener="#{solicitudController.cambiaSeleccionProdCred()}" 
+                            update=":SolicitudNuevaFor:tablaAmortizacionTbl,
+                            :SolicitudNuevaFor:productoCredito,
+                            :SolicitudNuevaFor:periodicidad,
+                            seccion,
+                            division,
+                            grupo,
+                            clase,
+                            destinoFinanciero,
+                            tasaCredito,
+                            subclase,
+                            actividadEconomica,
+                            montoCredito,totalRubrosEnCredito,detalleRubrosCreditoBot"/>
+                </p:selectOneMenu> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.DestinoCredito}"/>
+                    <p:separator/>
+                </f:facet>
+            </h:panelGrid>
+            <h:panelGrid columns="6">
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Seccion}" 
+                               for="seccion"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="seccion" 
+                                 value="#{solicitudController.actividadEconomicaReceptoraN1}" 
+                                 panelStyle="width:500px"
+                                 effect="fade" 
+                                 var="t" 
+                                 style="width:235px" 
+                                 filter="true" 
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsActividadEconomicaN1}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"
+                                   />                    
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" listener="#{solicitudController.cambiaActEcoRecptoraN1()}" update="division,grupo,clase,subclase,actividadEconomica"/>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Division}" 
+                               for="division"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="division" 
+                                 value="#{solicitudController.actividadEconomicaReceptoraN2}" 
+                                 panelStyle="width:500px"
+                                 effect="fade" 
+                                 var="t" 
+                                 style="width:235px" 
+                                 filter="true" 
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsActividadEconomicaN2}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"
+                                   />                    
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" listener="#{solicitudController.cambiaActEcoRecptoraN2()}" update="grupo,clase,subclase,actividadEconomica"/>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Grupo}" 
+                               for="grupo"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="grupo" 
+                                 value="#{solicitudController.actividadEconomicaReceptoraN3}" 
+                                 panelStyle="width:500px"
+                                 effect="fade" 
+                                 var="t" 
+                                 style="width:235px"
+                                 filter="true" 
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsActividadEconomicaN3}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"
+                                   />                    
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" listener="#{solicitudController.cambiaActEcoRecptoraN3()}" update="clase,subclase,actividadEconomica"/>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Clase}" 
+                               for="clase"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="clase" 
+                                 value="#{solicitudController.actividadEconomicaReceptoraN4}" 
+                                 panelStyle="width:500px"
+                                 effect="fade" 
+                                 var="t" 
+                                 style="width:235px" 
+                                 filter="true" 
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsActividadEconomicaN4}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"
+                                   />                    
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" listener="#{solicitudController.cambiaActEcoRecptoraN4()}" update="subclase,actividadEconomica"/>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Subclase}" 
+                               for="subclase"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="subclase" 
+                                 value="#{solicitudController.actividadEconomicaReceptoraN5}" 
+                                 panelStyle="width:500px"
+                                 effect="fade" 
+                                 var="t" 
+                                 style="width:235px" 
+                                 filter="true" 
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsActividadEconomicaN5}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"
+                                   />                    
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <p:ajax event="change" listener="#{solicitudController.cambiaActEcoRecptoraN5()}" update="actividadEconomica"/>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="#{propiedadesEtiquetaBL.ActividadEconomica}" 
+                               for="actividadEconomica"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="actividadEconomica" 
+                                 value="#{solicitudController.actividadEconomicaReceptoraN6}" 
+                                 panelStyle="width:500px"
+                                 effect="fade" 
+                                 var="t" 
+                                 style="width:235px"
+                                 filter="true" 
+                                 filterMatchMode="contains">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsActividadEconomicaN6}"
+                                   var="sectorItem"
+                                   itemValue="#{sectorItem}"
+                                   itemLabel="#{sectorItem.nombre}"
+                                   />                    
+                    <p:column>
+                        <h:outputText value="#{t.nombre}" />
+                    </p:column>
+                    <f:converter binding="#{actividadEconomicaConverter}"/>
+                </p:selectOneMenu>
+                
+            </h:panelGrid>
+            <h:panelGrid columns="4">
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.DestinoFInanciero}" 
+                               for="destinoFinanciero"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="destinoFinanciero" 
+                                 value="#{solicitudController.solicitud.destinoFinanciero}" 
+                                 disabled="false"
+                                 filter="true" 
+                                 style="width: 280px"
+                                 filterMatchMode="contains"
+                                 required="true">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{solicitudController.itemsDestinoFinanciero}"
+                                   var="destinoFinacnerioItem"
+                                   itemValue="#{destinoFinacnerioItem}"
+                                   itemLabel="#{destinoFinacnerioItem.nombre}"
+                                   />
+                    <f:converter binding="#{destinoFinancieroConverter}"/>
+                </p:selectOneMenu>  
+            </h:panelGrid>
+
+        </h:panelGrid>
+        <h:panelGrid columns="4">            
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Pais}" 
+                           for="codigoUbiGeoPaiRes"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="codigoUbiGeoPaiRes" 
+                             style="width: 200px"
+                             value="#{solicitudController.ubiGeoPai}" >                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{solicitudController.itemsUbiGeoPai}"
+                               var="UbiGeoPaiResItem"
+                               itemValue="#{UbiGeoPaiResItem}"
+                               itemLabel="#{UbiGeoPaiResItem.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoProRes,codigoUbiGeoCiuRes,codigoUbiGeoParRes,totalRubrosEnCredito"  
+                        listener="#{solicitudController.cambiaUbiGeoPai()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Provincia}" 
+                           for="codigoUbiGeoProRes"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoProRes" 
+                             value="#{solicitudController.ubiGeoPro}" 
+                             style="width: 300px"
+                             >                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{solicitudController.itemsUbiGeoPro}"
+                               var="UbiGeoProResItem"
+                               itemValue="#{UbiGeoProResItem}"
+                               itemLabel="#{UbiGeoProResItem.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoCiuRes,codigoUbiGeoParRes,totalRubrosEnCredito"  
+                        listener="#{solicitudController.cambiaUbiGeoPro()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Ciudad}" 
+                           for="codigoUbiGeoCiuRes"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoCiuRes" 
+                             value="#{solicitudController.ubiGeoCiu}"
+                             filter="true" 
+                             style="width: 300px"
+                             filterMatchMode="startsWith"  >                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{solicitudController.itemsUbiGeoCiu}"
+                               var="UbiGeoCiuResItem"
+                               itemValue="#{UbiGeoCiuResItem}"
+                               itemLabel="#{UbiGeoCiuResItem.nombre}"
+                               />
+                <p:ajax update="codigoUbiGeoParRes"  
+                        listener="#{solicitudController.cambiaUbiGeoCiu()}" />  
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>     
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Parroquia}" 
+                           for="codigoUbiGeoParRes"
+                           styleClass="etiqueta"/>
+            <p:selectOneMenu id="codigoUbiGeoParRes" 
+                             value="#{solicitudController.ubiGeoPar}" 
+                             required="false" 
+                             style="width: 300px"
+                             filter="true" >                                    
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{solicitudController.itemsUbiGeoPar}"
+                               var="UbiGeoParResItem"
+                               itemValue="#{UbiGeoParResItem}"
+                               itemLabel="#{UbiGeoParResItem.nombre}"
+                               />
+                <f:converter binding="#{ubicacionGeograficaConverter}"/>
+            </p:selectOneMenu>
+        </h:panelGrid>
+
+        <h:panelGrid columns="6">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.ParametrosCredito}"/>
+                <p:separator/>
+            </f:facet> 
+        </h:panelGrid>  
+
+        <h:panelGrid id="neogociacionUnoGri" style="font-size: 10px" columns="8">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.MontoCredito}" 
+                           for="montoCredito"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="montoCredito"
+                         value="#{solicitudController.solicitud.montoCredito}"  
+                         styleClass="campoRequeridoValor"     
+                         required="false"
+                         size="20">     
+                <p:ajax event="blur"
+                        listener="#{solicitudController.seleccionaTasaPorMonto()}"
+                        update=":SolicitudNuevaFor:tablaAmortizacionTbl,
+                        :SolicitudNuevaFor:productoCredito,
+                        :SolicitudNuevaFor:periodicidad,
+                        tasaCredito,
+                        cuotas,
+                        montoCredito,totalRubrosEnCredito,
+                        detalleRubrosCreditoBot"/>
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />  
+            </p:inputText>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" 
+                           for="tasaCredito"
+                           styleClass="etiqueta"/>
+            <p:inputText id="tasaCredito"
+                         value="#{solicitudController.solicitud.tasa}"  
+                         styleClass="campoRequeridoValor"        
+                         readonly="true"
+                         size="7">                            
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />  
+            </p:inputText>
+
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" 
+                           for="periodicidad"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="periodicidad" 
+                             value="#{solicitudController.solicitud.periodicidadProMonIfi.periodicidad}"
+                             required="false" >
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{solicitudController.itemsPeriodicidad}" 
+                               var="periodicidadItem"
+                               itemValue="#{periodicidadItem}"
+                               itemLabel="#{periodicidadItem.nombre}"
+                               />
+                <f:converter binding="#{periodicidadConverter}"/>
+                <p:ajax event="change" 
+                        listener="#{solicitudController.seleccionaCuotasMaximas()}" 
+                        update=":SolicitudNuevaFor:tablaAmortizacionTbl,
+                        :SolicitudNuevaFor:productoCredito,
+                        :SolicitudNuevaFor:periodicidad,
+                        tasaCredito,
+                        montoCredito,
+                        cuotas,totalRubrosEnCredito,
+                        detalleRubrosCreditoBot"/>
+            </p:selectOneMenu> 
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Cuotas} *" 
+                           for="cuotas"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText id="cuotas"
+                         value="#{solicitudController.solicitud.numeroCuotas}"  
+                         styleClass="campoRequeridoValor"                                 
+                         size="10">  
+                <p:ajax event="blur"
+                        listener="#{solicitudController.validaNumeroCuotas()}"
+                        update=":SolicitudNuevaFor:tablaAmortizacionTbl,                                
+                        cuotas,totalRubrosEnCredito,detalleRubrosCreditoBot"/>
+                <f:validateLongRange minimum="1"/>
+            </p:inputText>
+        </h:panelGrid>
+        <h:panelGrid columns="6">
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.OrigenRecursos}" 
+                           for="origenRecursos"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="origenRecursos" 
+                             value="#{solicitudController.solicitud.origenRecursos}"
+                             required="false" >
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{solicitudController.itemsOrigenRecursos}" 
+                               var="origenItem"
+                               itemValue="#{origenItem}"
+                               itemLabel="#{origenItem.nombre}"
+                               />
+                <f:converter binding="#{origenRecursosConverter}"/>               
+            </p:selectOneMenu> 
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.TipoTabla}" 
+                           for="tipoTabla"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="tipoTabla" 
+                             value="#{solicitudController.solicitud.tipoTabla}"
+                             required="false"  disabled="false" style="width: 150px"    >                          
+                <f:selectItem  itemValue=" " itemLabel="#{propiedadesMensajesBL.Seleccione}" />  
+                <f:selectItem  itemValue="C" itemLabel="#{propiedadesEtiquetaBL.CapitalFijo}" />  
+                <f:selectItem itemValue="P" itemLabel="#{propiedadesEtiquetaBL.PagoFijo}" />                                   
+                <p:ajax event="change" 
+                        listener="#{solicitudController.autoGenerarTabla()}" 
+                        update=":SolicitudNuevaFor:tablaAmortizacionTbl,totalRubrosEnCredito,detalleRubrosCreditoBot"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{propiedadesEtiquetaBL.DiaFijo}" 
+                           for="diaFijo"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="diaFijo" 
+                             value="#{solicitudController.solicitud.diaFijo}"
+                             required="false"  disabled="false" style="width: 50px">                          
+                <f:selectItem  itemValue=" " itemLabel="#{propiedadesMensajesBL.Seleccione}" />  
+                <f:selectItem  itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                <f:selectItem itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />                                   
+                <p:ajax event="change" 
+                        listener="#{solicitudController.autoGenerarTabla()}" 
+                        update=":SolicitudNuevaFor:tablaAmortizacionTbl,totalRubrosEnCredito,detalleRubrosCreditoBot"/>
+            </p:selectOneMenu>
+
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+            <p:outputLabel value="#{propiedadesEtiquetaBL.DestinoEspecifico}" 
+                           for="destinoEspecifico"
+                           styleClass="etiquetaRequerida"/>
+            <p:selectOneMenu id="destinoEspecifico" 
+                             value="#{solicitudController.solicitud.destinoEspecifico}"
+                             required="true">
+                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                <f:selectItems value="#{solicitudController.listaDestinoEspecifico}"
+                               var="item"
+                               itemValue="#{item}"
+                               itemLabel="#{item.nombre}"/>
+                <f:converter binding="#{destinoEspecificoConverter}"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                           for="observaciones"
+                           styleClass="etiquetaRequerida"/>
+            <p:inputText  id="observaciones"
+                          size="70"
+                          styleClass="campoRequerido"
+                          onblur="value = value.toUpperCase()" 
+                          value="#{solicitudController.solicitud.observaciones}">
+                <f:validateLength minimum = "5" maximum = "100" for="observaciones" />
+            </p:inputText>
+
+        </h:panelGrid>
+
+        <p:contextMenu for="tablaAmortizacionTbl">
+            <p:menuitem value="#{propiedadesEtiquetaBL.DetalleRubros}" 
+                        icon="ui-icon-search" 
+                        oncomplete="PF('detalleRubrosDialog').show()"
+                        update=":SolicitudNuevaFor:detalleRubros"
+                        actionListener="#{solicitudController.calculaDetalleRubro()}" />
+        </p:contextMenu>
+        <p:dataTable id="tablaAmortizacionTbl" 
+                     value="#{solicitudController.itemsTablaAmortizacion}"
+                     var="itemTablaAmortizacion"    
+                     rows="4"
+                     paginator="true"
+                     rowKey="#{itemTablaAmortizacion.tablaAmortizacionPK}"                    
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}" 
+                     selection="#{solicitudController.cuotaSeleccionada}"
+                     selectionMode="single"
+                     >
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TablaAmortizacion}"/>
+            </f:facet>
+
+            <p:columnGroup type="header">
+
+                <p:row>
+                    <p:column headerText="#{propiedadesEtiquetaBL.Cuota}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.FechaInicio}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.FechaPago}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.SaldoCapital}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.Capital}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.Interes}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.Rubros}" />
+                    <p:column headerText="#{propiedadesEtiquetaBL.Total}" />
+
+                </p:row>
+            </p:columnGroup>
+            <p:column style="text-align:  center"> 
+                <h:outputLabel value="#{itemTablaAmortizacion.tablaAmortizacionPK.cuota}"/>
+            </p:column>
+
+            <p:column style="text-align:  center">   
+                <h:outputText  value="#{itemTablaAmortizacion.fechaInicio}">
+                    <f:convertDateTime  pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.fechaPago}">
+                    <f:convertDateTime  pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.saldoCapital}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.capital}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.interes}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.rubros}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column style="text-align:  center"> 
+                <h:outputText  value="#{itemTablaAmortizacion.total}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:columnGroup type="footer">
+                <p:row>
+
+                    <p:column colspan="4" style="text-align:right" footerText="#{propiedadesEtiquetaBL.Totales}" />                    
+                    <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{solicitudController.totalCapitalCadena}" />
+                    <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{solicitudController.totalInteresCadena}" />
+                    <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{solicitudController.totalRubrosCadena}" />
+                    <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{solicitudController.totalCreditoCadena}" /> 
+
+                </p:row>
+            </p:columnGroup>
+        </p:dataTable>
+        <h:panelGrid columns="5">
+            <p:outputLabel styleClass="etiqueta" value="#{propiedadesEtiquetaBL.TotalRubrosCredito}"/>
+            <h:outputText id="totalRubrosEnCredito"  value="#{solicitudController.totalRubrosCredito}">
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+            </h:outputText>
+            <p:commandButton id="detalleRubrosCreditoBot"
+                             icon="#{propiedadesObjetosBL.IcoVer}"
+                             update=":DetalleRubrosCreditoFor,:DetalleRubrosCreditoLab"
+                             disabled="#{solicitudController.deshabilitaBotonDetalleRubrosCredito}"
+                             onclick="detalleRubrosCreditoDialog.show()"/>
+            <p:outputLabel styleClass="etiqueta" value="MONTO MAXIMO VINCULADO"/>
+            <h:outputText id="montoMaximoVinculado"  value="#{solicitudController.montoMaximoVinculado}">
+                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+            </h:outputText>
+        </h:panelGrid>
+    </p:panel>
+
+    <p:dialog widgetVar="detalleRubrosDialog" 
+              modal="true" 
+              resizable="false"                                     
+              appendTo="@(body)"
+              closeOnEscape="true" >
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.DetalleRubros}"
+                           styleClass="encabezadosDialog"/>
+        </f:facet>
+        <p:outputPanel id="detalleRubros" style="text-align:center; font-size: 10px">
+            <p:panelGrid  columns="1" rendered="true" style="font-size: 10px">
+                <p:dataTable id="detelleRubrosTbl" 
+                             value="#{solicitudController.itemsRubroTablaAmortizacionVer}"
+                             var="itemRubro"                                                          
+                             rowKey="#{itemRubro.rubroTablaAmortizacionPK}"
+                             emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}" 
+                             widgetVar="RubrosTabla">
+
+
+                    <p:column> 
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                        </f:facet>
+                        <h:outputLabel value="#{itemRubro.tipoRubroProCreMonIfi.codigoTipoRubro.nombre}"/>
+                    </p:column>
+
+                    <p:column> 
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.CalculaSobre}"/>
+                        </f:facet>
+                        <p:selectOneMenu id="calculaSobre" 
+                                         disabled="true"
+                                         value="#{itemRubro.tipoRubroProCreMonIfi.calculaSobre}">    
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.MontoTotalCredito}" itemValue="M" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.SaldoCapital}" itemValue="S" />                          
+                        </p:selectOneMenu>
+                    </p:column>
+
+                    <p:column> 
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemRubro.tipoRubroProCreMonIfi.valor}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column> 
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Tipo}"/>
+                        </f:facet>
+                        <p:selectOneMenu id="tipo" 
+                                         value="#{itemRubro.tipoRubroProCreMonIfi.tipo}"
+                                         disabled="true">     
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.ProcentajeSimbolo}" itemValue="P" />  
+                            <f:selectItem itemLabel="#{itemRubro.tipoRubroProCreMonIfi.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.simbolo}" itemValue="V" />                                  
+                        </p:selectOneMenu>                        
+                    </p:column>
+
+                    <p:column> 
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemRubro.valor}">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:columnGroup type="footer">
+                        <p:row>
+                            <p:column colspan="4" style="text-align:right" footerText="#{propiedadesEtiquetaBL.Total}" />
+                            <p:column style="text-align: center; font-size: 12px; font-weight: bolder" footerText="#{solicitudController.totalRubroCuotaCadena}"/> 
+                        </p:row>
+                    </p:columnGroup>
+
+                </p:dataTable>
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+
+
+</ui:composition>

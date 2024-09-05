@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- Panel de Referencias de la Persona --> 
+    <p:panel id="personaReferenciaPan"  
+             header="#{propiedadesEtiquetaBL.Referencia} #{propiedadesEtiquetaBL.Persona}" 
+             style="border: 0; height: 500px; width: 700px">
+        <p:focus context="personaReferenciaPan"/>   
+        <!-- PanelGrid para Personas Naturales --> 
+        <h:panelGrid id="personaRefPerGri" columns="1" styleClass="grid">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.ReferenciaPersonal}"/>
+            </f:facet>
+            <h:panelGrid columns="7">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Nombres}" 
+                               for="nombresRefPer"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="nombresRefPer" 
+                             accesskey="N"
+                             size="30"
+                             onblur="value = value.toUpperCase()"
+                             maxlength="60"
+                             value="#{socioBean.nombresRefPer}">
+
+                    <p:ajax event="blur" 
+                            update="nombresRefPer,agregaRefPerBot" 
+                            listener="#{socioBean.buscaReferenciaPersonal()}" />
+                </p:inputText>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Telefono}" 
+                               for="telefonoRefPer"
+                               styleClass="etiquetaRequerida"/> 
+                <p:inputText id="telefonoRefPer" 
+                             accesskey="T"
+                             maxlength="10"
+                             value="#{socioBean.telefonoRefPer}">
+
+                </p:inputText>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Direccion}" 
+                               for="direccionRefPer"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="direccionRefPer" 
+                             accesskey="D"
+                             maxlength="80"
+                             size="30"
+                             onblur="value = value.toUpperCase()"
+                             value="#{socioBean.direccionRefPer}">
+
+                </p:inputText>
+                <p:commandButton id="agregaRefPerBot" 
+                                 accesskey="A"
+                                 value="#{propiedadesEtiquetaBL.Agregar}"
+                                 update="referenciaPersonalTbl,nombresRefPer,direccionRefPer,telefonoRefPer,agregaRefPerBot"
+                                 disabled="#{socioBean.deshabilitaAgregarRefPer}"
+                                 action="#{socioBean.agregaReferenciaPersonal()}"/>
+            </h:panelGrid>
+        </h:panelGrid>
+
+        <p:contextMenu for="referenciaPersonalTbl" widgetVar="cReferenciaPersonalTbl">     
+            <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}"  
+                        icon="ui-icon-trash" 
+                        action="#{socioBean.quitaReferenciaPersonal()}" 
+                        update="referenciaPersonalTbl"/>
+        </p:contextMenu>
+        <h:panelGrid style="font-size: 10px;">
+            <p:dataTable id="referenciaPersonalTbl" 
+                         value="#{socioBean.itemsReferenciaPersonal}"
+                         var="itemReferenciaPersonal"             
+                         rowKey="#{itemReferenciaPersonal.nombres}"
+                         paginator="true"                     
+                         rows="2"
+                         emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                         editable="true"                             
+                         editMode="cell"
+                         selectionMode="single"
+                         selection="#{socioBean.referenciaPersonalSel}"
+                         widgetVar="referenciaPersonalTabla">
+
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.ReferenciaPersonal}"/>                
+                </f:facet>
+
+                <p:column sortBy="#{itemReferenciaPersonal.nombres}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Nombres}"/>
+                    </f:facet>
+                    <h:outputText value="#{itemReferenciaPersonal.nombres}"/>               
+                </p:column>
+
+                <p:column sortBy="#{itemReferenciaPersonal.direccion}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Direccion}"/>
+                    </f:facet>
+                    <p:cellEditor>  
+                        <f:facet name="output">#{itemReferenciaPersonal.direccion} </f:facet>
+                        <f:facet name="input" >
+                            <p:inputText   id="direccionRefPer"                                        
+                                           value="#{itemReferenciaPersonal.direccion}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column sortBy="#{itemReferenciaPersonal.telefono}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Telefono}"/>
+                    </f:facet>
+                    <p:cellEditor>  
+                        <f:facet name="output">#{itemReferenciaPersonal.telefono} </f:facet>
+                        <f:facet name="input" >
+                            <p:inputText   id="telefonoRefPer"                                        
+                                           value="#{itemReferenciaPersonal.telefono}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>           
+
+                <p:column style="width: 50px"> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                    </f:facet>
+                    <p:cellEditor>  
+                        <f:facet name="output"> 
+                            <p:selectOneMenu id="eliminadoRefPerOut" 
+                                             value="#{itemReferenciaPersonal.eliminado}"
+                                             required="true"  disabled="true"  
+                                             style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                                                    
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="eliminadoRefPerInp" 
+                                             value="#{itemReferenciaPersonal.eliminado}"
+                                             required="true"  disabled="false" style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                                                      
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column> 
+            </p:dataTable>
+        </h:panelGrid>
+        <p:separator/>
+
+        <!-- REFERENCIAS FINANCIERAS -->
+        <h:panelGrid id="personaRefEntFinGri" columns="1" styleClass="grid">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.ReferenciaEntidadFinanciera}"/>
+            </f:facet>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.EntidadFinanciera}" 
+                               for="entFinRefEntFin"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="entFinRefEntFin" 
+                                 value="#{socioBean.referenciaEntFin.codigoEntidadFinanciera}" 
+                                 disabled="false"
+                                 filter="true" 
+                                 filterMatchMode="contains"                             
+                                 required="false">                        
+                    <f:selectItems value="#{socioBean.itemsEntidadFinanciera}"
+                                   var="entidadFinancieraItem"
+                                   itemValue="#{entidadFinancieraItem}"
+                                   itemLabel="#{entidadFinancieraItem.codigoTipoEntidad.siglas} #{entidadFinancieraItem.nombre}"
+                                   />
+                    <f:converter binding="#{entidadFinancieraConverter}"/>
+                </p:selectOneMenu> 
+            </h:panelGrid>
+            <h:panelGrid columns="4">
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoCuenta}" 
+                               for="tipoCuentaRefEntFin"
+                               styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="tipoCuentaRefEntFin" 
+                                 value="#{socioBean.referenciaEntFin.codigoTipoCuenta}"
+                                 disabled="false"
+                                 required="false">                        
+                    <f:selectItems value="#{socioBean.itemsTipoCuentaEntFin}"
+                                   var="tipCueEntFinItem"
+                                   itemValue="#{tipCueEntFinItem}"
+                                   itemLabel="#{tipCueEntFinItem.nombre}"
+                                   />
+                    <f:converter binding="#{tipoCuentaEntidadFinancieraConverter}"/>
+                </p:selectOneMenu> 
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta}" 
+                               for="cuentaRefEntFin"
+                               styleClass="etiquetaRequerida"/> 
+                <p:inputText id="cuentaRefEntFin" 
+                             accesskey="T"
+                             value="#{socioBean.cuentaRefEntFin}"/>
+            </h:panelGrid>
+            <h:panelGrid columns="3">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}" 
+                               for="observacionesRefEntFin"
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="observacionesRefEntFin" 
+                             accesskey="O"
+                             size="40"
+                             onblur="value = value.toUpperCase()"
+                             value="#{socioBean.observacionesRefEntFin}"/>
+                <p:commandButton id="agregaRefEntFinBot" 
+                                 accesskey="A"
+                                 disabled="false"
+                                 value="#{propiedadesEtiquetaBL.Agregar}"
+                                 update="referenciaEntFinTbl,entFinRefEntFin,tipoCuentaRefEntFin,cuentaRefEntFin,observacionesRefEntFin,agregaRefEntFinBot"
+                                 action="#{socioBean.agregaReferenciaEntFin()}"/>
+            </h:panelGrid>
+        </h:panelGrid>
+
+        <p:contextMenu for="referenciaEntFinTbl" widgetVar="creferenciaEntFinTbl">     
+            <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}"  
+                        icon="ui-icon-trash" action="#{socioBean.quitaReferenciaEntFin()}" 
+                        update="referenciaEntFinTbl"/>
+        </p:contextMenu>
+        <h:panelGrid style="font-size: 10px;">
+            <p:dataTable id="referenciaEntFinTbl" 
+                         value="#{socioBean.itemsReferenciaEntFin}"
+                         var="itemReferenciaEntFin"             
+                         rowKey="#{itemReferenciaEntFin.numeroCuenta}"
+                         paginator="true"                     
+                         rows="2"
+                         emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                         editable="true"
+                         editMode="cell"
+                         selectionMode="single"
+                         selection="#{socioBean.referenciaEntFinSel}"
+
+                         widgetVar="referenciaEntFinTabla">
+
+                <f:facet name="header">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.ReferenciaEntidadFinanciera}"/>                
+                </f:facet>         
+
+                <p:column sortBy="#{itemReferenciaEntFin.codigoEntidadFinanciera.nombre}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.EntidadFinanciera}"/>
+                    </f:facet>
+                    <h:outputText value="#{itemReferenciaEntFin.codigoEntidadFinanciera.nombre}"/>                
+                </p:column>
+
+                <p:column sortBy="#{itemReferenciaEntFin.codigoTipoCuenta.nombre}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Telefono}"/>
+                    </f:facet>
+                    <h:outputText value="#{itemReferenciaEntFin.codigoTipoCuenta.nombre}"/>               
+                </p:column>           
+
+                <p:column sortBy="#{itemReferenciaEntFin.numeroCuenta}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.NumeroCuenta}"/>
+                    </f:facet>
+                    <h:outputText value="#{itemReferenciaEntFin.numeroCuenta}"/>               
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Observaciones}"/>
+                    </f:facet>               
+                    <p:cellEditor>  
+                        <f:facet name="output">#{itemReferenciaEntFin.observaciones} </f:facet>
+                        <f:facet name="input" >
+                            <p:inputText   id="observacionesRefEntFinInp"                                        
+                                           value="#{itemReferenciaEntFin.observaciones}"
+                                           required="true"
+                                           requiredMessage="#{propiedadesEtiquetaBL.Observaciones} : #{propiedadesMensajesBL.CampoRequerido}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width: 50px"> 
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                    </f:facet>
+                    <p:cellEditor>  
+                        <f:facet name="output"> 
+                            <p:selectOneMenu id="eliminadoRefEntFinOut" 
+                                             value="#{itemReferenciaEntFin.eliminado}"
+                                             required="true"  disabled="true"  
+                                             style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                                                   
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="eliminadoRefEntFinInp" 
+                                             value="#{itemReferenciaEntFin.eliminado}"
+                                             required="true"  disabled="false" style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                                                     
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>  
+            </p:dataTable>
+        </h:panelGrid>
+    </p:panel>
+</ui:composition>

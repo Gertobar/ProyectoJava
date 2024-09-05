@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <p:dialog id="CarteraAsignadaCargarDlg" widgetVar="CarteraAsignadaCargarDialog" modal="true" resizable="false" appendTo="@(body)" header="#{propiedadesEtiquetaBL.CarteraAsignadaCargarArchivo}">
+        <h:form id="CarteraAsignadaCargarForm" enctype="multipart/form-data">
+            <h:panelGroup id="display">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.CarteraAsignadaDescargarPlantilla}" 
+                                   for="descargarPlantilla"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:commandLink id="descargarPlantilla" value="#{propiedadesEtiquetaBL.CarteraAsignadaPlantilla}" ajax="false" 
+                                   actionListener="#{carteraAsignadaController.generaPlantillaExcel}" >
+                        <p:fileDownload value="#{carteraAsignadaController.archivoExcel}" />
+                    </p:commandLink>
+                    
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Archivo}" 
+                                   for="archivo"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:fileUpload id="archivo"
+                                  fileUploadListener="#{carteraAsignadaController.cargaArchivo}"
+                                  mode="advanced"
+                                  dragDropSupport="true"
+                                  cancelLabel="#{propiedadesEtiquetaBL.Cancelar}" uploadLabel="#{propiedadesEtiquetaBL.Cargar}"
+                                  invalidFileMessage="#{propiedadesMensajesBL.TipoArchvivoInvalido}"
+                                  invalidSizeMessage="#{propiedadesMensajesBL.TamañoArchivoInvalido}"
+                                  multiple="false" 
+                                  sizeLimit="3000000" 
+                                  allowTypes="/(\.|\/)(xls|xlsx)$/" 
+                                  onstart="procesandoDlg.show();"                              
+                                  oncomplete="procesandoDlg.hide();"
+                                  />
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.CarteraAsignadaEstadoArchivo}" 
+                                   for="descargar"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:commandLink id="descargar" value="Descargar" ajax="false" actionListener="#{carteraAsignadaController.generaExcel}">
+                        <p:fileDownload value="#{carteraAsignadaController.archivoExcel}" />
+                    </p:commandLink>
+                </p:panelGrid>
+                <p:commandButton onclick="CarteraAsignadaCargarDialog.hide()"
+                                 value="#{propiedadesEtiquetaBL.Aceptar}" 
+                                 update=":CarteraAsignadaListForm:datalist" />                
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</ui:composition>

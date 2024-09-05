@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IngresoEgresoMonedaCreateDlg" 
+                  widgetVar="IngresoEgresoMonedaCreateDialog"
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true">
+              <f:facet name="header">
+                  <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.IngresoEgresoMoneda}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="IngresoEgresoMonedaCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;" rendered="#{ingresoEgresoMonedaController.selected != null}">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoMoneda}"
+                                       for="ingresoEgresoMonedaPK_codigoMoneda" />
+                        <p:inputText id="ingresoEgresoMonedaPK_codigoMoneda" 
+                                     value="#{ingresoEgresoMonedaController.selected.ingresoEgresoMonedaPK.codigoMoneda}"
+                                     title="#{propiedadesEtiquetaBL.CodigoMoneda}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoMoneda}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Mostrar}" for="mostrar" />
+                        <p:inputText id="mostrar" value="#{ingresoEgresoMonedaController.selected.mostrar}"
+                                     title="#{propiedadesEtiquetaBL.Mostrar}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Mostrar}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{ingresoEgresoMonedaController.selected.registradoPor}"
+                                     title="#{propiedadesEtiquetaBL.RegistradoPor}"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" 
+                                    value="#{ingresoEgresoMonedaController.selected.fechaRegistro}" 
+                                    title="#{propiedadesEtiquetaBL.FechaRegistro}" 
+                                    required="true" 
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}" 
+                                    showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{ingresoEgresoMonedaController.selected.eliminado}"
+                                     title="#{propiedadesEtiquetaBL.CreateIngresoEgresoMonedaTitle_eliminado}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Eliminado}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.IngresoEgreso}" for="ingresoEgreso" />
+                        <p:selectOneMenu id="ingresoEgreso" value="#{ingresoEgresoMonedaController.selected.ingresoEgreso}"
+                                         required="true" requiredMessage="#{propiedadesEtiquetaBL.IngresoEgreso}">
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.SelectOneMessage}"/>
+                            <f:selectItems value="#{ingresoEgresoController.items}"
+                                           var="ingresoEgresoItem"
+                                           itemValue="#{ingresoEgresoItem}"
+                                           itemLabel="#{ingresoEgresoItem.descripcion.toString()}"
+                                           />
+                            <f:converter binding="#{ingresoEgresoConverter}"/>
+                        </p:selectOneMenu>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{ingresoEgresoMonedaController.saveNew}"
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:IngresoEgresoMonedaListForm:datalist,:mensaje"
+                                             oncomplete="handleSubmit(xhr,status,args,IngresoEgresoMonedaCreateDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                   
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

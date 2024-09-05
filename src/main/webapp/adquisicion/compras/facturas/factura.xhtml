@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+
+PARA INGRESAR LAS COMPRAS  CON LOS PREVEEDORES EXISTENTES
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FacturaDlg"
+                  widgetVar="FacturaDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  style="height: 700px; width: 700px"
+                  closeOnEscape="true"
+                  >
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Compras}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <p:growl id="growl" autoUpdate="true" showSummary="false" showDetail="true" life="4000" />
+
+
+            <h:form id="FacturaForm">
+
+                <h:panelGroup id="panelTrabajo"  style="font-size: 10px; margin-top: 0px;">
+
+
+                    <h:panelGrid columns="4">      
+
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.FacturaCabeceraCompra}"
+                                           styleClass="encabezadosDialog"/>
+                            <p:separator/>
+                        </f:facet>
+
+
+
+                        <h:panelGrid id="cabeceraCompra" columns="1"
+                                     columnClasses="label, value" styleClass="grid" style="text-align: left">
+
+                            <p:focus context="panelCabeceraDatosProveedor"/>   
+
+                            <p:panel id="panelCabeceraDatosProveedor">
+                                <h:panelGrid  columns="3" 
+                                              columnClasses="label, value" styleClass="grid" style="text-align: left">  
+
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.FacturaCabeceraDatosProveedorCompra}"/>
+                                        <p:separator/>
+                                    </f:facet>
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorCodigo}"/>
+                                    <h:inputText id="comprasProveedorCodigoProveedor"     
+                                                 value="#{facturaBean.criterioRepresentante}" 
+                                                 style="text-align:  right; width: 70px;"
+                                                 onblur="value = value.toUpperCase()" 
+                                                 size="15">
+
+                                        <p:ajax event="keyup" 
+                                                listener="#{facturaBean.obtieneProveedorDatos()}" 
+                                                update="comprasProveedorRepresentante,comprasProveedorCiRuc,comprasProveedorDireccion, comprasProveedorRise,comprasProveedorRetieneIva"/>
+                                    </h:inputText> 
+
+
+                                    <p:commandButton id="comprasProveedorBuscar" 
+                                                     value="#{propiedadesEtiquetaBL.Buscar}"
+                                                     icon="#{propiedadesObjetosBL.IcoVer}" 
+                                                     onclick="procesandoDlg.show()"
+                                                     update=":ListaProveedoresDetalle,:barraForm"
+                                                     actionListener="#{facturaBean.preparaFactura}"
+                                                     oncomplete="procesandoDlg.hide();ListaProveedoresDetalleDialog.show();"
+                                                     />
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorRepresentante}" 
+                                                   />
+                                    <h:inputText id="comprasProveedorRepresentante"     
+                                                 readonly="true"
+                                                 value="#{facturaBean.nombreProevedorCompleto}"
+                                                 size="50"
+                                                 style="text-align:  right">
+                                    </h:inputText> 
+
+                                    <p:outputLabel value=""/> 
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorCIRUC}" 
+                                                   />
+                                    <h:inputText id="comprasProveedorCiRuc"     
+                                                 readonly="true"
+                                                 value="#{facturaBean.ciRucProveedor}"
+                                                 style="text-align:  right">
+                                    </h:inputText>
+                                    <p:outputLabel value=""/> 
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorDireccion}"  
+                                                   />
+                                    <h:inputText id="comprasProveedorDireccion"     
+                                                 readonly="true"
+                                                 value="#{facturaBean.comprasDireccionProveedor}"
+                                                 style="text-align:  right">
+                                    </h:inputText>                                                                         
+                                    <p:outputLabel value=""/> 
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorTieneRise}" 
+                                                   />
+
+                                    <p:selectOneMenu id="comprasProveedorRise" 
+                                                     value="#{facturaBean.estadoRiseProveedor}"
+                                                     disabled="true" style="width: 50px"
+                                                     requiredMessage="#{propiedadesEtiquetaBL.DatosFacturaProveedorTieneRise} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                        <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                        <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                                    </p:selectOneMenu> 
+
+                                    <p:outputLabel value=""/> 
+
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaProveedorRetieneIva}" 
+                                                   />
+
+                                    <p:selectOneMenu id="comprasProveedorRetieneIva" 
+                                                     value="#{facturaBean.estadoRetieneIvaProveedor}"
+                                                     disabled="true" style="width: 50px"
+                                                     requiredMessage="#{propiedadesEtiquetaBL.DatosFacturaProveedorRetieneIva} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                        <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                        <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                                    </p:selectOneMenu>    
+
+                                    <p:outputLabel value=""/> 
+
+
+                                </h:panelGrid>
+                            </p:panel>
+
+
+
+                        </h:panelGrid>  
+
+
+                        <h:panelGrid  columns="1" 
+                                      columnClasses="label, value" styleClass="grid" style="text-align: left">
+
+
+                            <p:panel id="panelCabeceraDatosCompra">
+
+
+
+
+                                <h:panelGrid  columns="3">
+
+                                    <f:facet name="header">
+                                        <h:outputText value="#{propiedadesEtiquetaBL.FacturaCabeceraDatosCompra}"/>
+                                        <p:separator/>
+                                    </f:facet>
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaDatosGeneralesCodSustento}" 
+                                                   styleClass="etiquetaRequerida"/>
+                                    <p:selectOneMenu id="sustentoTrib" 
+                                                     value="#{facturaBean.sustentoTributario}" 
+                                                     style="width: 250px;"
+                                                     required="true"
+                                                     filter="true" 
+                                                     filterMatchMode="contains" 
+                                                     requiredMessage="#{propiedadesEtiquetaBL.DatosFacturaDatosGeneralesCodSustento} - #{propiedadesMensajesBL.CampoRequerido}">
+                                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                        <f:selectItems value="#{facturaBean.itemsSustTributario}"
+                                                       var="itemSustentoTributario"
+                                                       itemValue="#{itemSustentoTributario}"
+                                                       itemLabel="#{itemSustentoTributario.nombre.toString()}"
+                                                       />                   
+                                        <p:ajax event="change" listener="#{facturaBean.cambiaCodigoSustento()}" update="tipocomprobante,facturaElectronica"/>
+                                        <f:converter binding="#{sustentoTributarioConverter}"/>
+                                    </p:selectOneMenu>                                      
+                                    <h:message for="sustentoTrib"  styleClass="invalido"/>
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.FacturaElectronica}" 
+                                                   styleClass="etiquetaRequerida"
+                                                   />
+
+                                    <p:selectOneMenu id="facturaElectronica" 
+                                                     value="#{facturaBean.esFacturaElectronica}"
+                                                     disabled="false" style="width: 50px"
+                                                     requiredMessage="#{propiedadesEtiquetaBL.FacturaElectronica} : #{propiedadesMensajesBL.CampoRequerido}">    
+                                        <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                        <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                                        <p:ajax  event="change" update="facturaElectronica,tipocomprobante,menuGrupoArticulo" listener="#{facturaBean.cambiaEsFacturaElentronica()}"/>
+                                    </p:selectOneMenu>    
+                                    <h:message for="facturaElectronica"  styleClass="invalido"/> 
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.TipoComprobante}"                                                            
+                                                   styleClass="etiquetaRequerida"/>
+
+                                    <p:selectOneMenu id="tipocomprobante" 
+                                                     value="#{facturaBean.ubicaTipoComprobanteCompra}" 
+                                                     required="true"
+                                                     filter="true" 
+                                                     filterMatchMode="contains" 
+                                                     requiredMessage="#{propiedadesEtiquetaBL.TipoComprobante} - #{propiedadesMensajesBL.CampoRequerido}">
+                                        <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                        <f:selectItems value="#{facturaBean.itemsTipoComprobanteCompras}"
+                                                       var="itemTipoComprobante"
+                                                       itemValue="#{itemTipoComprobante}"
+                                                       itemLabel="#{itemTipoComprobante.nombre.toString()}"
+                                                       />             
+                                        <p:ajax event="change" update="tipocomprobante,menuGrupoArticulo"/>
+                                        <f:converter binding="#{tipoComprobanteCompraConverter}"/>
+                                    </p:selectOneMenu>                                      
+                                    <h:message for="tipocomprobante"  styleClass="invalido"/>   
+
+
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaNumeroFactura}"  
+                                                   styleClass="etiquetaRequerida"/>
+
+                                    <h:panelGrid  columns="3">  
+                                        <h:inputText id="comprasNumUnoFact"
+                                                     value="#{facturaBean.serieParteUno}"
+                                                     required="true"
+                                                     style="text-align:  right; width: 20px;">
+                                            <p:ajax event="blur" 
+                                                    listener="#{facturaBean.verificoDatos()}" />
+                                        </h:inputText> 
+
+                                        <h:inputText id="comprasNumDosFact"     
+                                                     value="#{facturaBean.serieParteDos}"                                                     
+                                                     required="true"
+                                                     style="text-align:  right; width: 20px;">
+
+                                            <p:ajax event="blur" 
+                                                    listener="#{facturaBean.verificoDatos()}" />
+                                        </h:inputText> 
+
+
+                                        <h:inputText id="comprasNumTresFactura"     
+                                                     value="#{facturaBean.serieParteTres}"                                                     
+                                                     required="true"
+                                                     style="text-align:  right">
+
+                                            <p:ajax event="blur" 
+                                                    listener="#{facturaBean.verificoDatosComprobanteExitentes()}" 
+                                                    update="menuGrupoArticulo,comprasNumTresFactura, autorizacionSri"/>
+
+                                        </h:inputText> 
+
+                                    </h:panelGrid>
+
+                                </h:panelGrid>
+
+                                <h:panelGrid  columns="3">
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.AutorizacionSri}" 
+                                                   styleClass="etiqueta"
+                                                   for="autorizacionSri"
+                                                   />
+                                    <p:inputText id="autorizacionSri"
+                                                 value="#{facturaBean.autorizacionElectronica}"
+                                                 size="40"
+                                                 required="false"
+                                                 requiredMessage="#{propiedadesEtiquetaBL.AutorizacionSri} : #{propiedadesMensajesBL.CampoRequerido}"                                                
+                                                 />
+                                    <h:message for="autorizacionSri" styleClass="invalido" />
+
+                                    <p:outputLabel value="#{propiedadesEtiquetaBL.DatosFacturaFechaFactura}" 
+                                                   styleClass="etiquetaRequerida"
+                                                   />
+                                    <p:calendar  value="#{facturaBean.fechaIngresoFactura}"
+                                                 pattern="dd/MM/yyyy"
+                                                 id="fechaIngresoFactura" 
+                                                 size="13"
+                                                 locale="es"
+                                                 mindate="#{facturaBean.fechaMimina}"
+                                                 maxdate="#{facturaBean.fechaMaxima}"
+                                                 required="true"
+                                                 requiredMessage="#{propiedadesEtiquetaBL.DatosFacturaFechaFactura} - #{propiedadesMensajesBL.CampoRequerido}">        
+                                        <p:ajax event="change" listener="#{facturaBean.validaFechaFactura()}" update="menuGrupoArticulo,:mensaje,:growl"/>
+                                        <p:ajax event="dateSelect" listener="#{facturaBean.validaFechaFactura()}" update="menuGrupoArticulo,:mensaje,:growl"/>
+                                    </p:calendar> 
+                                    <h:message for="fechaIngresoFactura" styleClass="invalido" />
+
+
+                                </h:panelGrid>  
+
+
+
+                            </p:panel>
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <p:separator/>
+
+
+                    <h:panelGrid id="detallesCompra" columns="1">            
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.DetalleCompras}"/>
+                        </f:facet>
+
+                        <h:panelGrid columns="10">
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.NombreArticulotF}" 
+                                           for="menuGrupoArticulo"
+                                           styleClass="etiquetaRequerida"/>
+                            <p:selectOneMenu id="menuGrupoArticulo" 
+                                             value="#{facturaBean.grupoArticulo}" 
+                                             style=" width: 160px;"
+                                             required="false"
+                                             filter="true" 
+                                             requiredMessage="#{propiedadesEtiquetaBL.GrupoArticulo} - #{propiedadesMensajesBL.CampoRequerido}">
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItems value="#{facturaBean.itemsCuentaGrupoArticulo}"
+                                               var="itemGrupoArticulo"
+                                               itemValue="#{itemGrupoArticulo.grupoArticulo}"
+                                               itemLabel="#{itemGrupoArticulo.grupoArticulo.nombre.toString()}      #{itemGrupoArticulo.planDeCuenta.planDeCuentaPK.cuentaContable}"
+                                               />
+                                <f:converter binding="#{grupoArticuloConverter}"/>
+                                <p:ajax event="change" 
+                                        listener="#{facturaBean.cambioCriterioComboGrupo()}" 
+                                        update="agregaDetallesCompras"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.Detalle}" 
+                                           for="comprasDetalleArticulo"
+                                           styleClass="etiquetaRequerida"/>
+
+                            <p:inputText id="comprasDetalleArticulo"     
+                                         required="false"
+                                         size="55"
+                                         maxlength="55"
+                                         onblur="value = value.toUpperCase()"
+                                         value="#{facturaBean.detalleArticulo}"
+                                         />
+
+
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.GravaIva}" 
+                                           for="comprasGravaIva"
+                                           styleClass="etiquetaRequerida"/>
+
+
+                            <p:selectOneMenu id="comprasGravaIva" 
+                                             value="#{facturaBean.gravaIvafact}"
+                                             required="false"  disabled="false" style="width: 50px"
+                                             requiredMessage="#{propiedadesEtiquetaBL.GravaIva} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                                <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />  
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.SubTotal}" 
+                                           for="comprasSubtotalArticulo"
+                                           styleClass="etiquetaRequerida"/>
+
+                            <p:inputText id="comprasSubtotalArticulo"     
+                                         required="false"
+                                         value="#{facturaBean.subtotalArticulo}"
+                                         size="8"
+                                         style="text-align:  right">
+                                <p:ajax event="blur" update="comprasSubtotalArticulo"/>
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            </p:inputText>
+                            <p:commandButton id="agregaDetallesCompras" 
+                                             value="#{propiedadesEtiquetaBL.Agregar}" 
+                                             update="compraDetalleTbl, comprasSubtotal,comprasSubtotalIvaCero,
+                                             comprasSubtotalIva, compraDescuento, comprasIva, comprasTotal, 
+                                             comprasGuardoFactura, menuGrupoArticulo, comprasSubtotalArticulo,
+                                             comprasGravaIva, comprasDetalleArticulo"
+                                             disabled="#{!facturaBean.banderaComboGrupo}"
+                                             action="#{facturaBean.agregaDetalleCompra()}"/>
+
+                        </h:panelGrid>
+
+
+                    </h:panelGrid>
+
+                    <p:separator/>
+
+                    <h:panelGrid columns="2">
+
+                        <h:panelGrid columns="1">
+                            <h:panelGrid id="detallesCompraTabla" columns="1">
+
+                                <p:panel id="panelCabeceraDatosDetallecompra">
+
+                                    <p:contextMenu for="compraDetalleTbl">     
+                                        <p:menuitem value="#{propiedadesEtiquetaBL.Quitar}" 
+                                                    icon="ui-icon-trash" 
+                                                    action="#{facturaBean.eliminaDetalleCompra()}" 
+                                                    update="compraDetalleTbl, comprasSubtotal,comprasSubtotalIvaCero,
+                                                    comprasSubtotalIva, compraDescuento, comprasIva, comprasTotal, 
+                                                    comprasGuardoFactura"/>            
+                                    </p:contextMenu>  
+
+                                    <h:panelGrid columns="1" style="font-size: 10px;">    
+
+                                        <p:dataTable id="compraDetalleTbl" 
+                                                     value="#{facturaBean.itemsCompraDetalleSel}"
+                                                     var="itemCompraDetalle"                                                          
+                                                     rowKey="#{itemCompraDetalle.codigoArticulo.codigo}"
+                                                     paginator="true"
+                                                     rows="5"
+                                                     style="width:600px;"
+                                                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                             
+                                                     editable="true"
+                                                     editMode="cell"
+                                                     selectionMode="single"
+                                                     scrollable="true"
+                                                     scrollHeight="80"
+                                                     liveScroll="true"
+                                                     selection="#{facturaBean.compraDetalleSel}"                     
+                                                     widgetVar="compraDetalleTabla">
+                                            <f:facet name="header">
+                                                <h:outputLabel value="#{propiedadesEtiquetaBL.DetalleCompras}"/>
+                                            </f:facet>
+
+                                            <p:column sortBy="#{itemCompraDetalle.codigoArticulo.nombre}" width="70" >
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.NobreArticulotTabla}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{itemCompraDetalle.codigoArticulo.nombre}"/>
+                                            </p:column>
+
+                                            <p:column sortBy="#{itemCompraDetalle.detalleArticulo}" style="width: 200px;">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.DetalleArticulo}" style="width: 120px;"/>
+                                                </f:facet>
+
+                                                <p:cellEditor>
+                                                    <f:facet name="output">#{itemCompraDetalle.detalleArticulo} </f:facet>
+                                                    <f:facet name="input" >
+                                                        <p:inputText   id="detalleArtInp"                                        
+                                                                       value="#{itemCompraDetalle.detalleArticulo}"
+                                                                       required="false"  disabled="true"
+                                                                       onblur="value = value.toUpperCase()"
+                                                                       maxlength="55"
+                                                                       size="55"/>
+                                                    </f:facet>
+                                                </p:cellEditor>
+
+                                            </p:column>
+
+
+                                            <p:column  width="30" >
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.GravaIva}"/>
+                                                </f:facet>
+                                                <p:cellEditor>  
+                                                    <f:facet name="output"> 
+                                                        <p:selectOneMenu id="comprasGravaIvaOut" 
+                                                                         value="#{itemCompraDetalle.gravaIva}"
+                                                                         required="false"  disabled="true"  
+                                                                         style="width: 50px"
+                                                                         requiredMessage="#{propiedadesEtiquetaBL.GravaIva} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                                            <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                                            <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                                                    
+                                                        </p:selectOneMenu>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:selectOneMenu id="comprasGravaIvaInp" 
+                                                                         value="#{itemCompraDetalle.gravaIva}"
+                                                                         required="false"  disabled="true"  
+                                                                         style="width: 50px"
+                                                                         requiredMessage="#{propiedadesEtiquetaBL.GravaIva} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                                                            <f:selectItem  itemValue="N" itemLabel="#{propiedadesEtiquetaBL.No}" />  
+                                                            <f:selectItem itemValue="S" itemLabel="#{propiedadesEtiquetaBL.Si}" />                                    
+                                                            <p:ajax event="change"
+                                                                    listener="#{facturaBean.modificaDetalle()}"
+                                                                    update="comprasGravaIvaInp, ivaDetalle, totalDetalle, :FacturaForm:comprasSubtotal,:FacturaForm:comprasSubtotalIvaCero,
+                                                                    :FacturaForm:comprasSubtotalIva, :FacturaForm:compraDescuento, :FacturaForm:comprasIva, :FacturaForm:comprasTotal"
+
+                                                                    />
+                                                        </p:selectOneMenu>
+                                                    </f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column sortBy="#{itemCompraDetalle.iva}"  width="40" rendered="true">
+
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.Iva}"/>
+                                                </f:facet>
+
+                                                <h:outputText id="ivaDetalle" value="#{itemCompraDetalle.iva}" >  
+                                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                                </h:outputText>
+
+                                            </p:column>      
+
+                                            <p:column sortBy="#{itemCompraDetalle.subtotal}"  width="40" rendered="true">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.SubTotal}"/>
+                                                </f:facet>
+                                                <p:cellEditor>  
+                                                    <f:facet name="output">
+                                                        <h:outputText value="#{itemCompraDetalle.subtotal}" id="subtotalDetOut">
+                                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                                        </h:outputText>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText id="subtotalDetInp"     
+                                                                     required="false"
+                                                                     disabled="true"
+                                                                     value="#{itemCompraDetalle.subtotal}"
+                                                                     size="10">
+
+                                                            <p:ajax event="change"
+                                                                    listener="#{facturaBean.modificaDetalle()}"
+                                                                    update="comprasGravaIvaInp, ivaDetalle, totalDetalle, :FacturaForm:comprasSubtotal,:FacturaForm:comprasSubtotalIvaCero,
+                                                                    :FacturaForm:comprasSubtotalIva, :FacturaForm:compraDescuento, :FacturaForm:comprasIva, :FacturaForm:comprasTotal"
+                                                                    />
+                                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                                        </p:inputText>
+                                                    </f:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <p:column sortBy="#{itemCompraDetalle.total}" width="50" rendered="true">
+                                                <f:facet name="header">
+                                                    <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                                                </f:facet>
+                                                <h:outputText value="#{itemCompraDetalle.total}" id="totalDetalle">  
+                                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                                </h:outputText>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </h:panelGrid>
+
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1">
+
+
+                            <h:panelGrid columns="2">
+                                <p:panel id="panelDetallecompraObservaciones">
+
+
+                                    <h:panelGrid id="detallesCompraTablaTotal" columns="1">
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones}"/>
+                                        <h:inputTextarea id="comprasObservaciones"     
+                                                         value="#{facturaBean.observaciones}"
+                                                         onblur="value = value.toUpperCase()" 
+                                                         cols="32" rows="3"
+                                                         >
+                                            <f:validateLength maximum="100" />
+                                        </h:inputTextarea>     
+
+                                    </h:panelGrid>
+                                </p:panel>
+
+                            </h:panelGrid>
+
+                            <h:panelGrid id="detallesCompraCalculos" columns="1">
+
+                                <p:panel id="panelCabeceraDatosDetalleCalculos">
+
+
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.SubTotal}" 
+                                                       />
+
+                                        <h:inputText id="comprasSubtotal"     
+                                                     readonly="true"
+                                                     value="#{facturaBean.subtotalCompra}"
+                                                     style="text-align:  right; width: 70px;">
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:inputText> 
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.SubTotalIvaCero}" 
+                                                       />
+                                        <h:inputText id="comprasSubtotalIvaCero"     
+                                                     readonly="true"
+                                                     value="#{facturaBean.subtotalconIvaCeroaCompra}"
+                                                     style="text-align:  right; width: 70px;">
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:inputText> 
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.SubTotalIva}"  
+                                                       />
+                                        <h:inputText id="comprasSubtotalIva"     
+                                                     readonly="true"
+                                                     value="#{facturaBean.subtotalconIvaCompra}"
+                                                     style="text-align:  right; width: 70px;">
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:inputText> 
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Descuento}" 
+                                                       />
+                                        <h:inputText id="compraDescuento"   
+                                                     required="true"
+                                                     value="#{facturaBean.descuentoCompra}"
+                                                     style="text-align:  right; width: 70px;">
+
+                                            <p:ajax event="blur" 
+                                                    listener="#{facturaBean.realizaCalculos()}" 
+                                                    update="compraDetalleTbl, comprasSubtotal,comprasSubtotalIvaCero,
+                                                    comprasSubtotalIva, compraDescuento, comprasIva, comprasTotal, 
+                                                    comprasGuardoFactura"/>
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:inputText>      
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Iva}" 
+                                                       />
+                                        <h:inputText id="comprasIva"     
+                                                     value="#{facturaBean.ivaCompra}"
+                                                     readonly="true"
+                                                     style="text-align:  right; width: 70px;">
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:inputText> 
+
+                                        <p:outputLabel value="#{propiedadesEtiquetaBL.Total}" 
+                                                       />
+                                        <h:inputText id="comprasTotal"     
+                                                     readonly="true"
+                                                     value="#{facturaBean.totalCompra}"
+                                                     style="text-align:  right; width: 70px;">
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:inputText> 
+                                    </h:panelGrid>
+
+                                </p:panel>
+
+
+                            </h:panelGrid>
+
+                            <p:commandButton id="comprasGuardoFactura" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}" 
+                                             onclick="procesandoDlg.show()"
+                                             disabled="#{!facturaBean.banderaCalcula}"
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             actionListener="#{facturaBean.guardaDatosCabeceraDetalle}"
+                                             update=":ComprasListForm:datalist"
+                                             >
+                                <f:ajax render="FacturaForm" resetValues="true"/>
+                            </p:commandButton>
+
+
+                        </h:panelGrid>
+
+                    </h:panelGrid>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

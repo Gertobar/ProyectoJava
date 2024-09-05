@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="solicitudSocios" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bcf3d67-ade1-485b-986f-1d9402d8e3f4">
+	<property name="ireport.zoom" value="1.5000000000000016"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="general" forecolor="#000000" fontName="Luxi Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true"/>
+	<style name="tituloEti" fontName="Lucida Sans" fontSize="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTituloEti" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="subTitulo" fontName="Lucida Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="ifip" fontName="Lucida Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="etiqueta" fontName="Lucida Sans" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="titulo" fontName="Lucida Sans" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#E6E6FA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFBFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFEFFF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="codigoContratoSeg" class="java.lang.Long"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/vicastoc/renafipse/unidad-tecnlogia/minkasoftware/desarrollo/minkasoftware/src/main/webapp/financiero/socios/socio/reporte/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoIfip" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT per.identificacion IDENTIFICACION,
+       per.nombre_completo,
+       ubi.nombre||', '|| TRIM(TO_CHAR(con.fecha_contrato,'DD "DE" MONTH "DE" YYYY', 'NLS_DATE_LANGUAGE=SPANISH'))      "CIUDAD",
+       peu.nombre_completo asesor,
+       replace(replace(replace(replace(replace(replace((SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 14
+                AND     codigo_fragmento                   = 9)
+                ,'$CIUDAD',ubi.nombre),'$DIAS',to_char(con.fecha_contrato,'dd')),'$MES',LOWER(trim(to_char(con.fecha_contrato,'MONTH', 'NLS_DATE_LANGUAGE=SPANISH'))))
+                ,'$ANIO',to_char(con.fecha_contrato,'yyyy')),'$SOCIO',per.nombre_completo),'$CEDULA',per.identificacion) inicio,
+                (SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 14
+                AND     codigo_fragmento                   = 5) primera,
+                (SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 14
+                AND     codigo_fragmento                   = 6) segunda,
+                (SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 14
+                AND     codigo_fragmento                   = 7) tercera,
+                (SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 14
+                AND     codigo_fragmento                   = 8) cuarta,
+               (SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 14
+                AND     codigo_fragmento                   =16) quinta,
+                (SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 14
+                AND     codigo_fragmento                   = 17) sexta,
+                (SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 14
+                AND     codigo_fragmento                   = 18) septima,
+                (SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 14
+                AND     codigo_fragmento                   = 19) octava,
+                replace(replace(replace(replace((SELECT  rfi.texto
+                FROM    mks_ifips.reporte_fragmento_ifip rfi
+                where   codigo_reporte                     = 14
+                AND     codigo_fragmento                   = 20)
+                ,'$CIUDAD',ubi.nombre),'$DIAS',to_char(con.fecha_contrato,'dd')),'$MES',LOWER(trim(to_char(con.fecha_contrato,'MONTH', 'NLS_DATE_LANGUAGE=SPANISH'))))
+                ,'$ANIO',to_char(con.fecha_contrato,'yyyy')) novena
+FROM   mks_socios.socio     soc,
+       mks_socios.persona   per,
+       mks_seguros.contrato_seguro con,
+       mks_ifips.ifip_agencia ifa,
+       mks_comunes.ubicacion_geografica ubi,
+       mks_seguridades.usuario          usu,
+       mks_socios.persona               peu
+WHERE  soc.codigo_persona   =per.codigo
+AND    soc.codigo           =con.codigo_socio
+AND    con.codigo_ifip_agencia=ifa.codigo
+AND    ifa.codigo_ubi_geo_ciudad=ubi.codigo
+AND    con.tipo='V'
+AND    con.codigo_usuario_crea=usu.codigo
+AND    usu.codigo_persona=peu.codigo
+AND    con.codigo=$P{codigoContratoSeg}
+AND    con.codigo_ifip=$P{codigoIfip}]]>
+	</queryString>
+	<field name="IDENTIFICACION" class="java.lang.String"/>
+	<field name="NOMBRE_COMPLETO" class="java.lang.String"/>
+	<field name="CIUDAD" class="java.lang.String"/>
+	<field name="ASESOR" class="java.lang.String"/>
+	<field name="INICIO" class="java.lang.String"/>
+	<field name="PRIMERA" class="java.lang.String"/>
+	<field name="SEGUNDA" class="java.lang.String"/>
+	<field name="TERCERA" class="java.lang.String"/>
+	<field name="CUARTA" class="java.lang.String"/>
+	<field name="QUINTA" class="java.lang.String"/>
+	<field name="SEXTA" class="java.lang.String"/>
+	<field name="SEPTIMA" class="java.lang.String"/>
+	<field name="OCTAVA" class="java.lang.String"/>
+	<field name="NOVENA" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="802" splitType="Immediate">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="15" y="41" width="525" height="35" uuid="9707cf03-aab6-4534-8d1e-4b8a3931b051"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INICIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="283" y="505" width="235" height="15" uuid="afeadd98-43e5-4a8d-9acb-463c857b3c2f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE_COMPLETO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="3" width="555" height="26" uuid="fb003ecc-a0df-4c58-be05-e5bae604add9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO DE SEGUROS CONTIGO DE SALUD Y VIDA]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="15" y="96" width="525" height="20" uuid="f9a5dad1-8d81-49ad-b523-d6f96dafb9b8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRIMERA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="76" width="525" height="20" uuid="82a02138-eb0a-43ff-96d9-efffccc79fef"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[PRIMERA: ANTECEDENTES: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="116" width="525" height="20" uuid="bb562993-8ccf-4077-b1c1-70d1e42e67e0"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[SEGUNDA: OBJETO DEL CONTRATO. - ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="15" y="136" width="525" height="20" uuid="9b7ff82c-bd78-4afa-8ad9-6440038e7391"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SEGUNDA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="156" width="525" height="20" uuid="74ce24b8-0ec8-4f84-ab8c-dc2aa1b52502"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[TERCERA: CARACTERÍSTICAS DEL CONTRATO. ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="15" y="176" width="525" height="20" uuid="9bda629d-8ad6-43f5-94b6-6a4ac77390c2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TERCERA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="196" width="525" height="20" uuid="ee67ff93-8056-4290-83f0-b84648c2e724"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[CUATRA: PRECIO Y FORMA DE PAGO. - ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="15" y="216" width="525" height="20" uuid="c266d74a-8649-4d59-88c7-8e408f643c11"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUARTA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="236" width="525" height="20" uuid="a6a4873e-a1d3-4328-8230-abab220d993b"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[QUINTA: DECLARACIONES ADICIONALES. - ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="15" y="256" width="525" height="20" uuid="97cdfecb-1f3d-4087-9478-9a5587897f3c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{QUINTA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="276" width="525" height="20" uuid="b7064a2e-0e7a-4026-bc67-438620e693b6"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[SEXTA: PLAZO DEL CONTRATO. - ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="15" y="296" width="525" height="20" uuid="21b7b05a-e40c-4212-b4d8-97c8941d6279"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SEXTA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="316" width="525" height="20" uuid="140af6a3-4a51-492a-91f1-2cb8e4460643"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[SEPTIMA: TERMINACIÓN DEL CONTRATO. - ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="15" y="336" width="525" height="20" uuid="443e83ee-fc83-497d-b64d-c8bcd403f8f7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SEPTIMA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="356" width="525" height="20" uuid="c15e8238-5c67-4dd7-adcc-8b9678112817"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[OCTAVA: CONTROVERSIAS: ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="15" y="376" width="525" height="20" uuid="91ae7c60-53c5-4837-9155-0ca13f2cdd92"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OCTAVA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="396" width="525" height="20" uuid="0ce2f0f3-400d-4444-a04d-6d467be429e3"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[NOVENA: ACEPTACIÓN Y RATIFICACIÓN. ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="15" y="416" width="525" height="20" uuid="8a449009-bd17-437f-9899-f8f94c364a98"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOVENA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="283" y="520" width="235" height="15" uuid="4a08dc95-7931-41bf-a960-dfa4d5bd9ec9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IDENTIFICACION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="36" y="520" width="235" height="15" uuid="4586b91e-7080-4f87-844a-0ee4598de65a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ASESOR]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="36" y="505" width="235" height="15" uuid="e28b7ecf-83e5-4fe1-90ff-f2aa2a9f7e16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ASESOR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RolOperacionPorDefectoEditDlg" widgetVar="RolOperacionPorDefectoEditDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.EditRolOperacionPorDefectoTitle}" closeOnEscape="true">
+
+            <h:form id="RolOperacionPorDefectoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{rolOperacionPorDefectoController.selected != null}">
+
+                        <p:outputLabel value="#{myBundle.EditRolOperacionPorDefectoLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{rolOperacionPorDefectoController.selected.eliminado}" title="#{myBundle.EditRolOperacionPorDefectoTitle_eliminado}" required="true" requiredMessage="#{myBundle.EditRolOperacionPorDefectoRequiredMessage_eliminado}"/>
+
+                        <h:outputLabel value="#{myBundle.EditRolOperacionPorDefectoLabel_rol}" for="rol" />
+                        <h:outputText id="rol" value="#{rolOperacionPorDefectoController.selected.rol}" />
+
+                        <h:outputLabel value="#{myBundle.EditRolOperacionPorDefectoLabel_operacion}" for="operacion" />
+                        <h:outputText id="operacion" value="#{rolOperacionPorDefectoController.selected.operacion}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rolOperacionPorDefectoController.save}" value="#{myBundle.Save}" update="display,:RolOperacionPorDefectoListForm:datalist,:mensaje" oncomplete="handleSubmit(xhr,status,args,RolOperacionPorDefectoEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="RolOperacionPorDefectoEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

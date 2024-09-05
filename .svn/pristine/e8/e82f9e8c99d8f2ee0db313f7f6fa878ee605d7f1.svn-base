@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="9">           
+ 
+
+            <p:panel id="panelBusquedaFecha"
+                     style="border: transparent">
+                <h:panelGrid columns="2">
+
+ 
+                    
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.FechaCorte}" styleClass="etiquetaRequerida"/>
+                    <p:calendar  value="#{anexoTransaccionalBean.fechaPeriodo}"
+                                 pattern="dd/MM/yyyy"
+                                 id="fechaPerBusqueda" 
+                                 size="15"
+                                 locale="es"       > 
+                        
+                        <p:ajax event="dateSelect" listener="#{anexoTransaccionalBean.reciboFecha}"/>
+                        
+                    </p:calendar>
+                </h:panelGrid>
+
+            </p:panel>
+
+        </h:panelGrid>
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

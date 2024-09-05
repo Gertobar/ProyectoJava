@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="lineaCreditoSolicitudListForm">
+        <p:dataTable id="listaLineas" 
+                     value="#{lineaCreditoSolicitudController.listaLineaCreditoSolicitud}"
+                     var="item"
+                     selectionMode="single"
+                     selection="#{lineaCreditoSolicitudController.lineaCreditoSolicitud}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="6"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Solicitudes} #{propiedadesEtiquetaBL.LineaCredito}"/>
+            </f:facet>
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot,:barraForm:editarBot,:barraForm:imprimirBot,:barraForm:imprimirPagareBot,:barraForm:imprimirSolicitudBot,:barraForm:imprimirInformeBot" listener="#{lineaCreditoSolicitudController.onRowSelect}"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot,:barraForm:editarBot,:barraForm:imprimirBot,:barraForm:imprimirPagareBot,:barraForm:imprimirSolicitudBot,:barraForm:imprimirInformeBot" listener="#{lineaCreditoSolicitudController.onRowUnselect}"/>
+            <p:column sortBy="#{item.codigo}" style="width:  10px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Numero}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}"/>
+            </p:column>            
+            <p:column sortBy="#{item.lineaCredito.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                </f:facet>
+                <h:outputText value="#{item.lineaCredito.nombre}"/>
+            </p:column>
+            <p:column sortBy="#{item.lineaCredito.codigoProducto.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Producto}"/>
+                </f:facet>
+                <h:outputText value="#{item.lineaCredito.codigoProducto.nombre}"/>
+            </p:column>
+            <p:column style="width:  50px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Monto}"/>
+                </f:facet>
+                <h:outputText value="#{item.montoLineaCredito}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaActualizacion}"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaActualizacion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+            <p:column style="width:  50px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>
+                </f:facet>
+                <h:outputText value="#{item.lineaCreditoEstadoSol.nombre}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="CarteraAsignadaListForm">
+        <p:panel header="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle}">
+            <p:dataTable id="datalist" 
+                         value="#{carteraAsignadaController.model}" 
+                         var="item"
+                         selectionMode="single"     
+                         selection="#{carteraAsignadaController.selected}"
+                         paginator="true"
+                         rowKey="#{item.codigo}"
+                         rows="6"                         
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="6,10,20"
+                         lazy="true"
+                         >
+                <p:ajax event="rowSelect"   update=":barraForm:nuevoBot,:barraForm:editarBot "/>
+                <p:ajax event="rowUnselect" update=":barraForm:nuevoBot,:barraForm:editarBot "/>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_capitalPendiente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.capitalPendiente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_interesPendiente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.interesPendiente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_moraPendiente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.moraPendiente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_rubroPendiente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rubroPendiente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_valorNotificacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorNotificacion}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_valorJudicial}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorJudicial}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_diasMora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasMora}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_vigente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.vigente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_codigoRecuperador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigoRecuperador}" converter="#{recuperadorConverter}"/>
+                </p:column>
+                <p:column>                    
+                    <f:facet name="header">                        
+                        <h:outputText value="#{propiedadesEtiquetaBL.ListCarteraAsignadaTitle_solicitud}"/>
+                    </f:facet>                    
+                    <h:outputText value="#{item.solicitud}" converter="#{solicitudConverter}"/>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+    </h:form>            
+</ui:composition>

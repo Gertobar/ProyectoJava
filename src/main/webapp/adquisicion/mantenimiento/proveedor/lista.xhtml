@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProveedorListForm">
+        <p:dataTable id="datalist" 
+                     value="#{proveedorBean.itemsProveedor}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{proveedorBean.proveedorSel}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="6"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Proveedores}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column sortBy="#{item.codigo}" style="width:  10px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Codigo}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigo}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.persona.nombreCompleto}" filterMatchMode="containts" >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CodigoPersona}"/>
+                </f:facet>
+                <h:outputText value="#{item.persona.nombreCompleto}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.codigoTipoContribuyente}" filterBy="#{item.codigoTipoContribuyente}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.CodigoTipoContribuyente}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoTipoContribuyente}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.retieneIva}" filterBy="#{item.retieneIva}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.RetieneIVA}"/>
+                </f:facet>
+                <h:outputText value="#{item.retieneIva}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.tieneRise}" filterBy="#{item.tieneRise}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.TieneRise}"/>
+                </f:facet>
+                <h:outputText value="#{item.tieneRise}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.registradoPor}" filterBy="#{item.registradoPor}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.RegistradoPor}"/>
+                </f:facet>
+                <h:outputText value="#{item.registradoPor}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.fechaRegistro}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/> 
+                </f:facet>
+                <h:outputText value="#{item.fechaRegistro}">
+                    <f:convertDateTime  pattern="dd/MM/yyyy hh:mm:ss a"      />
+                </h:outputText>
+            </p:column>
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                </p:selectOneMenu>
+            </p:column>
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.LlevaContabilidad}"/>
+                </f:facet>
+                <p:selectOneMenu id="llevaContabilidad" 
+                                 disabled="true"
+                                 value="#{item.llevaContabilidad}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+                </p:selectOneMenu>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:composition>

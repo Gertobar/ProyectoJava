@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductoIfitCreateDlg" 
+                  widgetVar="ProductoIfitCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)"
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Rubros}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="ProductoIfitCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="3" columnClasses="label, value, validator" styleClass="grid"> 
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Rubros}" 
+                                       for="codigoRubro"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoRubro" 
+                                         value="#{tipoRubroProCreMonIfiController.selected.codigoTipoRubro}" 
+                                         validator="#{tipoRubroProCreMonIfiController.validateUnicoRubProMonOrden}"
+                                         required="true" 
+                                         disabled="#{tipoRubroProCreMonIfiController.esEdicion}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Rubros} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tipoRubroProCreMonIfiController.listaTipoRubro}"
+                                           var="tipoRubroProCreMonIfiControllerListaTipoRubro"
+                                           itemValue="#{tipoRubroProCreMonIfiControllerListaTipoRubro}"
+                                           itemLabel="#{tipoRubroProCreMonIfiControllerListaTipoRubro.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{tipoRubroConverter}"/>
+                            <p:ajax event="change"></p:ajax> 
+                        </p:selectOneMenu> 
+                        <h:message for="codigoRubro" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                       for="codigoProducto"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoProducto" 
+                                         value="#{tipoRubroProCreMonIfiController.productoCredito}" 
+                                         validator="#{tipoRubroProCreMonIfiController.validateUnicoRubProMonOrden}"
+                                         required="true" 
+                                         disabled="#{tipoRubroProCreMonIfiController.esEdicion}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tipoRubroProCreMonIfiController.listaProductoCredito}"
+                                           var="tipoRubroProCreMonIfiControllerListaProductoCredito"
+                                           itemValue="#{tipoRubroProCreMonIfiControllerListaProductoCredito}"
+                                           itemLabel="#{tipoRubroProCreMonIfiControllerListaProductoCredito.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{productoCreditoConverter}"/>
+                            <p:ajax event="change"                    
+                                    listener="#{tipoRubroProCreMonIfiController.actualizaMoneda()}"
+                                    update="codigoMoneda">
+                            </p:ajax> 
+                        </p:selectOneMenu>  
+                        <h:message for="codigoProducto" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="codigoMoneda"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoMoneda" 
+                                         value="#{tipoRubroProCreMonIfiController.moneda}" 
+                                         validator="#{tipoRubroProCreMonIfiController.validateUnicoRubProMonOrden}"
+                                         required="true" 
+                                         disabled="#{tipoRubroProCreMonIfiController.esEdicion}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tipoRubroProCreMonIfiController.listaMoneda}"
+                                           var="tipoRubroProCreMonIfiControllerListaMoneda"
+                                           itemValue="#{tipoRubroProCreMonIfiControllerListaMoneda}"
+                                           itemLabel="#{tipoRubroProCreMonIfiControllerListaMoneda.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{monedaConverter}"/>
+                            <p:ajax event="change"                    
+                                    listener="#{tipoRubroProCreMonIfiController.actualizaProductoCreditoMonedaIfip()}"
+                                    update="productoAhorro,transaccion">
+                            </p:ajax> 
+                        </p:selectOneMenu> 
+                        <h:message for="codigoMoneda" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                       for="codigoIfip"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoIfip" 
+                                     value="#{tipoRubroProCreMonIfiController.ifip.nombre}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10"
+                                     disabled="true"/> 
+                        <h:message for="codigoIfip" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Tipo}" 
+                                       for="tipo"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="tipo" 
+                                         value="#{tipoRubroProCreMonIfiController.selected.tipo}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Tipo} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem  itemLabel="#{propiedadesMensajesBL.Seleccione}" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Porcentaje}" itemValue="P" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Valor}" itemValue="V" />                                  
+                        </p:selectOneMenu>
+                        <h:message for="tipo" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Valor}" 
+                                       for="codigoValor"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoValor"
+                                     value="#{tipoRubroProCreMonIfiController.selected.valor}" 
+                                     title="#{propiedadesTituloBL.Valor}"   
+                                     size="10" maxlength="10"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Valor} - #{propiedadesMensajesBL.CampoRequerido}"/>                         
+                        <h:message for="codigoValor" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CobradoEn}" 
+                                       for="cobradoEn"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="cobradoEn" 
+                                         value="#{tipoRubroProCreMonIfiController.selected.cobradoEn}"
+                                         required="true"                                          
+                                         requiredMessage="#{propiedadesEtiquetaBL.CobradoEn} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem  itemLabel="#{propiedadesMensajesBL.Seleccione}" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.ConcederCredito}" itemValue="C" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.DistribuidoTablaAmortizacion}" itemValue="D" />  
+                            <p:ajax event="change" listener="#{tipoRubroProCreMonIfiController.cambiaCobradoEn()}" update="productoAhorro,transaccion,calculadoSobre"/>
+                        </p:selectOneMenu>
+                        <h:message for="cobradoEn" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CalculaSobre}" 
+                                       for="calculadoSobre"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="calculadoSobre" 
+                                         value="#{tipoRubroProCreMonIfiController.selected.calculaSobre}"
+                                         required="true" 
+                                         disabled="#{!tipoRubroProCreMonIfiController.deshabilitaTransaccion}"
+                                         requiredMessage="#{propiedadesEtiquetaBL.CalculaSobre} - #{propiedadesMensajesBL.CampoRequerido}">           
+                            <f:selectItem  itemLabel="#{propiedadesMensajesBL.Seleccione}" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.MontoTotalCredito}" itemValue="M" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.SaldoCapital}" itemValue="S" />   
+                                
+                        </p:selectOneMenu>
+                        <h:message for="calculadoSobre" styleClass="invalido" />
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.OrdenCobro}" 
+                                       for="codigoOrdeCobro"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoOrdeCobro"
+                                     value="#{tipoRubroProCreMonIfiController.selected.ordenCobro}" 
+                                     validator="#{tipoRubroProCreMonIfiController.validateUnicoRubProMonOrden}"
+                                     title="#{propiedadesEtiquetaBL.OrdenCobro}"   
+                                     size="10" maxlength="10"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.OrdenCobro} - #{propiedadesMensajesBL.CampoRequerido}"/>
+                        <h:message for="codigoOrdeCobro" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" 
+                                       for="resgistradoPor"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:outputLabel  id="resgistradoPor" value="#{tipoRubroProCreMonIfiController.usuario.codigoPersona.nombreCompleto}"/>
+                        <h:message for="resgistradoPor" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}"
+                                       for="fechaRegistro"  styleClass="etiquetaRequerida" />
+                        <p:calendar id="fechaRegistro"
+                                    pattern="dd/MM/yyyy HH:mm:ss"
+                                    value="#{tipoRubroProCreMonIfiController.selected.fechaRegistro}"
+                                    title="#{propiedadesTituloBL.FechaRegistro}" 
+                                    required="true"
+                                    disabled="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}  -  #{propiedadesMensajesBL.CampoRequerido}" 
+                                    showOn="button"/>
+                        <h:message for="fechaRegistro" styleClass="invalido" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{tipoRubroProCreMonIfiController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>     
+                        <h:message for="eliminado" styleClass="invalido" />
+                    </p:panelGrid>
+
+                    <p:separator/>
+
+                    <p:panelGrid columns="3">
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Transaccion} #{propiedadesEtiquetaBL.Rubros}"/> 
+                        </f:facet>
+                        <!-- TRNSACCION DE DEBITO PARA EL RUBRO-->
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.ProductoAhorro}" 
+                                       for="productoAhorro"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="productoAhorro" 
+                                         disabled="#{tipoRubroProCreMonIfiController.deshabilitaTransaccion}"
+                                         value="#{tipoRubroProCreMonIfiController.productoIfip}"
+                                         filterMatchMode="contains"
+                                         >                          
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tipoRubroProCreMonIfiController.itemsProductoIfip}"
+                                           var="productoIfipItem"                                           
+                                           itemValue="#{productoIfipItem}"
+                                           itemLabel="#{productoIfipItem.producto.tipoProducto.nombre}"
+                                           />
+                            <p:ajax event="change" listener="#{tipoRubroProCreMonIfiController.cambiaProductoAhorro()}" update="transaccion"/>
+                            <f:converter binding="#{productoIfipConverter}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value=""/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Transaccion}" 
+                                       for="transaccion"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="transaccion" 
+                                         filterMatchMode="contains"
+                                         disabled="#{tipoRubroProCreMonIfiController.deshabilitaTransaccion}"
+                                         value="#{tipoRubroProCreMonIfiController.conceptoTransaccionPro}">                          
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tipoRubroProCreMonIfiController.itemsConceptoTransaccionPro}"
+                                           var="conceptoTransaccionProItem"
+                                           itemValue="#{conceptoTransaccionProItem}"
+                                           itemLabel="#{conceptoTransaccionProItem.conceptoTransaccion.nombre}"
+                                           />
+                            <f:converter binding="#{conceptoTransaccionProConverter}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value=""/>
+
+                    </p:panelGrid>
+                    <p:commandButton id="guardarBot"
+                                     actionListener="#{tipoRubroProCreMonIfiController.guardar}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:mensaje,:TipoRubroProCreMonIfiListFor,:growl,:barraForm" 
+                                     />        
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

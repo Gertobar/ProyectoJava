@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:componentes ="http://java.sun.com/jsf/composite/ezcomp">
+
+    <h:form id="MovimientoCuentaFor" >
+        <p:panel id="MovimientoCuentaPan">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.MovimientoCuentas}"/>
+            </f:facet>
+
+            <p:focus context="MovimientoCuentaPan"/>   
+
+            <h:panelGroup id="display"  style="font-size: 10px;">
+                <h:panelGrid columns="2">
+                    <h:panelGrid id="MovimientoCuentaGri"  style="font-size: 10px;" columns="3">
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" 
+                                       for="moneda"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="moneda" 
+                                         value="#{movimientoCuentaBean.moneda}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.Moneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{movimientoCuentaBean.itemsMoneda}"
+                                           var="codigoMonedaItem"
+                                           itemValue="#{codigoMonedaItem}"
+                                           itemLabel="#{codigoMonedaItem.nombre}"
+                                           />    
+                            <p:ajax event="change" listener="#{movimientoCuentaBean.cambiaMoneda()}" update="producto,cuenta,socio,transaccion,concepto,guardarBot, checkPersonaTransaccionaEtiqueta, checkPersonaTransacciona,  personaTransaccionaEtiqueta, personaTransaccionaComponenteGrilla"/>
+                            <f:converter binding="#{monedaConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="moneda"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Producto}" 
+                                       for="producto"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="producto" 
+                                         value="#{movimientoCuentaBean.productoIfip}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="contains" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Producto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{movimientoCuentaBean.itemsProductoIfip}"
+                                           var="codigoProductoIfipItem"
+                                           itemValue="#{codigoProductoIfipItem}"
+                                           itemLabel="#{codigoProductoIfipItem.producto.tipoProducto.codigo} #{codigoProductoIfipItem.producto.tipoProducto.nombre}"
+                                           />                    
+                            <p:ajax event="change" listener="#{movimientoCuentaBean.cambiaProductoIfip()}" update="cuenta,socio,transaccion,concepto,totalCheques,totalMovimiento,totalEfectivo,guardarBot, checkPersonaTransaccionaEtiqueta, checkPersonaTransacciona,  personaTransaccionaEtiqueta, personaTransaccionaComponenteGrilla"/>
+                            <f:converter binding="#{productoIfipConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="producto"  styleClass="invalido"/>                        
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Transaccion}" 
+                                       for="transaccion"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="transaccion" 
+                                         value="#{movimientoCuentaBean.transaccion}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="contains" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Transaccion} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{movimientoCuentaBean.itemsTransaccion}"
+                                           var="codigoTranaccionItem"
+                                           itemValue="#{codigoTranaccionItem}"
+                                           itemLabel="#{codigoTranaccionItem.codigo} #{codigoTranaccionItem.nombre}"
+                                           />                    
+                            <p:ajax event="change" listener="#{movimientoCuentaBean.cambiaTransaccion()}" update="concepto,desgloceBot,totalCheques,totalMovimiento,totalEfectivo,guardarBot, checkPersonaTransaccionaEtiqueta, checkPersonaTransacciona,  personaTransaccionaEtiqueta, personaTransaccionaComponenteGrilla"/>
+                            <f:converter binding="#{transaccionConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="transaccion"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Concepto}" 
+                                       for="concepto"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="concepto" 
+                                         value="#{movimientoCuentaBean.conceptoTransaccion}" 
+                                         required="true"
+                                         filter="true" 
+                                         filterMatchMode="contains" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Concepto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{movimientoCuentaBean.itemsConceptoTransaccion}"
+                                           var="codigoConceptoTranaccionItem"
+                                           itemValue="#{codigoConceptoTranaccionItem}"
+                                           itemLabel="#{codigoConceptoTranaccionItem.codigo} #{codigoConceptoTranaccionItem.nombre}"
+                                           />                    
+                            <p:ajax event="change" listener="#{movimientoCuentaBean.cambiaConceptoTransaccion()}" update="guardarBot, checkPersonaTransaccionaEtiqueta, checkPersonaTransacciona,  personaTransaccionaEtiqueta, personaTransaccionaComponenteGrilla"/>
+                            <f:converter binding="#{conceptoTransaccionConverter}"/>
+                        </p:selectOneMenu>                                      
+                        <h:message for="concepto"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Cuenta} *"
+                                       styleClass="etiquetaRequerida"
+                                       for="cuenta" />
+
+                        <h:panelGrid columns="2">
+                            <p:inputText id="cuenta" 
+                                         value="#{movimientoCuentaBean.numeroCuenta}"
+                                         size="20">
+                                <p:ajax event="blur" 
+                                        listener="#{movimientoCuentaBean.buscaCuenta()}" 
+                                        update="socio,guardarBot,:mensaje,firmatesPan,firmantesTbl,toolTipLabelSaldoDisponible,toolTipLabelSaldoBloqueado,toolTipLabelSaldoTotal,toolTipBloqueosLista"/>
+                            </p:inputText>
+                            <h:panelGrid columns="4" >
+                                <h:outputText id="labelSaldos" 
+                                              value="#{propiedadesEtiquetaBL.Ver} #{propiedadesEtiquetaBL.Saldos}" 
+                                              style="font-weight:bold !important;text-decoration:underline !important;color: blue !important;" />
+                                <p:tooltip id="toolTipSaldos" 
+                                           for="labelSaldos">
+                                    <h:panelGrid columns="2">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{propiedadesEtiquetaBL.Saldos} #{propiedadesEtiquetaBL.Cuenta}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{propiedadesEtiquetaBL.SaldoDisponible}:" />
+                                        <h:outputText id="toolTipLabelSaldoDisponible" 
+                                                      value="#{movimientoCuentaBean.cuenta.saldoDisponible}"
+                                                      style="background-color: #ADFF2F !important;font-weight:bold !important;">
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <h:outputText value="#{propiedadesEtiquetaBL.SaldoBloqueado}:" />
+                                        <h:outputText id="toolTipLabelSaldoBloqueado"
+                                                      value="#{movimientoCuentaBean.cuenta.saldoBloqueado}" 
+                                                      style="background-color: #F08080 !important;font-weight:bold !important;">
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                        <p:separator/>
+                                        <p:separator/>
+                                        <h:outputText value="#{propiedadesEtiquetaBL.SaldoTotal}:" />
+                                        <h:outputText id="toolTipLabelSaldoTotal"
+                                                      value="#{movimientoCuentaBean.cuenta.saldoTotal}"
+                                                      style="font-weight:bold !important;">
+                                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                        </h:outputText>
+                                    </h:panelGrid>
+                                </p:tooltip>
+
+                                <h:outputText id="labelBloqueos" 
+                                              value="#{propiedadesEtiquetaBL.Ver} #{propiedadesEtiquetaBL.Bloqueos}"
+                                              style="font-weight:bold !important;text-decoration:underline !important;color: #F08080 !important;" />
+                                <p:tooltip id="toolTipBloqueos" for="labelBloqueos">
+                                    <h:panelGrid columns="1">
+                                        <p:dataTable  id="toolTipBloqueosLista"
+                                                      widgetVar="bloqueosTabla"
+                                                      value="#{movimientoCuentaBean.listaBloqueoCuenta}"
+                                                      paginator="false"
+                                                      var="item"                            
+                                                      rows="10"
+                                                      style="font-size: 10px;"
+                                                      emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}">
+                                            <p:columnGroup type="header">
+                                                <p:row>
+                                                    <p:column headerText="#{propiedadesEtiquetaBL.Bloqueo} #{propiedadesEtiquetaBL.Por}"
+                                                              style="font-weight:bold !important;" />
+                                                    <p:column headerText="#{propiedadesEtiquetaBL.Valor}" 
+                                                              style="font-weight:bold !important;"/>
+                                                </p:row>
+                                            </p:columnGroup>
+                                            <p:column style="text-align: center">                        
+                                                <h:outputText value="#{item.tipoBloqueoCuenta.nombre}"/>
+                                            </p:column>
+                                            <p:column>                        
+                                                <h:outputText value="#{item.valor}"
+                                                              style="background-color: #F08080 !important;font-weight:bold !important;">
+                                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                                </h:outputText>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:panelGrid>
+                                </p:tooltip>
+                            </h:panelGrid>
+                        </h:panelGrid>
+
+                        <p:commandButton id="cuentaBot"
+                                         value="#{propiedadesEtiquetaBL.Buscar}"
+                                         update=":listaCuentaForm,:encabezadoListaCuentasLab"
+                                         actionListener="#{movimientoCuentaBean.preparaBusquedaCuentas}"
+                                         onclick="procesandoDlg.show()"                                         
+                                         oncomplete="procesandoDlg.hide();cuentaDialog.show();"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Socio} *"
+                                       styleClass="etiquetaRequerida"
+                                       for="socio" />
+                        <p:inputText id="socio" 
+                                     value="#{movimientoCuentaBean.cuenta.socio.codigoPersona.nombreCompleto}"
+                                     size="50"
+                                     readonly="true"
+                                     />                        
+                        <h:message for="cuenta"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TotalEfectivo} *" 
+                                       for="totalEfectivo"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="totalEfectivo"
+                                     widgetVar="totalEfectivoTex"                                                                          
+                                     value="#{movimientoCuentaBean.totalEfectivo}"  
+                                     styleClass="campoRequeridoValor"                                     
+                                     size="20">                            
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                            
+                            <p:ajax event="blur" listener="#{movimientoCuentaBean.calculaTotal()}" update="totalMovimiento,totalEfectivo,guardarBot,controlBilletesBot,MovimientoCuentaGri" />
+                        </p:inputText>
+                        <h:panelGrid>
+                            <h:message for="totalEfectivo"  styleClass="invalido"/>
+                            <p:commandButton id="controlBilletesBot"                                              
+                                             onclick="procesandoDlg.show()"
+                                             actionListener="#{movimientoCuentaBean.preparaDegloceCheques}"
+                                             update=":BilletesAltaDenominacionFor"
+                                             oncomplete="procesandoDlg.hide();BilletesAltaDenominacionDialog.show();"                                             
+                                             value="#{propiedadesEtiquetaBL.controlBilletesAltaDenomiacion}"/>
+                        </h:panelGrid>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TotalCheques} *" 
+                                       for="totalCheques"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="totalCheques"
+                                     value="#{movimientoCuentaBean.totalCheques}"                                     
+                                     size="20"
+                                     styleClass="campoRequeridoValor"
+                                     readonly="true">                                                                          
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                            
+                        </p:inputText>
+
+                        <p:commandButton id="desgloceBot" 
+                                         disabled="#{movimientoCuentaBean.deshabilitaBotonDesgloceCheques}"
+                                         onclick="procesandoDlg.show()"
+                                         actionListener="#{movimientoCuentaBean.preparaDegloceCheques}"
+                                         update=":EncabezadoDesgloseChequeLab,:DesgloceChequeFor"
+                                         oncomplete="procesandoDlg.hide();DesgloceChequeDialog.show();"                                         
+                                         value="#{propiedadesEtiquetaBL.Desgloce}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TotalMovimiento} *" 
+                                       for="totalMovimiento"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="totalMovimiento"
+                                     value="#{movimientoCuentaBean.totalMovimiento}"  
+                                     styleClass="campoRequeridoValor"
+                                     size="20"
+                                     readonly="true">                                     
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />                            
+                        </p:inputText>
+                        <h:message for="totalMovimiento"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Comprobante} *" 
+                                       for="comprobante"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="comprobante"
+                                     value="#{movimientoCuentaBean.comprobante}"                                     
+                                     size="30"
+                                     onblur="value = value.toUpperCase()">
+                            <p:ajax event="blur" listener="#{movimientoCuentaBean.buscaComprobante()}" update=":mensaje,guardarBot"/>
+                        </p:inputText>
+                        <h:message for="comprobante" styleClass="invalido" />
+
+                        <p:outputLabel id="checkPersonaTransaccionaEtiqueta"
+                                       value="#{propiedadesEtiquetaBL.SocioTransacciona} *"
+                                       for="checkPersonaTransacciona"
+                                       styleClass="etiquetaRequerida"
+                                       style="#{movimientoCuentaBean.visualizaPersonaTransacciona}"/>
+                        <p:selectBooleanCheckbox id ="checkPersonaTransacciona" 
+                                                 value="#{movimientoCuentaBean.socioTransacciona}"
+                                                 style="#{movimientoCuentaBean.visualizaPersonaTransacciona}">
+                            <p:ajax event="change"
+                                    update="personaTransaccionaEtiqueta, personaTransaccionaComponenteGrilla" 
+                                    listener="#{movimientoCuentaBean.cambiaPersonaTransacciona}" />
+                        </p:selectBooleanCheckbox>
+                        <h:message for="checkPersonaTransacciona" styleClass="invalido" />
+
+                        <p:outputLabel id="personaTransaccionaEtiqueta"
+                                       value="#{propiedadesEtiquetaBL.RealizadoPor} *"
+                                       for="personaTransaccionaComponente"
+                                       styleClass="etiquetaRequerida"
+                                       style="#{movimientoCuentaBean.visualizaComponetePersonaTransacciona}"/>
+                        <h:panelGrid id="personaTransaccionaComponenteGrilla" 
+                                     columns="2" 
+                                     style="#{movimientoCuentaBean.visualizaComponetePersonaTransacciona}">
+                            <componentes:componentePersonaSocio 
+                                id="personaTransaccionaComponente"
+                                buscarPersona="#{componentePersonaSocio.buscar(movimientoCuentaBean.identificacionPersonaTransacciona)}"
+                                inactivaControl="#{componentePersonaSocio.inactivaControl(false)}"
+                                vaciarControl="#{componentePersonaSocio.vaciarControl(movimientoCuentaBean.vaciarPersonaTransacciona)}">
+                            </componentes:componentePersonaSocio>
+                        </h:panelGrid>
+                        <h:message styleClass="invalido" for="personaTransaccionaComponente" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Observaciones} *" 
+                                       for="observaciones"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="observaciones"
+                                     value="#{movimientoCuentaBean.observaciones}"                                     
+                                     size="50"
+                                     onblur="value = value.toUpperCase()"
+                                     autocomplete="off">
+                            <p:ajax event="keyup" listener="#{movimientoCuentaBean.habilitaBotonGuardar()}" update="guardarBot"/>
+                        </p:inputText>
+                        <h:message for="observaciones" styleClass="invalido" />
+                    </h:panelGrid>
+                    <p:panel id="firmatesPan" visible="#{movimientoCuentaBean.verPanelFirmantes}">
+                        <f:facet name="header" >
+                            <h:outputText value="#{propiedadesEtiquetaBL.Firmantes}"
+                                          styleClass="encabezadosDialog" />
+                            <br/>
+                            <h:outputText value="#{movimientoCuentaBean.mensajeFirmantes}"
+                                          styleClass="invalido"/>
+                        </f:facet>
+                        <p:dataTable id="firmantesTbl" 
+                                     value="#{movimientoCuentaBean.itemsFirmanteCuenta}"
+                                     var="itemFirmante"                                                          
+                                     rowKey="#{itemFirmante.firmanteCuentaPK}"
+                                     paginator="true"
+                                     rows="3"
+                                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"                                                                                              
+                                     widgetVar="firmantesTabla">
+
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Firmantes}"/>
+                            </f:facet>
+
+                            <p:column sortBy="#{itemFirmante.persona.identificacion}" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemFirmante.persona.identificacion}"/>
+                            </p:column>
+
+                            <p:column sortBy="#{itemFirmante.persona.nombreCompleto}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.Nombre}"/>
+                                </f:facet>
+                                <h:outputText value="#{itemFirmante.persona.nombreCompleto}"/>
+                            </p:column>
+
+                            <p:column> 
+                                <f:facet name="header">
+                                    <h:outputText value="#{propiedadesEtiquetaBL.TipoRelacion}"/>
+                                </f:facet>
+                                #{itemFirmante.tipoRelacion.nombre}
+                            </p:column>
+
+                        </p:dataTable>                  
+
+                    </p:panel>
+                </h:panelGrid>
+
+                <p:commandButton id="guardarBot"                                      
+                                 disabled="#{movimientoCuentaBean.deshabilitaBotonGuardar}"
+                                 value="#{propiedadesEtiquetaBL.Guardar}"
+                                 icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                 actionListener="#{movimientoCuentaBean.guardaMovimiento}"
+                                 onclick="procesandoDlg.show()"
+                                 update="guardarBot,:mensaje,:ComprobanteFor,:impresionLab,:FormularioLicitudFondosForm,:componenteBoletoForm"
+                                 oncomplete="procesandoDlg.hide(), PF('boletosDialog').show();"/>
+            </h:panelGroup>
+
+        </p:panel>  
+    </h:form>
+
+</ui:composition>

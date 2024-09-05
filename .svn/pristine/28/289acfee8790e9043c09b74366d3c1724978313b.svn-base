@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AhorroTasaInteresIfipEditDlg" 
+                  widgetVar="AhorroTasaInteresIfipEditDialog" 
+                  modal="true" resizable="false" 
+                 appendTo="@(body)"
+                  closeOnEscape="true">
+            
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.AhorroTasaInteresIfip}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>  
+
+            <h:form id="AhorroTasaInteresIfipEditForm">
+
+                <h:panelGroup  id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="2" rendered="#{ahorroTasaInteresIfipController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{ahorroTasaInteresIfipController.selected.codigo}" />
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Ifip}" for="codigoIfip" />
+                                             
+                         <p:selectOneMenu id="codigoIfip" 
+                                          value="#{ahorroTasaInteresIfipController.selected.codigoIfip}" 
+                                         required="true"
+                                         
+                                         requiredMessage="#{propiedadesEtiquetaBL.Ifip}">
+                        
+                             <f:selectItems value="#{ahorroTasaInteresIfipController.itemsIfipAhorroTasaInteres}"
+                                           var="ifipAhorroInteres"
+                                           itemValue="#{ifipAhorroInteres}"
+                                           itemLabel="#{ifipAhorroInteres.nombre.toString()}"
+                                           />
+                             <f:converter binding="#{ifipConverter}"/>
+                        </p:selectOneMenu>
+                        
+                        
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" for="registradaPor" />
+                        <p:selectOneMenu id="registradaPor" 
+                                         value="#{ahorroTasaInteresIfipController.selected.registradaPor}"
+                                          required="true" 
+                                          disabled="true"
+                                          requiredMessage="#{propiedadesEtiquetaBL.RegistradaPor}">
+                            
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="registradaPorItem"
+                                           itemValue="#{registradaPorItem}"
+                                           itemLabel="#{registradaPorItem.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Valor}" for="valor" />
+                        <p:inputText id="valor" value="#{ahorroTasaInteresIfipController.selected.valor}" 
+                                     title="#{propiedadesEtiquetaBL.Valor}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.Valor}"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss"
+                                    value="#{ahorroTasaInteresIfipController.selected.fechaRegistro}" 
+                                    title="#{propiedadesEtiquetaBL.FechaRegistro}" 
+                                    required="true"
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}" showOn="button"/>
+
+                       
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado"
+                                       styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                    <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />  
+
+                </p:selectOneMenu>
+            
+                  
+                   <f:facet name="footer">
+                       <p:commandButton actionListener="#{ahorroTasaInteresIfipController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:AhorroTasaInteresIfipListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,AhorroTasaInteresIfipEditDialog);"/>
+                        </f:facet>
+                  </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TasaInteresProductoIfipCreateDlg" 
+                        widgetVar="TasaInteresProductoIfipCreateDialog"
+                  modal="true" resizable="false" 
+                appendTo="@(body)"
+                  closeOnEscape="true">
+           
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.TasaInteresProductoIfip}"
+                                styleClass="encabezadosDialog"/>
+            </f:facet>
+            
+
+            <h:form id="TasaInteresProductoIfipCreateForm">
+
+                <h:panelGroup  id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+                        
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoMoneda}" 
+                                       for="codigoMoneda"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoMoneda" 
+                                         value="#{tasaInteresProductoIfipController.moneda}" 
+                                         
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.CodigoMoneda} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tasaInteresProductoIfipController.listaMoneda}"
+                                           var="tasaInteresProductoIfipControllerListaMoneda"
+                                           itemValue="#{tasaInteresProductoIfipControllerListaMoneda}"
+                                           itemLabel="#{tasaInteresProductoIfipControllerListaMoneda.nombre}"
+                                           />
+                            <f:converter binding="#{monedaConverter}"/>
+                            <p:ajax event="change"                    
+                                    listener="#{tasaInteresProductoIfipController.actualizarMoneda()}"
+                                    update="codigoProducto">
+                            </p:ajax> 
+                        </p:selectOneMenu>
+                        
+                            <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoTipoProducto}" 
+                                       for="codigoProducto"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoProducto" 
+                                         value="#{tasaInteresProductoIfipController.tipoProducto}" 
+                                        
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.CodigoTipoProducto} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tasaInteresProductoIfipController.listaTipoProducto}"
+                                           var="tasaInteresProductoIfipControllerListaTipoProducto"
+                                           itemValue="#{tasaInteresProductoIfipControllerListaTipoProducto}"
+                                           itemLabel="#{tasaInteresProductoIfipControllerListaTipoProducto.nombre}"
+                                           />
+                            <f:converter binding="#{tipoProductoConverter}"/>
+                         
+                        </p:selectOneMenu>
+                            
+                                 <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                                       for="codigoIfip"  styleClass="etiquetaRequerida"/>
+                        <p:inputText id="codigoIfip" 
+                                     value="#{tasaInteresProductoIfipController.ifip.nombre}" 
+                                     title="#{propiedadesTituloBL.CodigoIfip}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"  
+                                     size="10" maxlength="10"
+                                     disabled="true"/>
+      <p:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" for="codigoTasaInteres"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoTasaInteres" 
+                                         value="#{tasaInteresProductoIfipController.selected.codigoTasaInteres}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Tasa}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{ahorroTasaInteresIfipController.items}"
+                                           var="codigoTasaInteresItem"
+                                           itemValue="#{codigoTasaInteresItem}"
+                                           itemLabel="#{codigoTasaInteresItem.valor.toString()}"
+                                           />
+                            <f:converter binding="#{ahorroTasaInteresIfipConverter}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RangoInicial}" for="rangoInicial"
+                                       styleClass="etiquetaRequerida"/>
+                        
+                        <p:inputText id="rangoInicial" 
+                                     value="#{tasaInteresProductoIfipController.selected.rangoInicial}"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.RangoInicial}">
+                             
+                        
+                        </p:inputText>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RangoFinal}" for="rangoFinal"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="rangoFinal" 
+                                     value="#{tasaInteresProductoIfipController.selected.rangoFinal}"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.RangoFinal}"  >  
+                                       
+                   <p:ajax event="blur"
+                           listener="#{tasaInteresProductoIfipController.validaRango()}"
+                                           />
+                              </p:inputText>       
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaRegistro}" for="fechaRegistro"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" 
+                                    value="#{tasaInteresProductoIfipController.selected.fechaRegistro}" 
+                                    required="true" 
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaRegistro}" showOn="button"/>
+
+                        
+                 
+                  
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RegistradoPor}" 
+                                       for="asignadoPor"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="asignadoPor" 
+                                         value="#{tasaInteresProductoIfipController.selected.registradoPor}"                                  
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.RegistradaPor} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         disabled="true">                                                    
+                            <f:selectItem  itemValue="#{usuarioController.usuario}"
+                                           itemLabel="#{usuarioController.usuario.username.toString()}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>                    
+                        </p:selectOneMenu>  
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}"
+                                       for="eliminado"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{tasaInteresProductoIfipController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado}: #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton 
+                        actionListener="#{tasaInteresProductoIfipController.guardar}" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update="display,:TasaInteresProductoIfipListForm:datalist,:mensaje" 
+                                     oncomplete="handleSubmit(xhr,status,args,TasaInteresProductoIfipCreateDialog);"></p:commandButton>   
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

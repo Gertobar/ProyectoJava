@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoProtestoChequeCreateDlg" widgetVar="TipoProtestoChequeCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateTipoProtestoChequeTitle}" closeOnEscape="true">
+
+            <h:form id="TipoProtestoChequeCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateTipoProtestoChequeLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoProtestoChequeController.selected.nombre}" title="#{myBundle.CreateTipoProtestoChequeTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateTipoProtestoChequeRequiredMessage_nombre}" size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoProtestoChequeLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{tipoProtestoChequeController.selected.descripcion}" title="#{myBundle.CreateTipoProtestoChequeTitle_descripcion}" required="true" requiredMessage="#{myBundle.CreateTipoProtestoChequeRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoProtestoChequeLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{tipoProtestoChequeController.selected.eliminado}" title="#{myBundle.CreateTipoProtestoChequeTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateTipoProtestoChequeRequiredMessage_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoProtestoChequeController.saveNew}" value="#{myBundle.Save}" update="display,:TipoProtestoChequeListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TipoProtestoChequeCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="TipoProtestoChequeCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

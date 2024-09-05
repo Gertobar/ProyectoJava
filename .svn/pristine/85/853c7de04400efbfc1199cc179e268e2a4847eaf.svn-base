@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IfipAgenciaEditDlg" 
+                  widgetVar="IfipAgenciaEditDialog"
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Edicion} #{propiedadesEtiquetaBL.IfipAgencia}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>     
+
+
+            <h:form id="IfipAgenciaEditForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid  columns="3" rendered="#{ifipAgenciaController.selected != null}">
+
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}" for="codigo" />
+                        <h:outputText id="codigo" value="#{ifipAgenciaController.selected.codigo}" />
+                        <h:message for="codigo"  styleClass="invalido"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Pais}" 
+                                       for="codigoUbiGeoPai"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:selectOneMenu id="codigoUbiGeoPai" 
+                                         value="#{ifipAgenciaController.ubiGeoPai}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Pais} - #{propiedadesMensajesBL.CampoRequerido}"
+                                         >    
+                          
+                            <f:selectItems value="#{ifipAgenciaController.itemsUbiGeoPai}"
+                                           var="UbiGeoPaiItem"
+                                           itemValue="#{UbiGeoPaiItem}"
+                                           itemLabel="#{UbiGeoPaiItem.nombre}"
+                                           />
+                         <p:ajax update="codigoUbiGeoPro,codigoUbiGeoCiu,codigoUbiGeoPar"  
+                                    listener="#{ifipAgenciaController.cambiaUbiGeoPai()}" /> 
+                            <f:converter binding="#{ubicacionGeograficaConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoUbiGeoPai"  styleClass="invalido"/>
+
+                        
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Provincia}" 
+                                       for="codigoUbiGeoPro"
+                                       styleClass="etiquetaRequerida"/>
+                        
+                        <p:selectOneMenu id="codigoUbiGeoPro" 
+                                         value="#{ifipAgenciaController.ubiGeoPro}" 
+                                         required="false" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Provincia} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                           <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                              <f:selectItems value="#{ifipAgenciaController.itemsUbiGeoPro}"
+                                           var="UbiGeoProItem"
+                                           itemValue="#{UbiGeoProItem}"
+                                           itemLabel="#{UbiGeoProItem.nombre}"
+                                           />
+                             <p:ajax update="codigoUbiGeoCiu,codigoUbiGeoPar"  
+                                    listener="#{ifipAgenciaController.cambiaUbiGeoPro()}" />  
+                            <f:converter binding="#{ubicacionGeograficaConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoUbiGeoPro"  styleClass="invalido"/>
+
+                        
+                       <p:outputLabel value="#{propiedadesEtiquetaBL.Ciudad}" 
+                                       for="codigoUbiGeoCiu"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:selectOneMenu id="codigoUbiGeoCiu" 
+                                         value="#{ifipAgenciaController.ubiGeoCiu}"
+                                                                   
+                                         required="false" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Ciudad} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                            <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{ifipAgenciaController.itemsUbiGeoCiu}"
+                                           var="UbiGeoCiuItem"
+                                           itemValue="#{UbiGeoCiuItem}"
+                                           itemLabel="#{UbiGeoCiuItem.nombre}"
+                                           />
+                            <p:ajax update="codigoUbiGeoPar"  
+                                    listener="#{ifipAgenciaController.cambiaUbiGeoCiu()}" />  
+                            <f:converter binding="#{ubicacionGeograficaConverter}"/>
+                        </p:selectOneMenu>       
+                        <h:message for="codigoUbiGeoCiu"  styleClass="invalido"/>
+
+                        
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Parroquia}" 
+                                       for="codigoUbiGeoPar"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:selectOneMenu id="codigoUbiGeoPar" 
+                                         value="#{ifipAgenciaController.ubiGeoPar}" 
+                                         required="false"                                         
+                                         requiredMessage="#{propiedadesEtiquetaBL.Parroquia} - #{propiedadesMensajesBL.CampoRequerido}">                                    
+                       <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                            <f:selectItems value="#{ifipAgenciaController.itemsUbiGeoPar}"
+                                           var="UbiGeoParItem"
+                                           itemValue="#{UbiGeoParItem}"
+                                           itemLabel="#{UbiGeoParItem.nombre}"
+                                           />
+                            <f:converter binding="#{ubicacionGeograficaConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoUbiGeoPar"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" for="nombre"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" value="#{ifipAgenciaController.selected.nombre}" 
+                                     title="#{propiedadesEtiquetaBL.IfipAgencia}"
+                                     required="true" requiredMessage="#{propiedadesEtiquetaBL.Nombre}"
+                                     size="50" maxlength="50"/>
+                        <h:message for="nombre"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.AutorizacionSri}"
+                                       for="autorizacionSri" 
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="autorizacionSri" 
+                                     value="#{ifipAgenciaController.selected.autorizacionSri}" 
+                                     title="#{propiedadesEtiquetaBL.AutorizacionSri}" 
+                                     required="true"
+                                     requiredMessage="#{propiedadesEtiquetaBL.AutorizacionSri}" 
+                                     size="30" maxlength="30"/>
+                        <h:message for="autorizacionSri"  styleClass="invalido"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Direccion}" for="direccion"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="direccion" 
+                                     value="#{ifipAgenciaController.selected.direccion}"
+                                     title="#{propiedadesEtiquetaBL.Direccion}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Direccion}" 
+                                     size="100" maxlength="100"/>
+                        <h:message for="direccion"  styleClass="invalido"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Email}" for="email"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="email" 
+                                     value="#{ifipAgenciaController.selected.email}"
+                                     title="#{propiedadesEtiquetaBL.Email}" 
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Email}"
+                                     size="100" maxlength="100"/>
+                        <h:message for="email"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.EsVentanilla}" for="esVentanilla"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="esVentanilla" 
+                                         value="#{ifipAgenciaController.selected.esVentanilla}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.EsVentanilla}: #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+                        <h:message for="esVentanilla"  styleClass="invalido"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Matriz}" for="matriz"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="matriz" 
+                                         value="#{ifipAgenciaController.selected.matriz}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Matriz}: #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                        <h:message for="matriz"  styleClass="invalido"/>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfipAgenciaPadre}" 
+                                       for="codigoIfipAgenciaPadre"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoIfipAgenciaPadre" value="#{ifipAgenciaController.selected.codigoIfipAgenciaPadre}" >
+
+                            <f:selectItems value="#{ifipAgenciaController.items}"
+                                           var="codigoIfipAgenciaPadreItem"
+                                           itemValue="#{codigoIfipAgenciaPadreItem}"
+                                           itemLabel="#{codigoIfipAgenciaPadreItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{ifipAgenciaConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoIfipAgenciaPadre"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" for="codigoIfip"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoIfip" 
+                                         value="#{ifipAgenciaController.selected.codigoIfip}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{ifipController.items}"
+                                           var="codigoIfipItem"
+                                           itemValue="#{codigoIfipItem}"
+                                           itemLabel="#{codigoIfipItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{ifipConverter}"/>
+                        </p:selectOneMenu>
+                        <h:message for="codigoIfip"  styleClass="invalido"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:selectOneMenu id="eliminado" value="#{ifipAgenciaController.selected.eliminado}" 
+                                         required="true" >
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N"/>
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S"/>
+
+                        </p:selectOneMenu>
+                        <h:message for="eliminado"  styleClass="invalido"/>
+
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{ifipAgenciaController.save}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:IfipAgenciaListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,IfipAgenciaEditDialog);"/>
+                        </f:facet>
+
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+</html>

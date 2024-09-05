@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:dialog id="FondeoCajaMuestraDlg" 
+              widgetVar="FondeoCajaMuestraDialog" 
+              modal="true" 
+              resizable="false" 
+              appendTo="@(body)"
+              closeOnEscape="true">
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.FondeoCaja}"
+                           styleClass="encabezadosDialog"/>
+        </f:facet>
+        <p:focus context="FondeoCajaMuestraDlg"/>   
+        <h:form id="FondeoCajaMuestraForm">
+
+            <h:panelGroup id="display" style="font-size: 10px;">
+
+                <p:panelGrid columns="2" style="font-size: 10px;">
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Boveda}"
+                                   styleClass="etiquetaRequerida"/>
+                    <p:inputText    value="#{fondeoCajaController.fondeoCajaSel.boveda.nombre}"  
+                                    size="30"
+                                    readonly="true"
+                                    required="true" />
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.IfipAgencia}" 
+                                   styleClass="etiquetaRequerida"/>
+                    <p:inputText    value="#{fondeoCajaController.fondeoCajaSel.ifipAgencia.nombre}"     
+                                    size="30"
+                                    readonly="true"
+                                    required="true" />
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Cajero}" 
+                                  styleClass="etiquetaRequerida"/>
+                    <p:inputText    value="#{fondeoCajaController.fondeoCajaSel.usuarioCaja.codigoPersona.nombreCompleto}"     
+                                    size="40"
+                                    readonly="true"
+                                    required="true" />
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.Computador}" 
+                                   styleClass="etiquetaRequerida"/>
+                    <p:inputText    value="#{fondeoCajaController.fondeoCajaSel.computadorCaja.nombre}"  
+                                    size="30"
+                                    readonly="true"
+                                    required="true" />
+
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.FechaFondeo}" 
+                                   styleClass="etiquetaRequerida"/>
+                    <p:calendar value="#{fondeoCajaController.fondeoCajaSel.fechaFondeo}"
+                                readonly="true"
+                                disabled="true"
+                                size="20"
+                                pattern="dd/MM/yyyy"                                      
+                                locale="es" 
+                                required="true" />
+                    
+                    <p:outputLabel value="#{propiedadesEtiquetaBL.FechaSistema}" 
+                                   styleClass="etiquetaRequerida"/>
+                    <p:calendar value="#{fondeoCajaController.fondeoCajaSel.fechaSistema}" 
+                                readonly="true"
+                                disabled="true"
+                                size="35"
+                                pattern="dd/MM/yyyy hh:mm:ss a"                                      
+                                locale="es" 
+                                required="true" />
+                    <h:message for="fechaFondeo"  styleClass="invalido"/>
+                </p:panelGrid>
+
+                <p:separator/>
+                
+                <h:panelGrid  id="desgloceEfectivoMuestraPan"  columns="1">
+                    <p:dataTable id="desgloseEfectivoMuestraTbl"  
+                                 value="#{fondeoCajaController.itemFondeoCajaDesgloceEfectivo}"
+                                 widgetVar="desgloseEfectivoMuestraTabla"
+                                 var="itemDesgloce"
+                                 rowKey="#{itemDesgloce.fondeoCajaDesgloceEfectivoPK}"    
+                                 scrollable="true" 
+                                 scrollHeight="150" 
+                                 editable="true" 
+                                 editMode="cell" 
+                                 style="width: 700px"
+                                 >
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.DesgloceEfectivo}"/>                
+                        </f:facet>
+                       
+
+                        <p:column style="width: 100px">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Denominacion}"/>
+                            </f:facet>
+                            <p:selectOneMenu id="denominacionMuestra" 
+                                             value="#{itemDesgloce.fraccionMoneda.tipoFraccionMoneda.denominacion}"                                              
+                                             disabled="true">
+                                <f:selectItem itemValue="B" itemLabel="#{propiedadesEtiquetaBL.Billete}"/>
+                                <f:selectItem itemValue="M" itemLabel="#{propiedadesEtiquetaBL.Moneda}"/>
+                            </p:selectOneMenu> 
+                        </p:column>
+
+                        <p:column  style="width: 100px; text-align: right">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Valor}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemDesgloce.fraccionMoneda.tipoFraccionMoneda.valor}"> 
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column id="cantidadMuestraCol" style="width: 100px; text-align: center">
+                            <f:facet name="header">
+                                <h:outputText value="#{propiedadesEtiquetaBL.Cantidad}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemDesgloce.cantidad}"/>
+                        </p:column>
+
+                        <p:column id="totalMuestraCol" 
+                                  style="width: 100px; text-align: center"  
+                                  rendered="true"                                       
+                                  >
+                            <f:facet name="header"> 
+                                <h:outputText value="#{propiedadesEtiquetaBL.Total}"/>
+                            </f:facet>
+                            <h:outputText id="totalMuestraOut" value="#{itemDesgloce.total}">
+                                <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+
+                <h:panelGrid columns="2" width="600px">
+                    <h:panelGrid columns="1" width="500px" style="text-align:  right">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Totales}" styleClass="encabezadosPanelGrid"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" width="140px" style="text-align: center">
+                        <h:outputText id="totalMuestraEfectivo" 
+                                      value="#{fondeoCajaController.fondeoCajaDetalle.valorEfectivo}" 
+                                      styleClass="encabezadosPanelGrid">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </h:panelGrid>
+
+                </h:panelGrid>             
+            </h:panelGroup>
+
+        </h:form>
+
+    </p:dialog>
+
+</ui:composition>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoCarteraListForm">
+
+        <p:panel header="#{myBundle.ListTipoCarteraTitle}">
+            <p:contextMenu id="TipoCarteraDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('TipoCarteraListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('TipoCarteraListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('TipoCarteraListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('TipoCarteraListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.TipoCarteraMenuItem_productoCreditoCollection}" icon="ui-icon-search"  action="#{tipoCarteraController.navigateProductoCreditoCollection}" disabled="#{empty tipoCarteraController.selected.productoCreditoCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoCarteraController.items}"
+                         var="item"
+                         rowKey="#{item.codigo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{tipoCarteraController.selected}">
+
+                <p:ajax event="rowSelect"   update=":TipoCarteraListForm:createButton :TipoCarteraListForm:viewButton :TipoCarteraListForm:editButton :TipoCarteraListForm:deleteButton :TipoCarteraListForm:TipoCarteraDataTableContextMenu" listener="#{tipoCarteraController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":TipoCarteraListForm:createButton :TipoCarteraListForm:viewButton :TipoCarteraListForm:editButton :TipoCarteraListForm:deleteButton :TipoCarteraListForm:TipoCarteraDataTableContextMenu" listener="#{tipoCarteraController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoCarteraListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoCarteraTitle_codigo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoCarteraTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.siglas}" filterBy="#{item.siglas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoCarteraTitle_siglas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.siglas}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoCarteraTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.diasVence}" filterBy="#{item.diasVence}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoCarteraTitle_diasVence}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diasVence}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.eliminado}" filterBy="#{item.eliminado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTipoCarteraTitle_eliminado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminado}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{tipoCarteraController.prepareCreate}" update=":TipoCarteraCreateForm" oncomplete="TipoCarteraCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":TipoCarteraViewForm" oncomplete="TipoCarteraViewDialog.show()" disabled="#{empty tipoCarteraController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":TipoCarteraEditForm" oncomplete="TipoCarteraEditDialog.show()" disabled="#{empty tipoCarteraController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{tipoCarteraController.delete}" update=":growl,datalist" disabled="#{empty tipoCarteraController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

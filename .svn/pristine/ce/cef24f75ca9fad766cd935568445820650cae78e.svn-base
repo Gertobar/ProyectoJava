@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- LOS COMENTARIOS QUE TIENEN EN SU PARTE SUPERIOR LAS LINEAS ************ Y SEGUIDO
+     SU DESCRIPCION NO DEBEN SER BORRADAS, LOS QUE SE DEBEN ELIMINAR SON LAS EXPLICACIONES
+     DE CADA CONTENIDO -->
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form id="barraForm">
+        <ui:include src="criterioConsulta.xhtml"/>  
+        <!-- ̣̣̣̣**************************************************************************
+          BARRA DE HERRAMIENTAS                                                     -->
+        <!-- EXPLICACION: AQUI SE COLOCAN LOS BOTONES ESTANDAR PARA EL MANEJO DE LA APLICACION,
+             ESTA INCLUYEN LOS BOTONES NECESARIOS PARA LOS MANTENIMIENTOS, ES DECIR QUE
+             EN LAS VENTANAS DE MANTENIMIENTOS NO SE COLOCARAN MAS BOTONES EN LA BARRA,
+             NI EN LAS VENTANAS DE CREACION Y EDICION DE LOS QUE ESTAN YA DEFINIDAS.
+             UNICAMENTE EN LAS VENTANAS DE TRANSACCIONALIDAD (DEPOSITOS, SOLICITUDES, ETC)
+             SE PODRAN COLOCAR BOTONES ADICIONALES Y CON NOMBRE PARA LA COMPRENSION DE LOS
+             USUARIOS, ASI MISMO ESTOS BOTONES SERAN DEFINIDOS POR EL LIDER DEL PROYECTO
+        -->
+        <p:toolbar>                  
+            <p:toolbarGroup align="left">  
+                <p:commandButton id="ejecutaConsultaBot"
+                                 title="#{propiedadesTituloBL.EjecutarConsulta}"
+                                 icon="#{propiedadesObjetosBL.IcoEjecutarConsulta}"                                         
+                                 disabled="#{menuController.permisoOperacion.consultar}"
+                                 onclick="procesandoDlg.show();"
+                                 update=":PersonaNaturalListaFor:datalist,editarBot,eliminarBot,verBot,imprimirBot"
+                                 action="#{personaGeneralBean.obtienePersonasNaturales()}"                                 
+                                 oncomplete="procesandoDlg.hide()"
+                                 /> 
+                <p:separator/>
+
+
+                <p:commandButton id="nuevoBot"
+                                 title="#{propiedadesTituloBL.Nuevo}" 
+                                 icon="#{propiedadesObjetosBL.IcoNuevo}" 
+                                 disabled="#{menuController.permisoOperacion.nuevo}"
+                                 update=":PersonaFor"
+                                 onclick="procesandoDlg.show();"
+                                 actionListener="#{personaGeneralBean.creaPersonaNatural}"
+                                 oncomplete="procesandoDlg.hide();PersonaDialogo.show();"
+                                 />  
+
+                <p:commandButton id="editarBot"
+                                 title="#{propiedadesTituloBL.Editar}" 
+                                 icon="#{propiedadesObjetosBL.IcoEditar}" 
+                                 disabled="#{(!menuController.permisoOperacion.editar and !empty personaGeneralBean.personaSel) ? false : true}"
+                                 update=":PersonaFor"
+                                 onclick="procesandoDlg.show();"
+                                 actionListener="#{personaGeneralBean.editaPersonaNatural}"
+                                 oncomplete="procesandoDlg.hide();PersonaDialogo.show();"
+                                 />                
+
+                <p:commandButton id="verBot"   
+                                 icon="#{propiedadesObjetosBL.IcoVer}"
+                                 disabled="#{(!menuController.permisoOperacion.ver and !empty personaGeneralBean.personaSel) ? false : true}"/>
+
+
+                <p:commandButton id="eliminarBot"
+                                 title="#{propiedadesTituloBL.Eliminar}" 
+                                 icon="#{propiedadesObjetosBL.IcoEliminar}" 
+                                 disabled="#{(!menuController.permisoOperacion.eliminar and !empty personaGeneralBean.personaSel) ? false : true}"/>
+
+                <p:separator/>
+
+                <p:commandButton id="imprimirBot"
+                                 title="#{propiedadesTituloBL.Imprimir}"
+                                 icon="#{propiedadesObjetosBL.IcoImprimir}"
+                                 disabled="#{menuController.permisoOperacion.imprimir}"
+                                 ajax="false"/>
+                <p:separator/>
+
+                <h:commandLink  id="exportaExcelLin"
+                                title="#{propiedadesTituloBL.ExportarExcel}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="#{propiedadesObjetosBL.ImgExportarExcel}"
+                                    />  
+                    <p:dataExporter type="xls" 
+                                    target=":PersonaNaturalListaFor:datalist"                                           
+                                    fileName="Socios" />  
+                </h:commandLink>  
+                <p:spacer width="3px"/>
+                <h:commandLink  id="exportaPdfLin"
+                                title="#{propiedadesTituloBL.ExportarPDF}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="/#{propiedadesObjetosBL.ImgExportarPdf}" />  
+                    <p:dataExporter type="pdf" 
+                                    target=":PersonaNaturalListaFor:datalist" 
+                                    fileName="Socios" />  
+                </h:commandLink>  
+                <p:spacer width="3px"/>
+                <h:commandLink  id="exportaXmlLin"
+                                title="#{propiedadesTituloBL.ExportarXML}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="#{propiedadesObjetosBL.ImgExportarXml}" />  
+                    <p:dataExporter type="xml" 
+                                    target=":PersonaNaturalListaFor:datalist" 
+                                    fileName="Socios" />  
+                </h:commandLink>  
+                <p:separator/>
+                <h:outputLink  id="ayudaLin"
+                               title="#{propiedadesTituloBL.Ayuda}" 
+                               value="#{menuController.urlAyuda}" > 
+                    <p:graphicImage style="border: transparent" 
+                                    value="#{propiedadesObjetosBL.ImgAyuda}" />                            
+                </h:outputLink>
+                <p:separator/>
+
+            </p:toolbarGroup>  
+        </p:toolbar>
+        <p:separator/>
+        <!-- FIN DE BARRA DE HERRAMIENTAS
+         ̣̣̣̣************************************************************************** -->
+
+    </h:form>       
+</ui:composition>

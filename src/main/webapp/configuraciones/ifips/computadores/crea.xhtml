@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComputadorCreateDlg" 
+                  widgetVar="ComputadorCreateDialog" 
+                  modal="true" resizable="false" 
+                  appendToBody="true" 
+                  closeOnEscape="true">
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Computador}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="ComputadorCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="nombre" value="#{computadorController.selected.nombre}" 
+                                     title="#{propiedadesEtiquetaBL.Nombre}" required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.RutaImpresora}"
+                                       for="rutaImpresora" 
+                                       styleClass="etiquetaRequerida"
+                                       />
+                        <p:inputText id="rutaImpresora" value="#{computadorController.selected.rutaImpresora}" 
+                                     title="#{propiedadesEtiquetaBL.RutaImpresora}" required="true" requiredMessage="#{propiedadesEtiquetaBL.CreateComputadorRequiredMessage_rutaImpresora}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.DireccionIp}"
+                                       for="direccionIp" 
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:inputText id="direccionIp" value="#{computadorController.selected.direccionIp}" 
+                                     title="#{propiedadesEtiquetaBL.DireccionIp}" 
+                                     required="true" requiredMessage="#{propiedadesEtiquetaBL.DireccionIp}" 
+                                     size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.DireccionMac}"
+                                       for="direccionMac"   
+                                       styleClass="etiquetaRequerida"/>
+                        <p:inputText id="direccionMac" value="#{computadorController.selected.direccionMac}" 
+                                     title="#{propiedadesEtiquetaBL.DireccionMac}" 
+                                     required="true" requiredMessage="#{propiedadesEtiquetaBL.DireccionMac}" 
+                                     size="30" maxlength="30"/>
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Sistema}"
+                                       for="codigoTipoSistemaOperativo"
+                                       styleClass="etiquetaRequerida"/>
+
+                        <p:selectOneMenu id="codigoTipoSistemaOperativo" 
+                                         value="#{computadorController.selected.codigoTipoSistemaOperativo}" 
+                                         required="true"
+                                         requiredMessage="#{propiedadesEtiquetaBL.CodigoTipoSistemaOperativo}">
+
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{computadorController.itemSistemasOperativos}"
+                                           var="SistemaOperativoItem"
+                                           itemValue="#{SistemaOperativoItem}"
+                                           itemLabel="#{SistemaOperativoItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{tipoSistemaOperativoConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoComputador}" 
+                                       for="codigoTipoComputador"
+                                       styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoTipoComputador" 
+                                         value="#{computadorController.selected.codigoTipoComputador}" 
+                                         required="true" requiredMessage="#{propiedadesEtiquetaBL.TipoComputador}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{computadorController.itemsTipoComputador}"
+                                           var="codigoTipoComputadorItem"
+                                           itemValue="#{codigoTipoComputadorItem}"
+                                           itemLabel="#{codigoTipoComputadorItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{tipoComputadorConverter}"/>
+                        </p:selectOneMenu>
+
+
+                        
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.IfipAgencia}"
+                                       for="codigoIfipAgenciaPertenece" 
+                                       styleClass="etiquetaRequerida"
+                                       />
+                        <p:selectOneMenu id="codigoIfipAgenciaPertenece"
+                                         value="#{computadorController.selected.codigoIfipAgenciaPertenece}" 
+                                         required="true" 
+
+                                         requiredMessage="#{propiedadesEtiquetaBL.IfipAgencia}">
+
+                            <f:selectItems value="#{ifipAgenciaController.items}"
+                                           var="codigoIfipAgenciaPerteneceItem"
+                                           itemValue="#{codigoIfipAgenciaPerteneceItem}"
+                                           itemLabel="#{codigoIfipAgenciaPerteneceItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{ifipAgenciaConverter}"/>
+                        </p:selectOneMenu>
+
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoDestinoComputador}"
+                                       for="codigoDestinoComputador"
+                                       styleClass="etiquetaRequerida"
+                                       />
+                        <p:selectOneMenu id="codigoDestinoComputador" 
+                                         value="#{computadorController.selected.codigoDestinoComputador}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.CodigoDestinoComputador}">
+
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{destinoComputadorController.items}"
+                                           var="codigoDestinoComputadorItem"
+                                           itemValue="#{codigoDestinoComputadorItem}"
+                                           itemLabel="#{codigoDestinoComputadorItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{destinoComputadorConverter}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{computadorController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />   
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                                           
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{computadorController.guardar}"
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:ComputadorListForm:datalist,:mensaje"
+                                             oncomplete="handleSubmit(xhr,status,args,ComputadorCreateDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

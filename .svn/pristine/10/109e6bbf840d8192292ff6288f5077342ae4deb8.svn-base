@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="IfipMenuListForm">
+
+        <p:dataTable id="datalist" value="#{ifipMenuController.itemsIfipMenu}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{ifipMenuController.selected}"
+                     rowKey="#{item.ifipMenuPK}"
+                     paginator="true"
+                     rows="8"
+                     emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}">
+
+          <f:facet name="header">
+              <h:outputLabel value="#{propiedadesEtiquetaBL.IfipMenu}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"   update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+            <p:ajax event="rowUnselect" update=":barraForm:nuevoBot :barraForm:verBot :barraForm:editarBot :barraForm:eliminarBot"/>
+
+            <p:column sortBy="#{item.ifip.codigo}" filterBy="#{item.ifip.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Ifip}"/>
+                </f:facet>
+                <h:outputText value="#{item.ifip.nombre}"/>
+            </p:column>
+            
+                 <p:column sortBy="#{item.menu.codigo}" filterBy="#{item.menu.codigo}">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Menu}"/>
+                </f:facet>
+                <h:outputText value="#{item.menu.nombre}"/>
+            </p:column>
+
+                <p:column> 
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Eliminado}"/>
+                </f:facet>
+                <p:selectOneMenu id="eliminado" 
+                                 disabled="true"
+                                 value="#{item.eliminado}">    
+                    <f:selectItem itemLabel="NO" itemValue="N" />
+                    <f:selectItem itemLabel="SI" itemValue="S" />                       
+                </p:selectOneMenu>
+            </p:column>
+
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

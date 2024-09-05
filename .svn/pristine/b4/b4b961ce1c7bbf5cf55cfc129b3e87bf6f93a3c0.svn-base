@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                >
+    <p:dialog closable="true"
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="BilletesAltaDenominacionDlg"                  
+              modal="true" style="height: 500px"
+              width="680" height="500"              
+              widgetVar="BilletesAltaDenominacionDialog">     
+
+        <f:facet name="header">
+            <h:outputLabel  id="EncabezadoBilletesAltaDenominacionDlgLab"
+                            style="font-size: 10px;"
+                            value="#{propiedadesEtiquetaBL.controlBilletesAltaDenomiacion}"
+                            styleClass="encabezadosDialog"/>
+        </f:facet>
+        <h:form id="BilletesAltaDenominacionFor">
+            <p:growl id="msgs" showDetail="true"/>
+            <p:commandButton value="#{propiedadesEtiquetaBL.controlBilletesAltaDenomiacionAgregar}" 
+                             styleClass="ui-priority-primary" 
+                             process="@this" 
+                             actionListener="#{movimientoCuentaBean.onAddNew()}"         
+                             update="desgloceBilletesTbl"                             
+                             />
+            <p:commandButton value="#{propiedadesEtiquetaBL.controlBilletesAltaDenomiacionCerrar}"
+                             styleClass="ui-priority-primary"
+                             process="@this"
+                             disabled="movimientoCuentaBean.mostraBotonGuardar"
+                             oncomplete="BilletesAltaDenominacionDialog.hide();"
+                             />
+            <p:dataTable id="desgloceBilletesTbl" 
+                         var="desgloceBillete" 
+                         value="#{movimientoCuentaBean.listaDesgloceBilletes}" 
+                         editable="true" editMode="cell" 
+                         widgetVar="cellDesgloceBilletesTbl" scrollable="true" 
+                         tableStyle="width:auto"
+                         emptyMessage="#{propiedadesMensajesBL.NoExistenRegistros}"
+                         rowIndexVar="rowIndex"
+                         >
+
+                <p:ajax event="cellEdit" listener="#{movimientoCuentaBean.onCellEdit}" update="desgloceBilletesTbl"/>              
+                <p:column rendered="false">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{desgloceBillete.codigo}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{desgloceBillete.codigo}"  label="Monto" style="width:100%" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="#{propiedadesEtiquetaBL.controlBilletesAltaDenomiacionNumero}" style="min-width: 100px;">
+                    <f:facet name="header">
+                        <h:outputText value="Número" />
+                    </f:facet>
+                    <h:outputText value="#{rowIndex + 1}" />
+                </p:column>
+
+                <p:column headerText="#{propiedadesEtiquetaBL.controlBilletesAltaDenomiacionSerie}" style="min-width: 350px;">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{desgloceBillete.serie}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{desgloceBillete.serie}"  label="Serie" style="width:100%" maxlength="16"/></f:facet>
+                    </p:cellEditor>
+                </p:column>    
+                <p:column headerText="#{propiedadesEtiquetaBL.controlBilletesAltaDenomiacionEliminar}" style="min-width: 50px;">
+                    <p:commandButton id="eliminarDetalleBot"
+                                     title="#{propiedadesTituloBL.Eliminar}" 
+                                     actionListener="#{movimientoCuentaBean.eliminarDetalle(detalle.codigo, rowIndex)}"
+                                     icon="ui-icon-trash"
+                                     process="@this"
+                                     update="desgloceBilletesTbl"
+                                     immediate="true"
+                                     />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog> 
+</ui:composition>

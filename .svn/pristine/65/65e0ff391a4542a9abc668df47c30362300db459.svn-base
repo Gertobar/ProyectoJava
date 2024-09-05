@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:panel id="confirmacionPan"  header="#{propiedadesEtiquetaBL.Confirmacion}" 
+             style="height: 530px; width: 1000px">
+        <p:focus context="confirmacionTab"/>   
+        <p:separator/>
+        <h:panelGrid columns="1" >
+            <f:facet name="header" >
+                <h:outputLabel styleClass="encabezadosPanelGrid" value="#{propiedadesEtiquetaBL.ConfirmacionDatosSolicitudGuardar}" style="text-align:  center" />
+            </f:facet>
+            <p:separator/>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.CodigoSocio}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.solicitud.socio.socioPK.codigo}"/>
+
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.solicitud.socio.codigoPersona.nombreCompleto}"/>
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Moneda}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.solicitud.productoCreditoMonedaIfip.productoCreditoMoneda.moneda.nombre}"/>                
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TipoCartera}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.tipoCartera.nombre}"/>                
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Producto}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.solicitud.productoCreditoMonedaIfip.productoCreditoMoneda.productoCredito.nombre}"/>
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Tasa}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.solicitud.tasa}"/>                
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Periodicidad}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.solicitud.periodicidadProMonIfi.periodicidad.nombre}"/>  
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.NumeroCuotas}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.solicitud.numeroCuotas}"/>   
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.MontoCredito}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.solicitud.montoCredito}"/>  
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TotalInteres}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.totalInteresCadena}"/> 
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TotalRubros}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.totalRubrosCadena}"/> 
+                
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TotalCredito}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.totalCreditoCadena}"/> 
+                
+            </h:panelGrid>
+            <p:separator/>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.TotalRubrosDebitar}" styleClass="etiqueta"/>
+                <h:outputLabel value="#{solicitudController.totalRubrosCreditoConcecion}"> 
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2"/>
+                </h:outputLabel>
+            </h:panelGrid>
+            <p:separator/>
+
+            <f:facet name="footer">
+                <p:commandButton id="guardaSolicitudBot" 
+                                 value="#{propiedadesEtiquetaBL.Guardar}" 
+                                 update=":mensaje,:SolicitudListForm"
+                                 onclick="procesandoDlg.show();"
+                                 actionListener="#{solicitudController.guardaSolicitud}">
+
+                </p:commandButton>
+            </f:facet>
+        </h:panelGrid>
+
+        <p:separator/>
+
+    </p:panel>
+
+    <p:dialog closable="true"                                    
+              appendTo="@(body)"
+              maximizable="false" 
+              resizable="false"                
+              id="imprimeSolicitudDlg"
+              modal="true"
+              widgetVar="imprimeSolicitudDialog">     
+        <f:facet name="header">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.Impresion}"
+                           styleClass="encabezadosDialog"/>
+        </f:facet>
+        <h:commandLink id="imprimeSolicitudBot" 
+                       value="#{propiedadesMensajesBL.ImprimirSolicitudCredito}" 
+                       actionListener="#{solicitudController.imprimirSolicitud}" 
+                       onclick="imprimeSolicitudDialog.hide();"/>
+    </p:dialog> 
+
+
+
+</ui:composition>  

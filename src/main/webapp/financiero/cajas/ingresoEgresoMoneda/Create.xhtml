@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IngresoEgresoMonedaCreateDlg" widgetVar="IngresoEgresoMonedaCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{myBundle.CreateIngresoEgresoMonedaTitle}" closeOnEscape="true">
+
+            <h:form id="IngresoEgresoMonedaCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoMonedaLabel_ingresoEgresoMonedaPK_codigoMoneda}" for="ingresoEgresoMonedaPK_codigoMoneda" />
+                        <p:inputText id="ingresoEgresoMonedaPK_codigoMoneda" value="#{ingresoEgresoMonedaController.selected.ingresoEgresoMonedaPK.codigoMoneda}" title="#{myBundle.CreateIngresoEgresoMonedaTitle_ingresoEgresoMonedaPK_codigoMoneda}" required="true" requiredMessage="#{myBundle.CreateIngresoEgresoMonedaRequiredMessage_ingresoEgresoMonedaPK_codigoMoneda}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoMonedaLabel_mostrar}" for="mostrar" />
+                        <p:inputText id="mostrar" value="#{ingresoEgresoMonedaController.selected.mostrar}" title="#{myBundle.CreateIngresoEgresoMonedaTitle_mostrar}" required="true" requiredMessage="#{myBundle.CreateIngresoEgresoMonedaRequiredMessage_mostrar}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoMonedaLabel_registradoPor}" for="registradoPor" />
+                        <p:inputText id="registradoPor" value="#{ingresoEgresoMonedaController.selected.registradoPor}" title="#{myBundle.CreateIngresoEgresoMonedaTitle_registradoPor}" required="true" requiredMessage="#{myBundle.CreateIngresoEgresoMonedaRequiredMessage_registradoPor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoMonedaLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{ingresoEgresoMonedaController.selected.fechaRegistro}" title="#{myBundle.EditIngresoEgresoMonedaTitle_fechaRegistro}" required="true" requiredMessage="#{myBundle.EditIngresoEgresoMonedaRequiredMessage_fechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoMonedaLabel_eliminado}" for="eliminado" />
+                        <p:inputText id="eliminado" value="#{ingresoEgresoMonedaController.selected.eliminado}" title="#{myBundle.CreateIngresoEgresoMonedaTitle_eliminado}" required="true" requiredMessage="#{myBundle.CreateIngresoEgresoMonedaRequiredMessage_eliminado}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateIngresoEgresoMonedaLabel_ingresoEgreso}" for="ingresoEgreso" />
+                        <p:selectOneMenu id="ingresoEgreso" value="#{ingresoEgresoMonedaController.selected.ingresoEgreso}" required="true" requiredMessage="#{myBundle.EditIngresoEgresoMonedaRequiredMessage_ingresoEgreso}">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ingresoEgresoController.items}"
+                                           var="ingresoEgresoItem"
+                                           itemValue="#{ingresoEgresoItem}"
+                                           itemLabel="#{ingresoEgresoItem.descripcion.toString()}"
+                                           />
+                            <f:converter binding="#{ingresoEgresoConverter}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ingresoEgresoMonedaController.saveNew}" value="#{myBundle.Save}" update="display,:IngresoEgresoMonedaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IngresoEgresoMonedaCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="IngresoEgresoMonedaCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

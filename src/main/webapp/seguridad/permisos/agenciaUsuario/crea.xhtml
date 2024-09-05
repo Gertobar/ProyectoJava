@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioIfipAgenciaCreateDlg" 
+                  widgetVar="UsuarioIfipAgenciaCreateDialog"
+                  modal="true" 
+                  resizable="false"
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.IfipAgencia}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet> 
+
+            <h:form id="UsuarioIfipAgenciaCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Usuario}" 
+                                       for="usuario" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="usuario" value="#{usuarioIfipAgenciaBean.selected.usuario}" 
+                                         required="true" 
+                                         filter="true"
+                                         style="width: 100%"
+                                         filterMatchMode="startsWith"                                         
+                                         requiredMessage="#{propiedadesEtiquetaBL.Usuario} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{usuarioIfipAgenciaBean.itemsUsuario}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"
+                                           itemLabel="#{usuarioItem.username} - #{usuarioItem.codigoPersona.nombreCompleto}"/>
+                            <f:converter binding="#{usuarioConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Agencia}" 
+                                       for="ifipAgencia" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="ifipAgencia" 
+                                         value="#{usuarioIfipAgenciaBean.selected.ifipAgencia}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.IfipAgencia} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{usuarioIfipAgenciaBean.itemsIfipAgencia}"
+                                           var="ifipAgenciaItem"
+                                           itemValue="#{ifipAgenciaItem}"
+                                           itemLabel="#{ifipAgenciaItem.nombre}"/>
+                            <f:converter binding="#{ifipAgenciaConverter}"/>
+                        </p:selectOneMenu>                     
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Rol}"
+                                       for="codigoRol" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoRol"
+                                         value="#{usuarioIfipAgenciaBean.selected.codigoRol}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Rol} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{usuarioIfipAgenciaBean.itemsRol}"
+                                           var="codigoRolItem"
+                                           itemValue="#{codigoRolItem}"
+                                           itemLabel="#{codigoRolItem.descripcion}"/>
+                            <f:converter binding="#{rolConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Perfil}"
+                                       for="codigoPerfil" styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoPerfil"
+                                         value="#{usuarioIfipAgenciaBean.selected.codigoPerfil}" 
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Perfil} - #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{usuarioIfipAgenciaBean.itemsPerfil}"
+                                           var="codigoPerfilItem"
+                                           itemValue="#{codigoPerfilItem}"
+                                           itemLabel="#{codigoPerfilItem.nombre}"/>
+                            <f:converter binding="#{perfilConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.AsignadoPor}" 
+                                       for="asignadoPor"  styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="asignadoPor" 
+                                         value="#{usuarioIfipAgenciaBean.selected.asignadoPor}"                                  
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.AsignadoPor} - #{propiedadesMensajesBL.CampoRequerido}">                                                    
+                            <f:selectItem  itemValue="#{usuarioController.usuario}"
+                                           itemLabel="#{usuarioController.usuario.username}"
+                                           />
+                            <f:converter binding="#{usuarioConverter}"/>                    
+                        </p:selectOneMenu>                
+
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.FechaAsignacion}" 
+                                       for="fechaAsignacion" styleClass="etiquetaRequerida"/>
+                        <p:calendar id="fechaAsignacion" pattern="MM/dd/yyyy HH:mm:ss" 
+                                    value="#{usuarioIfipAgenciaBean.selected.fechaAsignacion}" 
+                                    title="#{propiedadesTituloBL.FechaAsignacion}" 
+                                    required="true" 
+                                    requiredMessage="#{propiedadesEtiquetaBL.FechaAsignacion} - #{propiedadesMensajesBL.CampoRequerido}"
+                                    showOn="button"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado"  styleClass="etiquetaRequerida" />
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{usuarioIfipAgenciaBean.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{usuarioIfipAgenciaBean.creaUsuarioIfipAgencia}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"
+                                             value="#{propiedadesEtiquetaBL.Guardar}" 
+                                             update="display,:UsuarioIfipAgenciaListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,UsuarioIfipAgenciaCreateDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

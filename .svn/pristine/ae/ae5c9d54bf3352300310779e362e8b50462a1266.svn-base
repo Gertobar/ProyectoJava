@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="515" pageHeight="176" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15acef76-3574-4ef7-8a53-22f1337e194a">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoSocio" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[$P{codigoSocio}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+         tent.nombre               "NOMB T_ENT",
+         tient.nombre ||' '|| ent.nombre "NOMB ENT",
+         rent.numero_cuenta        "NUM CTA"
+  from 
+         mks_socios.referencia_entidad_financiera rent,
+         mks_comunes.entidad_financiera ent,
+         mks_comunes.tipo_entidad_financiera tient,
+         mks_comunes.tipo_cuenta_entidad_financiera tent
+  where ent.codigo = rent.codigo_entidad_financiera
+  and   tent.codigo = rent.codigo_tipo_cuenta
+  and   tient.codigo = ent.codigo_tipo_entidad
+  and   rent.codigo_persona = (
+        select s.codigo_persona 
+        from mks_socios.socio s 
+        where s.codigo =  $P{codigoSocio})
+  and    rent.eliminado        =  'N']]>
+	</queryString>
+	<field name="NOMB T_ENT" class="java.lang.String"/>
+	<field name="NOMB ENT" class="java.lang.String"/>
+	<field name="NUM CTA" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="15">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#FFFFFF" backcolor="#3B83BD" uuid="e6d0ab01-1dbb-4610-9776-6c3b2c4fd06a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ REFERENCIAS FINANCIERAS]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="347" y="0" width="168" height="15" uuid="05ebddbf-aba5-4c38-856c-9a4855d11d18"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO CUENTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="218" height="15" uuid="7443b909-f9e7-4c28-a991-39dbe34e439a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSTITUCION]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="218" height="15" uuid="a416ae9f-fe24-4fdc-84d7-d18d1d82cad3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMB ENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="347" y="0" width="168" height="15" uuid="e1469c15-efe5-4563-8d47-22de81f99f8d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMB T_ENT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

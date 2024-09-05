@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="creaUsuarioFor"> 
+
+        <p:panel  id="creaUsuarioPan" >         
+            <p:focus context="creaUsuarioPan"/> 
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Del} #{propiedadesEtiquetaBL.Usuario}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>            
+
+            <h:panelGrid id="creaUsuarioGri" columns="4" 
+                         columnClasses="label, value, validator" styleClass="grid">
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}" 
+                               for="identificacion" 
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="identificacion" 
+                             value="#{usuarioBean.identificacionS}" 
+                             title="#{propiedadesTituloBL.Identificacion}"                                           
+                             required="true"                      
+                             requiredMessage="#{propiedadesEtiquetaBL.Identificacion} - #{propiedadesMensajesBL.CampoRequerido}"
+                             size="10" maxlength="10">                              
+                    <f:validator validatorId="identificacionSocioValidador"/> 
+                    <p:ajax event="keyup"                             
+                            update="usuarioDatosPan" 
+                            listener="#{usuarioBean.mostrarPanel()}">
+                    </p:ajax>
+                </p:inputText>      
+                <h:message for="identificacion" styleClass="invalido" />  
+
+            </h:panelGrid>
+        </p:panel>
+
+        <p:panel id="usuarioDatosPan" visible="#{usuarioBean.deshabilitaPanelUsuario}">                 
+
+            <h:panelGrid id="usuarioDatosGri" columns="4"
+                         columnClasses="label, value, validator" 
+                         styleClass="grid">  
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.NombreCompleto}" 
+                               for="nombreCompleto" styleClass="etiquetaRequerida"/>
+                <p:inputText id="nombreCompleto" 
+                             value="#{usuarioBean.nombreCompletoUsuarioS}" 
+                             onkeyup="value = value.toUpperCase()"                              
+                             title="#{propiedadesTituloBL.NombreCompleto}" 
+                             required="true" 
+                             disabled="#{usuarioBean.deshabilitaNombreCompletoUsuario}"                                                    
+                             requiredMessage="#{propiedadesEtiquetaBL.NombreCompleto} - #{propiedadesMensajesBL.CampoRequerido}"
+                             size="50" maxlength="50">   
+                    <p:ajax event="blur" 
+                            update=":mensaje,username,usernameEti" 
+                            listener="#{usuarioBean.ubicaUsername()}" >
+                    </p:ajax> 
+                </p:inputText>        
+                <h:message for="nombreCompleto" styleClass="invalido" />                                      
+                <p:outputLabel value="" />
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CorreoElectronico}" 
+                               for="correoElectronico"  styleClass="etiquetaRequerida"/>
+                <p:inputText id="correoElectronico" 
+                             value="#{usuarioBean.correoElectronicoUsuarioS}"
+                             title="#{propiedadesTituloBL.CorreoElectronico}" 
+                             required="true" 
+                             validator="correoElectronicoValidador"
+                             disabled="#{usuarioBean.deshabilitaCorreoElectronicoUsuario}"                             
+                             requiredMessage="#{propiedadesEtiquetaBL.CorreoElectronico} - #{propiedadesMensajesBL.CampoRequerido}"
+                             size="40">                       
+                </p:inputText>
+                <h:message for="correoElectronico" styleClass="invalido" />
+                <p:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Username}" 
+                               for="username" styleClass="etiquetaRequerida"/>
+                <p:inputText id="username" 
+                             value="#{usuarioBean.usernameS}" 
+                             title="#{propiedadesTituloBL.Username}" 
+                             required="true"                            
+                             disabled="true"
+                             requiredMessage="#{propiedadesEtiquetaBL.Username} - #{propiedadesMensajesBL.CampoRequerido}"
+                             size="20">
+                </p:inputText> 
+                <h:message for="username" styleClass="invalido" />
+                <h:outputLabel id="usernameEti" value="#{usuarioBean.mensajeUsername}"/>
+
+
+                <f:facet name="footer">
+                    <p:commandButton id="creaUsuarioBot" 
+                                     value="#{propiedadesEtiquetaBL.Crear}"                                    
+                                     update=":mensaje,:creaUsuarioFor,creaUsuarioBot"                                        
+                                     onclick="procesandoDlg.show();"                                                                                                         
+                                     action="#{usuarioBean.creaUsuario()}"
+                                     disabled="#{usuarioBean.deshabilitaCreacionUsuarioBot}"
+                                     oncomplete="procesandoDlg.hide();">     
+                    </p:commandButton>
+                </f:facet>
+            </h:panelGrid>                 
+        </p:panel> 
+
+    </h:form>
+</ui:composition>
+

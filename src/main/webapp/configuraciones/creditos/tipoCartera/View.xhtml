@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoCarteraViewDlg" widgetVar="TipoCarteraViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{myBundle.ViewTipoCarteraTitle}" closeOnEscape="true">
+
+            <h:form id="TipoCarteraViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoCarteraController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTipoCarteraLabel_codigo}"/>
+                        <h:outputText value="#{tipoCarteraController.selected.codigo}" title="#{myBundle.ViewTipoCarteraTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoCarteraLabel_nombre}"/>
+                        <h:outputText value="#{tipoCarteraController.selected.nombre}" title="#{myBundle.ViewTipoCarteraTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoCarteraLabel_siglas}"/>
+                        <h:outputText value="#{tipoCarteraController.selected.siglas}" title="#{myBundle.ViewTipoCarteraTitle_siglas}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoCarteraLabel_descripcion}"/>
+                        <h:outputText value="#{tipoCarteraController.selected.descripcion}" title="#{myBundle.ViewTipoCarteraTitle_descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoCarteraLabel_diasVence}"/>
+                        <h:outputText value="#{tipoCarteraController.selected.diasVence}" title="#{myBundle.ViewTipoCarteraTitle_diasVence}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipoCarteraLabel_eliminado}"/>
+                        <h:outputText value="#{tipoCarteraController.selected.eliminado}" title="#{myBundle.ViewTipoCarteraTitle_eliminado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="TipoCarteraViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

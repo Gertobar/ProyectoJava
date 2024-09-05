@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:cc="http://java.sun.com/jsf/composite"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <cc:interface componentType="situacionPatrimonialComponente">
+        <cc:attribute name="codigoSocio" type="java.lang.Long" required="true"/>
+        <cc:attribute name="editable" type="java.lang.Boolean" required="true"/>
+        <cc:attribute name="mensajeErrorGuardar" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+    <cc:implementation>
+        <h:form id="situacionPatrimonialForm">
+            <p:remoteCommand id="cargarComponenteSituacionPatrimonial"
+                             process="@this"
+                             action="#{situacionPatrimonialComponenteController.cargarComponente(cc.attrs.codigoSocio, cc.attrs.editable, cc.attrs.mensajeErrorGuardar)}"
+                             autoRun="true"
+                             update="situacionPatrimonialComponenteResultadoGuardar,activosDataTable,pasivosDataTable,totalActivosLabel,totalPasivosLabel,totalPatrimonioLabel"/>
+            <p:panel header="#{propiedadesEtiquetaBL.SituacionPatrimonial}"
+                     style="width: 100% !important; display: block !important;overflow-x: auto !important;-ms-overflow-style: -ms-autohiding-scrollbar !important;">
+                <p:dataTable id="activosDataTable"
+                             value="#{situacionPatrimonialComponenteController.listaSituacionPatrimonialActivo}"
+                             widgetVar="activosTabla"
+                             var="itemActivo"
+                             rowKey="#{itemActivo.socioSituacionPatActPK}"
+                             scrollable="true"
+                             scrollHeight="100"
+                             editable="#{cc.attrs.editable}"
+                             editMode="cell"
+                             style="width: 600px">
+                    <p:focus context="activosDataTable"/>
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Activos}"/>
+                    </f:facet>
+                    <p:ajax event="cellEdit"
+                            listener="#{situacionPatrimonialComponenteController.edicionCeldaActivos}"
+                            update="activosDataTable"/>
+                    <p:column style="width: 400px">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Item}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemActivo.itemSituacionPatrimonial.nombre}"/>
+                    </p:column>
+                    <p:column id="totalActivoColumna" style="width: 100px; text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{itemActivo.total}" >
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </h:outputText>
+                            </f:facet>
+                            <f:facet name="input" >
+                                <p:inputText   id="totalActivo"
+                                               value="#{itemActivo.total}"
+                                               style="text-align: center">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    <f:validateLongRange minimum="0"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                </p:dataTable>
+                <h:panelGrid columns="3">
+                    <h:panelGrid columns="1" width="430px" style="text-align:  right">
+                        <h:outputText value="#{propiedadesEtiquetaBL.Totales}" styleClass="encabezadosPanelGrid"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" width="145px" style="text-align: center">
+                        <h:outputText id="totalActivosLabel" 
+                                      value="#{situacionPatrimonialComponenteController.situacionPatrimonial.totalActivos}"
+                                      styleClass="encabezadosPanelGrid">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <p:separator/>
+                <p:dataTable id="pasivosDataTable"
+                             value="#{situacionPatrimonialComponenteController.listaSituacionPatrimonialPasivo}"
+                             widgetVar="pasivosTabla"
+                             var="itemPasivo"
+                             rowKey="#{itemPasivo.socioSituacionPatPasPK}"
+                             scrollable="true"
+                             scrollHeight="100"
+                             editable="#{cc.attrs.editable}"
+                             editMode="cell"
+                             style="width: 600px">
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Pasivos}"/>
+                    </f:facet>
+                    <p:ajax event="cellEdit"
+                            listener="#{situacionPatrimonialComponenteController.edicionCeldaPasivos}"
+                            update="pasivosDataTable" />
+                    <p:column style="width: 400px">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Item}"/>
+                        </f:facet>
+                        <h:outputText value="#{itemPasivo.itemSituacionPatrimonial.nombre}"/> 
+                    </p:column>
+                    <p:column id="totalPasivoColumna" style="width: 100px; text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="#{propiedadesEtiquetaBL.Socio}"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{itemPasivo.total}" >
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                </h:outputText>
+                            </f:facet>
+                            <f:facet name="input" >
+                                <p:inputText   id="totalPasivo"
+                                               value="#{itemPasivo.total}"
+                                               style="text-align: center">
+                                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                                    <f:validateLongRange minimum="0"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                </p:dataTable>
+                <h:panelGrid columns="3">
+                    <h:panelGrid columns="1" width="430px" style="text-align:  right">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Totales}" styleClass="encabezadosPanelGrid"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" width="145px" style="text-align: center">
+                        <h:outputText id="totalPasivosLabel"
+                                      value="#{situacionPatrimonialComponenteController.situacionPatrimonial.totalPasivos}"
+                                      styleClass="encabezadosPanelGrid">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <p:separator/>
+                <h:panelGrid columns="2" width="300">
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Patrimonio}" styleClass="encabezadosPanelGrid"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" style="text-align: center">
+                        <h:outputText id="totalPatrimonioLabel"
+                                      value="#{situacionPatrimonialComponenteController.situacionPatrimonial.totalPatrimonio}"
+                                      styleClass="encabezadosPanelGrid">
+                            <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                        </h:outputText>
+                    </h:panelGrid>          
+                </h:panelGrid>
+            </p:panel>
+            <h:inputHidden id="situacionPatrimonialComponenteResultadoGuardar" value="#{situacionPatrimonialComponenteController.situacionPatrimonialGuardado}"/>
+        </h:form>
+    </cc:implementation>
+</ui:composition>

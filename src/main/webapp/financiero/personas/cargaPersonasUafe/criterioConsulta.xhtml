@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:panelGroup layout="block" class="ui-fluid">
+        <p:panelGrid columns="1">
+            <f:facet name="header">
+                <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+                <p:separator/>
+            </f:facet>
+            <p:focus context="criterioConsulta"/> 
+            <p:panelGrid id="criterioConsulta" columns="2" style="width: 500px;"
+                         columnClasses="label, value" styleClass="grid">
+                <p:outputLabel value="#{propiedadesEtiquetaBL.CodigoIfip}" 
+                               for="codigoIfip"  
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="codigoIfip" 
+                             value="#{personaUafeController.ifip.nombre}" 
+                             title="#{propiedadesTituloBL.CodigoIfip}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.CodigoIfip} - #{propiedadesMensajesBL.CampoRequerido}"  
+                             size="10" maxlength="10"
+                             disabled="true"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Usuario}" 
+                               for="usuario"  
+                               styleClass="etiquetaRequerida"/>
+                <p:inputText id="usuario" 
+                             value="#{personaUafeController.usuario.codigoPersona.nombreCompleto}" 
+                             title="#{propiedadesTituloBL.Usuario}" 
+                             required="true" 
+                             requiredMessage="#{propiedadesEtiquetaBL.Usuario} - #{propiedadesMensajesBL.CampoRequerido}"  
+                             size="30" 
+                             maxlength="30"
+                             disabled="true"/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.FechaCorte}"
+                               for="fechaCorte"
+                               styleClass="etiquetaRequerida"
+                               />
+                <p:calendar id="fechaCorte"
+                            pattern="dd/MM/yyyy"
+                            value="#{personaUafeController.fechaCorte}"
+                            title="#{propiedadesEtiquetaBL.FechaCorte}"
+                            locale="es"
+                            showOn="button"
+                            required="true"
+                            requiredMessage="#{propiedadesEtiquetaBL.FechaCorte}  #{propiedadesMensajesBL.CampoRequerido}" 
+                            readonly="false">
+                            <p:ajax event="dateSelect" listener="#{personaUafeController.dateChange}"/>
+                </p:calendar>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoPersona}" 
+                               for="tipoPersonaObservable"
+                               styleClass="etiquetaRequerida"/>
+
+                <p:selectOneMenu id="tipoPersonaObservable" 
+                                 value="#{personaUafeController.tipoPersonaObservable}" 
+                                 required="true"
+                                 filter="true" 
+                                 filterMatchMode="contains" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.TipoPersona} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesTituloBL.Seleccione}"/>
+                    <f:selectItems value="#{personaUafeController.listaTipoPersonaObservable}"
+                                   var="tipoPersonaObservableItem"
+                                   itemValue="#{tipoPersonaObservableItem}"
+                                   itemLabel="#{tipoPersonaObservableItem.codigo} : #{tipoPersonaObservableItem.nombre}"
+                                   />                    
+                    <p:ajax event="change" process="@this" partialSubmit="true" listener="#{personaUafeController.handleChange}" />
+                    <f:converter binding="#{tipoPersonaObservableConverter}"/>
+                </p:selectOneMenu>                                          
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Archivo}" 
+                               for="archivo"
+                               styleClass="etiquetaRequerida"/>
+
+                <p:fileUpload id="archivo" 
+                              fileUploadListener="#{personaUafeController.cargaArchivo}" 
+                              mode="advanced" 
+                              dragDropSupport="true"
+                              cancelLabel="#{propiedadesEtiquetaBL.Cancelar}" uploadLabel="#{propiedadesEtiquetaBL.Cargar}"                                      
+                              invalidFileMessage="#{propiedadesMensajesBL.TipoArchvivoInvalido}"
+                              invalidSizeMessage="#{propiedadesMensajesBL.TamañoArchivoInvalido}"
+                              multiple="false" 
+                              sizeLimit="4000000" 
+                              allowTypes="/(\.|\/)(xls|xlsx)$/" 
+                              onstart="procesandoDlg.show();"
+                              update="datalistHomonimo,datalistSentenciados,datalistPoliticamente"
+                              oncomplete="procesandoDlg.hide();"
+                              />
+            </p:panelGrid>   
+        </p:panelGrid>
+    </h:panelGroup>
+</ui:composition>

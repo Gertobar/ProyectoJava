@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="operacionMenuFor"> 
+
+        <p:panel  id="operacionMenuPan" >         
+            <p:focus context="operacionMenuPan"/> 
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.Operacion} #{propiedadesEtiquetaBL.Menu} "
+                               styleClass="encabezadosDialog"/>
+            </f:facet>            
+
+            <h:panelGrid id="operacionMenuGri" columns="4" 
+                         columnClasses="label, value, validator" styleClass="grid">
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Modulo}" 
+                               for="codigoModulo" styleClass="etiquetaRequerida"/>
+                <p:selectOneMenu id="codigoModulo" 
+                                 value="#{operacionController.ubiModulo}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Modulo} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{operacionController.itemsModulo}"
+                                   var="ModuloItem"
+                                   itemValue="#{ModuloItem}"
+                                   itemLabel="#{ModuloItem.nombre}"/>     
+                    <p:ajax event="change" update="codigoMenu,codigoOpcion"
+                            listener="#{operacionController.cambiaModulo()}"/>                   
+                    <f:converter binding="#{menuConverter}"/>
+                </p:selectOneMenu>
+                <h:message for="codigoModulo" styleClass="invalido" />
+                <h:outputLabel value=""/>
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Menu}" 
+                               for="codigoMenu" styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="codigoMenu" 
+                                 value="#{operacionController.ubiMenu}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Menu} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{operacionController.itemsMenu}"
+                                   var="MenuItem"
+                                   itemValue="#{MenuItem}"
+                                   itemLabel="#{MenuItem.nombre}"/>
+                    <p:ajax event="change" update="codigoOpcion"
+                            listener="#{operacionController.cambiaMenu()}">
+                    </p:ajax>
+                    <f:converter binding="#{menuConverter}"/>
+                </p:selectOneMenu>
+                <h:message for="codigoMenu" styleClass="invalido" />
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Opcion}" 
+                               for="codigoOpcion" styleClass="etiquetaRequerida" />
+                <p:selectOneMenu id="codigoOpcion" 
+                                 value="#{operacionController.ubiOpcion}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Opcion} - #{propiedadesMensajesBL.CampoRequerido}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{operacionController.itemsOpcion}"
+                                   var="OpcionItem"
+                                   itemValue="#{OpcionItem}"
+                                   itemLabel="#{OpcionItem.nombre}"/>                                                                                
+                    <p:ajax event="change"                        
+                            listener="#{operacionController.cambiaOpcion()}"
+                            update="tipoOperacionPick">
+                    </p:ajax>
+                    <f:converter binding="#{menuConverter}"/>
+                </p:selectOneMenu>
+                <h:message for="codigoOpcion" styleClass="invalido" />
+                <h:outputLabel value=""/>
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.TipoOperacion}" 
+                               for="tipoOperacionPick" styleClass="etiquetaRequerida" />              
+                <p:pickList id="tipoOperacionPick" 
+                            value="#{operacionController.itemsTipoOperacion}"                             
+                            var="tipoOperaciones"    
+                            itemValue="#{tipoOperaciones}" 
+                            itemLabel="#{tipoOperaciones.nombre}"
+                            showCheckbox="true"
+                            showSourceFilter="true" 
+                            showTargetFilter="true" 
+                            filterMatchMode="contains">               
+                    <f:converter binding="#{tipoOperacionConverter}"/>
+                    <f:facet name="sourceCaption">Faltantes</f:facet>
+                    <f:facet name="targetCaption">Existentes</f:facet>           
+
+                </p:pickList>
+
+
+                <f:facet name="footer">
+                    <p:commandButton id="operacionMenuBot" 
+                                     icon="#{propiedadesObjetosBL.IcoGuardar}" 
+                                     value="#{propiedadesEtiquetaBL.Guardar}"
+                                     update=":mensaje,:operacionMenuFor:operacionMenuPan"                                         
+                                     onclick="procesandoDlg.show();"
+                                     action="#{operacionController.guardaTiposOperacionFaltantes()}"
+                                     oncomplete="procesandoDlg.hide()">                   
+                    </p:commandButton>
+                </f:facet>
+            </h:panelGrid>
+
+            <h:panelGrid id="tipoOperacionGri" columns="4" 
+                         columnClasses="label, value, validator" styleClass="grid">
+
+            </h:panelGrid>
+
+        </p:panel>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!-- ̣̣̣̣**************************************************************************
+      CRITERIO DE CONSULTA                                                      -->
+    <h:panelGrid columns="1" >
+        <f:facet name="header">
+            <h:outputText value="#{propiedadesEtiquetaBL.CriterioDeBusqueda}"/>
+            <p:separator/>
+        </f:facet>
+        <h:panelGrid columns="9">
+            <h:outputLabel value="#{propiedadesEtiquetaBL.BuscarPor}"/>
+
+            <p:selectOneMenu id="buscarPor"                                  
+                             value="#{listadoRetencionBean.buscarPor}"
+                             required="true"                                  
+                             requiredMessage="#{listadoRetencionBean.buscarPor} : #{propiedadesMensajesBL.CampoRequerido}">                          
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Proveedor}" itemValue="P" />  
+                <f:selectItem itemLabel="#{propiedadesEtiquetaBL.FacturaFecha}" itemValue="F" />
+                <p:ajax event="change" listener="#{listadoRetencionBean.cambiaCriterio()}" update="nombreProveedor,buscar,:ListadoRetencionesTotal:datalist,panelBusquedaProveedor,panelBusquedaFecha"/>
+            </p:selectOneMenu>   
+
+            <p:panel id="panelBusquedaProveedor" visible="#{!listadoRetencionBean.deshabilitaBuscarProveedor}"
+                     style="border: transparent">
+
+                <h:panelGrid columns="4">
+
+                    <p:inputText id="criterioTex" 
+                                 value="#{listadoRetencionBean.criterio}"   
+                                 style="text-align:  right"
+                                 onblur="value = value.toUpperCase()" 
+                                 size="15">
+                        <p:ajax event="blur" 
+                                listener="#{listadoRetencionBean.obtieneComprasContabilizadas}" 
+                                update="nombreProveedor,:listadoRetencionesListForm:datalist"/>
+
+                    </p:inputText>
+
+                    <p:inputText id="nombreProveedor" 
+                                 readonly="true"   
+                                 value="#{listadoRetencionBean.nombreProevedorCompleto}" 
+                                 onblur="value = value.toUpperCase()" 
+                                 size="50"/>
+
+                    <p:commandButton id="buscar" 
+                                     value="#{propiedadesEtiquetaBL.Buscar}"
+                                     icon="#{propiedadesObjetosBL.IcoVer}" 
+                                     onclick="procesandoDlg.show()"
+                                     disabled="#{listadoRetencionBean.deshabilitaBuscarProveedor}"
+                                     update=":ListadoRetencionesTotal,:barraForm"
+                                     oncomplete="procesandoDlg.hide();ListadoRetencionesDialog.show();"
+                                     />
+
+                </h:panelGrid>
+            </p:panel>  
+
+            <p:panel id="panelBusquedaFecha" visible="#{listadoRetencionBean.deshabilitaBuscarProveedor}"
+                     style="border: transparent">
+                <h:panelGrid columns="4">
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.FechaInicioEAdq}" styleClass="etiquetaRequerida"/>
+                    <p:calendar  value="#{listadoRetencionBean.fechaInicio}"
+                                 pattern="dd/MM/yyyy"
+                                 id="fechaInicioBusqueda" 
+                                 size="15"
+                                 locale="es"
+                                 mindate="01/01/1920"
+
+                                 >   
+                    </p:calendar>
+
+                    <h:outputLabel value="#{propiedadesEtiquetaBL.FechaFinEAdq}" styleClass="etiquetaRequerida"/>
+                    <p:calendar  value="#{listadoRetencionBean.fechaFin}"
+                                 pattern="dd/MM/yyyy"
+                                 id="fechaFinBusqueda" 
+                                 size="15"
+                                 locale="es"
+                                 mindate="01/01/1920"
+
+                                 >   
+                    </p:calendar>
+
+
+                </h:panelGrid>
+
+            </p:panel>
+
+        </h:panelGrid>
+    </h:panelGrid>
+    <!-- FIN DE CRITERIO DE CONSULTA 
+     ̣̣̣̣************************************************************************** -->
+
+
+</ui:composition>

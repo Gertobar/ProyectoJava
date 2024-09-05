@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:cc="http://java.sun.com/jsf/composite"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <cc:interface componentType="buscarPersonaComponente">
+        <cc:attribute name="onHide" type="java.lang.String" required="true"/>
+        <cc:attribute name="widgetVar" type="java.lang.String" required="true"/>
+        <cc:attribute name="soloPersonaNatural" type="java.lang.Boolean" required="true"/>
+    </cc:interface>
+
+    <cc:implementation>        
+        <p:dialog closable="true"
+                  maximizable="false"
+                  resizable="false"
+                  modal="true" 
+                  style="height: 500px"
+                  widgetVar="#{cc.attrs.widgetVar}"
+                  position="center"
+                  onShow="abrirDialogo();"
+                  onHide="#{cc.attrs.onHide}">
+            <p:remoteCommand name="abrirDialogo"
+                             process="@this"
+                             action="#{buscarPersonaComponenteController.abrirDialogo(cc.attrs.soloPersonaNatural)}"
+                             update="listaPersonasComponenteForm:criterioBusqueda, listaPersonasComponenteForm:componentePersonaDatalist, listaPersonasComponenteForm:buscaPersonaComponenteCodigoPersona, listaPersonasComponenteForm:buscaPersonaComponenteNombreCompleto"/>
+            <f:facet name="header">
+                <h:outputLabel  id="encabezadoListaPersonasLab" 
+                                value="#{propiedadesEtiquetaBL.BusquedaDePersonas}"
+                                styleClass="encabezadosDialog"/>
+            </f:facet>
+            <h:form id="listaPersonasComponenteForm">                                
+                <h:panelGrid columns="1" style="font-size: 10px; height: 400px" >
+                    <f:facet name="header">
+                        <h:outputLabel value="#{propiedadesMensajesBL.SeleccionePersona}"/> <br/>
+                        <h:outputLabel id="componentePersonaMensajeCriterio"
+                                       value="#{buscarPersonaComponenteController.mensajeCriterio}"
+                                       styleClass="invalido"/>
+                    </f:facet>
+                    <h:panelGrid columns="4">
+                        <h:outputLabel value="#{propiedadesEtiquetaBL.Buscar}"
+                                       styleClass="etiqueta"/>
+                        <p:selectOneMenu id="tipoBusqueda"
+                                         value="#{buscarPersonaComponenteController.tipoBusqueda}"
+                                         required="true"
+                                         requiredMessage="#{buscarPersonaComponenteController.tipoBusqueda} : #{propiedadesMensajesBL.CampoRequerido}">
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Nombre}" itemValue="N"/>
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Identificacion}" itemValue="I"/>
+                            <p:ajax event="change"
+                                    listener="#{buscarPersonaComponenteController.cambiaTipoBusqueda}"
+                                    update="criterioBusqueda,componentePersonaDatalist,criterioBusqueda,buscaPersonaComponenteCodigoPersona,buscaPersonaComponenteNombreCompleto"/>
+                        </p:selectOneMenu>
+                        <p:inputText id="criterioBusqueda"
+                                     value="#{buscarPersonaComponenteController.criterioBusqueda}"
+                                     size="35">
+                            <p:ajax event="keyup"
+                                    listener="#{buscarPersonaComponenteController.actualizaMensaje}"
+                                    update="componentePersonaMensajeCriterio"/>
+                            <p:ajax event="change"
+                                    listener="#{buscarPersonaComponenteController.obtienePersonas(cc.attrs.soloPersonaNatural)}"
+                                    update="componentePersonaDatalist,componentePersonaMensajeCriterio,buscaPersonaComponenteCodigoPersona,buscaPersonaComponenteNombreCompleto"
+                                    onstart="procesandoDlg.show();"
+                                    oncomplete="procesandoDlg.hide();"/>
+                        </p:inputText>
+                        <p:commandButton value="#{propiedadesEtiquetaBL.Buscar}"
+                                         icon="#{propiedadesObjetosBL.IcoEjecutarConsulta}"
+                                         action="#{buscarPersonaComponenteController.obtienePersonas(cc.attrs.soloPersonaNatural)}"
+                                         update="componentePersonaDatalist,componentePersonaMensajeCriterio"
+                                         onclick="procesandoDlg.show();"
+                                         oncomplete="procesandoDlg.hide();"/>
+                    </h:panelGrid>
+                    <p:dataTable id="componentePersonaDatalist"
+                                 value="#{buscarPersonaComponenteController.listaPersonas}"
+                                 var="item"
+                                 selectionMode="single"
+                                 selection="#{buscarPersonaComponenteController.persona}"
+                                 rowKey="#{item}"
+                                 paginator="true"
+                                 emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                                 rows="10">
+                        <f:facet name="header">
+                            <h:outputLabel value="#{propiedadesEtiquetaBL.Personas}"/>
+                        </f:facet>
+                        <p:ajax event="rowSelect" listener="#{buscarPersonaComponenteController.onRowSelect}"/>
+                        <p:ajax event="rowUnselect" listener="#{buscarPersonaComponenteController.onRowUnselect}"/>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Codigo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codigo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.identificacion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.Nombre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombreCompleto}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{propiedadesEtiquetaBL.CorreoElectronico}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.correoEletronico}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton 
+                        id="aceptarBot"
+                        value="#{propiedadesEtiquetaBL.Aceptar}"
+                        actionListener="#{buscarPersonaComponenteController.seleccionaPersona}"
+                        update="buscaPersonaComponenteCodigoPersona,buscaPersonaComponenteNombreCompleto,componentePersonaMensajeCriterio"
+                        oncomplete="#{cc.attrs.widgetVar}.hide();"/>
+                    <h:inputHidden id="buscaPersonaComponenteCodigoPersona" 
+                                   value="#{buscarPersonaComponenteController.codigoPersona}"/>
+                    <h:inputHidden id="buscaPersonaComponenteNombreCompleto" 
+                                   value="#{buscarPersonaComponenteController.nombreCompleto}"/>
+                    <br/>
+                    <h:outputLabel id="leyenda"
+                                   value="PRESIONE EL BOTON BUSCAR O LA TECLA TABULADOR PARA REALIZAR LA BUSQUEDA"
+                                   styleClass="invalido"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </cc:implementation>
+</ui:composition>

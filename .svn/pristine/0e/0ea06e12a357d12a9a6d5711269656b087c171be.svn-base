@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EntidadFinancieraCreateDlg"
+                  widgetVar="EntidadFinancieraCreateDialog"
+                  modal="true" resizable="false" 
+                  appendTo="@(body)" 
+                  closeOnEscape="true">
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.EntidadFinanciera}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>
+
+            <h:form id="EntidadFinancieraCreateForm">
+
+                <h:panelGroup id="display" style="font-size: 10px; margin-top: 0px;">
+                    <p:panelGrid columns="2">                        
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Nombre}" 
+                                       for="nombre"
+                                        styleClass="etiquetaRequerida"
+                                       />
+                        <p:inputText id="nombre" 
+                                     value="#{entidadFinancieraController.selected.nombre}"
+                                     title="#{propiedadesEtiquetaBL.Nombre}"
+                                     required="true" 
+                                     requiredMessage="#{propiedadesEtiquetaBL.Nombre} : #{propiedadesMensajesBL.CampoRequerido}" 
+                                     size="30" maxlength="30"/>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.TipoEntidadFinanciera}" 
+                                       for="codigoTipoEntidad" 
+                                        styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="codigoTipoEntidad" 
+                                         value="#{entidadFinancieraController.selected.codigoTipoEntidad}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.TipoEntidadFinanciera} : #{propiedadesMensajesBL.CampoRequerido}" >
+                            <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                            <f:selectItems value="#{tipoEntidadFinancieraController.items}"
+                                           var="codigoTipoEntidadItem"
+                                           itemValue="#{codigoTipoEntidadItem}"
+                                           itemLabel="#{codigoTipoEntidadItem.nombre.toString()}"
+                                           />
+                            <f:converter binding="#{tipoEntidadFinancieraConverter}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{propiedadesEtiquetaBL.Eliminado}" 
+                                       for="eliminado" 
+                                        styleClass="etiquetaRequerida"/>
+                        <p:selectOneMenu id="eliminado" 
+                                         value="#{entidadFinancieraController.selected.eliminado}"
+                                         required="true" 
+                                         requiredMessage="#{propiedadesEtiquetaBL.Eliminado} - #{propiedadesMensajesBL.CampoRequerido}">                          
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.No}" itemValue="N" />  
+                            <f:selectItem itemLabel="#{propiedadesEtiquetaBL.Si}" itemValue="S" />                                  
+                        </p:selectOneMenu>
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{entidadFinancieraController.saveNew}" 
+                                             icon="#{propiedadesObjetosBL.IcoGuardar}"     
+                                             value="#{propiedadesEtiquetaBL.Guardar}"
+                                             update="display,:EntidadFinancieraListForm:datalist,:mensaje" 
+                                             oncomplete="handleSubmit(xhr,status,args,EntidadFinancieraCreateDialog);"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

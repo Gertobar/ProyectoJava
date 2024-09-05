@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="205" pageHeight="104" columnWidth="205" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9c171dbf-224e-488f-ac60-0b056d7f0af7">
+	<property name="ireport.zoom" value="2.853116706110004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoSocio" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[$P{codigoSocio}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+(
+ mks_socios.pkg_socio_flujo_caja_ingreso.f_obtiene_total_ingreso_socio( s.codigo_persona ) - 
+ mks_socios.pkg_socio_flujo_caja_egreso.f_obtiene_total_egreso_socio( s.codigo_persona ) 
+) "TOT DISPONIBLE"
+FROM   mks_socios.socio s
+WHERE  s.codigo = $P{codigoSocio}]]>
+	</queryString>
+	<field name="TOT DISPONIBLE" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="80" y="0" width="45" height="15" backcolor="#0099CC" uuid="7555c65f-bf10-4f09-bf56-5250ede6fdcf"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOT DISPONIBLE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="80" height="15" backcolor="#3B83BD" uuid="68117d40-c1c4-4a6e-accf-dcd092f2859f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DISPONIBLE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+</jasperReport>

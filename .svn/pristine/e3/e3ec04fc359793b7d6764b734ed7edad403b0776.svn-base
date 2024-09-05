@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="operacionMenuFor"> 
+
+        <p:panel  id="operacionMenuPan" >         
+            <p:focus context="operacionMenuPan"/> 
+
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.Crea} #{propiedadesEtiquetaBL.De} #{propiedadesEtiquetaBL.TipoOperacion}"
+                               styleClass="encabezadosDialog"/>
+            </f:facet>            
+
+            <h:panelGrid id="operacionMenuGri" columns="3" 
+                         columnClasses="label, value, validator" styleClass="grid">
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Modulo}" 
+                               for="modulo" />
+                <p:selectOneMenu id="modulo" 
+                                 value="#{operacionController.selected.codigoTipoOperacion}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Modulo}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{tipoOperacionController.items}"
+                                   var="codigoTipoOperacionItem"
+                                   itemValue="#{codigoTipoOperacionItem}"
+                                   itemLabel="#{codigoTipoOperacionItem.codigo.toString()}"
+                                   />
+                    <f:converter binding="#{tipoOperacionConverter}"/>
+                </p:selectOneMenu>
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.Menu}" 
+                               for="menu" />
+                <p:selectOneMenu id="menu" 
+                                 value="#{operacionController.selected.codigoTipoOperacion}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.Menu}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{tipoOperacionController.items}"
+                                   var="codigoTipoOperacionItem"
+                                   itemValue="#{codigoTipoOperacionItem}"
+                                   itemLabel="#{codigoTipoOperacionItem.codigo.toString()}"
+                                   />
+                    <f:converter binding="#{tipoOperacionConverter}"/>
+                </p:selectOneMenu>
+
+
+                <p:outputLabel value="#{propiedadesEtiquetaBL.OpcionOperacion}" 
+                               for="opcionOperacion" />
+                <p:selectOneMenu id="opcionOperacion" 
+                                 value="#{operacionController.selected.codigoTipoOperacion}" 
+                                 required="true" 
+                                 requiredMessage="#{propiedadesEtiquetaBL.OpcionOperacion}">
+                    <f:selectItem itemLabel="#{propiedadesMensajesBL.Seleccione}"/>
+                    <f:selectItems value="#{tipoOperacionController.items}"
+                                   var="codigoTipoOperacionItem"
+                                   itemValue="#{codigoTipoOperacionItem}"
+                                   itemLabel="#{codigoTipoOperacionItem.codigo.toString()}"
+                                   />
+                    <f:converter binding="#{tipoOperacionConverter}"/>
+                </p:selectOneMenu>
+
+
+                <h3 style="margin-top: 0">Tipos de Operacion</h3>
+                <p:pickList id="pickList" 
+                            value="#{tipoOperacionController.items}" 
+                            var="operaciones" 
+                            itemLabel="#{items}" 
+                            itemValue="#{items}" />
+
+                <f:facet name="footer">
+                    <p:commandButton id="citySubmit"
+                                     value="Submit"
+                                     update="tipoOperacionGri"
+                                     oncomplete="PF('tipoOperacionDialog').show()" 
+                                     style="margin-top:5px" >
+                    </p:commandButton>
+                </f:facet>
+
+            </h:panelGrid>
+
+            <p:dialog modal="true" showEffect="fade" hideEffect="fade" widgetVar="tipoOperacionDialog">
+                <h:panelGrid id="tipoOperacionGri" columns="2">
+                    <h:outputText value="Lista: " style="font-weight:bold" />
+                    <ui:repeat value="#{tipoOperacionController.tipoOperacionList.source}" var="item">
+                        <h:outputText value="#{item}" style="margin-right:5px" />
+                    </ui:repeat>
+
+                    <h:outputText value="Seleccionados: " style="font-weight:bold" />
+                    <ui:repeat value="#{tipoOperacionController.tipoOperacionList.taget}" var="item">
+                        <h:outputText value="#{item}" style="margin-right:5px" />
+                    </ui:repeat>
+                </h:panelGrid>
+            </p:dialog>
+
+            <p:dialog modal="true" showEffect="fade"
+                      hideEffect="fade" widgetVar="tipoOperacionSelDialog">
+
+                <h:panelGrid id="operacionGri" columns="2">
+                    <h:outputText value="Source: " style="font-weight:bold" />
+                    <ui:repeat value="#{tipoOperacionController.tipoOperacionSel.source}"
+                               var="operacion">
+                        <h:outputText value="#{theme.name}" 
+                                      style="margin-right:5px" />
+                    </ui:repeat>
+
+                    <h:outputText value="Target: " style="font-weight:bold" />                    
+                    <ui:repeat value="#{tipoOperacionController.tipoOperacionSel.target}" 
+                               var="operacion">
+                        <h:outputText value="#{theme.name}" 
+                                      style="margin-right:5px" />
+                    </ui:repeat>
+                </h:panelGrid>
+            </p:dialog>
+        </p:panel>
+    </h:form>
+</ui:composition>
+
+
+

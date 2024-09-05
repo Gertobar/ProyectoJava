@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="LicitudFondosPerExcForListForm">
+
+        <p:dataTable id="datalist" 
+                     value="#{licitudFondosPerExcForBean.itemsLicitudFondosPerExcFor}" 
+                     var="item"
+                     selectionMode="single" 
+                     selection="#{licitudFondosPerExcForBean.licitudFondosPerExcFor}"
+                     rowKey="#{item.codigo}"
+                     paginator="true"
+                     rows="6"
+                     emptyMessage="#{propiedadesEtiquetaBL.NoExistenRegistros}"
+                     >
+            <f:facet name="header">
+                <h:outputLabel value="#{propiedadesEtiquetaBL.PersonasExcentasDeFormulario}"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"  listener="#{licitudFondosPerExcForBean.seleccionaPersonaExcenta()}" update=":barraForm"/>
+            <p:ajax event="rowUnselect" listener="#{licitudFondosPerExcForBean.seleccionaPersonaExcenta()}" update=":barraForm"/>
+
+            <p:column sortBy="#{item.codigoFormulario.persona.identificacion}" 
+                      filterValue="#{item.codigoFormulario.persona.identificacion}"
+                      style="width:  10px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Identificacion}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoFormulario.persona.identificacion}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.codigoFormulario.persona.nombreCompleto}" 
+                      filterValue="#{item.codigoFormulario.persona.nombreCompleto}"
+                      style="width: 30px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Nombres}"/>
+                </f:facet>
+                <h:outputText value="#{item.codigoFormulario.persona.nombreCompleto}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.numeroFormularios}"                       
+                      style="width: 15px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.NumeroFormulario}"/>
+                </f:facet>
+                <h:outputText value="#{item.numeroFormularios}">
+                    <f:convertNumber type="number" groupingUsed="true"  locale="en"  maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>                    
+            </p:column>
+            
+            <p:column sortBy="#{item.fechaRegistro}"                       
+                      style="width: 15px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaRegistro}"/>                        
+                </f:facet>
+                <p:calendar value="#{item.fechaRegistro}" pattern="dd/MM/yyyy HH:mm:ss"/>
+            </p:column>
+           
+            <p:column sortBy="#{item.estadoToString}"                       
+                      style="width: 15px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.Estado}"/>                        
+                </f:facet>
+                <h:outputText value="#{item.estadoToString}"/>
+            </p:column>
+            
+            <p:column sortBy="#{item.fechaEstado}"                       
+                      style="width: 15px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.FechaEstado}"/>                        
+                </f:facet>
+                <p:calendar value="#{item.fechaEstado}" pattern="dd/MM/yyyy HH:mm:ss"/>
+            </p:column>
+           
+            <p:column sortBy="#{item.observacionesEstado}"                       
+                      style="width: 15px">
+                <f:facet name="header">
+                    <h:outputText value="#{propiedadesEtiquetaBL.ObservacionesEstado}"/>                        
+                </f:facet>
+                <h:outputText value="#{item.observacionesEstado}"/>
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>
